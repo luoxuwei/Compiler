@@ -8,10 +8,10 @@
 
 class PyInteger {
 private:
-    int value;
+    int _value;
 public:
-    PyInteger(int v) {value = v;}
-    int value() {return value;}
+    PyInteger(int v) {_value = v;}
+    int value() {return _value;}
 };
 
 

@@ -12,10 +12,14 @@ CodeObject * BinaryFileParser::parse() {
 
     char object_type = input->read();
     if (object_type == 'c') {
-        CodeObject* result = NULL;
+        CodeObject* result = get_code_object();
         printf("parse OK!\n");
         return result;
     }
 
+    return NULL;
+}
+
+CodeObject * BinaryFileParser::get_code_object() {
     return NULL;
 }

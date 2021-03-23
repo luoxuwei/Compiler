@@ -16,7 +16,7 @@ public:
     //'\0'也是允许的字符时不能使用strlen，只能通过参数传入长度
     PyString(const char* x, const int len);
 
-    const char* value() {return _value}
+    const char* value() {return _value;}
     int length() {return _len;}
 };
 

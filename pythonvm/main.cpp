@@ -1,9 +1,12 @@
 #include <iostream>
 #include "util/BufferInputStream.h"
+#include "code/binaryFileParser.h"
 
 //g++ -o test -g main.cpp
 //./test hello.pyc
 //argv 0 是可执行文件本身的路径
+
+//g++ -o test -g *.cpp
 int main(int argc, char** argv) {
     if (argc <= 1) {
         printf("vm need a paramter: filename\n");
@@ -11,6 +14,7 @@ int main(int argc, char** argv) {
     }
     char* path = argv[1];
     BufferInputStream bis(path);
-    printf("magic number is 0x%x\n", bis.read_int());
+    BinaryFileParser fileParser(&bis);
+    fileParser.parse();
     return 0;
 }

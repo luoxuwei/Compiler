@@ -11,11 +11,12 @@ class BinaryFileParser {
 private:
     BufferInputStream* input;
 public:
-    binaryFileParser(BufferInputStream* file) {
+    BinaryFileParser(BufferInputStream* file) {
         input = file;
     }
 
     CodeObject* parse();
+    CodeObject* get_code_object();
 
 };
 

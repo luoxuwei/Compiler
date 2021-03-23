@@ -11,13 +11,13 @@ private:
     T* _data;
     int _length;
     int _size;
-    expend();
+    void expend();
 
 public:
     Arraylist(int n);
-    add(T t);
-    insert(int index, T t);
-    T get(int index);
+    void add(T t);
+    void insert(int index, T t);
+    T get(unsigned index);
     void set(int index, T t);
     int size();
     int length();

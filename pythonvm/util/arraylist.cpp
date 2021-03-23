@@ -30,7 +30,7 @@ void Arraylist<T>::add(T t) {
     if (_size >= _length) {
         expend();
     }
-    _data[size++] = t;
+    _data[_size++] = t;
 }
 
 template<typename T>
