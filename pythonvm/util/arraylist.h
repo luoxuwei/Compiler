@@ -6,7 +6,7 @@
 #define PYTHONVM_ARRAYLIST_H
 #include <stdio.h>
 template <typename T>
-class Arraylist {
+class ArrayList {
 private:
     T* _data;
     int _length;
@@ -14,7 +14,7 @@ private:
     void expend();
 
 public:
-    Arraylist(int n);
+    ArrayList(int n);
     void add(T t);
     void insert(int index, T t);
     T get(unsigned index);

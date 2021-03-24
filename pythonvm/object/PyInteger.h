@@ -4,9 +4,9 @@
 
 #ifndef PYTHONVM_PYINTEGER_H
 #define PYTHONVM_PYINTEGER_H
+#include "PyObject.h"
 
-
-class PyInteger {
+class PyInteger: public PyObject {
 private:
     int _value;
 public:

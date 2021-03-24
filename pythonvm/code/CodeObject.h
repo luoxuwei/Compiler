@@ -5,6 +5,8 @@
 #ifndef PYTHONVM_CODEOBJECT_H
 #define PYTHONVM_CODEOBJECT_H
 #include "../object/PyObject.h"
+#include "../util/arraylist.h"
+#include "../object/PyString.h"
 
 /*
  * pyc文件格式：
@@ -19,10 +21,9 @@
  * 与's'的格式相同，代表当前code所属的模块，最后一项也是一个字符串以's'标志，是一个名为line number table的结构，在实现traceback时，要输出详细的
  * 调用栈，会用到这个数据结构。
  * */
-class PyString;
 
-template<typename T>
-class ArrayList;
+
+
 
 class CodeObject {
 public:

@@ -7,6 +7,10 @@
 #include "../util/BufferInputStream.h"
 #include "CodeObject.h"
 #include "../object/PyString.h"
+#include "../util/arraylist.h"
+#include "../object/PyInteger.h"
+#include "../object/PyObject.h"
+#include "../util/arraylist.h"
 
 class BinaryFileParser {
 private:
@@ -20,7 +24,8 @@ public:
     CodeObject* get_code_object();
     PyString* get_byte_codes();
     PyString* get_string();
-
+    ArrayList<PyObject*>* get_consts();
+    ArrayList<PyObject*>* get_tuple();
 };
 
 

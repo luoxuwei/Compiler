@@ -4,9 +4,9 @@
 
 #ifndef PYTHONVM_PYSTRING_H
 #define PYTHONVM_PYSTRING_H
+#include "PyObject.h"
 
-
-class PyString {
+class PyString: public PyObject {
 private:
     char* _value;
     unsigned int _len;

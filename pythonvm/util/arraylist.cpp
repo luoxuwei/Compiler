@@ -6,14 +6,14 @@
 #include <stdio.h>
 
 template<typename T>
-Arraylist<T>::Arraylist(int n) {
+ArrayList<T>::ArrayList(int n) {
     _length = n;
     _data = new T[n];
     _size = 0;
 }
 
 template<typename T>
-void Arraylist<T>::expend() {
+void ArrayList<T>::expend() {
     if (_size < _length) return;
     T* temp = new T[_length<<1];
     for (int i=0; i<_size; i++) {
@@ -26,7 +26,7 @@ void Arraylist<T>::expend() {
 }
 
 template<typename T>
-void Arraylist<T>::add(T t) {
+void ArrayList<T>::add(T t) {
     if (_size >= _length) {
         expend();
     }
@@ -34,7 +34,7 @@ void Arraylist<T>::add(T t) {
 }
 
 template<typename T>
-void Arraylist<T>::insert(int index, T t) {
+void ArrayList<T>::insert(int index, T t) {
     if (index > _size) return;
     add(NULL);
     for (int i = _size; i > index; i--) {
@@ -44,24 +44,24 @@ void Arraylist<T>::insert(int index, T t) {
 }
 
 template<typename T>
-int Arraylist<T>::size() {
+int ArrayList<T>::size() {
     return _size;
 }
 
 template<typename T>
-int Arraylist<T>::length() {
+int ArrayList<T>::length() {
     return _length;
 }
 
 template<typename T>
-T Arraylist<T>::get(unsigned int index) {
+T ArrayList<T>::get(unsigned int index) {
     if (index >= _size) return NULL;
 
     return _data[index];
 }
 
 template<typename T>
-void Arraylist<T>::set(int index, T t) {
+void ArrayList<T>::set(int index, T t) {
     if (_size <= index) {
         _size = index + 1;
     }
@@ -73,5 +73,10 @@ void Arraylist<T>::set(int index, T t) {
     _data[index] = t;
 }
 
+//由于arraylist声明在h文件，实现在cpp文件，所以编译器不会自动实例化模版类
+//在这里进行声明强制编译器对模版类进行实例化
+class PyObject;
+template class ArrayList<PyObject*>;
 
-
+class PyString;
+template class ArrayList<PyString*>;

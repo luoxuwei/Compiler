@@ -28,7 +28,7 @@ CodeObject * BinaryFileParser::get_code_object() {
     int flags = input->read_int();
 
     PyString* byte_codes = get_byte_codes();
-
+    ArrayList<PyObject*>* consts = get_consts();
     return NULL;
 }
 
@@ -47,3 +47,31 @@ PyString * BinaryFileParser::get_string() {
     delete[] str_value;
     return result;
 }
+
+ArrayList<PyObject *> * BinaryFileParser::get_consts() {
+    if (input->read() == '(') {
+        return get_tuple();
+    }
+
+    input->unread();
+    return NULL;
+}
+
+ArrayList<PyObject*>* BinaryFileParser::get_tuple() {
+    int num = input->read_int();
+    ArrayList<PyObject*>* list = new ArrayList<PyObject*>(num);
+    for (int i=0; i<num; i++) {
+        char obj_type = input->read();
+        switch (obj_type) {
+            case 'i':
+                list->add(new PyInteger(input->read_int()));
+                break;
+            case 's':
+                list->add(get_string());
+                break;
+        }
+    }
+    return list;
+}
+
+
