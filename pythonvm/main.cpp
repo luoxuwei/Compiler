@@ -1,6 +1,7 @@
 #include <iostream>
 #include "util/BufferInputStream.h"
 #include "code/binaryFileParser.h"
+#include "runtime/Interpreter.h"
 
 //g++ -o test -g main.cpp
 //./test hello.pyc
@@ -15,6 +16,8 @@ int main(int argc, char** argv) {
     char* path = argv[1];
     BufferInputStream bis(path);
     BinaryFileParser fileParser(&bis);
-    fileParser.parse();
+    CodeObject* codeObject = fileParser.parse();
+    Interpreter interpreter;
+    interpreter.run(codeObject);
     return 0;
 }

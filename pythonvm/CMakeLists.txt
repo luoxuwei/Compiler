@@ -10,7 +10,9 @@ add_library(pythonvm SHARED
         object/PyObject.cpp
         object/PyString.cpp
         code/CodeObject.cpp
-        code/binaryFileParser.cpp)
+        code/binaryFileParser.cpp
+        runtime/interpreter.cpp
+        code/bytecode.h)
 
 
 add_executable(test main.cpp)

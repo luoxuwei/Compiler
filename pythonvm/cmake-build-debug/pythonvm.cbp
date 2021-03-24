@@ -134,6 +134,9 @@
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/code/binaryFileParser.h">
 			<Option target="pythonvm"/>
 		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/code/bytecode.h">
+			<Option target="pythonvm"/>
+		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/main.cpp">
 			<Option target="test"/>
 		</Unit>
@@ -153,6 +156,12 @@
 			<Option target="pythonvm"/>
 		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/PyString.h">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/runtime/interpreter.cpp">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/runtime/interpreter.h">
 			<Option target="pythonvm"/>
 		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/util/BufferInputStream.h">
