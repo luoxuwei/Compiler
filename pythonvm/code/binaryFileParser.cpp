@@ -29,6 +29,34 @@ CodeObject * BinaryFileParser::get_code_object() {
 
     PyString* byte_codes = get_byte_codes();
     ArrayList<PyObject*>* consts = get_consts();
+    ArrayList<PyObject*>* names = get_names();
+    ArrayList<PyObject*>* var_names = get_var_names();
+    ArrayList<PyObject*>* free_vars = get_free_vars();
+    ArrayList<PyObject*>* cell_vars = get_cell_vars();
+
+    PyString* file_name = get_file_name();
+    PyString* module_name = get_name();
+    int begin_line_no = input->read_int();
+    PyString* lnotable = get_no_table();
+    return new CodeObject(argcount, nlocals, stackSize, flags, byte_codes, consts, names, var_names, free_vars, cell_vars, file_name, module_name, begin_line_no, lnotable);
+}
+
+PyString * BinaryFileParser::get_file_name() {
+    return get_name();
+}
+
+PyString * BinaryFileParser::get_name() {
+    char ch = input->read();
+    if (ch == 's') {
+        return get_string();
+    } else if (ch == 't') {
+        PyString* str = get_string();
+        _string_table.add(str);
+        return str;
+    } else if (ch == 'R') {
+        return _string_table.get(input->read_int());
+    }
+
     return NULL;
 }
 
@@ -55,6 +83,51 @@ ArrayList<PyObject *> * BinaryFileParser::get_consts() {
 
     input->unread();
     return NULL;
+}
+
+ArrayList<PyObject *> * BinaryFileParser::get_names() {
+    if (input->read() == '(') {
+        return get_tuple();
+    }
+
+    input->unread();
+    return NULL;
+}
+
+ ArrayList<PyObject *> * BinaryFileParser::get_var_names() {
+     if (input->read() == '(') {
+         return get_tuple();
+     }
+
+     input->unread();
+     return NULL;
+}
+
+ArrayList<PyObject *> * BinaryFileParser::get_free_vars() {
+    if (input->read() == '(') {
+        return get_tuple();
+    }
+
+    input->unread();
+    return NULL;
+}
+
+ArrayList<PyObject *> * BinaryFileParser::get_cell_vars() {
+    if (input->read() == '(') {
+        return get_tuple();
+    }
+
+    input->unread();
+    return NULL;
+}
+
+PyString * BinaryFileParser::get_no_table() {
+    char ch = input->read();
+    if (ch != 's' || ch != 't') {
+        input->unread();
+        return NULL;
+    }
+    return get_string();
 }
 
 ArrayList<PyObject*>* BinaryFileParser::get_tuple() {

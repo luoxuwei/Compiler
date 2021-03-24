@@ -26,7 +26,14 @@ public:
     PyString* get_byte_codes();
     PyString* get_string();
     ArrayList<PyObject*>* get_consts();
+    ArrayList<PyObject*>* get_names();
+    ArrayList<PyObject*>* get_var_names();
+    ArrayList<PyObject*>* get_free_vars();
+    ArrayList<PyObject*>* get_cell_vars();
     ArrayList<PyObject*>* get_tuple();
+    PyString* get_file_name();
+    PyString* get_name();
+    PyString* get_no_table();
 };
 
 
