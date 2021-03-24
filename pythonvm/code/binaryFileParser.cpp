@@ -3,6 +3,7 @@
 //
 
 #include "binaryFileParser.h"
+#include <assert.h>
 
 CodeObject * BinaryFileParser::parse() {
     int magic_number = input->read_int();
@@ -21,5 +22,28 @@ CodeObject * BinaryFileParser::parse() {
 }
 
 CodeObject * BinaryFileParser::get_code_object() {
+    int argcount = input->read_int();
+    int nlocals = input->read_int();
+    int stackSize = input->read_int();
+    int flags = input->read_int();
+
+    PyString* byte_codes = get_byte_codes();
+
     return NULL;
+}
+
+PyString * BinaryFileParser::get_byte_codes() {
+    assert(input->read() == 's');
+    return get_string();
+}
+
+PyString * BinaryFileParser::get_string() {
+    int len = input->read_int();
+    char* str_value = new char[len];
+    for (int i=0; i<len; i++) {
+        str_value[i] = input->read();
+    }
+    PyString* result = new PyString(str_value, len);
+    delete[] str_value;
+    return result;
 }

@@ -6,6 +6,7 @@
 #define PYTHONVM_BINARYFILEPARSER_H
 #include "../util/BufferInputStream.h"
 #include "CodeObject.h"
+#include "../object/PyString.h"
 
 class BinaryFileParser {
 private:
@@ -17,6 +18,8 @@ public:
 
     CodeObject* parse();
     CodeObject* get_code_object();
+    PyString* get_byte_codes();
+    PyString* get_string();
 
 };
 
