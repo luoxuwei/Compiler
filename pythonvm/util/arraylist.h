@@ -14,7 +14,7 @@ private:
     void expend();
 
 public:
-    ArrayList(int n);
+    ArrayList(int n = 8);
     void add(T t);
     void insert(int index, T t);
     T get(unsigned index);

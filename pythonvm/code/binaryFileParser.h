@@ -15,6 +15,7 @@
 class BinaryFileParser {
 private:
     BufferInputStream* input;
+    ArrayList<PyString*> _string_table;
 public:
     BinaryFileParser(BufferInputStream* file) {
         input = file;

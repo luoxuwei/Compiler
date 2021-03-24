@@ -25,7 +25,7 @@
 
 
 
-class CodeObject {
+class CodeObject: public PyObject {
 public:
     int _argcount;//参数个数
     int _nlocals;//本地变量个数

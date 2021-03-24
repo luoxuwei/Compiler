@@ -60,6 +60,7 @@ ArrayList<PyObject *> * BinaryFileParser::get_consts() {
 ArrayList<PyObject*>* BinaryFileParser::get_tuple() {
     int num = input->read_int();
     ArrayList<PyObject*>* list = new ArrayList<PyObject*>(num);
+    PyString* str;
     for (int i=0; i<num; i++) {
         char obj_type = input->read();
         switch (obj_type) {
@@ -69,6 +70,21 @@ ArrayList<PyObject*>* BinaryFileParser::get_tuple() {
             case 's':
                 list->add(get_string());
                 break;
+            case 'c':
+                list->add(get_code_object());
+                break;
+            case 'N':
+                list->add(NULL);
+                break;
+            case 't':
+                str = get_string();
+                list->add(str);
+                _string_table.add(str);
+                break;
+            case 'R':
+                list->add(_string_table.get(input->read_int()));
+                break;
+
         }
     }
     return list;
