@@ -4,6 +4,7 @@
 
 #include "PyInteger.h"
 #include "stdio.h"
+#include "../runtime/universe.h"
 
 PyObject * PyInteger::add(PyObject *x)  {
     return new PyInteger(_value + ((PyInteger*) x)->_value);
@@ -16,48 +17,48 @@ void PyInteger::print() {
 //python中true和false也是对象，这里就用1代表true，0代表false
 PyObject* PyInteger::equal(PyObject *x) {
    if (_value == ((PyInteger *) x)->_value) {
-       return new PyInteger(1);
+       return Universe::PyTrue;
    } else {
-       return new PyInteger(0);
+       return Universe::PyFalse;
    }
 }
 
 PyObject* PyInteger::less(PyObject *x) {
     if (_value < ((PyInteger *) x)->_value) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }
 
 PyObject* PyInteger::le(PyObject *x) {
     if (_value <= ((PyInteger *) x)->_value) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }
 
 PyObject * PyInteger::greater(PyObject *x) {
     if (_value > ((PyInteger *) x)->_value) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }
 
 PyObject * PyInteger::ge(PyObject *x) {
     if (_value >= ((PyInteger *) x)->_value) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }
 
 PyObject * PyInteger::not_equal(PyObject *x) {
     if (_value != ((PyInteger *) x)->_value) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }

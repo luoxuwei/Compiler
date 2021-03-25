@@ -2,6 +2,7 @@
 #include "util/BufferInputStream.h"
 #include "code/binaryFileParser.h"
 #include "runtime/Interpreter.h"
+#include "runtime/universe.h"
 
 //g++ -o test -g main.cpp
 //./test hello.pyc
@@ -14,6 +15,7 @@ int main(int argc, char** argv) {
         return 0;
     }
     char* path = argv[1];
+    Universe::genesis();
     BufferInputStream bis(path);
     BinaryFileParser fileParser(&bis);
     CodeObject* codeObject = fileParser.parse();

@@ -6,6 +6,7 @@
 #include "PyInteger.h"
 #include <string.h>
 #include <stdio.h>
+#include "../runtime/universe.h"
 
 PyString::PyString(const char *x) {
     _len = strlen(x);
@@ -43,48 +44,48 @@ void PyString::print() {
 
 PyObject* PyString::equal(PyObject *x) {
     if (true) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }
 
 PyObject* PyString::less(PyObject *x) {
     if (true) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }
 
 PyObject* PyString::le(PyObject *x) {
     if (true) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }
 
 PyObject * PyString::greater(PyObject *x) {
     if (true) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }
 
 PyObject * PyString::ge(PyObject *x) {
     if (true) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }
 
 PyObject * PyString::not_equal(PyObject *x) {
     if (true) {
-        return new PyInteger(1);
+        return Universe::PyTrue;
     } else {
-        return new PyInteger(0);
+        return Universe::PyFalse;
     }
 }

@@ -5,6 +5,7 @@
 #include "Interpreter.h"
 #include "../code/bytecode.h"
 #include "../object/PyInteger.h"
+#include "universe.h"
 #define PUSH(x) _stack->add(x)
 #define POP() _stack->pop()
 
@@ -44,7 +45,7 @@ void Interpreter::run(CodeObject *codeObject) {
             case ByteCode::RETURN_VALUE:
                 _stack->pop();
                 break;
-            case ByteCode::COMPARE_OP:
+            case ByteCode::COMPARE_OP://分支结构所需字节码 COMPARE_OP POP_JUMP_IF_FALSE JUMP_FORWARD
                 w = POP();
                 v = POP();
                 switch (op_arg) {
@@ -73,7 +74,7 @@ void Interpreter::run(CodeObject *codeObject) {
                 break;
             case ByteCode::POP_JUMP_IF_FALSE:
                 v = _stack->pop();
-                if (((PyInteger*) v)->value() == 0) {
+                if (v == Universe::PyFalse) {
                     pc = op_arg;
                 }
                 break;

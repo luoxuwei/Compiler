@@ -4,6 +4,7 @@
 
 #include "binaryFileParser.h"
 #include <assert.h>
+#include "../runtime/universe.h"
 
 CodeObject * BinaryFileParser::parse() {
     int magic_number = input->read_int();
@@ -147,7 +148,7 @@ ArrayList<PyObject*>* BinaryFileParser::get_tuple() {
                 list->add(get_code_object());
                 break;
             case 'N':
-                list->add(NULL);
+                list->add(Universe::PyNone);
                 break;
             case 't':
                 str = get_string();

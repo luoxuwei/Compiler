@@ -164,6 +164,12 @@
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/runtime/interpreter.h">
 			<Option target="pythonvm"/>
 		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/runtime/universe.cpp">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/runtime/universe.h">
+			<Option target="pythonvm"/>
+		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/util/BufferInputStream.h">
 			<Option target="pythonvm"/>
 		</Unit>
