@@ -4,6 +4,7 @@
 
 #include "PyString.h"
 #include <string.h>
+#include <stdio.h>
 
 PyString::PyString(const char *x) {
     _len = strlen(x);
@@ -18,4 +19,23 @@ PyString::PyString(const char *x, const int len) {
     for (int i=0; i<len; i++) {
         _value[i] = x[i];
     }
+}
+
+PyObject * PyString::add(PyObject *x) {
+    int newLen = _len + ((PyString*) x)->_len;
+    char* temp = new char[newLen];
+    for (int i = 0; i<_len; i++) {
+        temp[i] = _value[i];
+    }
+    for (int i = _len-1; i<_len; i++) {
+        temp[i] = ((PyString*) x)->_value[i - _len + 1];
+    }
+
+    PyString* newStr = new PyString(temp, _len+((PyString*) x)->_len);
+    delete[] temp;
+    return newStr;
+}
+
+void PyString::print() {
+    printf(_value);
 }

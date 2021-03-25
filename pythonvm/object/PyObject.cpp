@@ -3,3 +3,11 @@
 //
 
 #include "PyObject.h"
+#include "stdio.h"
+void PyObject::print() {
+
+}
+
+PyObject* PyObject::add(PyObject *x) {
+    return NULL;
+}

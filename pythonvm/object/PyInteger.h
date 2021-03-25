@@ -12,6 +12,8 @@ private:
 public:
     PyInteger(int v) {_value = v;}
     int value() {return _value;}
+    virtual void print() override;
+    virtual PyObject* add(PyObject* x) override;
 };
 
 

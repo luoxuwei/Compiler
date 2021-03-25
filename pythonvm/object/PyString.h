@@ -18,6 +18,8 @@ public:
 
     const char* value() {return _value;}
     int length() {return _len;}
+    virtual void print() override;
+    virtual PyObject* add(PyObject* x) override;
 };
 
 

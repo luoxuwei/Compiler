@@ -13,12 +13,13 @@ void Interpreter::run(CodeObject *codeObject) {
 
     while (pc < code_length) {
         unsigned int opcode = codeObject->_bytecodes->value()[pc++];
+        PyObject *v, *w;
         //大于等于90的字节码都带参数
-        bool has_argument = (opcode && 0xFF) >= ByteCode::HAVE_ARGUMENT;
+        bool has_argument = (opcode & 0xFF) >= ByteCode::HAVE_ARGUMENT;
         int op_arg = -1;
         if (has_argument) {
-            int byte1 = codeObject->_bytecodes->value()[pc++] & 0xFF;
-            op_arg = ((codeObject->_bytecodes->value()[pc++] & 0xFF) << 8) || byte1;
+            int byte1 = (codeObject->_bytecodes->value()[pc++] & 0xFF);
+            op_arg = ((codeObject->_bytecodes->value()[pc++] & 0xFF) << 8) | byte1;
         }
 
         switch (opcode) {
@@ -26,11 +27,16 @@ void Interpreter::run(CodeObject *codeObject) {
                 _stack->add(_consts->get(op_arg));
                 break;
             case ByteCode::PRINT_ITEM:
+                v = _stack->pop();
+                v->print();
                 break;
             case ByteCode::PRINT_NEWLINE:
                 printf("\n");
                 break;
             case ByteCode::BINARY_ADD:
+                v = _stack->pop();
+                w = _stack->pop();
+                _stack->add(v->add(w));
                 break;
             case ByteCode::RETURN_VALUE:
                 _stack->pop();
