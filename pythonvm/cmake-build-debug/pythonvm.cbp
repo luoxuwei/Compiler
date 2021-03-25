@@ -179,6 +179,12 @@
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/util/arraylist.h">
 			<Option target="pythonvm"/>
 		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/util/map.cpp">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/util/map.h">
+			<Option target="pythonvm"/>
+		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
