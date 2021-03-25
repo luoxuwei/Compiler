@@ -14,6 +14,13 @@ public:
     int value() {return _value;}
     virtual void print() override;
     virtual PyObject* add(PyObject* x) override;
+
+    virtual PyObject* greater(PyObject* x) override;
+    virtual PyObject* less(PyObject* x) override;
+    virtual PyObject* equal(PyObject* x) override;
+    virtual PyObject* not_equal(PyObject* x) override;
+    virtual PyObject* ge(PyObject* x) override;
+    virtual PyObject* le(PyObject* x) override;
 };
 
 

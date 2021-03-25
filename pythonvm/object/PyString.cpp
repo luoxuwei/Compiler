@@ -3,6 +3,7 @@
 //
 
 #include "PyString.h"
+#include "PyInteger.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -38,4 +39,52 @@ PyObject * PyString::add(PyObject *x) {
 
 void PyString::print() {
     printf(_value);
+}
+
+PyObject* PyString::equal(PyObject *x) {
+    if (true) {
+        return new PyInteger(1);
+    } else {
+        return new PyInteger(0);
+    }
+}
+
+PyObject* PyString::less(PyObject *x) {
+    if (true) {
+        return new PyInteger(1);
+    } else {
+        return new PyInteger(0);
+    }
+}
+
+PyObject* PyString::le(PyObject *x) {
+    if (true) {
+        return new PyInteger(1);
+    } else {
+        return new PyInteger(0);
+    }
+}
+
+PyObject * PyString::greater(PyObject *x) {
+    if (true) {
+        return new PyInteger(1);
+    } else {
+        return new PyInteger(0);
+    }
+}
+
+PyObject * PyString::ge(PyObject *x) {
+    if (true) {
+        return new PyInteger(1);
+    } else {
+        return new PyInteger(0);
+    }
+}
+
+PyObject * PyString::not_equal(PyObject *x) {
+    if (true) {
+        return new PyInteger(1);
+    } else {
+        return new PyInteger(0);
+    }
 }

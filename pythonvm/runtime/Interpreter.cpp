@@ -4,6 +4,9 @@
 
 #include "Interpreter.h"
 #include "../code/bytecode.h"
+#include "../object/PyInteger.h"
+#define PUSH(x) _stack->add(x)
+#define POP() _stack->pop()
 
 void Interpreter::run(CodeObject *codeObject) {
     _stack = new ArrayList<PyObject*>(codeObject->_stacks_size);
@@ -40,6 +43,42 @@ void Interpreter::run(CodeObject *codeObject) {
                 break;
             case ByteCode::RETURN_VALUE:
                 _stack->pop();
+                break;
+            case ByteCode::COMPARE_OP:
+                w = POP();
+                v = POP();
+                switch (op_arg) {
+                    case ByteCode::COMPARE::EQUAL:
+                        PUSH(v->equal(w));
+                        break;
+                    case ByteCode::COMPARE::NOT_EQUAL:
+                        PUSH(v->not_equal(w));
+                        break;
+                    case ByteCode::COMPARE::GREATER:
+                        PUSH(v->greater(w));
+                        break;
+                    case ByteCode::COMPARE::LESS:
+                        PUSH(v->less(w));
+                        break;
+                    case ByteCode::COMPARE::GREATER_EQUAL:
+                        PUSH(v->ge(w));
+                        break;
+                    case ByteCode::COMPARE::LESS_EQUAL:
+                        PUSH(v->le(w));
+                        break;
+                    default:
+                        printf("Error: Unrecognized compare op %d\n", op_arg);
+
+                }
+                break;
+            case ByteCode::POP_JUMP_IF_FALSE:
+                v = _stack->pop();
+                if (((PyInteger*) v)->value() == 0) {
+                    pc = op_arg;
+                }
+                break;
+            case ByteCode::JUMP_FORWARD:
+                pc += op_arg;
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);

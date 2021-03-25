@@ -10,6 +10,12 @@ class PyObject {
 public:
     virtual void print();
     virtual PyObject* add(PyObject* x);
+    virtual PyObject* greater(PyObject* x);
+    virtual PyObject* less(PyObject* x);
+    virtual PyObject* equal(PyObject* x);
+    virtual PyObject* not_equal(PyObject* x);
+    virtual PyObject* ge(PyObject* x);
+    virtual PyObject* le(PyObject* x);
 };
 
 #endif //PYTHONVM_JOBJECT_H
