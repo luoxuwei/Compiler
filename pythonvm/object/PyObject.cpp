@@ -5,28 +5,44 @@
 #include "PyObject.h"
 #include "stdio.h"
 void PyObject::print() {
-
+    _klass->print(this);
 }
 
 PyObject* PyObject::add(PyObject *x) {
-    return NULL;
+    return _klass->add(this, x);
+}
+
+PyObject *PyObject::sub(PyObject *x) {
+    return _klass->sub(this, x);
+}
+
+PyObject *PyObject::mul(PyObject *x) {
+    return _klass->mul(this, x);
+}
+
+PyObject *PyObject::div(PyObject *x) {
+    return _klass->div(this, x);
+}
+
+PyObject *PyObject::mod(PyObject *x) {
+    return _klass->mod(this, x);
 }
 
 PyObject* PyObject::greater(PyObject* x)  {
-    return NULL;
+    return _klass->greater(this, x);
 }
 PyObject* PyObject::less(PyObject* x) {
-    return NULL;
+    return _klass->less(this, x);
 }
 PyObject* PyObject::equal(PyObject* x) {
-    return NULL;
+    return _klass->equal(this, x);
 }
 PyObject* PyObject::not_equal(PyObject* x) {
-    return NULL;
+    return _klass->not_equal(this, x);
 }
 PyObject* PyObject::ge(PyObject* x) {
-    return NULL;
+    return _klass->ge(this, x);
 }
 PyObject* PyObject::le(PyObject* x) {
-    return NULL;
+    return _klass->le(this, x);
 }
