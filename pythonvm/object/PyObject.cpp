@@ -4,6 +4,11 @@
 
 #include "PyObject.h"
 #include "stdio.h"
+
+PyObject::PyObject() {
+
+}
+
 void PyObject::print() {
     _klass->print(this);
 }

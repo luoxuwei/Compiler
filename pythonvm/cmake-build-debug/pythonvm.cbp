@@ -140,6 +140,9 @@
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/main.cpp">
 			<Option target="test"/>
 		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/Klass.h">
+			<Option target="pythonvm"/>
+		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/PyInteger.cpp">
 			<Option target="pythonvm"/>
 		</Unit>

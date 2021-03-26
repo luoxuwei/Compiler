@@ -5,11 +5,46 @@
 #ifndef PYTHONVM_PYSTRING_H
 #define PYTHONVM_PYSTRING_H
 #include "PyObject.h"
+#include "Klass.h"
+
+class StringKlass: public Klass {
+private:
+    StringKlass();
+    static StringKlass* instance;
+
+public:
+    static StringKlass* get_instance();
+    virtual void print(PyObject* x);
+
+    virtual PyObject *greater(PyObject *x, PyObject *y) { return NULL; }
+
+    virtual PyObject *less(PyObject *x, PyObject *y) { return NULL; }
+
+    virtual PyObject *equal(PyObject *x, PyObject *y);
+
+    virtual PyObject *not_equal(PyObject *x, PyObject *y) { return NULL; }
+
+    virtual PyObject *ge(PyObject *x, PyObject *y) { return NULL; }
+
+    virtual PyObject *le(PyObject *x, PyObject *y) { return NULL; }
+
+
+    virtual PyObject *add(PyObject *x, PyObject *y);
+
+    virtual PyObject *sub(PyObject *x, PyObject *y) { return NULL; }
+
+    virtual PyObject *mul(PyObject *x, PyObject *y) { return NULL; }
+
+    virtual PyObject *div(PyObject *x, PyObject *y) { return NULL; }
+
+    virtual PyObject *mod(PyObject *x, PyObject *y) { return NULL; }
+};
 
 class PyString: public PyObject {
 private:
     char* _value;
     unsigned int _len;
+    Klass* _klass;
 public:
     //可以使用strlen获取字符串长度
     PyString(const char* x);
@@ -18,15 +53,6 @@ public:
 
     const char* value() {return _value;}
     int length() {return _len;}
-    virtual void print() override;
-    virtual PyObject* add(PyObject* x) override;
-
-    virtual PyObject* greater(PyObject* x) override;
-    virtual PyObject* less(PyObject* x) override;
-    virtual PyObject* equal(PyObject* x) override;
-    virtual PyObject* not_equal(PyObject* x) override;
-    virtual PyObject* ge(PyObject* x) override;
-    virtual PyObject* le(PyObject* x) override;
 };
 
 

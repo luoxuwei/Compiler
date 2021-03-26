@@ -8,10 +8,76 @@
 #include <stdio.h>
 #include "../runtime/universe.h"
 
+StringKlass* StringKlass::instance = NULL;
+
+StringKlass * StringKlass::get_instance() {
+    if (instance == NULL) {
+        instance = new StringKlass();
+    }
+    return instance;
+}
+
+StringKlass::StringKlass() {
+
+}
+
+void StringKlass::print(PyObject *x) {
+    PyString* sx = (PyString*) x;
+    assert(sx&&sx->klass() == (Klass* )this);
+
+    printf(sx->value());
+}
+//坑！！，忘记实现PyString::equal就直接在map里用作key的类型，导致map put时一比较就返回true，第一个就返回了，永远只能改第一个。
+
+PyObject * StringKlass::equal(PyObject *x, PyObject *y) {
+    if (x->klass() != y->klass()) {
+        return Universe::PyFalse;
+    }
+
+    PyString* sx = (PyString*) x;
+    PyString* sy = (PyString*) y;
+
+    assert(sx&&sx->klass() == (Klass* )this);
+    assert(sy&&sy->klass() == (Klass* )this);
+
+    if (sx->length() != sy->length()) {
+        return Universe::PyFalse;
+    }
+
+    for (int i=0; i<sx->length(); i++) {
+        if (sx->value()[i] != sy->value()[i]) {
+            return Universe::PyFalse;
+        }
+    }
+    return Universe::PyTrue;
+}
+
+PyObject * StringKlass::add(PyObject *x, PyObject *y) {
+    PyString* sx = (PyString*) x;
+    PyString* sy = (PyString*) y;
+
+    assert(sx&&sx->klass() == (Klass* )this);
+    assert(sy&&sy->klass() == (Klass* )this);
+
+    int newLen = sx->length() + sy->length();
+    char* temp = new char[newLen];
+    for (int i = 0; i<sx->length(); i++) {
+        temp[i] = sx->value()[i];
+    }
+    for (int i = sx->length()-1; i<(sx->length()+sy->length()); i++) {
+        temp[i] = sy->value()[i - sx->length() + 1];
+    }
+
+    PyString* newStr = new PyString(temp, sx->length()+sy->length());
+    delete[] temp;
+    return newStr;
+}
+
 PyString::PyString(const char *x) {
     _len = strlen(x);
     _value = new char[_len];
     strcpy(_value, x);
+    set_kclass(StringKlass::get_instance());
 }
 
 PyString::PyString(const char *x, const int len) {
@@ -21,78 +87,12 @@ PyString::PyString(const char *x, const int len) {
     for (int i=0; i<len; i++) {
         _value[i] = x[i];
     }
+    set_kclass(StringKlass::get_instance());
 }
 
-PyObject * PyString::add(PyObject *x) {
-    int newLen = _len + ((PyString*) x)->_len;
-    char* temp = new char[newLen];
-    for (int i = 0; i<_len; i++) {
-        temp[i] = _value[i];
-    }
-    for (int i = _len-1; i<_len; i++) {
-        temp[i] = ((PyString*) x)->_value[i - _len + 1];
-    }
 
-    PyString* newStr = new PyString(temp, _len+((PyString*) x)->_len);
-    delete[] temp;
-    return newStr;
-}
 
-void PyString::print() {
-    printf(_value);
-}
 
-//坑！！，忘记实现PyString::equal就直接在map里用作key的类型，导致map put时一比较就返回true，第一个就返回了，永远只能改第一个。
-PyObject* PyString::equal(PyObject *x) {
-    //TODO
-    PyString* sx = (PyString*) x;
-    if (_len != sx->length()) {
-        return Universe::PyFalse;
-    }
-    for (int i=0; i<_len; i++) {
-        if (_value[i] != sx->_value[i]) {
-            return Universe::PyFalse;
-        }
-    }
-    return Universe::PyTrue;
-}
 
-PyObject* PyString::less(PyObject *x) {
-    if (true) {
-        return Universe::PyTrue;
-    } else {
-        return Universe::PyFalse;
-    }
-}
 
-PyObject* PyString::le(PyObject *x) {
-    if (true) {
-        return Universe::PyTrue;
-    } else {
-        return Universe::PyFalse;
-    }
-}
 
-PyObject * PyString::greater(PyObject *x) {
-    if (true) {
-        return Universe::PyTrue;
-    } else {
-        return Universe::PyFalse;
-    }
-}
-
-PyObject * PyString::ge(PyObject *x) {
-    if (true) {
-        return Universe::PyTrue;
-    } else {
-        return Universe::PyFalse;
-    }
-}
-
-PyObject * PyString::not_equal(PyObject *x) {
-    if (true) {
-        return Universe::PyTrue;
-    } else {
-        return Universe::PyFalse;
-    }
-}

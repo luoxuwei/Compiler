@@ -6,59 +6,123 @@
 #include "stdio.h"
 #include "../runtime/universe.h"
 
-PyObject * PyInteger::add(PyObject *x)  {
-    return new PyInteger(_value + ((PyInteger*) x)->_value);
+IntegerKclass* IntegerKclass::instance = NULL;
+
+IntegerKclass::IntegerKclass() {
+
 }
 
-void PyInteger::print() {
-    printf("%d", _value);
+IntegerKclass * IntegerKclass::get_instance() {
+    if (instance == NULL) {
+        instance = new IntegerKclass();
+    }
+    return instance;
 }
 
-//python中true和false也是对象，这里就用1代表true，0代表false
-PyObject* PyInteger::equal(PyObject *x) {
-   if (_value == ((PyInteger *) x)->_value) {
-       return Universe::PyTrue;
-   } else {
-       return Universe::PyFalse;
-   }
+void IntegerKclass::print(PyObject *x) {
+    PyInteger* ix = (PyInteger*) x;
+    assert(ix&&ix->klass() == (Klass* )this);
+    printf("%d", ix->value());
 }
 
-PyObject* PyInteger::less(PyObject *x) {
-    if (_value < ((PyInteger *) x)->_value) {
+PyObject * IntegerKclass::add(PyObject *x, PyObject* y) {
+    PyInteger* ix = (PyInteger*) x;
+    PyInteger* iy = (PyInteger*) y;
+
+    assert(ix&&ix->klass() == (Klass* )this);
+    assert(iy&&iy->klass() == (Klass* )this);
+    return new PyInteger(ix->value() + iy->value());
+}
+
+PyObject * IntegerKclass::equal(PyObject *x, PyObject *y) {
+    if (x->klass() != y->klass()) {
+        return Universe::PyFalse;
+    }
+
+    PyInteger* ix = (PyInteger*) x;
+    PyInteger* iy = (PyInteger*) y;
+
+    assert(ix&&ix->klass() == (Klass* )this);
+    assert(iy&&iy->klass() == (Klass* )this);
+
+    if (ix->value() == iy->value()) {
         return Universe::PyTrue;
     } else {
         return Universe::PyFalse;
     }
 }
 
-PyObject* PyInteger::le(PyObject *x) {
-    if (_value <= ((PyInteger *) x)->_value) {
+PyObject * IntegerKclass::less(PyObject *x, PyObject *y) {
+
+    PyInteger* ix = (PyInteger*) x;
+    PyInteger* iy = (PyInteger*) y;
+
+    assert(ix&&ix->klass() == (Klass* )this);
+    assert(iy&&iy->klass() == (Klass* )this);
+
+    if (ix->value() < iy->value()) {
         return Universe::PyTrue;
     } else {
         return Universe::PyFalse;
     }
 }
 
-PyObject * PyInteger::greater(PyObject *x) {
-    if (_value > ((PyInteger *) x)->_value) {
+PyObject * IntegerKclass::le(PyObject *x, PyObject *y) {
+    PyInteger* ix = (PyInteger*) x;
+    PyInteger* iy = (PyInteger*) y;
+
+    assert(ix&&ix->klass() == (Klass* )this);
+    assert(iy&&iy->klass() == (Klass* )this);
+
+    if (ix->value() <= iy->value()) {
         return Universe::PyTrue;
     } else {
         return Universe::PyFalse;
     }
 }
 
-PyObject * PyInteger::ge(PyObject *x) {
-    if (_value >= ((PyInteger *) x)->_value) {
+PyObject * IntegerKclass::greater(PyObject *x, PyObject *y) {
+    PyInteger* ix = (PyInteger*) x;
+    PyInteger* iy = (PyInteger*) y;
+
+    assert(ix&&ix->klass() == (Klass* )this);
+    assert(iy&&iy->klass() == (Klass* )this);
+
+    if (ix->value() > iy->value()) {
         return Universe::PyTrue;
     } else {
         return Universe::PyFalse;
     }
 }
 
-PyObject * PyInteger::not_equal(PyObject *x) {
-    if (_value != ((PyInteger *) x)->_value) {
+PyObject * IntegerKclass::ge(PyObject *x, PyObject *y) {
+    PyInteger* ix = (PyInteger*) x;
+    PyInteger* iy = (PyInteger*) y;
+
+    assert(ix&&ix->klass() == (Klass* )this);
+    assert(iy&&iy->klass() == (Klass* )this);
+
+    if (ix->value() >= iy->value()) {
         return Universe::PyTrue;
     } else {
         return Universe::PyFalse;
     }
+}
+
+PyObject * IntegerKclass::not_equal(PyObject *x, PyObject *y) {
+    PyInteger* ix = (PyInteger*) x;
+    PyInteger* iy = (PyInteger*) y;
+
+    assert(ix&&ix->klass() == (Klass* )this);
+    assert(iy&&iy->klass() == (Klass* )this);
+    if (ix->value() != iy->value()) {
+        return Universe::PyTrue;
+    } else {
+        return Universe::PyFalse;
+    }
+}
+
+PyInteger::PyInteger(int v) {
+    _value = v;
+    set_kclass(IntegerKclass::get_instance());
 }

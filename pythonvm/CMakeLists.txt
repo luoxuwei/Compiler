@@ -14,7 +14,8 @@ add_library(pythonvm SHARED
         runtime/interpreter.cpp
         code/bytecode.h
         runtime/universe.cpp
-        util/map.cpp)
+        util/map.cpp
+        object/Klass.h)
 
 
 add_executable(test main.cpp)
