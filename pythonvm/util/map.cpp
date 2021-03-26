@@ -14,13 +14,22 @@ MapEntry<K,V>::MapEntry(const MapEntry<K, V> &entry) {
 }
 
 template<typename K, typename V>
+Map<K,V>::Map() {
+    _value = new MapEntry<K,V>[8];
+    _length = 8;
+    _size = 0;
+}
+
+template<typename K, typename V>
 V Map<K,V>::get(K k) {
     for (int i=0; i<_size; i++) {
-        if (k == _value[i]->_k) {
-            return _value[i]->_v;
+        //坑太多了，开始为了快速开发直接k==_value[i]._k，
+        // 后面忘了改用equal,导致运行一直有问题，单步调试好多次才发现 ！！！！
+        if (_value[i]._k->equal(k) == (PyObject*)Universe::PyTrue) {
+            return _value[i]._v;
         }
     }
-    return NULL;
+    return Universe::PyNone;
 }
 
 template<typename K, typename V>
@@ -53,7 +62,7 @@ K Map<K,V>::get_key(int index) {
     if (index < _size) {
         return _value[index]._k;
     }
-    return NULL;
+    return Universe::PyNone;
 }
 
 template<typename K, typename V>
@@ -73,10 +82,14 @@ bool Map<K,V>::has_key(K k) {
 
 template<typename K, typename V>
 V Map<K,V>::remove(K k) {
-    int index = index(k);
-    if (index > 0) {
-       V v = _value[index];
-       _value[index] = _value[--_size];
+    int i = index(k);
+    if (i > 0) {
+       V v = _value[i]._v;
+       _value[i] = _value[--_size];
+        return v;
     }
-    return NULL;
+    return Universe::PyNone;
 }
+
+//强制编译器实例化，不然编译链接时会报Undefined symbols
+template class Map<PyObject*, PyObject*>;
