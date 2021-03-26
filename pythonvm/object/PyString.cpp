@@ -42,12 +42,19 @@ void PyString::print() {
     printf(_value);
 }
 
+//坑！！，忘记实现PyString::equal就直接在map里用作key的类型，导致map put时一比较就返回true，第一个就返回了，永远只能改第一个。
 PyObject* PyString::equal(PyObject *x) {
-    if (true) {
-        return Universe::PyTrue;
-    } else {
+    //TODO
+    PyString* sx = (PyString*) x;
+    if (_len != sx->length()) {
         return Universe::PyFalse;
     }
+    for (int i=0; i<_len; i++) {
+        if (_value[i] != sx->_value[i]) {
+            return Universe::PyFalse;
+        }
+    }
+    return Universe::PyTrue;
 }
 
 PyObject* PyString::less(PyObject *x) {
