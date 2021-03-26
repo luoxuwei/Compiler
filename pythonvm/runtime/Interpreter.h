@@ -7,11 +7,12 @@
 #include "../util/arraylist.h"
 #include "../object/PyObject.h"
 #include "../code/CodeObject.h"
-
+#include "../util/map.h"
 class Interpreter {
 private:
     ArrayList<PyObject*>* _stack;
     ArrayList<PyObject*>* _consts;
+    Map<PyObject*, PyObject*>* _names;
 public:
     void run(CodeObject* codeObject);
 };

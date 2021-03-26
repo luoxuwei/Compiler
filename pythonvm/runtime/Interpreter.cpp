@@ -11,6 +11,7 @@
 
 void Interpreter::run(CodeObject *codeObject) {
     _stack = new ArrayList<PyObject*>(codeObject->_stacks_size);
+    _names = new Map<PyObject*, PyObject*>();
     int pc = 0;
     int code_length = codeObject->_bytecodes->length();
     _consts = codeObject->_consts;
@@ -80,6 +81,19 @@ void Interpreter::run(CodeObject *codeObject) {
                 break;
             case ByteCode::JUMP_FORWARD:
                 pc += op_arg;
+                break;
+            case ByteCode::STORE_NAME:
+                _names->put(codeObject->_names->get(op_arg), POP());
+                break;
+            case ByteCode::LOAD_NAME:
+                PUSH(_names->get(codeObject->_names->get(op_arg)));
+                break;
+            case ByteCode::SETUP_LOOP: // SETUP_LOOP和POP_BLOCK是为break语句准备的
+                break;
+            case ByteCode::POP_BLOCK:
+                break;
+            case ByteCode::JUMP_ABSOLUTE: //实现循环跳转的指令
+                pc = op_arg;
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
