@@ -4,6 +4,7 @@
 
 #include "arraylist.h"
 #include <stdio.h>
+#include "../runtime/Interpreter.h"
 
 template<typename T>
 ArrayList<T>::ArrayList(int n) {
@@ -85,3 +86,6 @@ template class ArrayList<PyObject*>;
 
 class PyString;
 template class ArrayList<PyString*>;
+
+class Block;
+template class ArrayList<Block*>;

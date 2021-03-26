@@ -8,10 +8,12 @@
 #include "universe.h"
 #define PUSH(x) _stack->add(x)
 #define POP() _stack->pop()
+#define STACK_LEVEL() _stack->size()
 
 void Interpreter::run(CodeObject *codeObject) {
     _stack = new ArrayList<PyObject*>(codeObject->_stacks_size);
     _names = new Map<PyObject*, PyObject*>();
+    _loop_stack = new ArrayList<Block*>();
     int pc = 0;
     int code_length = codeObject->_bytecodes->length();
     _consts = codeObject->_consts;
@@ -19,6 +21,7 @@ void Interpreter::run(CodeObject *codeObject) {
     while (pc < code_length) {
         unsigned int opcode = codeObject->_bytecodes->value()[pc++];
         PyObject *v, *w;
+        Block* b;
         //大于等于90的字节码都带参数
         bool has_argument = (opcode & 0xFF) >= ByteCode::HAVE_ARGUMENT;
         int op_arg = -1;
@@ -79,7 +82,7 @@ void Interpreter::run(CodeObject *codeObject) {
                     pc = op_arg;
                 }
                 break;
-            case ByteCode::JUMP_FORWARD:
+            case ByteCode::JUMP_FORWARD: //例如if else 分支中跳过else就是通过这个指令，往前跳转，跳过else部分
                 pc += op_arg;
                 break;
             case ByteCode::STORE_NAME:
@@ -89,11 +92,23 @@ void Interpreter::run(CodeObject *codeObject) {
                 PUSH(_names->get(codeObject->_names->get(op_arg)));
                 break;
             case ByteCode::SETUP_LOOP: // SETUP_LOOP和POP_BLOCK是为break语句准备的
+                _loop_stack->add(new Block(opcode, pc+op_arg, STACK_LEVEL()));
                 break;
             case ByteCode::POP_BLOCK:
+                b = _loop_stack->pop();
+                while (STACK_LEVEL() > b->_level) {
+                    POP();
+                }
                 break;
             case ByteCode::JUMP_ABSOLUTE: //实现循环跳转的指令
                 pc = op_arg;
+                break;
+            case ByteCode::BREAK_LOOP:
+                b = _loop_stack->pop();
+                while (STACK_LEVEL() > b->_level) {
+                    POP();
+                }
+                pc = b->_target;
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
