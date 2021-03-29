@@ -124,7 +124,9 @@ ArrayList<PyObject *> * BinaryFileParser::get_cell_vars() {
 
 PyString * BinaryFileParser::get_no_table() {
     char ch = input->read();
-    if (ch != 's' || ch != 't') {
+    //天坑形bug，应该用&&，因为是解析code结构的最后一步所以如果pyc文件只有一个code（consts里也没有code），就不会暴露这个问题
+    //因为要开发函数就产生了多个code，才暴露这个问题。
+    if (ch != 's' && ch != 't') {
         input->unread();
         return NULL;
     }
