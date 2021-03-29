@@ -28,6 +28,7 @@ void Interpreter::run(CodeObject *codeObject) {
         PyObject *v, *w;
         Block* b;
         FunctionObject* fo;
+        ArrayList<PyObject*>* args = NULL;
         //大于等于90的字节码都带参数
         bool has_argument = (opcode & 0xFF) >= ByteCode::HAVE_ARGUMENT;
         int op_arg = -1;
@@ -160,7 +161,23 @@ void Interpreter::run(CodeObject *codeObject) {
                 PUSH(fo);
                 break;
             case ByteCode::CALL_FUNCTION:
-                build_frame(POP());
+                if (op_arg > 0) {
+                    args = new ArrayList<PyObject*>(op_arg);
+                    while (op_arg--) {
+                        args->set(op_arg, POP());
+                    }
+                }
+                build_frame(POP(), args);
+                if (args != NULL) {
+                    delete args;
+                    args = NULL;
+                }
+                break;
+            case ByteCode::LOAD_FAST:
+                PUSH(_frame->fast_locals()->get(op_arg));
+                break;
+            case ByteCode::STORE_FAST:
+                _frame->fast_locals()->set(op_arg, POP());
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
@@ -170,8 +187,8 @@ void Interpreter::run(CodeObject *codeObject) {
 
 }
 
-void Interpreter::build_frame(PyObject *pyObject) {
-    FrameObject* frameObject = new FrameObject((FunctionObject*) pyObject);
+void Interpreter::build_frame(PyObject *pyObject, ArrayList<PyObject*>* args) {
+    FrameObject* frameObject = new FrameObject((FunctionObject*) pyObject, args);
     frameObject->set_sender(_frame);
     _frame = frameObject;
 }

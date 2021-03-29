@@ -36,7 +36,7 @@ public:
 class FrameObject {
 public:
     FrameObject(CodeObject* code);
-    FrameObject(FunctionObject* functionObject);
+    FrameObject(FunctionObject* functionObject, ArrayList<PyObject*>* args);
     FrameObject();
     ArrayList<PyObject*>* _stack;
     ArrayList<PyObject*>* _consts;
@@ -44,6 +44,8 @@ public:
     ArrayList<Block*>* _loop_stack;
     Map<PyObject*, PyObject*>* _locals;
     Map<PyObject*, PyObject*>* _globals;
+    ArrayList<PyObject*>* _fast_locals;
+
     CodeObject* _codes;
     int _pc;
     FrameObject* _sender;
@@ -62,6 +64,7 @@ public:
     ArrayList<PyObject*>* names() {return _names;}
     Map<PyObject*, PyObject*>* locals() {return _locals;}
     Map<PyObject*, PyObject*>* globals() {return _globals;}
+    ArrayList<PyObject*>* fast_locals() {return _fast_locals;}
 
     bool has_more_codes();
     unsigned char get_op_code();

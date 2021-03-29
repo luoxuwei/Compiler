@@ -23,7 +23,7 @@ FrameObject::FrameObject(CodeObject *code) {
     _sender = NULL;
 }
 
-FrameObject::FrameObject(FunctionObject *functionObject) {
+FrameObject::FrameObject(FunctionObject *functionObject, ArrayList<PyObject*>* args) {
 
     _locals = new Map<PyObject*, PyObject*>();
     _stack = new ArrayList<PyObject*>();
@@ -34,6 +34,12 @@ FrameObject::FrameObject(FunctionObject *functionObject) {
     _globals = functionObject->_globals;
     _pc = 0;
     _sender = NULL;
+    if (args != NULL) {
+        _fast_locals = new ArrayList<PyObject*>();
+        for (int i=0; i<args->size(); i++) {
+            _fast_locals->set(i, args->get(i));
+        }
+    }
 }
 
 int FrameObject::get_op_arg() {
