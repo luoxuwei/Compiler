@@ -4,12 +4,12 @@
 
 #ifndef PYTHONVM_UNIVERSE_H
 #define PYTHONVM_UNIVERSE_H
-#include "../object/PyInteger.h"
+#include "../object/PyObject.h"
 
 class Universe {
 public:
-    static PyInteger* PyTrue;
-    static PyInteger* PyFalse;
+    static PyObject* PyTrue;
+    static PyObject* PyFalse;
     static PyObject* PyNone;
 
 public:

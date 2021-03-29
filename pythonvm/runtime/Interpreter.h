@@ -12,7 +12,9 @@ class Interpreter {
 private:
     FrameObject* _frame;
     PyObject* _ret_value;
+    Map<PyObject*, PyObject*>* _builtins;
 public:
+    Interpreter();
     void run(CodeObject* codeObject);
     void build_frame(PyObject* pyObject);
     void destroy_frame();

@@ -8,12 +8,16 @@ FrameObject::FrameObject() {
 
 }
 
+//这个构造函数是用于创建第一帧，这里没有新建一个变量表，而是直接
+//用_locals，_locals和_globals指向同一个对象，这么做的原因是在非函数上下文中
+//python的局部变量与全局变量的作用域是一样的，只有在调用函数时，创建了新的栈帧，才对局部变量和全局变量进行区分
 FrameObject::FrameObject(CodeObject *code) {
     _consts = code->_consts;
     _names = code->_names;
     _locals = new Map<PyObject*, PyObject*>();
     _stack = new ArrayList<PyObject*>();
     _loop_stack = new ArrayList<Block*>();
+    _globals = _locals; //
     _codes = code;
     _pc = 0;
     _sender = NULL;
@@ -27,6 +31,7 @@ FrameObject::FrameObject(FunctionObject *functionObject) {
     _codes = functionObject->_func_code;
     _consts = _codes->_consts;
     _names = _codes->_names;
+    _globals = functionObject->_globals;
     _pc = 0;
     _sender = NULL;
 }

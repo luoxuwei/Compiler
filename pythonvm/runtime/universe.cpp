@@ -4,15 +4,16 @@
 
 #include "universe.h"
 #include <stdio.h>
+#include "../object/PyString.h"
 
-PyInteger* Universe::PyFalse = NULL;
-PyInteger* Universe::PyTrue = NULL;
+PyObject* Universe::PyFalse = NULL;
+PyObject* Universe::PyTrue = NULL;
 PyObject* Universe::PyNone = NULL;
 
 void Universe::genesis() {
-    PyFalse = new PyInteger(0);
-    PyTrue = new PyInteger(1);
-    PyNone = new PyObject();
+    PyFalse = new PyString("False");
+    PyTrue = new PyString("True");
+    PyNone = new PyString("None");
 }
 
 void Universe::destroy() {

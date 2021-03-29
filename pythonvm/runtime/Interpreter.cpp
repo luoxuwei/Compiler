@@ -10,6 +10,15 @@
 #define PUSH(x) _frame->_stack->add(x)
 #define POP() _frame->_stack->pop()
 #define STACK_LEVEL() _frame->_stack->size()
+#define PY_TRUE Universe::PyTrue
+#define PY_FALSE Universe::PyFalse
+
+Interpreter::Interpreter() {
+    _builtins = new Map<PyObject*, PyObject*>();
+    _builtins->put(new PyString("True"), Universe::PyTrue);
+    _builtins->put(new PyString("False"), Universe::PyFalse);
+    _builtins->put(new PyString("None"), Universe::PyNone);
+}
 
 void Interpreter::run(CodeObject *codeObject) {
     _frame = new FrameObject(codeObject);
@@ -71,6 +80,20 @@ void Interpreter::run(CodeObject *codeObject) {
                     case ByteCode::COMPARE::LESS_EQUAL:
                         PUSH(v->le(w));
                         break;
+                    case ByteCode::COMPARE::IS:
+                        if (v == w) {
+                            PUSH(PY_TRUE);
+                        } else {
+                            PUSH(PY_FALSE);
+                        }
+                        break;
+                    case ByteCode::COMPARE::IS_NOT:
+                        if (v == w) {
+                            PUSH(PY_FALSE);
+                        } else {
+                            PUSH(PY_TRUE);
+                        }
+                        break;
                     default:
                         printf("Error: Unrecognized compare op %d\n", op_arg);
 
@@ -88,8 +111,25 @@ void Interpreter::run(CodeObject *codeObject) {
             case ByteCode::STORE_NAME:
                 _frame->locals()->put(_frame->names()->get(op_arg), POP());
                 break;
+                //LEGB原则，先去局部变量表里找，如果没有，再去全局变量表里找，还是没有就去builtin表里找
             case ByteCode::LOAD_NAME:
-                PUSH(_frame->locals()->get(_frame->names()->get(op_arg)));
+                v = _frame->names()->get(op_arg);
+                w = _frame->locals()->get(v);
+                if (w != Universe::PyNone) {
+                    PUSH(w);
+                    break;
+                }
+                w = _frame->globals()->get(v);
+                if (w != Universe::PyNone) {
+                    PUSH(w);
+                    break;
+                }
+                w = _builtins->get(v);
+                if (w != Universe::PyNone) {
+                    PUSH(w);
+                    break;
+                }
+                PUSH(Universe::PyNone);
                 break;
             case ByteCode::SETUP_LOOP: // SETUP_LOOP和POP_BLOCK是为break语句准备的
                 _frame->loop_stack()->add(new Block(opcode, _frame->get_pc()+op_arg, STACK_LEVEL()));
@@ -113,6 +153,10 @@ void Interpreter::run(CodeObject *codeObject) {
             case ByteCode::MAKE_FUNCTION: //MAKE_FUNCTION 指令带的参数是，是一个整数代表该函数有多少个默认参数
                 v = POP();
                 fo = new FunctionObject(v);
+                //在创建函数对象的时候，就把当前frame的globals传递给了FunctionObject。
+                //从此不论这个函数被传递到哪里去执行，不论它执行上下文中的全局变量表的内容是什么，
+                //这个函数一旦执行，它的全局变量表总是它定义时的那个
+                fo->set_gloabls(_frame->globals());
                 PUSH(fo);
                 break;
             case ByteCode::CALL_FUNCTION:

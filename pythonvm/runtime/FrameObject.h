@@ -43,6 +43,7 @@ public:
     ArrayList<PyObject*>* _names;
     ArrayList<Block*>* _loop_stack;
     Map<PyObject*, PyObject*>* _locals;
+    Map<PyObject*, PyObject*>* _globals;
     CodeObject* _codes;
     int _pc;
     FrameObject* _sender;
@@ -60,6 +61,7 @@ public:
     ArrayList<Block*>* loop_stack() {return _loop_stack;}
     ArrayList<PyObject*>* names() {return _names;}
     Map<PyObject*, PyObject*>* locals() {return _locals;}
+    Map<PyObject*, PyObject*>* globals() {return _globals;}
 
     bool has_more_codes();
     unsigned char get_op_code();
