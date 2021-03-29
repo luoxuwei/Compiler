@@ -6,26 +6,26 @@
 #include "stdio.h"
 #include "../runtime/universe.h"
 
-IntegerKclass* IntegerKclass::instance = NULL;
+IntegerKlass* IntegerKlass::instance = NULL;
 
-IntegerKclass::IntegerKclass() {
+IntegerKlass::IntegerKlass() {
 
 }
 
-IntegerKclass * IntegerKclass::get_instance() {
+IntegerKlass * IntegerKlass::get_instance() {
     if (instance == NULL) {
-        instance = new IntegerKclass();
+        instance = new IntegerKlass();
     }
     return instance;
 }
 
-void IntegerKclass::print(PyObject *x) {
+void IntegerKlass::print(PyObject *x) {
     PyInteger* ix = (PyInteger*) x;
     assert(ix&&ix->klass() == (Klass* )this);
     printf("%d", ix->value());
 }
 
-PyObject * IntegerKclass::add(PyObject *x, PyObject* y) {
+PyObject * IntegerKlass::add(PyObject *x, PyObject* y) {
     PyInteger* ix = (PyInteger*) x;
     PyInteger* iy = (PyInteger*) y;
 
@@ -34,7 +34,7 @@ PyObject * IntegerKclass::add(PyObject *x, PyObject* y) {
     return new PyInteger(ix->value() + iy->value());
 }
 
-PyObject * IntegerKclass::equal(PyObject *x, PyObject *y) {
+PyObject * IntegerKlass::equal(PyObject *x, PyObject *y) {
     if (x->klass() != y->klass()) {
         return Universe::PyFalse;
     }
@@ -52,7 +52,7 @@ PyObject * IntegerKclass::equal(PyObject *x, PyObject *y) {
     }
 }
 
-PyObject * IntegerKclass::less(PyObject *x, PyObject *y) {
+PyObject * IntegerKlass::less(PyObject *x, PyObject *y) {
 
     PyInteger* ix = (PyInteger*) x;
     PyInteger* iy = (PyInteger*) y;
@@ -67,7 +67,7 @@ PyObject * IntegerKclass::less(PyObject *x, PyObject *y) {
     }
 }
 
-PyObject * IntegerKclass::le(PyObject *x, PyObject *y) {
+PyObject * IntegerKlass::le(PyObject *x, PyObject *y) {
     PyInteger* ix = (PyInteger*) x;
     PyInteger* iy = (PyInteger*) y;
 
@@ -81,7 +81,7 @@ PyObject * IntegerKclass::le(PyObject *x, PyObject *y) {
     }
 }
 
-PyObject * IntegerKclass::greater(PyObject *x, PyObject *y) {
+PyObject * IntegerKlass::greater(PyObject *x, PyObject *y) {
     PyInteger* ix = (PyInteger*) x;
     PyInteger* iy = (PyInteger*) y;
 
@@ -95,7 +95,7 @@ PyObject * IntegerKclass::greater(PyObject *x, PyObject *y) {
     }
 }
 
-PyObject * IntegerKclass::ge(PyObject *x, PyObject *y) {
+PyObject * IntegerKlass::ge(PyObject *x, PyObject *y) {
     PyInteger* ix = (PyInteger*) x;
     PyInteger* iy = (PyInteger*) y;
 
@@ -109,7 +109,7 @@ PyObject * IntegerKclass::ge(PyObject *x, PyObject *y) {
     }
 }
 
-PyObject * IntegerKclass::not_equal(PyObject *x, PyObject *y) {
+PyObject * IntegerKlass::not_equal(PyObject *x, PyObject *y) {
     PyInteger* ix = (PyInteger*) x;
     PyInteger* iy = (PyInteger*) y;
 
@@ -124,5 +124,5 @@ PyObject * IntegerKclass::not_equal(PyObject *x, PyObject *y) {
 
 PyInteger::PyInteger(int v) {
     _value = v;
-    set_kclass(IntegerKclass::get_instance());
+    set_kclass(IntegerKlass::get_instance());
 }

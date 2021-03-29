@@ -6,16 +6,19 @@
 #include "../code/bytecode.h"
 #include "../object/PyInteger.h"
 #include "universe.h"
+#include "FunctionObject.h"
 #define PUSH(x) _frame->_stack->add(x)
 #define POP() _frame->_stack->pop()
 #define STACK_LEVEL() _frame->_stack->size()
 
 void Interpreter::run(CodeObject *codeObject) {
     _frame = new FrameObject(codeObject);
+
     while (_frame->has_more_codes()) {
         unsigned int opcode = _frame->get_op_code();
         PyObject *v, *w;
         Block* b;
+        FunctionObject* fo;
         //大于等于90的字节码都带参数
         bool has_argument = (opcode & 0xFF) >= ByteCode::HAVE_ARGUMENT;
         int op_arg = -1;
@@ -102,6 +105,11 @@ void Interpreter::run(CodeObject *codeObject) {
                     POP();
                 }
                 _frame->set_pc(b->_target);
+                break;
+            case ByteCode::MAKE_FUNCTION: //MAKE_FUNCTION 指令带的参数是，是一个整数代表该函数有多少个默认参数
+                v = POP();
+                fo = new FunctionObject(v);
+                PUSH(fo);
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);

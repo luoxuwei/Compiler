@@ -6,13 +6,13 @@
 #define PYTHONVM_PYINTEGER_H
 #include "PyObject.h"
 
-class IntegerKclass: public Klass {
+class IntegerKlass: public Klass {
 private:
-    IntegerKclass();
-    static IntegerKclass* instance;
+    IntegerKlass();
+    static IntegerKlass* instance;
 
 public:
-    static IntegerKclass* get_instance();
+    static IntegerKlass* get_instance();
     virtual void print(PyObject* x);
 
     virtual PyObject *greater(PyObject *x, PyObject *y);
