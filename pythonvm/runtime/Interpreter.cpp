@@ -28,10 +28,10 @@ void Interpreter::run(CodeObject *codeObject) {
 
         switch (opcode) {
             case ByteCode::LOAD_CONST:
-                _frame->stack()->add(_frame->consts()->get(op_arg));
+                PUSH(_frame->consts()->get(op_arg));
                 break;
             case ByteCode::PRINT_ITEM:
-                v = _frame->stack()->pop();
+                v = POP();
                 v->print();
                 break;
             case ByteCode::PRINT_NEWLINE:
@@ -40,10 +40,14 @@ void Interpreter::run(CodeObject *codeObject) {
             case ByteCode::BINARY_ADD:
                 v = POP();
                 w = POP();
-                _frame->stack()->add(v->add(w));
+                PUSH(v->add(w));
                 break;
             case ByteCode::RETURN_VALUE:
-                _frame->stack()->pop();
+                _ret_value = POP();
+                if (_frame->is_first_frame()) {
+                    return;
+                }
+                leave_frame();
                 break;
             case ByteCode::COMPARE_OP://分支结构所需字节码 COMPARE_OP POP_JUMP_IF_FALSE JUMP_FORWARD
                 w = POP();
@@ -111,10 +115,30 @@ void Interpreter::run(CodeObject *codeObject) {
                 fo = new FunctionObject(v);
                 PUSH(fo);
                 break;
+            case ByteCode::CALL_FUNCTION:
+                build_frame(POP());
+                break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
         }
 
     }
 
+}
+
+void Interpreter::build_frame(PyObject *pyObject) {
+    FrameObject* frameObject = new FrameObject((FunctionObject*) pyObject);
+    frameObject->set_sender(_frame);
+    _frame = frameObject;
+}
+
+void Interpreter::destroy_frame() {
+    FrameObject* temp = _frame;
+    _frame = _frame->get_sender();
+    delete temp;
+}
+
+void Interpreter::leave_frame() {
+    destroy_frame();
+    PUSH(_ret_value);
 }

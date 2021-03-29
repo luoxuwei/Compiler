@@ -16,6 +16,19 @@ FrameObject::FrameObject(CodeObject *code) {
     _loop_stack = new ArrayList<Block*>();
     _codes = code;
     _pc = 0;
+    _sender = NULL;
+}
+
+FrameObject::FrameObject(FunctionObject *functionObject) {
+
+    _locals = new Map<PyObject*, PyObject*>();
+    _stack = new ArrayList<PyObject*>();
+    _loop_stack = new ArrayList<Block*>();
+    _codes = functionObject->_func_code;
+    _consts = _codes->_consts;
+    _names = _codes->_names;
+    _pc = 0;
+    _sender = NULL;
 }
 
 int FrameObject::get_op_arg() {

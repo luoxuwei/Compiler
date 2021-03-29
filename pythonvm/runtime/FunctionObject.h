@@ -7,6 +7,7 @@
 #include "../object/Klass.h"
 #include "../code/CodeObject.h"
 
+
 class FunctionKlass: public Klass {
 private:
     static FunctionKlass* _instance;
@@ -18,6 +19,8 @@ public:
 };
 
 class FunctionObject: public PyObject {
+    friend class FunctionKlass;
+    friend class FrameObject;
 private:
     CodeObject* _func_code;
     PyString* _func_name;

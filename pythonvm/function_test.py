@@ -1,4 +1,4 @@
 def foo():
     print("hello")
-
-foo()
+    return "hello"
+print(foo())

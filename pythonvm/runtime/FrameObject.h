@@ -10,6 +10,7 @@
 #include "../object/PyObject.h"
 #include "../code/CodeObject.h"
 #include "../util/map.h"
+#include "FunctionObject.h"
 
 class Block {
 public:
@@ -35,6 +36,7 @@ public:
 class FrameObject {
 public:
     FrameObject(CodeObject* code);
+    FrameObject(FunctionObject* functionObject);
     FrameObject();
     ArrayList<PyObject*>* _stack;
     ArrayList<PyObject*>* _consts;
@@ -43,10 +45,15 @@ public:
     Map<PyObject*, PyObject*>* _locals;
     CodeObject* _codes;
     int _pc;
+    FrameObject* _sender;
 
 public:
     void set_pc(int pc) {_pc=pc;}
     int get_pc() {return _pc;}
+    FrameObject* get_sender() {return _sender;}
+    void set_sender(FrameObject* sender) {
+        _sender = sender;
+    }
 
     ArrayList<PyObject*>* stack() {return _stack;}
     ArrayList<PyObject*>* consts() {return _consts;}
@@ -57,6 +64,7 @@ public:
     bool has_more_codes();
     unsigned char get_op_code();
     int get_op_arg();
+    bool is_first_frame() {return _sender == NULL;}
 };
 
 
