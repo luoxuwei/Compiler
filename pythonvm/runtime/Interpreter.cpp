@@ -18,6 +18,7 @@ Interpreter::Interpreter() {
     _builtins->put(new PyString("True"), Universe::PyTrue);
     _builtins->put(new PyString("False"), Universe::PyFalse);
     _builtins->put(new PyString("None"), Universe::PyNone);
+    _builtins->put(new PyString("len"), new FunctionObject(len));
 }
 
 void Interpreter::run(CodeObject *codeObject) {
@@ -190,6 +191,20 @@ void Interpreter::run(CodeObject *codeObject) {
             case ByteCode::STORE_FAST:
                 _frame->fast_locals()->set(op_arg, POP());
                 break;
+            case ByteCode::LOAD_GLOBAL:
+                v = _frame->names()->get(op_arg);
+                w = _frame->globals()->get(v);
+                if (w != Universe::PyNone) {
+                    PUSH(w);
+                    break;
+                }
+                w = _builtins->get(v);
+                if (w != Universe::PyNone) {
+                    PUSH(w);
+                    break;
+                }
+                PUSH(Universe::PyNone);
+                break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
         }
@@ -199,9 +214,13 @@ void Interpreter::run(CodeObject *codeObject) {
 }
 
 void Interpreter::build_frame(PyObject *pyObject, ArrayList<PyObject*>* args) {
-    FrameObject* frameObject = new FrameObject((FunctionObject*) pyObject, args);
-    frameObject->set_sender(_frame);
-    _frame = frameObject;
+    if (pyObject->klass() == NativeFunctionClass::get_instance()) {
+        PUSH(((FunctionObject*)pyObject)->call(args));
+    } else {
+        FrameObject* frameObject = new FrameObject((FunctionObject*) pyObject, args);
+        frameObject->set_sender(_frame);
+        _frame = frameObject;
+    }
 }
 
 void Interpreter::destroy_frame() {

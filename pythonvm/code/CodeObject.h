@@ -23,7 +23,14 @@
  * */
 
 
+class CodeKlass: public Klass {
+private:
+    static CodeKlass* instance;
+    CodeKlass();
 
+public:
+    static CodeKlass* get_instance();
+};
 
 class CodeObject: public PyObject {
 public:

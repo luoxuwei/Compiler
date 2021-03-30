@@ -38,13 +38,14 @@ public:
     virtual PyObject *div(PyObject *x, PyObject *y) { return NULL; }
 
     virtual PyObject *mod(PyObject *x, PyObject *y) { return NULL; }
+
+    virtual PyObject *len(PyObject *x);
 };
 
 class PyString: public PyObject {
 private:
     char* _value;
     unsigned int _len;
-    Klass* _klass;
 public:
     //可以使用strlen获取字符串长度
     PyString(const char* x);

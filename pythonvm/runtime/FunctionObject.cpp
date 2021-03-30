@@ -13,7 +13,10 @@ FunctionKlass::FunctionKlass() {
 
 FunctionKlass * FunctionKlass::get_instance() {
     if (_instance == NULL) {
-        _instance == new FunctionKlass();
+        //这里开始粗心写成_instance == new FunctionKlass();，
+        //导致FunctionObject在调用klass()获取类型时，触发assert
+        //调试了大半天才解决
+        _instance = new FunctionKlass();
     }
     return _instance;
 }
@@ -26,6 +29,17 @@ void FunctionKlass::print(PyObject *x) {
     printf(">");
 }
 
+NativeFunctionClass* NativeFunctionClass::instance = NULL;
+NativeFunctionClass::NativeFunctionClass() {
+
+}
+NativeFunctionClass * NativeFunctionClass::get_instance() {
+    if (instance == NULL) {
+        instance = new NativeFunctionClass();
+    }
+    return instance;
+}
+
 FunctionObject::FunctionObject(PyObject *code_object) {
     CodeObject* co = (CodeObject*) code_object;
     _func_code = co;
@@ -33,6 +47,19 @@ FunctionObject::FunctionObject(PyObject *code_object) {
     _flags = co->_flag;
 
     set_kclass(FunctionKlass::get_instance());
+}
+
+FunctionObject::FunctionObject(NativeFuncPointer nfp) {
+    _func_code = NULL;
+    _func_name = NULL;
+    _flags = 0;
+    _globals = NULL;
+    _native_func = nfp;
+    set_kclass(NativeFunctionClass::get_instance());
+}
+
+PyObject * FunctionObject::call(ArrayList<PyObject *> *args) {
+    return (PyObject*) (*_native_func)(args);
 }
 
 void FunctionObject::set_defalts(ArrayList<PyObject *>* defaults) {
@@ -44,4 +71,8 @@ void FunctionObject::set_defalts(ArrayList<PyObject *>* defaults) {
     for (int i=0; i<defaults->size(); i++) {
         _defaults->set(i, defaults->get(i));
     }
+}
+
+PyObject* len(ArrayList<PyObject*>* args) {
+    return args->get(0)->len();
 }

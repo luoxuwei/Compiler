@@ -51,3 +51,7 @@ PyObject* PyObject::ge(PyObject* x) {
 PyObject* PyObject::le(PyObject* x) {
     return _klass->le(this, x);
 }
+
+PyObject * PyObject::len() {
+    return _klass->len(this);
+}

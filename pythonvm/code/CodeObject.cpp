@@ -21,5 +21,17 @@ CodeObject::CodeObject(int argcount, int nlocals, int stacksize, int flag, PyStr
                        _file_name(file_name),
                        _lineno(lineno),
                        _notable(notable) {
+    set_kclass(CodeKlass::get_instance());
+}
+
+CodeKlass* CodeKlass::instance = NULL;
+CodeKlass * CodeKlass::get_instance() {
+    if (instance == NULL) {
+        instance = new CodeKlass();
+    }
+    return instance;
+}
+
+CodeKlass::CodeKlass() {
 
 }

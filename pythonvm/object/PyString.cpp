@@ -75,6 +75,11 @@ PyObject * StringKlass::add(PyObject *x, PyObject *y) {
     return newStr;
 }
 
+PyObject * StringKlass::len(PyObject *x) {
+    assert( x&&x->klass() == this);
+    return new PyInteger(((PyString* )x)->length());
+}
+
 PyString::PyString(const char *x) {
     _len = strlen(x);
     _value = new char[_len];

@@ -42,6 +42,7 @@ public:
     PyObject *div(PyObject *x);
 
     PyObject *mod(PyObject *x);
+    PyObject* len();
 };
 
 #endif //PYTHONVM_JOBJECT_H
