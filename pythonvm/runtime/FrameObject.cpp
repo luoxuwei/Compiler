@@ -34,8 +34,19 @@ FrameObject::FrameObject(FunctionObject *functionObject, ArrayList<PyObject*>* a
     _globals = functionObject->_globals;
     _pc = 0;
     _sender = NULL;
+    _fast_locals = new ArrayList<PyObject*>();
+
+    if (functionObject->_defaults) {
+        int dft_cnt = functionObject->_defaults->size();
+        int argcnt = _codes->_argcount;
+        while (dft_cnt--) {
+            //这里_fast_locals 的插入位置用--argcnt，而不是dft_cnt--，因为python语法规定
+            //默认参数必须定义在非默认参数之前 def foo(a=1, b)，这样的定义是不合法的，
+            //这样的语法保证了在处理默认值的时候，从后往前填入默认值的做法是绝对正确的。
+            _fast_locals->set(--argcnt, functionObject->_defaults->get(dft_cnt));
+        }
+    }
     if (args != NULL) {
-        _fast_locals = new ArrayList<PyObject*>();
         for (int i=0; i<args->size(); i++) {
             _fast_locals->set(i, args->get(i));
         }

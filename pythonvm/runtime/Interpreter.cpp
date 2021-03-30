@@ -158,6 +158,17 @@ void Interpreter::run(CodeObject *codeObject) {
                 //从此不论这个函数被传递到哪里去执行，不论它执行上下文中的全局变量表的内容是什么，
                 //这个函数一旦执行，它的全局变量表总是它定义时的那个
                 fo->set_gloabls(_frame->globals());
+                if (op_arg>0) {
+                    args = new ArrayList<PyObject*>(op_arg);
+                    while (op_arg--) {
+                        args->set(op_arg, POP());
+                    }
+                }
+                fo->set_defalts(args);
+                if (args != NULL) {
+                    delete args;
+                    args = NULL;
+                }
                 PUSH(fo);
                 break;
             case ByteCode::CALL_FUNCTION:

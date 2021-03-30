@@ -34,3 +34,14 @@ FunctionObject::FunctionObject(PyObject *code_object) {
 
     set_kclass(FunctionKlass::get_instance());
 }
+
+void FunctionObject::set_defalts(ArrayList<PyObject *>* defaults) {
+    if (defaults == NULL) {
+        _defaults = NULL;
+        return;
+    }
+    _defaults = new ArrayList<PyObject*>(defaults->length());
+    for (int i=0; i<defaults->size(); i++) {
+        _defaults->set(i, defaults->get(i));
+    }
+}

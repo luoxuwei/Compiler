@@ -11,8 +11,6 @@
 class FunctionKlass: public Klass {
 private:
     static FunctionKlass* _instance;
-    Map<PyObject*, PyObject*>* _globals;
-
     FunctionKlass();
 
 public:
@@ -29,12 +27,14 @@ private:
     unsigned int _flags;
     //函数所依赖的全局变量是定义函数对象的时候，而不是调用函数的时候。这就要求必须为FunctionObject对象引入一个global变量表。
     Map<PyObject*, PyObject*>* _globals;
+    ArrayList<PyObject*>* _defaults;
 public:
     FunctionObject(PyObject* code_object);
     FunctionObject(Klass* klass) {
         _func_code = NULL;
         _func_name = NULL;
         _flags = 0;
+        _defaults = NULL;
         set_kclass(klass);
     }
 
@@ -42,6 +42,8 @@ public:
     unsigned int flags() {return _flags;}
     Map<PyObject*, PyObject*>* globals() {return _globals;}
     void set_gloabls(Map<PyObject*, PyObject*>* globlas) {_globals = globlas;}
+    void set_defalts(ArrayList<PyObject*>* defaults);
+    ArrayList<PyObject*>* defaults() {return _defaults;}
 };
 
 
