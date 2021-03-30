@@ -66,6 +66,14 @@ K Map<K,V>::get_key(int index) {
 }
 
 template<typename K, typename V>
+K Map<K,V>::get_value(int index) {
+    if (index < _size) {
+        return _value[index]._v;
+    }
+    return Universe::PyNone;
+}
+
+template<typename K, typename V>
 int Map<K,V>::index(K k) {
     for (int i=0; i<_size; i++) {
         if (_value[i]._k->equal(k) == (PyObject*)Universe::PyTrue) {

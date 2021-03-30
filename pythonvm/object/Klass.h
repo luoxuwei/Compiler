@@ -6,6 +6,7 @@
 #define PYTHONVM_KLASS_H
 class PyObject;
 class PyString;
+class PyDict;
 /*
  * 需要一种机制来判断某个对象的实际类型到底是什么，在虚拟机中，最常用的解决办法就是Klass-Oop的二元结构。Klass代表一种具体类型
  * 它是类这个概念的实际体现。
@@ -16,13 +17,16 @@ class PyString;
 class Klass {
 private:
     PyString *_name;
-
+    PyDict* _klass_dict;
 public:
     Klass() {}
 
     void set_name(PyString *x) { _name = x; }
 
     PyString *name() { return _name; }
+
+    void set_klass_dict(PyDict* d) { _klass_dict = d; }
+    PyDict* klass_dict() { return _klass_dict; }
 
     virtual void print(PyObject* x){}
 

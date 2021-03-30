@@ -4,6 +4,8 @@
 
 #include "FunctionObject.h"
 #include "assert.h"
+#include "universe.h"
+#include "../object/PyDict.h"
 
 FunctionKlass* FunctionKlass::_instance = NULL;
 
@@ -73,6 +75,48 @@ void FunctionObject::set_defalts(ArrayList<PyObject *>* defaults) {
     }
 }
 
+MethodKlass* MethodKlass::instance = NULL;
+MethodKlass * MethodKlass::get_instance() {
+    if (instance == NULL) {
+        instance = new MethodKlass();
+    }
+    return instance;
+}
+MethodKlass::MethodKlass() {
+    set_klass_dict(new PyDict());
+}
+
+bool MethodObject::is_function(PyObject *x) {
+    return x->klass() == FunctionKlass::get_instance();
+}
+
+
+
 PyObject* len(ArrayList<PyObject*>* args) {
     return args->get(0)->len();
+}
+
+PyObject* string_upper(ArrayList<PyObject*>* args) {
+    PyObject* arg0 = args->get(0);
+    assert(arg0->klass() == StringKlass::get_instance());
+    PyString* str_obj = (PyString*)arg0;
+
+    int length = str_obj->length();
+    if (length<=0) {
+        return Universe::PyNone;
+    }
+
+    char* v = new char[length];
+    char c;
+    for (int i=0; i<length; i++) {
+        c = str_obj->value()[i];
+        if (c>='a' && c<='z') {
+            v[i] = c-0x20;
+        } else {
+            v[i] = c;
+        }
+    }
+    PyString* s = new PyString(v);
+    delete v;
+    return s;
 }

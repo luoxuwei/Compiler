@@ -61,7 +61,36 @@ public:
     static NativeFunctionClass* get_instance();
 };
 
+class MethodKlass: public Klass {
+private:
+    static MethodKlass* instance;
+    MethodKlass();
+
+public:
+    static MethodKlass* get_instance();
+};
+
+class MethodObject: public PyObject {
+private:
+    PyObject* _owner;
+    FunctionObject* _func;
+public:
+    MethodObject(FunctionObject* functionObject):_owner(NULL),_func(functionObject){
+        set_kclass(MethodKlass::get_instance());
+    }
+
+    MethodObject(FunctionObject* functionObject, PyObject* owner):_owner(owner),_func(functionObject){
+        set_kclass(MethodKlass::get_instance());
+    }
+
+    void set_owner(PyObject* owner) {_owner = owner;}
+    PyObject* owner() {return _owner;}
+    FunctionObject* func() {return _func;}
+    static bool is_function(PyObject* x);
+};
+
 PyObject* len(ArrayList<PyObject*>* args);
+PyObject* string_upper(ArrayList<PyObject*>* args);
 
 
 #endif //PYTHONVM_FUNCTIONOBJECT_H

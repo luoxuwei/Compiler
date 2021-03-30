@@ -4,6 +4,9 @@
 
 #include "PyObject.h"
 #include "stdio.h"
+#include "PyDict.h"
+#include "../runtime/universe.h"
+#include "../runtime/FunctionObject.h"
 
 PyObject::PyObject() {
 
@@ -54,4 +57,15 @@ PyObject* PyObject::le(PyObject* x) {
 
 PyObject * PyObject::len() {
     return _klass->len(this);
+}
+
+PyObject * PyObject::getattr(PyObject *k) {
+    PyObject* result = klass()->klass_dict()->get(k);
+    if (result == Universe::PyNone) {
+        return result;
+    }
+//    if (MethodObject::is_function(result)) {
+//    }
+    result = new MethodObject((FunctionObject*)result, this);
+    return result;
 }

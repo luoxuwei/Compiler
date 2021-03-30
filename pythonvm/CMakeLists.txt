@@ -17,7 +17,8 @@ add_library(pythonvm SHARED
         util/map.cpp
         object/Klass.h
         runtime/FrameObject.cpp
-        runtime/FunctionObject.cpp)
+        runtime/FunctionObject.cpp
+        object/PyDict.cpp)
 
 
 add_executable(test main.cpp)

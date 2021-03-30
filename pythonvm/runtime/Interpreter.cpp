@@ -205,6 +205,11 @@ void Interpreter::run(CodeObject *codeObject) {
                 }
                 PUSH(Universe::PyNone);
                 break;
+            case ByteCode::LOAD_ATTR://类的方法调研机制由这个指令支持，意为加载属性，可以理解为类的字段和方法都是类的属性
+                v = POP();
+                w = _frame->names()->get(op_arg);
+                PUSH(v->getattr(w));
+                break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
         }
@@ -216,10 +221,17 @@ void Interpreter::run(CodeObject *codeObject) {
 void Interpreter::build_frame(PyObject *pyObject, ArrayList<PyObject*>* args) {
     if (pyObject->klass() == NativeFunctionClass::get_instance()) {
         PUSH(((FunctionObject*)pyObject)->call(args));
-    } else {
+    } else if (pyObject->klass() == FunctionKlass::get_instance()) {
         FrameObject* frameObject = new FrameObject((FunctionObject*) pyObject, args);
         frameObject->set_sender(_frame);
         _frame = frameObject;
+    } else if (pyObject->klass() == MethodKlass::get_instance()) {
+        MethodObject* methodObject = (MethodObject*) pyObject;
+        if (!args) {
+            args = new ArrayList<PyObject*>();
+        }
+        args->insert(0, methodObject->owner());
+        build_frame(methodObject->func(), args);
     }
 }
 
