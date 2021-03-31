@@ -7,6 +7,7 @@
 #include "../object/PyString.h"
 #include "../object/PyDict.h"
 #include "../runtime/FunctionObject.h"
+#include "../object/PyList.h"
 
 PyObject* Universe::PyFalse = NULL;
 PyObject* Universe::PyTrue = NULL;

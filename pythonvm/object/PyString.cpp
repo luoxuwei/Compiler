@@ -89,6 +89,10 @@ PyObject * StringKlass::len(PyObject *x) {
     return new PyInteger(((PyString* )x)->length());
 }
 
+PyObject * StringKlass::contains(PyObject *x, PyObject *y) {
+
+}
+
 PyString::PyString(const char *x) {
     _len = strlen(x);
     _value = new char[_len];

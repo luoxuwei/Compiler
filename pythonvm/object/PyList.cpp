@@ -5,6 +5,9 @@
 #include "PyList.h"
 #include "PyInteger.h"
 #include "../runtime/universe.h"
+#include "PyDict.h"
+#include "PyString.h"
+#include "../runtime/FunctionObject.h"
 
 ListKlass* ListKlass::instance = NULL;
 ListKlass * ListKlass::get_instance() {
@@ -14,7 +17,9 @@ ListKlass * ListKlass::get_instance() {
     return instance;
 }
 ListKlass::ListKlass() {
-
+    PyDict* klass_dict = new PyDict();
+    klass_dict->put(new PyString("append"), new FunctionObject(list_append));
+    set_klass_dict(klass_dict);
 }
 
 void ListKlass::print(PyObject *obj) {

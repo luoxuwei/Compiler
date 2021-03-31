@@ -6,6 +6,7 @@
 #include "assert.h"
 #include "universe.h"
 #include "../object/PyDict.h"
+#include "../object/PyList.h"
 
 FunctionKlass* FunctionKlass::_instance = NULL;
 
@@ -119,4 +120,9 @@ PyObject* string_upper(ArrayList<PyObject*>* args) {
     PyString* s = new PyString(v);
     delete v;
     return s;
+}
+
+PyObject* list_append(ArrayList<PyObject*>* args) {
+    ((PyList*) args->get(0))->append(args->get(1));
+    return Universe::PyNone;
 }
