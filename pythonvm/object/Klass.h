@@ -55,6 +55,7 @@ public:
     virtual PyObject *mod(PyObject *x, PyObject *y) { return 0; }
 
     virtual PyObject *len(PyObject *x) {return 0;}
+    virtual PyObject *subscr(PyObject* x, PyObject* y) {return 0;}
 
 };
 #endif //PYTHONVM_KLASS_H

@@ -40,6 +40,7 @@ public:
     virtual PyObject *mod(PyObject *x, PyObject *y) { return NULL; }
 
     virtual PyObject *len(PyObject *x);
+    virtual PyObject *subscr(PyObject* x, PyObject* y) override;
 };
 
 class PyString: public PyObject {

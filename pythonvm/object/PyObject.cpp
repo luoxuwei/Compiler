@@ -69,3 +69,7 @@ PyObject * PyObject::getattr(PyObject *k) {
     result = new MethodObject((FunctionObject*)result, this);
     return result;
 }
+
+PyObject * PyObject::subscr(PyObject *x) {
+    return klass()->subscr(this, x);
+}

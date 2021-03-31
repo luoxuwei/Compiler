@@ -3,6 +3,7 @@
 //
 
 #include "PyList.h"
+#include "PyInteger.h"
 ListKlass* ListKlass::instance = NULL;
 ListKlass * ListKlass::get_instance() {
     if (instance == NULL) {
@@ -27,6 +28,14 @@ void ListKlass::print(PyObject *obj) {
         pyList->get(i)->print();
     }
     printf("]");
+}
+
+PyObject * ListKlass::subscr(PyObject *x, PyObject *y) {
+    assert(x && x->klass() == this);
+    assert(y && y->klass() == IntegerKlass::get_instance());
+    PyList* lx = (PyList*) x;
+    PyInteger* iy = (PyInteger*) y;
+    return lx->get(iy->value());
 }
 
 PyList::PyList() {

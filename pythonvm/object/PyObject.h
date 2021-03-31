@@ -44,6 +44,7 @@ public:
     PyObject *mod(PyObject *x);
     PyObject* len();
     PyObject* getattr(PyObject* k);
+    PyObject* subscr(PyObject* x);
 };
 
 #endif //PYTHONVM_JOBJECT_H

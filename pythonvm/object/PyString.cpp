@@ -29,6 +29,15 @@ void StringKlass::print(PyObject *x) {
         printf("%c", sx->value()[i]); //不能直接使用%s格式化输出，因为中间可能出现字符'\0'，所以只能逐字符。
     }
 }
+
+PyObject * StringKlass::subscr(PyObject *x, PyObject *y) {
+    assert(x && x->klass() == this);
+    assert(y && y->klass() == IntegerKlass::get_instance());
+    PyString* sx = (PyString*) x;
+    PyInteger* iy = (PyInteger*) y;
+    return new PyString(&sx->value()[iy->value()], 1);
+}
+
 //坑！！，忘记实现PyString::equal就直接在map里用作key的类型，导致map put时一比较就返回true，第一个就返回了，永远只能改第一个。
 
 PyObject * StringKlass::equal(PyObject *x, PyObject *y) {
