@@ -57,6 +57,14 @@ PyObject * ListKlass::contains(PyObject *x, PyObject *y) {
     return Universe::PyFalse;
 }
 
+void ListKlass::store_subscr(PyObject *x, PyObject *y, PyObject *z) {
+    assert(x && x->klass() == this);
+    assert(y && y->klass() == IntegerKlass::get_instance());
+    PyList* lx = (PyList*)x;
+    PyInteger* iy = (PyInteger*)y;
+    lx->set(iy->value(), z);
+}
+
 PyList::PyList() {
     _inner_list = new ArrayList<PyObject*>();
     set_kclass(ListKlass::get_instance());

@@ -56,7 +56,8 @@ public:
 
     virtual PyObject *len(PyObject *x) {return 0;}
     virtual PyObject *subscr(PyObject* x, PyObject* y) {return 0;}
-    PyObject* contains(PyObject* x, PyObject* y) {return 0;}
+    virtual PyObject* contains(PyObject* x, PyObject* y) {return 0;}
+    virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z) {}
 
 };
 #endif //PYTHONVM_KLASS_H

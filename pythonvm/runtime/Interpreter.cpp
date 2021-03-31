@@ -28,7 +28,7 @@ void Interpreter::run(CodeObject *codeObject) {
 
     while (_frame->has_more_codes()) {
         unsigned int opcode = _frame->get_op_code();
-        PyObject *v, *w;
+        PyObject *v, *w, *u;
         Block* b;
         FunctionObject* fo;
         ArrayList<PyObject*>* args = NULL;
@@ -233,6 +233,12 @@ void Interpreter::run(CodeObject *codeObject) {
                 v = POP();
                 w = POP();
                 PUSH(w->subscr(v));
+                break;
+            case ByteCode::STORE_SUBSCR:
+                u = POP();
+                v = POP();
+                w = POP();
+                v->store_subscr(u, w);
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);

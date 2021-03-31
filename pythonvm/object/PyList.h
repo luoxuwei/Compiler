@@ -16,7 +16,8 @@ public:
     static ListKlass* get_instance();
     virtual void print(PyObject* obj) override;
     virtual PyObject *subscr(PyObject* x, PyObject* y) override;
-    PyObject* contains(PyObject* x, PyObject* y);
+    virtual PyObject* contains(PyObject* x, PyObject* y) override;
+    virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z);
 };
 
 class PyList: public PyObject {
@@ -36,7 +37,7 @@ public:
     PyObject* get(int index) {return _inner_list->get(index);}
     void set(int i, PyObject* obj) {_inner_list->set(i, obj);}
     PyObject* top() {return _inner_list->get(_inner_list->size()-1);}
-
+    void store_subscr(PyObject* x, PyObject* y, PyObject* z);
 };
 
 
