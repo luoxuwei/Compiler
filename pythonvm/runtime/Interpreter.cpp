@@ -7,6 +7,8 @@
 #include "../object/PyInteger.h"
 #include "universe.h"
 #include "FunctionObject.h"
+#include "../object/PyList.h"
+
 #define PUSH(x) _frame->_stack->add(x)
 #define POP() _frame->_stack->pop()
 #define STACK_LEVEL() _frame->_stack->size()
@@ -209,6 +211,13 @@ void Interpreter::run(CodeObject *codeObject) {
                 v = POP();
                 w = _frame->names()->get(op_arg);
                 PUSH(v->getattr(w));
+                break;
+            case ByteCode::BUILD_LIST:
+                v = new PyList();
+                while (op_arg--) {
+                    ((PyList*)v)->set(op_arg, POP());
+                }
+                PUSH(v);
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);

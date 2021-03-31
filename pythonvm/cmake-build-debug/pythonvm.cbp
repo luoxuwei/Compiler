@@ -155,6 +155,12 @@
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/PyInteger.h">
 			<Option target="pythonvm"/>
 		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/PyList.cpp">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/PyList.h">
+			<Option target="pythonvm"/>
+		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/PyObject.cpp">
 			<Option target="pythonvm"/>
 		</Unit>
