@@ -73,3 +73,7 @@ PyObject * PyObject::getattr(PyObject *k) {
 PyObject * PyObject::subscr(PyObject *x) {
     return klass()->subscr(this, x);
 }
+
+PyObject * PyObject::contains(PyObject *x) {
+    return klass()->contains(this, x);
+}

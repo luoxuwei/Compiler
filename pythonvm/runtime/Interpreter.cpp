@@ -98,6 +98,16 @@ void Interpreter::run(CodeObject *codeObject) {
                             PUSH(PY_TRUE);
                         }
                         break;
+                    case ByteCode::IN:
+                        PUSH(w->contains(v));
+                        break;
+                    case ByteCode::NOT_IN:
+                        if (w->contains(v) == Universe::PyTrue) {
+                            PUSH(Universe::PyFalse);
+                        } else {
+                            PUSH(Universe::PyTrue);
+                        }
+                        break;
                     default:
                         printf("Error: Unrecognized compare op %d\n", op_arg);
 

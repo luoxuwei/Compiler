@@ -45,6 +45,7 @@ public:
     PyObject* len();
     PyObject* getattr(PyObject* k);
     PyObject* subscr(PyObject* x);
+    PyObject* contains(PyObject* x);
 };
 
 #endif //PYTHONVM_JOBJECT_H

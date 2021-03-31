@@ -4,6 +4,8 @@
 
 #include "PyList.h"
 #include "PyInteger.h"
+#include "../runtime/universe.h"
+
 ListKlass* ListKlass::instance = NULL;
 ListKlass * ListKlass::get_instance() {
     if (instance == NULL) {
@@ -36,6 +38,18 @@ PyObject * ListKlass::subscr(PyObject *x, PyObject *y) {
     PyList* lx = (PyList*) x;
     PyInteger* iy = (PyInteger*) y;
     return lx->get(iy->value());
+}
+
+PyObject * ListKlass::contains(PyObject *x, PyObject *y) {
+    assert(x && x->klass() == this);
+    PyList* lx = (PyList*)x;
+    int size = lx->size();
+    for (int i=0; i<size; i++) {
+        if (lx->get(i)->equal(y) == Universe::PyTrue) {
+            return Universe::PyTrue;
+        }
+    }
+    return Universe::PyFalse;
 }
 
 PyList::PyList() {

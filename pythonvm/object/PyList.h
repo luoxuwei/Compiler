@@ -16,6 +16,7 @@ public:
     static ListKlass* get_instance();
     virtual void print(PyObject* obj) override;
     virtual PyObject *subscr(PyObject* x, PyObject* y) override;
+    PyObject* contains(PyObject* x, PyObject* y);
 };
 
 class PyList: public PyObject {
