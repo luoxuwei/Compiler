@@ -142,3 +142,9 @@ PyObject* list_index(ArrayList<PyObject*>* args) {
 
     return NULL;
 }
+
+PyObject* list_pop(ArrayList<PyObject*>* args) {
+    PyList* list = (PyList*) args->get(0);
+    assert(list && list->klass() == ListKlass::get_instance());
+    return list->pop();
+}
