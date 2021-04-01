@@ -47,6 +47,8 @@ public:
     PyObject* subscr(PyObject* x);
     PyObject* contains(PyObject* x);
     void store_subscr(PyObject* x, PyObject* y);
+    void delete_subscr(PyObject* x);
+
 };
 
 #endif //PYTHONVM_JOBJECT_H

@@ -17,7 +17,9 @@ public:
     virtual void print(PyObject* obj) override;
     virtual PyObject *subscr(PyObject* x, PyObject* y) override;
     virtual PyObject* contains(PyObject* x, PyObject* y) override;
-    virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z);
+    virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z) override;
+    virtual void delete_subscr(PyObject* x, PyObject* y) override;
+
 };
 
 class PyList: public PyObject {

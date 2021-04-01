@@ -81,3 +81,7 @@ PyObject * PyObject::contains(PyObject *x) {
 void PyObject::store_subscr(PyObject *x, PyObject *y) {
     klass()->store_subscr(this, x, y);
 }
+
+void PyObject::delete_subscr(PyObject *x) {
+    klass()->delete_subscr(this, x);
+}

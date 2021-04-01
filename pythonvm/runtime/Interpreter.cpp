@@ -240,6 +240,11 @@ void Interpreter::run(CodeObject *codeObject) {
                 w = POP();
                 v->store_subscr(u, w);
                 break;
+            case ByteCode::DELETE_SUBSCR:
+                v = POP();
+                w = POP();
+                ((PyList*)w)->delete_subscr(v);
+                break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
         }

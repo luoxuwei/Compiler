@@ -68,6 +68,14 @@ void ListKlass::store_subscr(PyObject *x, PyObject *y, PyObject *z) {
     lx->set(iy->value(), z);
 }
 
+void ListKlass::delete_subscr(PyObject *x, PyObject *y) {
+    assert(x && x->klass() == this);
+    assert(y && y->klass() == IntegerKlass::get_instance());
+    PyList* list = (PyList*) x;
+    PyInteger* index = (PyInteger*) y;
+    list->inner_list()->delete_index(index->value());
+}
+
 PyList::PyList() {
     _inner_list = new ArrayList<PyObject*>();
     set_kclass(ListKlass::get_instance());
