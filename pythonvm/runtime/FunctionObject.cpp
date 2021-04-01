@@ -7,6 +7,7 @@
 #include "universe.h"
 #include "../object/PyDict.h"
 #include "../object/PyList.h"
+#include "../object/PyInteger.h"
 
 FunctionKlass* FunctionKlass::_instance = NULL;
 
@@ -125,4 +126,19 @@ PyObject* string_upper(ArrayList<PyObject*>* args) {
 PyObject* list_append(ArrayList<PyObject*>* args) {
     ((PyList*) args->get(0))->append(args->get(1));
     return Universe::PyNone;
+}
+
+PyObject* list_index(ArrayList<PyObject*>* args) {
+    PyList* list = (PyList*) args->get(0);
+    PyObject* target = args->get(1);
+
+    assert(list && list->klass() == ListKlass::get_instance());
+
+    for (int i=0; i<list->size(); i++) {
+        if (list->get(i)->equal(target)) {
+            return new PyInteger(i);
+        }
+    }
+
+    return NULL;
 }

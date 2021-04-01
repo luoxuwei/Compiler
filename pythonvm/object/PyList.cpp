@@ -19,6 +19,7 @@ ListKlass * ListKlass::get_instance() {
 ListKlass::ListKlass() {
     PyDict* klass_dict = new PyDict();
     klass_dict->put(new PyString("append"), new FunctionObject(list_append));
+    klass_dict->put(new PyString("index"), new FunctionObject(list_index));
     set_klass_dict(klass_dict);
 }
 
