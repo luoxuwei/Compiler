@@ -21,7 +21,7 @@ ListKlass::ListKlass() {
     klass_dict->put(new PyString("append"), new FunctionObject(list_append));
     klass_dict->put(new PyString("index"), new FunctionObject(list_index));
     klass_dict->put(new PyString("pop"), new FunctionObject(list_pop));
-
+    klass_dict->put(new PyString("remove"), new FunctionObject(list_remove));
     set_klass_dict(klass_dict);
 }
 

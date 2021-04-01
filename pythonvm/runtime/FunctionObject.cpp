@@ -148,3 +148,18 @@ PyObject* list_pop(ArrayList<PyObject*>* args) {
     assert(list && list->klass() == ListKlass::get_instance());
     return list->pop();
 }
+
+PyObject* list_remove(ArrayList<PyObject*>* args) {
+    PyList* list = (PyList*) args->get(0);
+    PyObject* target = args->get(1);
+    assert(list && list->klass() == ListKlass::get_instance());
+
+    for (int i=0; i<list->size(); ) {
+        if (list->get(i)->equal(target) == Universe::PyTrue) {
+            list->inner_list()->delete_index(i);
+        } else {
+            i++;
+        }
+    }
+
+}
