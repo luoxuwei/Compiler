@@ -163,3 +163,18 @@ PyObject* list_remove(ArrayList<PyObject*>* args) {
     }
 
 }
+
+PyObject* list_reverse(ArrayList<PyObject*>* args) {
+    PyList* list = (PyList*) args->get(0);
+    assert(list && list->klass() == ListKlass::get_instance());
+    int i=0;
+    int j=list->size()-1;
+    PyObject* temp;
+    while (i<j) {
+        temp = list->get(j);
+        list->set(j, list->get(i));
+        list->set(i, temp);
+        i++;
+        j--;
+    }
+}
