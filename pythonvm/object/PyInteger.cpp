@@ -5,11 +5,11 @@
 #include "PyInteger.h"
 #include "stdio.h"
 #include "../runtime/universe.h"
+#include "../object/PyString.h"
 
 IntegerKlass* IntegerKlass::instance = NULL;
 
 IntegerKlass::IntegerKlass() {
-
 }
 
 IntegerKlass * IntegerKlass::get_instance() {
@@ -17,6 +17,10 @@ IntegerKlass * IntegerKlass::get_instance() {
         instance = new IntegerKlass();
     }
     return instance;
+}
+
+void IntegerKlass::initialize() {
+    set_name(new PyString("int"));
 }
 
 void IntegerKlass::print(PyObject *x) {
@@ -55,9 +59,16 @@ PyObject * IntegerKlass::equal(PyObject *x, PyObject *y) {
 PyObject * IntegerKlass::less(PyObject *x, PyObject *y) {
 
     PyInteger* ix = (PyInteger*) x;
-    PyInteger* iy = (PyInteger*) y;
 
     assert(ix&&ix->klass() == (Klass* )this);
+    if (x->klass() != y->klass()) {
+        if (Klass::compare_klass(x->klass(), y->klass()) < 0) {
+            return Universe::PyTrue;
+        } else {
+            return Universe::PyFalse;
+        }
+    }
+    PyInteger* iy = (PyInteger*) y;
     assert(iy&&iy->klass() == (Klass* )this);
 
     if (ix->value() < iy->value()) {

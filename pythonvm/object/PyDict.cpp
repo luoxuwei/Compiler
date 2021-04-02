@@ -3,6 +3,7 @@
 //
 
 #include "PyDict.h"
+#include "PyString.h"
 DictKlass* DictKlass::instance = NULL;
 
 DictKlass * DictKlass::get_instance() {
@@ -13,6 +14,10 @@ DictKlass * DictKlass::get_instance() {
 
 DictKlass::DictKlass() {
 
+}
+
+void DictKlass::initialize() {
+    set_name(new PyString("dict"));
 }
 
 PyDict::PyDict() {

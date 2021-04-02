@@ -13,6 +13,7 @@ private:
     DictKlass();
 
 public:
+    void initialize();
     static DictKlass* get_instance();
 };
 

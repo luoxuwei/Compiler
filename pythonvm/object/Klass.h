@@ -21,6 +21,8 @@ private:
 public:
     Klass() {}
 
+    static int compare_klass(Klass* x, Klass* y);
+
     void set_name(PyString *x) { _name = x; }
 
     PyString *name() { return _name; }

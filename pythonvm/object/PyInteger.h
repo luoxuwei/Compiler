@@ -12,6 +12,7 @@ private:
     static IntegerKlass* instance;
 
 public:
+    void initialize();
     static IntegerKlass* get_instance();
     virtual void print(PyObject* x);
 

@@ -96,5 +96,5 @@ PyObject* list_index(ArrayList<PyObject*>* args);
 PyObject* list_pop(ArrayList<PyObject*>* args);
 PyObject* list_remove(ArrayList<PyObject*>* args);
 PyObject* list_reverse(ArrayList<PyObject*>* args);
-
+PyObject* list_sort(ArrayList<PyObject*>* args);
 #endif //PYTHONVM_FUNCTIONOBJECT_H

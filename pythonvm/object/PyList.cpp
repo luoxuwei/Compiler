@@ -17,14 +17,20 @@ ListKlass * ListKlass::get_instance() {
     return instance;
 }
 ListKlass::ListKlass() {
+
+}
+
+void ListKlass::initialize() {
     PyDict* klass_dict = new PyDict();
     klass_dict->put(new PyString("append"), new FunctionObject(list_append));
     klass_dict->put(new PyString("index"), new FunctionObject(list_index));
     klass_dict->put(new PyString("pop"), new FunctionObject(list_pop));
     klass_dict->put(new PyString("remove"), new FunctionObject(list_remove));
     klass_dict->put(new PyString("reverse"), new FunctionObject(list_reverse));
+    klass_dict->put(new PyString("sort"), new FunctionObject(list_sort));
 
     set_klass_dict(klass_dict);
+    set_name(new PyString("list"));
 }
 
 void ListKlass::print(PyObject *obj) {
@@ -76,6 +82,34 @@ void ListKlass::delete_subscr(PyObject *x, PyObject *y) {
     PyList* list = (PyList*) x;
     PyInteger* index = (PyInteger*) y;
     list->inner_list()->delete_index(index->value());
+}
+
+PyObject * ListKlass::less(PyObject *x, PyObject *y) {
+    assert(x && x->klass() == this);
+    if (x->klass() != y->klass()) {
+        if (Klass::compare_klass(x->klass(), y->klass()) < 0) {
+            return Universe::PyTrue;
+        } else {
+            return Universe::PyFalse;
+        }
+    }
+
+    PyList* lx = (PyList*) x;
+    PyList* ly = (PyList*) y;
+    assert(y && y->klass() == ListKlass::get_instance());
+    int len = lx->size() < ly->size()?lx->size():ly->size();
+    for (int i=0; i<len; i++) {
+        if (lx->get(i)->less(ly->get(i)) == Universe::PyTrue) {
+            return Universe::PyTrue;
+        } else if (ly->get(i)->less(lx->get(i)) == Universe::PyTrue) {
+            return Universe::PyFalse;
+        }
+    }
+    if (lx->size() < ly->size()) {
+        return Universe::PyTrue;
+    }
+    return Universe::PyFalse;
+
 }
 
 PyList::PyList() {

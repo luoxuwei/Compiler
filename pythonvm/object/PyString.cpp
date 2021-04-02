@@ -18,7 +18,15 @@ StringKlass * StringKlass::get_instance() {
 }
 
 StringKlass::StringKlass() {
+    //如果在这里调用set_name会和PyString陷入无限互调
+    //PyString构造函数里调用StringKlass get_instance 初次调用创建StringKlass
+    //StringKlass构造方法里调用set_name，要构造一个PyString，由回到PyString构造函数里
+    //由于StringKlass构造还没完成，又会new StringKlass，在StringKlass构造方法里又构造PyString。。。
+//    set_name(new PyString("str"));
+}
 
+void StringKlass::initialize() {
+    set_name(new PyString("str"));
 }
 
 void StringKlass::print(PyObject *x) {
@@ -91,6 +99,37 @@ PyObject * StringKlass::len(PyObject *x) {
 
 PyObject * StringKlass::contains(PyObject *x, PyObject *y) {
 
+}
+
+PyObject * StringKlass::less(PyObject *x, PyObject *y) {
+    assert(x && x->klass() == this);
+    PyString* sx = (PyString*) x;
+
+    if (x->klass() != y->klass()) {
+        if (Klass::compare_klass(x->klass(), y->klass()) < 0) {
+            return Universe::PyTrue;
+        } else {
+            return Universe::PyFalse;
+        }
+    }
+
+    PyString* sy = (PyString*) y;
+    assert(sy && sy->klass() == this);
+
+    int len = sx->length() < sy->length()?sx->length():sy->length();
+    for (int i=0; i<len; i++) {
+        if (sx->value()[i] < sy->value()[i]) {
+            return Universe::PyTrue;
+        } else if (sx->value()[i] > sy->value()[i]) {
+            return Universe::PyFalse;
+        }
+    }
+
+    if (sx->length() < sy->length()) {
+        return Universe::PyTrue;
+    }
+
+    return Universe::PyFalse;
 }
 
 PyString::PyString(const char *x) {

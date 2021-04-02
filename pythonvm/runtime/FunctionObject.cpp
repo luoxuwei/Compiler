@@ -178,3 +178,21 @@ PyObject* list_reverse(ArrayList<PyObject*>* args) {
         j--;
     }
 }
+
+PyObject* list_sort(ArrayList<PyObject*>* args) {
+    PyList* list = (PyList*) (args->get(0));
+    assert(list && list->klass() == ListKlass::get_instance());
+
+    //bubble sort
+    for (int i=0; i<list->size()-1; i++) {
+        for (int j=list->size()-1; j>i; j--) {
+            if (list->get(j)->less(list->get(j-1)) == Universe::PyTrue) {
+                PyObject* t = list->get(j-1);
+                list->set(j-1, list->get(j));
+                list->set(j, t);
+            }
+        }
+    }
+
+    return Universe::PyNone;
+}

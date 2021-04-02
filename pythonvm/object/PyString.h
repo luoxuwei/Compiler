@@ -14,11 +14,12 @@ private:
 
 public:
     static StringKlass* get_instance();
+    void initialize();
     virtual void print(PyObject* x);
 
     virtual PyObject *greater(PyObject *x, PyObject *y) { return NULL; }
 
-    virtual PyObject *less(PyObject *x, PyObject *y) { return NULL; }
+    virtual PyObject *less(PyObject *x, PyObject *y);
 
     virtual PyObject *equal(PyObject *x, PyObject *y);
 

@@ -19,7 +19,8 @@ add_library(pythonvm SHARED
         runtime/FrameObject.cpp
         runtime/FunctionObject.cpp
         object/PyDict.cpp
-        object/PyList.cpp)
+        object/PyList.cpp
+        object/klass.cpp)
 
 
 add_executable(test main.cpp)

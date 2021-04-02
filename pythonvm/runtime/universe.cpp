@@ -8,6 +8,7 @@
 #include "../object/PyDict.h"
 #include "../runtime/FunctionObject.h"
 #include "../object/PyList.h"
+#include "../object/PyInteger.h"
 
 PyObject* Universe::PyFalse = NULL;
 PyObject* Universe::PyTrue = NULL;
@@ -21,6 +22,11 @@ void Universe::genesis() {
     PyDict* klass_dict = new PyDict();
     StringKlass::get_instance()->set_klass_dict(klass_dict);
     klass_dict->put(new PyString("upper"), new FunctionObject(string_upper));
+
+    IntegerKlass::get_instance()->initialize();
+    DictKlass::get_instance()->initialize();
+    StringKlass::get_instance()->initialize();
+    ListKlass::get_instance()->initialize();
 }
 
 void Universe::destroy() {
