@@ -8,6 +8,7 @@
 #include "PyDict.h"
 #include "PyString.h"
 #include "../runtime/FunctionObject.h"
+#include "PyObject.h"
 
 ListKlass* ListKlass::instance = NULL;
 ListKlass * ListKlass::get_instance() {
@@ -112,6 +113,11 @@ PyObject * ListKlass::less(PyObject *x, PyObject *y) {
 
 }
 
+PyObject * ListKlass::iter(PyObject *x) {
+    assert(x && x->klass() == this);
+    return new ListIterator((PyList*)x);
+}
+
 PyList::PyList() {
     _inner_list = new ArrayList<PyObject*>();
     set_kclass(ListKlass::get_instance());
@@ -122,3 +128,37 @@ PyList::PyList(ArrayList<PyObject *> *ol) {
     set_kclass(ListKlass::get_instance());
 }
 
+ListIteratorKlass* ListIteratorKlass::instance = NULL;
+ListIteratorKlass::ListIteratorKlass() {
+    PyDict* klass_dict = new PyDict();
+    klass_dict->put(new PyString("next"), new FunctionObject(listiterator_next));
+    set_klass_dict(klass_dict);
+    set_name(new PyString("listiterator"));
+}
+
+ListIteratorKlass * ListIteratorKlass::get_instance() {
+    if (instance == NULL) {
+        instance = new ListIteratorKlass();
+    }
+    return instance;
+}
+
+ListIterator::ListIterator(PyList *owner) {
+    _owner = owner;
+    _iter_cnt = 0;
+    set_kclass(ListIteratorKlass::get_instance());
+}
+
+PyObject* listiterator_next(ArrayList<PyObject*>* args) {
+    ListIterator* iter = (ListIterator*) args->get(0);
+    PyList* list = iter->owner();
+    int iter_cnt = iter->iter_cnt();
+    if (iter_cnt < list->size()) {
+        PyObject* obj = list->get(iter_cnt);
+        iter->inc_cnt();
+        return obj;
+    } else {
+        //TODO: we need stop Iteration here to mark iteration end
+        return NULL;
+    }
+}

@@ -22,6 +22,7 @@ public:
     int size();
     int length();
     T pop();
+    T top();
     void delete_index(int index);
 };
 

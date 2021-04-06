@@ -85,3 +85,7 @@ void PyObject::store_subscr(PyObject *x, PyObject *y) {
 void PyObject::delete_subscr(PyObject *x) {
     klass()->delete_subscr(this, x);
 }
+
+PyObject * PyObject::iter() {
+    return klass()->iter(this);
+}

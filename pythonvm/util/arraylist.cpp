@@ -87,6 +87,11 @@ void ArrayList<T>::delete_index(int index) {
     _size--;
 }
 
+template<typename T>
+T ArrayList<T>::top() {
+    return _data[_size-1];
+}
+
 //由于arraylist声明在h文件，实现在cpp文件，所以编译器不会自动实例化模版类
 //在这里进行声明强制编译器对模版类进行实例化
 class PyObject;

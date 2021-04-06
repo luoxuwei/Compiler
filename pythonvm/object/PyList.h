@@ -21,6 +21,16 @@ public:
     virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z) override;
     virtual void delete_subscr(PyObject* x, PyObject* y) override;
     virtual PyObject *less(PyObject *x, PyObject *y) override;
+    virtual PyObject* iter(PyObject* x) override;
+};
+
+class ListIteratorKlass: public Klass {
+private:
+    static ListIteratorKlass* instance;
+    ListIteratorKlass();
+
+public:
+    static ListIteratorKlass* get_instance();
 };
 
 class PyList: public PyObject {
@@ -43,5 +53,17 @@ public:
     void store_subscr(PyObject* x, PyObject* y, PyObject* z);
 };
 
+class ListIterator: public PyObject {
+private:
+    PyList* _owner;
+    int _iter_cnt;
+public:
+    ListIterator(PyList* owner);
+    PyList* owner() {return _owner;}
+    int iter_cnt() {return _iter_cnt;}
+    void inc_cnt() {_iter_cnt++;}
+};
+
+PyObject* listiterator_next(ArrayList<PyObject*>* args);
 
 #endif //PYTHONVM_PYLIST_H

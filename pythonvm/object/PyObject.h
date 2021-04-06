@@ -48,6 +48,7 @@ public:
     PyObject* contains(PyObject* x);
     void store_subscr(PyObject* x, PyObject* y);
     void delete_subscr(PyObject* x);
+    PyObject* iter();
 
 };
 

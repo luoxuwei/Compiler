@@ -11,6 +11,7 @@
 
 #define PUSH(x) _frame->_stack->add(x)
 #define POP() _frame->_stack->pop()
+#define TOP() _frame->_stack->top()
 #define STACK_LEVEL() _frame->_stack->size()
 #define PY_TRUE Universe::PyTrue
 #define PY_FALSE Universe::PyFalse
@@ -244,6 +245,20 @@ void Interpreter::run(CodeObject *codeObject) {
                 v = POP();
                 w = POP();
                 ((PyList*)w)->delete_subscr(v);
+                break;
+            case ByteCode::GET_ITER:
+                v = POP();
+                PUSH(v->iter());
+                break;
+            case ByteCode::FOR_ITER:
+                v = TOP();
+                w = v->getattr(new PyString("next"));
+                build_frame(w, NULL);
+
+                if (TOP() == NULL) {
+                    _frame->set_pc(_frame->get_pc() + op_arg);
+                    POP();
+                }
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
