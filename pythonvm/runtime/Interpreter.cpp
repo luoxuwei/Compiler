@@ -8,6 +8,7 @@
 #include "universe.h"
 #include "FunctionObject.h"
 #include "../object/PyList.h"
+#include "StringTable.h"
 
 #define PUSH(x) _frame->_stack->add(x)
 #define POP() _frame->_stack->pop()
@@ -252,7 +253,7 @@ void Interpreter::run(CodeObject *codeObject) {
                 break;
             case ByteCode::FOR_ITER:
                 v = TOP();
-                w = v->getattr(new PyString("next"));
+                w = v->getattr(StringTable::get_instance()->next_str);
                 build_frame(w, NULL);
 
                 if (TOP() == NULL) {
