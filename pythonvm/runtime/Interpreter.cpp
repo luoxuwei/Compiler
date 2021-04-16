@@ -55,7 +55,7 @@ void Interpreter::run(CodeObject *codeObject) {
             case ByteCode::BINARY_ADD:
                 v = POP();
                 w = POP();
-                PUSH(v->add(w));
+                PUSH(w->add(v));
                 break;
             case ByteCode::RETURN_VALUE:
                 _ret_value = POP();

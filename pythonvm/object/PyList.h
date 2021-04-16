@@ -22,6 +22,7 @@ public:
     virtual void delete_subscr(PyObject* x, PyObject* y) override;
     virtual PyObject *less(PyObject *x, PyObject *y) override;
     virtual PyObject* iter(PyObject* x) override;
+    virtual PyObject *add(PyObject *x, PyObject *y) override;
 };
 
 class ListIteratorKlass: public Klass {

@@ -118,6 +118,21 @@ PyObject * ListKlass::iter(PyObject *x) {
     return new ListIterator((PyList*)x);
 }
 
+PyObject * ListKlass::add(PyObject *x, PyObject *y) {
+    PyList* lx = (PyList*) x;
+    PyList* ly = (PyList*) y;
+    assert(lx && lx->klass() == this);
+    assert(ly && ly->klass() == this);
+    PyList* lr = new PyList();
+    for (int i=0; i<lx->size(); i++) {
+        lr->append(lx->get(i));
+    }
+    for (int i=0; i<ly->size(); i++) {
+        lr->append(ly->get(i));
+    }
+    return lr;
+}
+
 PyList::PyList() {
     _inner_list = new ArrayList<PyObject*>();
     set_kclass(ListKlass::get_instance());
