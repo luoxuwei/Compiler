@@ -23,6 +23,7 @@ public:
     virtual PyObject *less(PyObject *x, PyObject *y) override;
     virtual PyObject* iter(PyObject* x) override;
     virtual PyObject *add(PyObject *x, PyObject *y) override;
+    virtual PyObject *mul(PyObject *x, PyObject *y) override;
 };
 
 class ListIteratorKlass: public Klass {

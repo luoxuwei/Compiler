@@ -133,6 +133,20 @@ PyObject * ListKlass::add(PyObject *x, PyObject *y) {
     return lr;
 }
 
+PyObject * ListKlass::mul(PyObject *x, PyObject *y) {
+    PyList* lx = (PyList*) x;
+    assert(lx && lx->klass() == this);
+    PyInteger* iy = (PyInteger*) y;
+    assert(iy && iy->klass() == IntegerKlass::get_instance());
+    PyList* r = new PyList();
+    for (int i=0; i<iy->value(); i++) {
+        for (int j=0; j<lx->size(); j++) {
+            r->append(lx->get(j));
+        }
+    }
+    return r;
+}
+
 PyList::PyList() {
     _inner_list = new ArrayList<PyObject*>();
     set_kclass(ListKlass::get_instance());
