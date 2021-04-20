@@ -6,6 +6,7 @@
 #define PYTHONVM_PYDICT_H
 #include "PyObject.h"
 #include "../util/map.h"
+#include "../util/arraylist.h"
 
 class DictKlass: public Klass {
 private:
@@ -38,5 +39,6 @@ public:
 
 };
 
+PyObject* dict_set_default(ArrayList<PyObject*>* args);
 
 #endif //PYTHONVM_PYDICT_H

@@ -43,6 +43,9 @@ void Interpreter::run(CodeObject *codeObject) {
         }
 
         switch (opcode) {
+            case ByteCode::POP_TOP:
+                POP();
+                break;
             case ByteCode::LOAD_CONST:
                 PUSH(_frame->consts()->get(op_arg));
                 break;

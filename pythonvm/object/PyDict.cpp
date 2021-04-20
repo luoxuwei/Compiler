@@ -1,9 +1,10 @@
 //
 // Created by Xuwei Luo 罗旭维 on 2021/3/30.
 //
-
+#include "../runtime/universe.h"
 #include "PyDict.h"
 #include "PyString.h"
+#include "../runtime/FunctionObject.h"
 DictKlass* DictKlass::instance = NULL;
 
 DictKlass * DictKlass::get_instance() {
@@ -18,6 +19,9 @@ DictKlass::DictKlass() {
 }
 
 void DictKlass::initialize() {
+    PyDict* klass_dict = new PyDict();
+    klass_dict->put(new PyString("setdefault"), new FunctionObject(dict_set_default));
+    set_klass_dict(klass_dict);
     set_name(new PyString("dict"));
 }
 
@@ -63,4 +67,14 @@ void PyDict::update(PyDict *d) {
     for (int i=0; i<d->size(); i++) {
         put(d->map()->get_key(i), d->map()->get_value(i));
     }
+}
+
+PyObject* dict_set_default(ArrayList<PyObject*>* args) {
+    PyDict* dict = (PyDict*) args->get(0);
+    PyObject* key = args->get(1);
+    PyObject* value = args->get(2);
+    if (!dict->has_key(key)) {
+        dict->put(key, value);
+    }
+    return Universe::PyNone;
 }
