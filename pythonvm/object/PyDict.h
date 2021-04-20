@@ -20,6 +20,7 @@ public:
 //    virtual PyObject* iter(PyObject* x) override;
     virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z) override;
     virtual void print(PyObject* x) override;
+    virtual void delete_subscr(PyObject* x, PyObject* y);
 };
 
 class PyDict: public PyObject {
@@ -40,5 +41,6 @@ public:
 };
 
 PyObject* dict_set_default(ArrayList<PyObject*>* args);
+PyObject* dict_remove(ArrayList<PyObject*>* args);
 
 #endif //PYTHONVM_PYDICT_H

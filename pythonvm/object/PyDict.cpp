@@ -21,6 +21,7 @@ DictKlass::DictKlass() {
 void DictKlass::initialize() {
     PyDict* klass_dict = new PyDict();
     klass_dict->put(new PyString("setdefault"), new FunctionObject(dict_set_default));
+    klass_dict->put(new PyString("remove"), new FunctionObject(dict_remove));
     set_klass_dict(klass_dict);
     set_name(new PyString("dict"));
 }
@@ -58,6 +59,12 @@ PyDict::PyDict() {
     set_kclass(DictKlass::get_instance());
 }
 
+void DictKlass::delete_subscr(PyObject *x, PyObject *y) {
+    PyDict* dict = (PyDict*) x;
+    assert(x && x->klass() == this);
+    dict->remove(y);
+}
+
 PyDict::PyDict(Map<PyObject*, PyObject*>* map) {
     _map = map;
     set_kclass(DictKlass::get_instance());
@@ -76,5 +83,13 @@ PyObject* dict_set_default(ArrayList<PyObject*>* args) {
     if (!dict->has_key(key)) {
         dict->put(key, value);
     }
+    return Universe::PyNone;
+}
+
+PyObject* dict_remove(ArrayList<PyObject*>* args) {
+
+    PyDict* dict = (PyDict*) args->get(0);
+    PyObject* key = args->get(1);
+    dict->remove(key);
     return Universe::PyNone;
 }
