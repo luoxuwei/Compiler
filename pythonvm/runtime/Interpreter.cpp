@@ -9,6 +9,7 @@
 #include "FunctionObject.h"
 #include "../object/PyList.h"
 #include "StringTable.h"
+#include "../object/PyDict.h"
 
 #define PUSH(x) _frame->_stack->add(x)
 #define POP() _frame->_stack->pop()
@@ -265,6 +266,16 @@ void Interpreter::run(CodeObject *codeObject) {
                     _frame->set_pc(_frame->get_pc() + op_arg);
                     POP();
                 }
+                break;
+            case ByteCode::BUILD_MAP://这条指令是带参数的，指示了这字典初始化时键值对个数。
+                v = new PyDict();
+                PUSH(v);
+                break;
+            case ByteCode::STORE_MAP:
+                w = POP();
+                v = POP();
+                u = TOP();
+                ((PyDict*)u)->put(w, v);
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);

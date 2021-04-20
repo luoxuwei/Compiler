@@ -132,6 +132,7 @@ PyObject * StringKlass::less(PyObject *x, PyObject *y) {
     return Universe::PyFalse;
 }
 
+
 PyString::PyString(const char *x) {
     _len = strlen(x);
     _value = new char[_len];

@@ -15,9 +15,14 @@ private:
 public:
     void initialize();
     static DictKlass* get_instance();
+    virtual PyObject *subscr(PyObject* x, PyObject* y) override;
+//    virtual PyObject* iter(PyObject* x) override;
+    virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z) override;
+    virtual void print(PyObject* x) override;
 };
 
 class PyDict: public PyObject {
+friend class DictKlass;
 private:
     Map<PyObject*, PyObject*>* _map;
 public:
