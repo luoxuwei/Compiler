@@ -43,4 +43,5 @@ public:
 PyObject* dict_set_default(ArrayList<PyObject*>* args);
 PyObject* dict_remove(ArrayList<PyObject*>* args);
 PyObject* dict_keys(ArrayList<PyObject*>* args);
+PyObject* dict_values(ArrayList<PyObject*>* args);
 #endif //PYTHONVM_PYDICT_H
