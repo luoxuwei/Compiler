@@ -5,6 +5,7 @@
 #include "PyDict.h"
 #include "PyString.h"
 #include "../runtime/FunctionObject.h"
+#include "PyList.h"
 DictKlass* DictKlass::instance = NULL;
 
 DictKlass * DictKlass::get_instance() {
@@ -22,6 +23,7 @@ void DictKlass::initialize() {
     PyDict* klass_dict = new PyDict();
     klass_dict->put(new PyString("setdefault"), new FunctionObject(dict_set_default));
     klass_dict->put(new PyString("remove"), new FunctionObject(dict_remove));
+    klass_dict->put(new PyString("keys"), new FunctionObject(dict_keys));
     set_klass_dict(klass_dict);
     set_name(new PyString("dict"));
 }
@@ -92,4 +94,13 @@ PyObject* dict_remove(ArrayList<PyObject*>* args) {
     PyObject* key = args->get(1);
     dict->remove(key);
     return Universe::PyNone;
+}
+
+PyObject* dict_keys(ArrayList<PyObject*>* args) {
+    PyDict* dict = (PyDict*) args->get(0);
+    PyList* list = new PyList();
+    for (int i = 0; i<dict->size(); i++) {
+        list->append(dict->map()->entries()[i]._k);
+    }
+    return list;
 }
