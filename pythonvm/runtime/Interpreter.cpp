@@ -280,6 +280,12 @@ void Interpreter::run(CodeObject *codeObject) {
                 u = TOP();
                 ((PyDict*)u)->put(w, v);
                 break;
+            case ByteCode::UNPACK_SEQUENCE:
+                v = POP();
+                while (op_arg--) {
+                    PUSH(v->subscr(new PyInteger(op_arg)));
+                }
+                break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
         }

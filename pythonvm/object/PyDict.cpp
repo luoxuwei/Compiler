@@ -25,6 +25,7 @@ void DictKlass::initialize() {
     klass_dict->put(new PyString("remove"), new FunctionObject(dict_remove));
     klass_dict->put(new PyString("keys"), new FunctionObject(dict_keys));
     klass_dict->put(new PyString("values"), new FunctionObject(dict_values));
+    klass_dict->put(new PyString("items"), new FunctionObject(dict_items));
     set_klass_dict(klass_dict);
     set_name(new PyString("dict"));
 }
@@ -113,4 +114,18 @@ PyObject* dict_values(ArrayList<PyObject*>* args) {
         list->append(dict->map()->entries()[i]._v);
     }
     return list;
+}
+
+PyObject* dict_items(ArrayList<PyObject*>* args) {
+    PyDict* dict = (PyDict*) args->get(0);
+
+    PyList* items = new PyList();
+    PyList* item ;
+    for (int i=0; i<dict->size(); i++) {
+        item = new PyList();
+        item->append(dict->map()->get_key(i));
+        item->append(dict->map()->get_value(i));
+        items->append(item);
+    }
+    return items;
 }
