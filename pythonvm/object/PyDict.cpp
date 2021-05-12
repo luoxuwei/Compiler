@@ -7,6 +7,62 @@
 #include "../runtime/FunctionObject.h"
 #include "PyList.h"
 DictKlass* DictKlass::instance = NULL;
+template<ITER_TYPE n>
+DictIteratorKlass<n>* DictIteratorKlass<n>::instance = NULL;
+
+template<ITER_TYPE n>
+DictIteratorKlass<n> * DictIteratorKlass<n>::get_instance() {
+    if (instance == NULL) {
+        instance = new DictIteratorKlass<n>();
+    }
+    return instance;
+}
+
+template<ITER_TYPE n>
+DictIteratorKlass<n>::DictIteratorKlass() {
+    const char* klass_names[] = {
+            "dict-keyiter",
+            "dict_valueiter",
+            "dict_item  iter"
+    };
+    PyDict* dict = new PyDict();
+    dict->put(new PyString("next"), new FunctionObject(dict_iternext));
+    set_klass_dict(dict);
+    set_name(new PyString(klass_names[n]));
+}
+
+template<ITER_TYPE n>
+PyObject * DictIteratorKlass<n>::next(PyObject *x) {
+    DictIterator* iterator = (DictIterator*) x;
+    PyDict* dict = (PyDict*) iterator->owner();
+    int iter_cnt = iterator->iter_cnt();
+    if (iter_cnt < dict->map()->size()) {
+        PyObject* obj;
+        switch (n) {
+            case ITER_KEY:
+                obj = dict->map()->get_key(iter_cnt);
+                break;
+            case ITER_VALUE:
+                obj = dict->map()->get_value(iter_cnt);
+                break;
+            case ITER_ITEM:
+                PyList* lobj = new PyList();
+                lobj->append(dict->map()->get_key(iter_cnt));
+                lobj->append(dict->map()->get_value(iter_cnt));
+                obj = lobj;
+                break;
+        }
+        iterator->inc_cnt();
+        return obj;
+    } else {
+        return NULL;
+    }
+}
+
+DictIterator::DictIterator(PyDict *owner) {
+    _owner = owner;
+    _iter_cnt = 0;
+}
 
 DictKlass * DictKlass::get_instance() {
     if (instance == NULL) {
@@ -26,6 +82,9 @@ void DictKlass::initialize() {
     klass_dict->put(new PyString("keys"), new FunctionObject(dict_keys));
     klass_dict->put(new PyString("values"), new FunctionObject(dict_values));
     klass_dict->put(new PyString("items"), new FunctionObject(dict_items));
+    klass_dict->put(new PyString("iterkeys"), new FunctionObject(dict_iterkeys));
+    klass_dict->put(new PyString("iteritems"), new FunctionObject(dict_iteritems));
+    klass_dict->put(new PyString("itervalues"), new FunctionObject(dict_itervalues));
     set_klass_dict(klass_dict);
     set_name(new PyString("dict"));
 }
@@ -67,6 +126,14 @@ void DictKlass::delete_subscr(PyObject *x, PyObject *y) {
     PyDict* dict = (PyDict*) x;
     assert(x && x->klass() == this);
     dict->remove(y);
+}
+
+PyObject * DictKlass::iter(PyObject *x) {
+    assert(x && x->klass() == this);
+    PyDict* dict = (PyDict*) x;
+    PyObject* it = new DictIterator(dict);
+    it->set_kclass(DictIteratorKlass<ITER_KEY>::get_instance());
+    return it;
 }
 
 PyDict::PyDict(Map<PyObject*, PyObject*>* map) {
@@ -128,4 +195,31 @@ PyObject* dict_items(ArrayList<PyObject*>* args) {
         items->append(item);
     }
     return items;
+}
+
+PyObject* dict_iterkeys(ArrayList<PyObject*>* args) {
+    PyDict* dict = (PyDict*) args->get(0);
+    PyObject* it = new DictIterator(dict);
+    it->set_kclass(DictIteratorKlass<ITER_KEY>::get_instance());
+    return it;
+}
+
+PyObject* dict_iteritems(ArrayList<PyObject*>* args) {
+    PyDict* dict = (PyDict*) args->get(0);
+    PyObject* it = new DictIterator(dict);
+    it->set_kclass(DictIteratorKlass<ITER_ITEM>::get_instance());
+    return it;
+}
+
+
+PyObject* dict_itervalues(ArrayList<PyObject*>* args) {
+    PyDict* dict = (PyDict*) args->get(0);
+    PyObject* it = new DictIterator(dict);
+    it->set_kclass(DictIteratorKlass<ITER_VALUE>::get_instance());
+    return it;
+}
+
+PyObject* dict_iternext(ArrayList<PyObject*>* args) {
+    DictIterator* dict = (DictIterator*) args->get(0);
+    return dict->klass()->next(dict);
 }

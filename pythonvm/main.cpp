@@ -3,6 +3,7 @@
 #include "code/binaryFileParser.h"
 #include "runtime/Interpreter.h"
 #include "runtime/universe.h"
+#include "object/PyDict.h"
 
 //g++ -o test -g main.cpp
 //./test hello.pyc

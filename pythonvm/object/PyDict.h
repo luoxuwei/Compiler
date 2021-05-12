@@ -7,6 +7,33 @@
 #include "PyObject.h"
 #include "../util/map.h"
 #include "../util/arraylist.h"
+enum ITER_TYPE {
+    ITER_KEY=0,
+    ITER_VALUE,
+    ITER_ITEM
+};
+
+template<ITER_TYPE n>
+class DictIteratorKlass: public Klass {
+private:
+    static DictIteratorKlass* instance;
+    DictIteratorKlass();
+
+public:
+    static DictIteratorKlass* get_instance();
+    virtual PyObject* iter(PyObject* x) override {return x;}//入参实际上是一个迭代器对象
+    virtual PyObject* next(PyObject* x);
+};
+class DictIterator: public PyObject {
+private:
+    PyDict* _owner;
+    int _iter_cnt;
+public:
+    DictIterator(PyDict* owner);
+    PyDict* owner() {return _owner;}
+    int iter_cnt() {return _iter_cnt;}
+    void inc_cnt() {_iter_cnt++;}
+};
 
 class DictKlass: public Klass {
 private:
@@ -17,7 +44,7 @@ public:
     void initialize();
     static DictKlass* get_instance();
     virtual PyObject *subscr(PyObject* x, PyObject* y) override;
-//    virtual PyObject* iter(PyObject* x) override;
+    virtual PyObject* iter(PyObject* x) override;
     virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z) override;
     virtual void print(PyObject* x) override;
     virtual void delete_subscr(PyObject* x, PyObject* y);
@@ -45,4 +72,8 @@ PyObject* dict_remove(ArrayList<PyObject*>* args);
 PyObject* dict_keys(ArrayList<PyObject*>* args);
 PyObject* dict_values(ArrayList<PyObject*>* args);
 PyObject* dict_items(ArrayList<PyObject*>* args);
+PyObject* dict_iterkeys(ArrayList<PyObject*>* args);
+PyObject* dict_iteritems(ArrayList<PyObject*>* args);
+PyObject* dict_itervalues(ArrayList<PyObject*>* args);
+PyObject* dict_iternext(ArrayList<PyObject*>* args);
 #endif //PYTHONVM_PYDICT_H

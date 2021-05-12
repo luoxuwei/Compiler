@@ -233,6 +233,7 @@ void Interpreter::run(CodeObject *codeObject) {
                 w = _frame->names()->get(op_arg);
                 PUSH(v->getattr(w));
                 break;
+            case ByteCode::BUILD_TUPLE:
             case ByteCode::BUILD_LIST:
                 v = new PyList();
                 while (op_arg--) {

@@ -62,6 +62,7 @@ public:
     virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z) {}
     virtual void delete_subscr(PyObject* x, PyObject* y) {};
     virtual PyObject* iter(PyObject* x) {};
+    virtual PyObject* next(PyObject* x) {};
 
 };
 #endif //PYTHONVM_KLASS_H
