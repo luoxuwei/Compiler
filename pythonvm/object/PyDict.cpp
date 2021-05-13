@@ -6,6 +6,7 @@
 #include "PyString.h"
 #include "../runtime/FunctionObject.h"
 #include "PyList.h"
+#include "pytypeobject.h"
 DictKlass* DictKlass::instance = NULL;
 template<ITER_TYPE n>
 DictIteratorKlass<n>* DictIteratorKlass<n>::instance = NULL;
@@ -86,6 +87,7 @@ void DictKlass::initialize() {
     klass_dict->put(new PyString("iteritems"), new FunctionObject(dict_iteritems));
     klass_dict->put(new PyString("itervalues"), new FunctionObject(dict_itervalues));
     set_klass_dict(klass_dict);
+    (new PyTypeObject())->set_own_klass(this);
     set_name(new PyString("dict"));
 }
 

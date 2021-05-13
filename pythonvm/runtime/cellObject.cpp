@@ -5,6 +5,7 @@
 #include "cellObject.h"
 #include "../object/PyDict.h"
 #include "../object/PyString.h"
+#include "../object/pytypeobject.h"
 
 CellKlass* CellKlass::_instance = NULL;
 CellKlass * CellKlass::getInstance() {
@@ -16,6 +17,7 @@ CellKlass * CellKlass::getInstance() {
 
 CellKlass::CellKlass() {
     set_klass_dict(new PyDict());
+    (new PyTypeObject())->set_own_klass(this);
     set_name(new PyString("cell"));
 }
 

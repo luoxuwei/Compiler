@@ -9,6 +9,7 @@
 #include "PyString.h"
 #include "../runtime/FunctionObject.h"
 #include "PyObject.h"
+#include "pytypeobject.h"
 
 ListKlass* ListKlass::instance = NULL;
 ListKlass * ListKlass::get_instance() {
@@ -29,6 +30,7 @@ void ListKlass::initialize() {
     klass_dict->put(new PyString("remove"), new FunctionObject(list_remove));
     klass_dict->put(new PyString("reverse"), new FunctionObject(list_reverse));
     klass_dict->put(new PyString("sort"), new FunctionObject(list_sort));
+    (new PyTypeObject())->set_own_klass(this);
 
     set_klass_dict(klass_dict);
     set_name(new PyString("list"));

@@ -2,6 +2,7 @@
 // Created by Xuwei Luo 罗旭维 on 2021/3/22.
 //
 #include "CodeObject.h"
+#include "../object/pytypeobject.h"
 
 CodeObject::CodeObject(int argcount, int nlocals, int stacksize, int flag, PyString *bytecodes,
                        ArrayList<PyObject *> *consts, ArrayList<PyObject *> *names, ArrayList<PyObject *> *varnames,
@@ -33,5 +34,5 @@ CodeKlass * CodeKlass::get_instance() {
 }
 
 CodeKlass::CodeKlass() {
-
+    (new PyTypeObject())->set_own_klass(this);
 }

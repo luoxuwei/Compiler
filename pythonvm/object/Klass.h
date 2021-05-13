@@ -4,6 +4,8 @@
 
 #ifndef PYTHONVM_KLASS_H
 #define PYTHONVM_KLASS_H
+
+class PyTypeObject;
 class PyObject;
 class PyString;
 class PyDict;
@@ -18,6 +20,7 @@ class Klass {
 private:
     PyString *_name;
     PyDict* _klass_dict;
+    PyTypeObject* _type_object;
 public:
     Klass() {}
 
@@ -63,6 +66,7 @@ public:
     virtual void delete_subscr(PyObject* x, PyObject* y) {};
     virtual PyObject* iter(PyObject* x) {};
     virtual PyObject* next(PyObject* x) {};
-
+    void set_type_object(PyTypeObject* x) {_type_object = x;}
+    PyTypeObject* type_object() {return _type_object;}
 };
 #endif //PYTHONVM_KLASS_H

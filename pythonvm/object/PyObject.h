@@ -52,4 +52,14 @@ public:
 
 };
 
+class ObjectKlass : public Klass {
+private:
+    ObjectKlass();
+    static ObjectKlass* instance;
+
+public:
+    static ObjectKlass* get_instance();
+    void initialize();
+};
+
 #endif //PYTHONVM_JOBJECT_H

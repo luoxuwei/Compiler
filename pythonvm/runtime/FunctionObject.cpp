@@ -8,11 +8,12 @@
 #include "../object/PyDict.h"
 #include "../object/PyList.h"
 #include "../object/PyInteger.h"
+#include "../object/pytypeobject.h"
 
 FunctionKlass* FunctionKlass::_instance = NULL;
 
 FunctionKlass::FunctionKlass() {
-
+    (new PyTypeObject())->set_own_klass(this);
 }
 
 FunctionKlass * FunctionKlass::get_instance() {

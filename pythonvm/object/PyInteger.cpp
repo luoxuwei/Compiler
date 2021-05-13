@@ -6,6 +6,7 @@
 #include "stdio.h"
 #include "../runtime/universe.h"
 #include "../object/PyString.h"
+#include "pytypeobject.h"
 
 IntegerKlass* IntegerKlass::instance = NULL;
 
@@ -20,6 +21,7 @@ IntegerKlass * IntegerKlass::get_instance() {
 }
 
 void IntegerKlass::initialize() {
+    (new PyTypeObject())->set_own_klass(this);
     set_name(new PyString("int"));
 }
 

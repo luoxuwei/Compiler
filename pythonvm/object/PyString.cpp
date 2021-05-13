@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "../runtime/universe.h"
+#include "pytypeobject.h"
 
 StringKlass* StringKlass::instance = NULL;
 
@@ -26,6 +27,7 @@ StringKlass::StringKlass() {
 }
 
 void StringKlass::initialize() {
+    (new PyTypeObject())->set_own_klass(this);
     set_name(new PyString("str"));
 }
 

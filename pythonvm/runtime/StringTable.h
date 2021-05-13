@@ -14,6 +14,7 @@ private:
 public:
     static StringTable* get_instance();
     PyString* next_str;
+    PyString* mod_str;
 
 };
 

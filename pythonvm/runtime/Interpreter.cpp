@@ -11,6 +11,7 @@
 #include "StringTable.h"
 #include "../object/PyDict.h"
 #include "cellObject.h"
+#include "../object/pytypeobject.h"
 
 #define PUSH(x) _frame->_stack->add(x)
 #define POP() _frame->_stack->pop()
@@ -25,6 +26,12 @@ Interpreter::Interpreter() {
     _builtins->put(new PyString("False"), Universe::PyFalse);
     _builtins->put(new PyString("None"), Universe::PyNone);
     _builtins->put(new PyString("len"), new FunctionObject(len));
+    _builtins->put(new PyString("int"), IntegerKlass::get_instance()->type_object());
+    _builtins->put(new PyString("object"), ObjectKlass::get_instance()->type_object());
+    _builtins->put(new PyString("list"), ListKlass::get_instance()->type_object());
+    _builtins->put(new PyString("str"), StringKlass::get_instance()->type_object());
+    _builtins->put(new PyString("dict"), DictKlass::get_instance()->type_object());
+
 }
 
 void Interpreter::run(CodeObject *codeObject) {

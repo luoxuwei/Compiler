@@ -9,6 +9,7 @@
 #include "../runtime/FunctionObject.h"
 #include "../object/PyList.h"
 #include "../object/PyInteger.h"
+#include "../object/pytypeobject.h"
 
 PyObject* Universe::PyFalse = NULL;
 PyObject* Universe::PyTrue = NULL;
@@ -27,6 +28,8 @@ void Universe::genesis() {
     DictKlass::get_instance()->initialize();
     StringKlass::get_instance()->initialize();
     ListKlass::get_instance()->initialize();
+    TypeKlass::get_instance()->initialize();
+    ObjectKlass::get_instance()->initialize();
 }
 
 void Universe::destroy() {

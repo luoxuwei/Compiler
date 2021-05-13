@@ -22,7 +22,8 @@ add_library(pythonvm SHARED
         object/PyList.cpp
         object/klass.cpp
         runtime/StringTable.cpp
-        runtime/cellObject.cpp)
+        runtime/cellObject.cpp
+        object/pytypeobject.cpp)
 
 
 add_executable(test main.cpp)

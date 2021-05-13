@@ -7,9 +7,26 @@
 #include "PyDict.h"
 #include "../runtime/universe.h"
 #include "../runtime/FunctionObject.h"
+#include "pytypeobject.h"
+
+ObjectKlass* ObjectKlass::instance = NULL;
+
+ObjectKlass * ObjectKlass::get_instance() {
+    if (instance == NULL) {
+        instance = new ObjectKlass();
+    }
+    return instance;
+}
+
+ObjectKlass::ObjectKlass() {
+}
+
+void ObjectKlass::initialize() {
+    (new PyTypeObject())->set_own_klass(this);
+}
 
 PyObject::PyObject() {
-
+    set_kclass(ObjectKlass::get_instance());
 }
 
 void PyObject::print() {
