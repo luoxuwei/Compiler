@@ -10,6 +10,7 @@
 #include "../object/PyList.h"
 #include "StringTable.h"
 #include "../object/PyDict.h"
+#include "cellObject.h"
 
 #define PUSH(x) _frame->_stack->add(x)
 #define POP() _frame->_stack->pop()
@@ -290,6 +291,48 @@ void Interpreter::run(CodeObject *codeObject) {
                 while (op_arg--) {
                     PUSH(v->subscr(new PyInteger(op_arg)));
                 }
+                break;
+            case ByteCode::STORE_DEREF://参数op_arg是变量表的序号，保存cell变量也就是闭包依赖的外部函数定义的变量
+                _frame->closure()->set(op_arg, POP());
+                break;
+            case ByteCode::LOAD_DEREF:
+                v = _frame->closure()->get(op_arg);
+                if (v->klass() == CellKlass::getInstance()) {
+                    v = ((CellObject*)v)->value();
+                }
+                PUSH(v);
+                break;
+            case ByteCode::LOAD_CLOSURE:
+                //从closure表里取出来如果是空，就说明这个值不是局部变量，而是一个参数，
+                //这种情况就先把这个cell变量从参数列表里取出来，再存入到closure中
+                v = _frame->closure()->get(op_arg);
+                if (v == NULL) {
+                   v = _frame->get_cell_from_parameter(op_arg);
+                   _frame->closure()->set(op_arg, v);
+                }
+
+                if (v->klass() == CellKlass::getInstance()) {
+                    PUSH(v);
+                } else {
+                    PUSH(new CellObject(_frame->closure(), op_arg));
+                }
+                break;
+            case ByteCode::MAKE_CLOSURE:
+                v = POP();
+                fo = new FunctionObject(v);
+                fo->set_closure((PyList*) POP());
+                fo->set_gloabls(_frame->globals());
+                if (op_arg > 0) {
+                    args = new ArrayList<PyObject*>();
+                    while (op_arg--) {
+                        args->set(op_arg, POP());
+                    }
+                }
+                fo->set_defalts(args);
+                if (args != NULL) {
+                    args = NULL;
+                }
+                PUSH(fo);
                 break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);

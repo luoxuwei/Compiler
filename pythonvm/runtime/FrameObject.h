@@ -11,6 +11,7 @@
 #include "../code/CodeObject.h"
 #include "../util/map.h"
 #include "FunctionObject.h"
+#include "../object/PyList.h"
 
 class Block {
 public:
@@ -45,6 +46,7 @@ public:
     Map<PyObject*, PyObject*>* _locals;
     Map<PyObject*, PyObject*>* _globals;
     ArrayList<PyObject*>* _fast_locals;
+    PyList* _closure;
 
     CodeObject* _codes;
     int _pc;
@@ -70,6 +72,8 @@ public:
     unsigned char get_op_code();
     int get_op_arg();
     bool is_first_frame() {return _sender == NULL;}
+    PyList* closure() {return _closure;}
+    PyObject* get_cell_from_parameter(int i);
 };
 
 

@@ -119,6 +119,28 @@ FrameObject::FrameObject(FunctionObject *functionObject, ArrayList<PyObject*>* a
             }
         }
     }
+
+    _closure = NULL;
+    ArrayList<PyObject*>* cells = _codes->_cell_vars;
+    //code cell vars里保存的是当前定义闭包的函数里被闭包引用的变量，不是闭包对应的codeobject。闭包对应的codeobject反而cell vars是空的。
+    //进入到闭包执行的frame就是functionobject里保存的closuer列表，在MAKE_CLOSURE里创建时传入的，已经转换成了cellobject。
+    // 是LOAD_CLOSURE转换的，最终由build_tulpe打包成一个列表。
+    //所以整个流程是，先由LOAD_CLOSURE把闭包依赖的所有变量都加载到栈上，再由BUILD_TULPE指令打包成一个列表，在MAKE_CLOSURE里传入到FunctionObject里。
+
+    if (cells && cells->size() > 0) {
+        _closure = new PyList();
+        for (int i = 0; i < cells->size(); i++) {
+            _closure->append(NULL);
+        }
+    }
+
+    if (functionObject->closure() && functionObject->closure()->size() > 0) {
+        if (_closure == NULL) {
+            _closure = functionObject->closure();
+        } else {
+            _closure = (PyList*) _closure->add(functionObject->closure());
+        }
+    }
 }
 
 int FrameObject::get_op_arg() {
@@ -132,4 +154,12 @@ unsigned char FrameObject::get_op_code() {
 
 bool FrameObject::has_more_codes() {
     return _pc < _codes->_bytecodes->length();
+}
+
+//如果cell变量是一个参数不是局部变量，这种情况先把这个cell变量从参数列表中取出来，再存入clouser表中
+//这样LOAD_CLOSURE指令就可以直接使用closure指针和序号来构建CellObject了
+PyObject * FrameObject::get_cell_from_parameter(int i) {
+    PyObject* cell_name = _codes->_cell_vars->get(i);
+    i = _codes->_var_names->index(cell_name);
+    return _fast_locals->get(i);
 }

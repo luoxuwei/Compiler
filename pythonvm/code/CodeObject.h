@@ -40,12 +40,12 @@ public:
     int _flag;//code属性
 
     PyString* _bytecodes;
-    ArrayList<PyObject*>* _names;
+    ArrayList<PyObject*>* _names;//变量名列表
     ArrayList<PyObject*>* _consts;
-    ArrayList<PyObject*>* _var_names;
+    ArrayList<PyObject*>* _var_names;//参数名列表
 
     ArrayList<PyObject*>* _free_vars;
-    ArrayList<PyObject*>* _cell_vars;
+    ArrayList<PyObject*>* _cell_vars;//用于创建闭包，里面的变量都是在本函数中定义，在内部函数中被引用的。
 
     PyString* _co_name;
     PyString* _file_name;

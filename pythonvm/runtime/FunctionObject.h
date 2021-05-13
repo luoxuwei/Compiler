@@ -7,6 +7,7 @@
 #include "../object/Klass.h"
 #include "../code/CodeObject.h"
 #include "../util/map.h"
+#include "../object/PyList.h"
 
 class FunctionKlass: public Klass {
 private:
@@ -31,6 +32,7 @@ private:
     Map<PyObject*, PyObject*>* _globals;
     ArrayList<PyObject*>* _defaults;
     NativeFuncPointer _native_func;
+    PyList* _closure;
 public:
     enum CO_FLAGS {
         CO_VARARGS = 0x4,
@@ -56,6 +58,8 @@ public:
     void set_defalts(ArrayList<PyObject*>* defaults);
     ArrayList<PyObject*>* defaults() {return _defaults;}
     PyObject* call(ArrayList<PyObject*>* args);
+    PyList* closure() {return _closure;}
+    void set_closure(PyList* x) {_closure = x;}
 };
 
 class NativeFunctionClass: public Klass {
