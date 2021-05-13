@@ -22,6 +22,7 @@ IntegerKlass * IntegerKlass::get_instance() {
 
 void IntegerKlass::initialize() {
     (new PyTypeObject())->set_own_klass(this);
+    set_super(ObjectKlass::get_instance());
     set_name(new PyString("int"));
 }
 

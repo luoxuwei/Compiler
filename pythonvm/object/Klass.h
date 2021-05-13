@@ -21,10 +21,15 @@ private:
     PyString *_name;
     PyDict* _klass_dict;
     PyTypeObject* _type_object;
+    Klass* _super;
 public:
     Klass() {}
 
     static int compare_klass(Klass* x, Klass* y);
+
+    void set_super(Klass* k) { _super = k;}
+
+    Klass* super() {return _super;}
 
     void set_name(PyString *x) { _name = x; }
 

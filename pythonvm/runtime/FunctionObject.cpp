@@ -197,3 +197,18 @@ PyObject* list_sort(ArrayList<PyObject*>* args) {
 
     return Universe::PyNone;
 }
+
+PyObject* isinstance(ArrayList<PyObject*>* args) {
+    PyObject* x = args->get(0);
+    PyObject* y = args->get(1);
+    assert(y && y->klass() == TypeKlass::get_instance());
+    Klass* k = x->klass();
+    while (k != NULL) {
+        if (k == ((PyTypeObject*)y)->own_klass()) {
+            return Universe::PyTrue;
+        }
+        k = k->super();
+    }
+
+    return Universe::PyFalse;
+}
