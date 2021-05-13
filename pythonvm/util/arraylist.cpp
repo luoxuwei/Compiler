@@ -5,6 +5,7 @@
 #include "arraylist.h"
 #include <stdio.h>
 #include "../runtime/Interpreter.h"
+#include "../runtime/universe.h"
 
 template<typename T>
 ArrayList<T>::ArrayList(int n) {
@@ -90,6 +91,21 @@ void ArrayList<T>::delete_index(int index) {
 template<typename T>
 T ArrayList<T>::top() {
     return _data[_size-1];
+}
+
+template<typename T>
+int ArrayList<T>::index(T t) {
+    return 0;
+}
+
+template<>
+int ArrayList<PyObject*>::index(PyObject *t) {
+    for (int i = 0; i < _size; i++) {
+        if (_data[i]->equal(t) == Universe::PyTrue) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 //由于arraylist声明在h文件，实现在cpp文件，所以编译器不会自动实例化模版类

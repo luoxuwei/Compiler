@@ -32,6 +32,12 @@ private:
     ArrayList<PyObject*>* _defaults;
     NativeFuncPointer _native_func;
 public:
+    enum CO_FLAGS {
+        CO_VARARGS = 0x4,
+        CO_VARKEYWORDS = 0x8,
+        CO_GENERATOR = 0x20,
+    };
+
     FunctionObject(PyObject* code_object);
     FunctionObject(Klass* klass) {
         _func_code = NULL;

@@ -24,6 +24,7 @@ public:
     T pop();
     T top();
     void delete_index(int index);
+    int index(T t);
 };
 
 

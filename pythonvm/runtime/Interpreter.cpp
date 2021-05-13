@@ -197,12 +197,16 @@ void Interpreter::run(CodeObject *codeObject) {
                 break;
             case ByteCode::CALL_FUNCTION:
                 if (op_arg > 0) {
-                    args = new ArrayList<PyObject*>(op_arg);
-                    while (op_arg--) {
-                        args->set(op_arg, POP());
+                    int na = op_arg & 0xff;
+                    int nk = op_arg >> 8;
+                    int arg_cnt = na + 2*nk;
+
+                    args = new ArrayList<PyObject*>(arg_cnt);
+                    while (arg_cnt--) {
+                        args->set(arg_cnt, POP());
                     }
                 }
-                build_frame(POP(), args);
+                build_frame(POP(), args, op_arg);
                 if (args != NULL) {
                     delete args;
                     args = NULL;
@@ -264,7 +268,7 @@ void Interpreter::run(CodeObject *codeObject) {
             case ByteCode::FOR_ITER:
                 v = TOP();
                 w = v->getattr(StringTable::get_instance()->next_str);
-                build_frame(w, NULL);
+                build_frame(w, NULL, op_arg);
 
                 if (TOP() == NULL) {
                     _frame->set_pc(_frame->get_pc() + op_arg);
@@ -295,11 +299,11 @@ void Interpreter::run(CodeObject *codeObject) {
 
 }
 
-void Interpreter::build_frame(PyObject *pyObject, ArrayList<PyObject*>* args) {
+void Interpreter::build_frame(PyObject *pyObject, ArrayList<PyObject*>* args, int op_arg) {
     if (pyObject->klass() == NativeFunctionClass::get_instance()) {
         PUSH(((FunctionObject*)pyObject)->call(args));
     } else if (pyObject->klass() == FunctionKlass::get_instance()) {
-        FrameObject* frameObject = new FrameObject((FunctionObject*) pyObject, args);
+        FrameObject* frameObject = new FrameObject((FunctionObject*) pyObject, args, op_arg);
         frameObject->set_sender(_frame);
         _frame = frameObject;
     } else if (pyObject->klass() == MethodKlass::get_instance()) {
@@ -308,7 +312,7 @@ void Interpreter::build_frame(PyObject *pyObject, ArrayList<PyObject*>* args) {
             args = new ArrayList<PyObject*>();
         }
         args->insert(0, methodObject->owner());
-        build_frame(methodObject->func(), args);
+        build_frame(methodObject->func(), args, op_arg+1);
     }
 }
 

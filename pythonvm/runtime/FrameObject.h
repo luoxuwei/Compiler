@@ -36,7 +36,7 @@ public:
 class FrameObject {
 public:
     FrameObject(CodeObject* code);
-    FrameObject(FunctionObject* functionObject, ArrayList<PyObject*>* args);
+    FrameObject(FunctionObject* functionObject, ArrayList<PyObject*>* args, int op_arg);
     FrameObject();
     ArrayList<PyObject*>* _stack;
     ArrayList<PyObject*>* _consts;

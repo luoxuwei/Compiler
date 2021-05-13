@@ -16,7 +16,7 @@ private:
 public:
     Interpreter();
     void run(CodeObject* codeObject);
-    void build_frame(PyObject* pyObjec, ArrayList<PyObject*>* argst);
+    void build_frame(PyObject* pyObjec, ArrayList<PyObject*>* argst, int op_arg);
     void destroy_frame();
     void leave_frame();
 };
