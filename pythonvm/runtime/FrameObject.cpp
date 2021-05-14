@@ -53,6 +53,7 @@ FrameObject::FrameObject(FunctionObject *functionObject, ArrayList<PyObject*>* a
         }
     }
 
+
     if (args != NULL) {
         PyList* alist = NULL;//存扩展位置参数
         PyDict* adict = NULL;//存扩展键参数

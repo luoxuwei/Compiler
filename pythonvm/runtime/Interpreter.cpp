@@ -38,6 +38,9 @@ Interpreter::Interpreter() {
 void Interpreter::run(CodeObject *codeObject) {
     _frame = new FrameObject(codeObject);
 
+    //作为函数入口的那个模块，它的局部变量表里会设计__name__为__main__. 在程序开始，也就是创建第一个栈帧的时候才加入这个初始化
+    _frame->locals()->put(new PyString("__name__"), new PyString("__main__"));
+
     while (_frame->has_more_codes()) {
         unsigned int opcode = _frame->get_op_code();
         PyObject *v, *w, *u;
