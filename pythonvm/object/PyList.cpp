@@ -149,6 +149,14 @@ PyObject * ListKlass::mul(PyObject *x, PyObject *y) {
     return r;
 }
 
+PyObject * ListKlass::allocate_instance(ArrayList<PyObject *> *args) {
+    if (!args || args->length() == 0) {
+        return new PyList();
+    } else {
+        return NULL;
+    }
+}
+
 PyList::PyList() {
     _inner_list = new ArrayList<PyObject*>();
     set_kclass(ListKlass::get_instance());

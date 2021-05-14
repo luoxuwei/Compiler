@@ -135,6 +135,13 @@ PyObject * StringKlass::less(PyObject *x, PyObject *y) {
     return Universe::PyFalse;
 }
 
+PyObject * StringKlass::allocate_instance(ArrayList<PyObject *> *args) {
+    if (!args || args->length() == 0) {
+        return new PyString("");
+    } else {
+        return NULL;
+    }
+}
 
 PyString::PyString(const char *x) {
     _len = strlen(x);

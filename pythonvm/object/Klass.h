@@ -4,6 +4,7 @@
 
 #ifndef PYTHONVM_KLASS_H
 #define PYTHONVM_KLASS_H
+#include "../util/arraylist.h"
 
 class PyTypeObject;
 class PyObject;
@@ -73,5 +74,6 @@ public:
     virtual PyObject* next(PyObject* x) {};
     void set_type_object(PyTypeObject* x) {_type_object = x;}
     PyTypeObject* type_object() {return _type_object;}
+    virtual PyObject* allocate_instance(ArrayList<PyObject*>* args) {return 0;}
 };
 #endif //PYTHONVM_KLASS_H

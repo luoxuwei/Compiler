@@ -364,6 +364,9 @@ void Interpreter::build_frame(PyObject *pyObject, ArrayList<PyObject*>* args, in
         }
         args->insert(0, methodObject->owner());
         build_frame(methodObject->func(), args, op_arg+1);
+    } else if (pyObject->klass() == TypeKlass::get_instance()) {
+        PyObject* inst = ((PyTypeObject*) pyObject)->own_klass()->allocate_instance(args);
+        PUSH(inst);
     }
 }
 

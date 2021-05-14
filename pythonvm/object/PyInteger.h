@@ -38,6 +38,7 @@ public:
     virtual PyObject *div(PyObject *x, PyObject *y) { return NULL; }
 
     virtual PyObject *mod(PyObject *x, PyObject *y) { return NULL; }
+    virtual PyObject* allocate_instance(ArrayList<PyObject*>* args) override;
 };
 
 class PyInteger: public PyObject {

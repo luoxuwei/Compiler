@@ -24,6 +24,7 @@ public:
     virtual PyObject* iter(PyObject* x) override;
     virtual PyObject *add(PyObject *x, PyObject *y) override;
     virtual PyObject *mul(PyObject *x, PyObject *y) override;
+    virtual PyObject* allocate_instance(ArrayList<PyObject*>* args);
 };
 
 class ListIteratorKlass: public Klass {

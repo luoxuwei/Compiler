@@ -140,3 +140,11 @@ PyInteger::PyInteger(int v) {
     _value = v;
     set_kclass(IntegerKlass::get_instance());
 }
+
+PyObject * IntegerKlass::allocate_instance(ArrayList<PyObject *> *args) {
+    if (!args || args->length() == 0) {
+        return new PyInteger(0);
+    } else {
+        return NULL;
+    }
+}

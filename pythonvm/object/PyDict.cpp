@@ -106,6 +106,7 @@ void DictKlass::print(PyObject *x) {
     PyDict* dx = (PyDict*)x;
     assert(dx && dx->klass() == this);
     int size = dx->size();
+    printf("{");
     if (size >= 1) {
         dx->_map->entries()[0]._k->print();
         printf(":");
@@ -118,6 +119,7 @@ void DictKlass::print(PyObject *x) {
         printf(":");
         dx->_map->entries()[i]._v->print();
     }
+    printf("}");
 }
 
 PyDict::PyDict() {
@@ -137,6 +139,14 @@ PyObject * DictKlass::iter(PyObject *x) {
     PyObject* it = new DictIterator(dict);
     it->set_kclass(DictIteratorKlass<ITER_KEY>::get_instance());
     return it;
+}
+
+PyObject * DictKlass::allocate_instance(ArrayList<PyObject *> *args) {
+    if (!args || args->length() == 0) {
+        return new PyDict();
+    } else {
+        return NULL;
+    }
 }
 
 PyDict::PyDict(Map<PyObject*, PyObject*>* map) {
