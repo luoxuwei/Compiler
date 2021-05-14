@@ -13,7 +13,7 @@
 #include "cellObject.h"
 #include "../object/pytypeobject.h"
 
-#define PUSH(x) _frame->_stack->add(x)
+#define PUSH(x) _frame->_stack->append(x)
 #define POP() _frame->_stack->pop()
 #define TOP() _frame->_stack->top()
 #define STACK_LEVEL() _frame->_stack->size()

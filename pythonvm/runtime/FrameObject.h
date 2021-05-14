@@ -39,13 +39,13 @@ public:
     FrameObject(CodeObject* code);
     FrameObject(FunctionObject* functionObject, ArrayList<PyObject*>* args, int op_arg);
     FrameObject();
-    ArrayList<PyObject*>* _stack;
+    PyList* _stack;
     ArrayList<PyObject*>* _consts;
     ArrayList<PyObject*>* _names;
     ArrayList<Block*>* _loop_stack;
-    Map<PyObject*, PyObject*>* _locals;
-    Map<PyObject*, PyObject*>* _globals;
-    ArrayList<PyObject*>* _fast_locals;
+    PyDict* _locals;
+    PyDict* _globals;
+    PyList* _fast_locals;
     PyList* _closure;
 
     CodeObject* _codes;
@@ -60,13 +60,13 @@ public:
         _sender = sender;
     }
 
-    ArrayList<PyObject*>* stack() {return _stack;}
+    PyList* stack() {return _stack;}
     ArrayList<PyObject*>* consts() {return _consts;}
     ArrayList<Block*>* loop_stack() {return _loop_stack;}
     ArrayList<PyObject*>* names() {return _names;}
-    Map<PyObject*, PyObject*>* locals() {return _locals;}
-    Map<PyObject*, PyObject*>* globals() {return _globals;}
-    ArrayList<PyObject*>* fast_locals() {return _fast_locals;}
+    PyDict* locals() {return _locals;}
+    PyDict* globals() {return _globals;}
+    PyList* fast_locals() {return _fast_locals;}
 
     bool has_more_codes();
     unsigned char get_op_code();

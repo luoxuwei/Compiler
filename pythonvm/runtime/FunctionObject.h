@@ -29,7 +29,7 @@ private:
     PyString* _func_name;
     unsigned int _flags;
     //函数所依赖的全局变量是定义函数对象的时候，而不是调用函数的时候。这就要求必须为FunctionObject对象引入一个global变量表。
-    Map<PyObject*, PyObject*>* _globals;
+    PyDict* _globals;
     ArrayList<PyObject*>* _defaults;
     NativeFuncPointer _native_func;
     PyList* _closure;
@@ -53,8 +53,8 @@ public:
 
     PyString* func_name() {return _func_name;}
     unsigned int flags() {return _flags;}
-    Map<PyObject*, PyObject*>* globals() {return _globals;}
-    void set_gloabls(Map<PyObject*, PyObject*>* globlas) {_globals = globlas;}
+    PyDict* globals() {return _globals;}
+    void set_gloabls(PyDict* globlas) {_globals = globlas;}
     void set_defalts(ArrayList<PyObject*>* defaults);
     ArrayList<PyObject*>* defaults() {return _defaults;}
     PyObject* call(ArrayList<PyObject*>* args);

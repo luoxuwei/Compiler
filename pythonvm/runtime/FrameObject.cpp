@@ -16,8 +16,8 @@ FrameObject::FrameObject() {
 FrameObject::FrameObject(CodeObject *code) {
     _consts = code->_consts;
     _names = code->_names;
-    _locals = new Map<PyObject*, PyObject*>();
-    _stack = new ArrayList<PyObject*>();
+    _locals = new PyDict();
+    _stack = new PyList();
     _loop_stack = new ArrayList<Block*>();
     _globals = _locals; //
     _codes = code;
@@ -27,8 +27,8 @@ FrameObject::FrameObject(CodeObject *code) {
 
 FrameObject::FrameObject(FunctionObject *functionObject, ArrayList<PyObject*>* args, int op_arg) {
 
-    _locals = new Map<PyObject*, PyObject*>();
-    _stack = new ArrayList<PyObject*>();
+    _locals = new PyDict();
+    _stack = new PyList();
     _loop_stack = new ArrayList<Block*>();
     _codes = functionObject->_func_code;
     _consts = _codes->_consts;
@@ -36,7 +36,7 @@ FrameObject::FrameObject(FunctionObject *functionObject, ArrayList<PyObject*>* a
     _globals = functionObject->_globals;
     _pc = 0;
     _sender = NULL;
-    _fast_locals = new ArrayList<PyObject*>();
+    _fast_locals = new PyList();
     const int argcnt = _codes->_argcount;
     const int na = op_arg & 0xff;//
     const int nk = op_arg >> 8;
