@@ -32,6 +32,7 @@ Interpreter::Interpreter() {
     _builtins->put(new PyString("str"), StringKlass::get_instance()->type_object());
     _builtins->put(new PyString("dict"), DictKlass::get_instance()->type_object());
     _builtins->put(new PyString("isinstance"), new FunctionObject(isinstance));
+    _builtins->put(new PyString("type"), new FunctionObject(type_of));
 }
 
 void Interpreter::run(CodeObject *codeObject) {

@@ -18,11 +18,12 @@ TypeKlass * TypeKlass::get_instance() {
 
 void TypeKlass::initialize() {
     (new PyTypeObject())->set_own_klass(this);
+    set_name(new PyString("type"));
 }
 
 void TypeKlass::print(PyObject *obj) {
     assert(obj->klass() == this);
-    printf("<type");
+    printf("<type ");
     Klass* own_klass = ((PyTypeObject*) obj)->own_klass();
 
     PyDict* attr_dict = own_klass->klass_dict();

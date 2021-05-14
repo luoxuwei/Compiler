@@ -212,3 +212,8 @@ PyObject* isinstance(ArrayList<PyObject*>* args) {
 
     return Universe::PyFalse;
 }
+
+PyObject* type_of(ArrayList<PyObject*>* args) {
+    PyObject* x = args->get(0);
+    return x->klass()->type_object();
+}

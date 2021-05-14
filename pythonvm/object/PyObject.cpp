@@ -23,6 +23,7 @@ ObjectKlass::ObjectKlass() {
 
 void ObjectKlass::initialize() {
     (new PyTypeObject())->set_own_klass(this);
+    set_name(new PyString("object"));
 }
 
 PyObject::PyObject() {

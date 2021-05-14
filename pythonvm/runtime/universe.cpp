@@ -30,6 +30,8 @@ void Universe::genesis() {
     ListKlass::get_instance()->initialize();
     TypeKlass::get_instance()->initialize();
     ObjectKlass::get_instance()->initialize();
+
+
 }
 
 void Universe::destroy() {
