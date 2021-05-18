@@ -9,6 +9,8 @@
 #include "PyDict.h"
 #include "PyList.h"
 #include "pytypeobject.h"
+#include "../runtime/FrameObject.h"
+#include "../runtime/FunctionObject.h"
 
 int Klass::compare_klass(Klass *x, Klass *y) {
     if (x == y) {
@@ -62,4 +64,29 @@ PyObject * Klass::allocate_instance(PyObject* type_object, ArrayList<PyObject *>
     PyObject* inst = new PyObject();
     inst->set_kclass(((PyTypeObject*) type_object)->own_klass());
     return inst;
+}
+
+PyObject * Klass::setattr(PyObject *x, PyObject *y, PyObject *z) {
+    if (x->obj_dict() == NULL) {
+        x->init_dict();
+    }
+    x->obj_dict()->put(y, z);
+    return Universe::PyNone;
+}
+
+PyObject * Klass::getattr(PyObject *x, PyObject *y) {
+    PyObject* result;
+    if (x->obj_dict() != NULL) {
+        result = x->obj_dict()->get(y);
+        if (result != Universe::PyNone) return result;
+    }
+
+    result = klass_dict()->get(y);
+    if (result == Universe::PyNone) return result;
+//    if (MethodObject::is_function(result)) {
+//    }
+    if (result->klass() == FunctionKlass::get_instance()) {
+        result = new MethodObject((FunctionObject*)result, x);
+    }
+    return result;
 }

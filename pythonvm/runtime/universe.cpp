@@ -20,17 +20,17 @@ void Universe::genesis() {
     PyTrue = new PyString("True");
     PyNone = new PyString("None");
 
+    ObjectKlass::get_instance()->initialize();
+
     PyDict* klass_dict = new PyDict();
     StringKlass::get_instance()->set_klass_dict(klass_dict);
     klass_dict->put(new PyString("upper"), new FunctionObject(string_upper));
-    ObjectKlass::get_instance()->initialize();
 
     IntegerKlass::get_instance()->initialize();
     DictKlass::get_instance()->initialize();
     StringKlass::get_instance()->initialize();
     ListKlass::get_instance()->initialize();
     TypeKlass::get_instance()->initialize();
-
 
 }
 

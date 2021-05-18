@@ -77,17 +77,9 @@ PyObject * PyObject::len() {
     return _klass->len(this);
 }
 
+//获取类的属性，包括方法和字段
 PyObject * PyObject::getattr(PyObject *k) {
-    PyObject* result = klass()->klass_dict()->get(k);
-    if (result == Universe::PyNone) {
-        return result;
-    }
-//    if (MethodObject::is_function(result)) {
-//    }
-    if (result->klass() == FunctionKlass::get_instance()) {
-        result = new MethodObject((FunctionObject*)result, this);
-    }
-    return result;
+    return klass()->getattr(this, k);
 }
 
 PyObject * PyObject::subscr(PyObject *x) {
@@ -108,4 +100,12 @@ void PyObject::delete_subscr(PyObject *x) {
 
 PyObject * PyObject::iter() {
     return klass()->iter(this);
+}
+
+PyObject * PyObject::setattr(PyObject *x, PyObject *y) {
+    return klass()->setattr(this, x, y);
+}
+
+void PyObject::init_dict() {
+    _obj_dict = new PyDict();
 }

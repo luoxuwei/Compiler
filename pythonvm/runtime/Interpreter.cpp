@@ -359,6 +359,12 @@ void Interpreter::run(CodeObject *codeObject) {
                 v = Klass::create_class(v, u, w);
                 PUSH(v);
                 break;
+            case ByteCode::STORE_ATTR:
+                u = POP();
+                v = _frame->_names->get(op_arg);
+                w = POP();
+                u->setattr(v, w);
+                break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
         }

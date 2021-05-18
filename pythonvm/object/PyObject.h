@@ -11,11 +11,15 @@
 class PyObject {
 private:
     Klass* _klass;
+    PyDict* _obj_dict;
 public:
     PyObject();
 
     Klass* klass() {assert(_klass != NULL); return _klass;}
     void set_kclass(Klass* klass) { _klass = klass;}
+    PyObject* setattr(PyObject* x, PyObject* y);
+    PyDict* obj_dict() {return _obj_dict;}
+    void init_dict();
 
     void print();
 

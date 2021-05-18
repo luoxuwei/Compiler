@@ -5,6 +5,7 @@
 #include "binaryFileParser.h"
 #include <assert.h>
 #include "../runtime/universe.h"
+#include "../object/PyList.h"
 
 CodeObject * BinaryFileParser::parse() {
     int magic_number = input->read_int();
@@ -160,6 +161,11 @@ ArrayList<PyObject*>* BinaryFileParser::get_tuple() {
             case 'R':
                 list->add(_string_table.get(input->read_int()));
                 break;
+            case '(':
+                list->add(new PyList(get_tuple()));
+                break;
+            default:
+                printf("parser, unrecognized type : %c\n", obj_type);
 
         }
     }

@@ -80,5 +80,7 @@ public:
     PyTypeObject* type_object() {return _type_object;}
     virtual PyObject* allocate_instance(PyObject* type_object, ArrayList<PyObject*>* args);
     static PyObject* create_class(PyObject* x, PyObject* supers, PyObject* name);
+    PyObject* setattr(PyObject* x, PyObject* y, PyObject* z);
+    PyObject* getattr(PyObject* x, PyObject* y);
 };
 #endif //PYTHONVM_KLASS_H
