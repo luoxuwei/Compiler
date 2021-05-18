@@ -88,7 +88,7 @@ void DictKlass::initialize() {
     klass_dict->put(new PyString("itervalues"), new FunctionObject(dict_itervalues));
     set_klass_dict(klass_dict);
     (new PyTypeObject())->set_own_klass(this);
-    set_super(ObjectKlass::get_instance());
+    add_super(ObjectKlass::get_instance());
     set_name(new PyString("dict"));
 }
 
@@ -141,7 +141,7 @@ PyObject * DictKlass::iter(PyObject *x) {
     return it;
 }
 
-PyObject * DictKlass::allocate_instance(ArrayList<PyObject *> *args) {
+PyObject * DictKlass::allocate_instance(PyObject* type_object, ArrayList<PyObject *> *args) {
     if (!args || args->length() == 0) {
         return new PyDict();
     } else {

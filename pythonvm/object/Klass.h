@@ -10,6 +10,8 @@ class PyTypeObject;
 class PyObject;
 class PyString;
 class PyDict;
+class PyList;
+class PyTypeObject;
 /*
  * 需要一种机制来判断某个对象的实际类型到底是什么，在虚拟机中，最常用的解决办法就是Klass-Oop的二元结构。Klass代表一种具体类型
  * 它是类这个概念的实际体现。
@@ -22,15 +24,17 @@ private:
     PyString *_name;
     PyDict* _klass_dict;
     PyTypeObject* _type_object;
-    Klass* _super;
+    PyList* _super;
 public:
     Klass() {}
 
     static int compare_klass(Klass* x, Klass* y);
 
-    void set_super(Klass* k) { _super = k;}
+    void add_super(Klass* k);
 
-    Klass* super() {return _super;}
+    PyTypeObject* super();
+
+    void set_super_list(PyList* x) {_super = x;}
 
     void set_name(PyString *x) { _name = x; }
 
@@ -74,6 +78,7 @@ public:
     virtual PyObject* next(PyObject* x) {};
     void set_type_object(PyTypeObject* x) {_type_object = x;}
     PyTypeObject* type_object() {return _type_object;}
-    virtual PyObject* allocate_instance(ArrayList<PyObject*>* args) {return 0;}
+    virtual PyObject* allocate_instance(PyObject* type_object, ArrayList<PyObject*>* args);
+    static PyObject* create_class(PyObject* x, PyObject* supers, PyObject* name);
 };
 #endif //PYTHONVM_KLASS_H

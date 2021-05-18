@@ -31,7 +31,7 @@ void ListKlass::initialize() {
     klass_dict->put(new PyString("reverse"), new FunctionObject(list_reverse));
     klass_dict->put(new PyString("sort"), new FunctionObject(list_sort));
     (new PyTypeObject())->set_own_klass(this);
-    set_super(ObjectKlass::get_instance());
+    add_super(ObjectKlass::get_instance());
     set_klass_dict(klass_dict);
     set_name(new PyString("list"));
 }
@@ -149,7 +149,7 @@ PyObject * ListKlass::mul(PyObject *x, PyObject *y) {
     return r;
 }
 
-PyObject * ListKlass::allocate_instance(ArrayList<PyObject *> *args) {
+PyObject * ListKlass::allocate_instance(PyObject* type_object, ArrayList<PyObject *> *args) {
     if (!args || args->length() == 0) {
         return new PyList();
     } else {

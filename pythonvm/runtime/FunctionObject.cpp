@@ -202,12 +202,12 @@ PyObject* isinstance(ArrayList<PyObject*>* args) {
     PyObject* x = args->get(0);
     PyObject* y = args->get(1);
     assert(y && y->klass() == TypeKlass::get_instance());
-    Klass* k = x->klass();
+    PyTypeObject* k = x->klass()->type_object();
     while (k != NULL) {
-        if (k == ((PyTypeObject*)y)->own_klass()) {
+        if (k == y) {
             return Universe::PyTrue;
         }
-        k = k->super();
+        k = k->own_klass()->super();
     }
 
     return Universe::PyFalse;

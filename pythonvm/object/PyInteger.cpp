@@ -22,7 +22,7 @@ IntegerKlass * IntegerKlass::get_instance() {
 
 void IntegerKlass::initialize() {
     (new PyTypeObject())->set_own_klass(this);
-    set_super(ObjectKlass::get_instance());
+    add_super(ObjectKlass::get_instance());
     set_name(new PyString("int"));
 }
 
@@ -141,7 +141,7 @@ PyInteger::PyInteger(int v) {
     set_kclass(IntegerKlass::get_instance());
 }
 
-PyObject * IntegerKlass::allocate_instance(ArrayList<PyObject *> *args) {
+PyObject * IntegerKlass::allocate_instance(PyObject* type_object, ArrayList<PyObject *> *args) {
     if (!args || args->length() == 0) {
         return new PyInteger(0);
     } else {

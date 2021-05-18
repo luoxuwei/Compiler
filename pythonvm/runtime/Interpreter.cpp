@@ -345,6 +345,20 @@ void Interpreter::run(CodeObject *codeObject) {
                 }
                 PUSH(fo);
                 break;
+                //LOAD_LOCALS得到一个字典，里面记录了类A定义的各种方法和属性
+            case ByteCode::LOAD_LOCALS:   //函数，lamuda表达式，和类定义的代码都会翻译成一个CodeObject,
+                 PUSH(_frame->_locals);// LOAD_LOCALS指令是把当前栈帧的局部变量表加载到操作数栈
+                break;                    //是整个类定义的的CodeObject的返回值
+                //BUILD_CLASS要做的是用栈里的对象来创建新的Klass以及与它绑定的TypeObject。
+                //栈里第一个参数是通过LOAD_LOCALS得到的一个字典，里面记录了类A定义的各种方法和属性,第二个参数是代表父类的元组
+                //第三个是类名。类定义语句的作用是产生一个类对象TypeObject，并与类名绑定。执行类定义语句时，class定义里的那些代码都会被执行
+            case ByteCode::BUILD_CLASS:
+                v = POP();
+                u = POP();
+                w = POP();
+                v = Klass::create_class(v, u, w);
+                PUSH(v);
+                break;
             default:
                 printf("Error: Unrecognized byte code %d \n", opcode);
         }
@@ -368,7 +382,7 @@ void Interpreter::build_frame(PyObject *pyObject, ArrayList<PyObject*>* args, in
         args->insert(0, methodObject->owner());
         build_frame(methodObject->func(), args, op_arg+1);
     } else if (pyObject->klass() == TypeKlass::get_instance()) {
-        PyObject* inst = ((PyTypeObject*) pyObject)->own_klass()->allocate_instance(args);
+        PyObject* inst = ((PyTypeObject*) pyObject)->own_klass()->allocate_instance(pyObject, args);
         PUSH(inst);
     }
 }

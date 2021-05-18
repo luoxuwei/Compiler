@@ -48,7 +48,7 @@ public:
     virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z) override;
     virtual void print(PyObject* x) override;
     virtual void delete_subscr(PyObject* x, PyObject* y);
-    virtual PyObject* allocate_instance(ArrayList<PyObject*>* args);
+    virtual PyObject* allocate_instance(PyObject* type_object, ArrayList<PyObject*>* args);
 };
 
 class PyDict: public PyObject {

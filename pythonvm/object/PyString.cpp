@@ -29,7 +29,7 @@ StringKlass::StringKlass() {
 void StringKlass::initialize() {
     (new PyTypeObject())->set_own_klass(this);
     set_name(new PyString("str"));
-    set_super(ObjectKlass::get_instance());
+    add_super(ObjectKlass::get_instance());
 }
 
 void StringKlass::print(PyObject *x) {
@@ -135,7 +135,7 @@ PyObject * StringKlass::less(PyObject *x, PyObject *y) {
     return Universe::PyFalse;
 }
 
-PyObject * StringKlass::allocate_instance(ArrayList<PyObject *> *args) {
+PyObject * StringKlass::allocate_instance(PyObject* type_object, ArrayList<PyObject *> *args) {
     if (!args || args->length() == 0) {
         return new PyString("");
     } else {

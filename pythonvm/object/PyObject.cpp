@@ -84,7 +84,9 @@ PyObject * PyObject::getattr(PyObject *k) {
     }
 //    if (MethodObject::is_function(result)) {
 //    }
-    result = new MethodObject((FunctionObject*)result, this);
+    if (result->klass() == FunctionKlass::get_instance()) {
+        result = new MethodObject((FunctionObject*)result, this);
+    }
     return result;
 }
 
