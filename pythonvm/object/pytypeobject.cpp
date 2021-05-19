@@ -39,6 +39,11 @@ void TypeKlass::print(PyObject *obj) {
     printf(">");
 }
 
+PyObject * TypeKlass::setattr(PyObject *x, PyObject *y, PyObject *z) {
+    ((PyTypeObject*) x)->own_klass()->klass_dict()->put(y, z);
+    return Universe::PyNone;
+}
+
 void PyTypeObject::set_own_klass(Klass *k) {
     _own_klass = k;
     k->set_type_object(this);

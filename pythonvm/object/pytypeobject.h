@@ -27,6 +27,7 @@ public:
     static TypeKlass* get_instance();
     virtual void print(PyObject* obj);
     void initialize();
+    virtual PyObject* setattr(PyObject* x, PyObject* y, PyObject* z) override;
 };
 
 
