@@ -19,6 +19,14 @@
 #define STACK_LEVEL() _frame->_stack->size()
 #define PY_TRUE Universe::PyTrue
 #define PY_FALSE Universe::PyFalse
+Interpreter* Interpreter::_instance = NULL;
+
+Interpreter * Interpreter::get_instance() {
+    if (_instance == NULL) {
+        _instance = new Interpreter();
+    }
+    return _instance;
+}
 
 Interpreter::Interpreter() {
     _builtins = new Map<PyObject*, PyObject*>();
@@ -40,7 +48,10 @@ void Interpreter::run(CodeObject *codeObject) {
 
     //作为函数入口的那个模块，它的局部变量表里会设计__name__为__main__. 在程序开始，也就是创建第一个栈帧的时候才加入这个初始化
     _frame->locals()->put(new PyString("__name__"), new PyString("__main__"));
+    eval_frame();
+}
 
+void Interpreter::eval_frame() {
     while (_frame->has_more_codes()) {
         unsigned int opcode = _frame->get_op_code();
         PyObject *v, *w, *u;
@@ -80,7 +91,8 @@ void Interpreter::run(CodeObject *codeObject) {
                 break;
             case ByteCode::RETURN_VALUE:
                 _ret_value = POP();
-                if (_frame->is_first_frame()) {
+                if (_frame->is_first_frame()
+                        || _frame->is_entry_frame()) {
                     return;
                 }
                 leave_frame();
@@ -402,4 +414,31 @@ void Interpreter::destroy_frame() {
 void Interpreter::leave_frame() {
     destroy_frame();
     PUSH(_ret_value);
+}
+
+void Interpreter::enter_frame(FrameObject *frame) {
+    frame->set_sender(_frame);
+    _frame = frame;
+}
+
+PyObject * Interpreter::call_virtual(PyObject *func, ArrayList<PyObject *> *args) {
+    if (func->klass() == MethodKlass::get_instance()) {
+        if (args == NULL) {
+            args = new ArrayList<PyObject*>(1);
+        }
+        args->insert(0, ((MethodObject*) func)->owner());
+        return call_virtual(((MethodObject*) func)->func(), args);
+    } else if (func->klass() == FunctionKlass::get_instance()) {
+        //以前在执行RETURN_VALUE的时候，虚拟机并不会立即从eval_frame中返回，而是回到上一个虚拟栈帧继续执行。
+        //现在从虚拟机调研python代码的时候希望RETURN_VALUE可以直接接续eval_frame方法的执行，回到虚拟机中来
+        //因此引入了_entry_frame这个变量来标记。所有c++代码调用python代码产生的第一个frame，称之为entryframe。
+        int size = args ? args->size() : 0;
+        FrameObject* frame = new FrameObject((FunctionObject*)func, args, size);
+        frame->set_entry_frame(true);
+        enter_frame(frame);
+        eval_frame();
+        destroy_frame();
+        return _ret_value;
+    }
+    return Universe::PyNone;
 }

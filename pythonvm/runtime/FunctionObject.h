@@ -82,8 +82,8 @@ public:
 
 class MethodObject: public PyObject {
 private:
-    PyObject* _owner;
-    FunctionObject* _func;
+    PyObject* _owner = NULL;
+    FunctionObject* _func = NULL;
 public:
     MethodObject(FunctionObject* functionObject):_owner(NULL),_func(functionObject){
         set_kclass(MethodKlass::get_instance());
@@ -97,6 +97,7 @@ public:
     PyObject* owner() {return _owner;}
     FunctionObject* func() {return _func;}
     static bool is_function(PyObject* x);
+    static bool is_method(PyObject* x);
 };
 
 PyObject* len(ArrayList<PyObject*>* args);

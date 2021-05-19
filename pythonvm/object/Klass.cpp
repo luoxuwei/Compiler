@@ -11,6 +11,8 @@
 #include "pytypeobject.h"
 #include "../runtime/FrameObject.h"
 #include "../runtime/FunctionObject.h"
+#include "../runtime/StringTable.h"
+#include "../runtime/Interpreter.h"
 
 int Klass::compare_klass(Klass *x, Klass *y) {
     if (x == y) {
@@ -63,6 +65,10 @@ PyTypeObject * Klass::super() {
 PyObject * Klass::allocate_instance(PyObject* type_object, ArrayList<PyObject *> *args) {
     PyObject* inst = new PyObject();
     inst->set_kclass(((PyTypeObject*) type_object)->own_klass());
+    PyObject* init = inst->getattr(StringTable::get_instance()->init_str);
+    if (init != Universe::PyNone) {
+        Interpreter::get_instance()->call_virtual(init, args);
+    }
     return inst;
 }
 

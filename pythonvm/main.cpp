@@ -20,7 +20,6 @@ int main(int argc, char** argv) {
     BufferInputStream bis(path);
     BinaryFileParser fileParser(&bis);
     CodeObject* codeObject = fileParser.parse();
-    Interpreter interpreter;
-    interpreter.run(codeObject);
+    Interpreter::get_instance()->run(codeObject);
     return 0;
 }

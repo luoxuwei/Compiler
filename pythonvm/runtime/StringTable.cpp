@@ -16,4 +16,5 @@ StringTable * StringTable::get_instance() {
 StringTable::StringTable() {
     next_str = new PyString("next");
     mod_str = new PyString("__module__");
+    init_str = new PyString("__init__");
 }

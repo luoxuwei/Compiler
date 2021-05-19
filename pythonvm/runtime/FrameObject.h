@@ -51,6 +51,7 @@ public:
     CodeObject* _codes;
     int _pc;
     FrameObject* _sender;
+    bool _entry_frame;
 
 public:
     void set_pc(int pc) {_pc=pc;}
@@ -59,7 +60,8 @@ public:
     void set_sender(FrameObject* sender) {
         _sender = sender;
     }
-
+    void set_entry_frame(bool x) {_entry_frame = x;}
+    bool is_entry_frame() {return _entry_frame;}
     PyList* stack() {return _stack;}
     ArrayList<PyObject*>* consts() {return _consts;}
     ArrayList<Block*>* loop_stack() {return _loop_stack;}

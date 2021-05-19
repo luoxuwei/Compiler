@@ -12,7 +12,7 @@
 //该类型上定义的某个方法就让klass出面。这种组合的设计与Klass-Oop二分结构一致。
 class PyTypeObject: public PyObject {
 private:
-    Klass* _own_klass;
+    Klass* _own_klass = NULL;
 public:
     PyTypeObject();
     void set_own_klass(Klass* k);
