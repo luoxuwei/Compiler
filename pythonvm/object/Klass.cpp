@@ -109,3 +109,23 @@ PyObject * Klass::getattr(PyObject *x, PyObject *y) {
     }
     return result;
 }
+
+PyObject * Klass::add(PyObject *x, PyObject *y) {
+    ArrayList<PyObject*>* args = new ArrayList<PyObject*>();
+    args->add(y);
+    return find_and_call(x, args, StringTable::get_instance()->add_str);
+}
+
+PyObject * Klass::find_and_call(PyObject *lhs, ArrayList<PyObject *> *args, PyObject *func_name) {
+    PyObject* func = lhs->getattr(func_name);
+    if (func != Universe::PyNone) {
+        return Interpreter::get_instance()->call_virtual(func, args);
+    }
+
+    printf("class");
+    lhs->klass()->name()->print();
+    printf("Error: unsupport operation for class");
+    assert(false);
+    return Universe::PyNone;
+}
+

@@ -59,7 +59,7 @@ public:
 
 
 
-    virtual PyObject *add(PyObject *x, PyObject *y) {return 0;}
+    virtual PyObject *add(PyObject *x, PyObject *y);
 
     virtual PyObject *sub(PyObject *x, PyObject *y) { return 0; }
 
@@ -82,5 +82,6 @@ public:
     static PyObject* create_class(PyObject* x, PyObject* supers, PyObject* name);
     virtual PyObject* setattr(PyObject* x, PyObject* y, PyObject* z);
     virtual PyObject* getattr(PyObject* x, PyObject* y);
+    PyObject* find_and_call(PyObject* lhs, ArrayList<PyObject*>* args, PyObject* func_name);
 };
 #endif //PYTHONVM_KLASS_H

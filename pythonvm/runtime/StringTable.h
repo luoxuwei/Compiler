@@ -16,7 +16,7 @@ public:
     PyString* next_str = NULL;
     PyString* mod_str = NULL;
     PyString* init_str = NULL;
-
+    PyString* add_str = NULL;
 };
 
 
