@@ -79,7 +79,17 @@ PyObject * Klass::setattr(PyObject *x, PyObject *y, PyObject *z) {
     x->obj_dict()->put(y, z);
     return Universe::PyNone;
 }
-
+//bound和unbound function
+//如果从klass的dict中找到的目标对象是一个函数的话，要将函数与调用者对象绑定在一起合成一个MethodObject
+//如果是从obj dict中找到的函数就没有合成一个methodobject，在调用是要显示传入调用者对象
+//a=A(1)
+//b=A(2)
+//def func(self, v)
+//a.bar = func
+//A.bar = func
+//a.func(a, 1)
+//b.func(1)
+//如果一个函数没有绑定对象称之为unbound function;如果绑定了对象，它就是一个方法，称之为bound function。
 PyObject * Klass::getattr(PyObject *x, PyObject *y) {
     PyObject* result;
     if (x->obj_dict() != NULL) {
@@ -91,7 +101,10 @@ PyObject * Klass::getattr(PyObject *x, PyObject *y) {
     if (result == Universe::PyNone) return result;
 //    if (MethodObject::is_function(result)) {
 //    }
-    if (result->klass() == FunctionKlass::get_instance()) {
+    //必须加上NativeFuction，那些内置的str list等的method都是nativefunction必须包装成MethodObject，
+    // 不然执行的时候就无法和调研对象绑定，build_frame.
+    if (result->klass() == FunctionKlass::get_instance()
+        || result->klass() == NativeFunctionClass::get_instance()) {
         result = new MethodObject((FunctionObject*)result, x);
     }
     return result;

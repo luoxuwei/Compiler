@@ -48,7 +48,7 @@ public:
 
 class PyString: public PyObject {
 private:
-    char* _value;
+    char* _value = NULL;
     unsigned int _len;
 public:
     //可以使用strlen获取字符串长度

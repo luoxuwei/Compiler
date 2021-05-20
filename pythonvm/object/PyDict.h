@@ -54,7 +54,7 @@ public:
 class PyDict: public PyObject {
 friend class DictKlass;
 private:
-    Map<PyObject*, PyObject*>* _map;
+    Map<PyObject*, PyObject*>* _map = NULL;
 public:
     PyDict();
     PyDict(Map<PyObject*, PyObject*>* map);

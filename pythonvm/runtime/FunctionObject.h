@@ -25,14 +25,14 @@ class FunctionObject: public PyObject {
     friend class FunctionKlass;
     friend class FrameObject;
 private:
-    CodeObject* _func_code;
-    PyString* _func_name;
+    CodeObject* _func_code = NULL;
+    PyString* _func_name = NULL;
     unsigned int _flags;
     //函数所依赖的全局变量是定义函数对象的时候，而不是调用函数的时候。这就要求必须为FunctionObject对象引入一个global变量表。
-    PyDict* _globals;
-    ArrayList<PyObject*>* _defaults;
-    NativeFuncPointer _native_func;
-    PyList* _closure;
+    PyDict* _globals = NULL;
+    ArrayList<PyObject*>* _defaults = NULL;
+    NativeFuncPointer _native_func = NULL;
+    PyList* _closure = NULL;
 public:
     enum CO_FLAGS {
         CO_VARARGS = 0x4,

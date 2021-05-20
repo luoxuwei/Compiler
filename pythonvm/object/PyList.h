@@ -40,7 +40,7 @@ class PyList: public PyObject {
     friend class ListKlass;
 
 private:
-    ArrayList<PyObject*>* _inner_list;
+    ArrayList<PyObject*>* _inner_list = NULL;
 
 public:
     PyList();
@@ -58,7 +58,7 @@ public:
 
 class ListIterator: public PyObject {
 private:
-    PyList* _owner;
+    PyList* _owner = NULL;
     int _iter_cnt;
 public:
     ListIterator(PyList* owner);

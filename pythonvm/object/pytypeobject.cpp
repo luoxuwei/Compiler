@@ -38,7 +38,7 @@ void TypeKlass::print(PyObject *obj) {
     own_klass->name()->print();
     printf(">");
 }
-
+//A.field = "hello",A是类型不是对象
 PyObject * TypeKlass::setattr(PyObject *x, PyObject *y, PyObject *z) {
     ((PyTypeObject*) x)->own_klass()->klass_dict()->put(y, z);
     return Universe::PyNone;

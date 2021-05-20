@@ -21,10 +21,10 @@ class PyTypeObject;
  * */
 class Klass {
 private:
-    PyString *_name;
-    PyDict* _klass_dict;
-    PyTypeObject* _type_object;
-    PyList* _super;
+    PyString *_name = NULL;
+    PyDict* _klass_dict = NULL;
+    PyTypeObject* _type_object = NULL;
+    PyList* _super = NULL;
 public:
     Klass() {}
 

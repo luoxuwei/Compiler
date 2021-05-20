@@ -24,7 +24,7 @@ class CellObject: public PyObject {
     friend class CellKlass;
 
 private:
-    PyList* _table;//记录该cell变量所在的closure表
+    PyList* _table = NULL;//记录该cell变量所在的closure表
     int _index;//记录cell变量在表中的序号
     //这样做的话如果closure表中的变量被STORE_CLOSURE修改过，通过CellObject仍然可以访问到
 public:

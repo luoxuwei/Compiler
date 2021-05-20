@@ -36,7 +36,9 @@ void FunctionKlass::print(PyObject *x) {
 
 NativeFunctionClass* NativeFunctionClass::instance = NULL;
 NativeFunctionClass::NativeFunctionClass() {
-
+    set_name(new PyString("native function"));
+    PyTypeObject* type_obj = new PyTypeObject();
+    type_obj->set_own_klass(this);
 }
 NativeFunctionClass * NativeFunctionClass::get_instance() {
     if (instance == NULL) {
@@ -85,7 +87,11 @@ MethodKlass * MethodKlass::get_instance() {
     }
     return instance;
 }
+
 MethodKlass::MethodKlass() {
+    set_name(new PyString("method"));
+    PyTypeObject* type_obj = new PyTypeObject();
+    type_obj->set_own_klass(this);
     set_klass_dict(new PyDict());
 }
 

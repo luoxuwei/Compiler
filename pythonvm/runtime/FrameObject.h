@@ -39,6 +39,7 @@ public:
     FrameObject(CodeObject* code);
     FrameObject(FunctionObject* functionObject, ArrayList<PyObject*>* args, int op_arg);
     FrameObject();
+    ~FrameObject(){}
     PyList* _stack;
     ArrayList<PyObject*>* _consts;
     ArrayList<PyObject*>* _names;
