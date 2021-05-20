@@ -22,4 +22,6 @@ StringTable::StringTable() {
     call_str = new PyString("__call__");
     getitem_str = new PyString("__getitem__");
     setitem_str = new PyString("__setitem__");
+    setattr_str = new PyString("__setattr__");
+    getattr_str = new PyString("__getattr__");
 }

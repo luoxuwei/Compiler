@@ -73,6 +73,15 @@ PyObject * Klass::allocate_instance(PyObject* type_object, ArrayList<PyObject *>
 }
 
 PyObject * Klass::setattr(PyObject *x, PyObject *y, PyObject *z) {
+    PyObject* func = x->klass()->klass_dict()->get(StringTable::get_instance()->setattr_str);
+    if (func != Universe::PyNone && (func->klass() == FunctionKlass::get_instance()
+            || func->klass() == NativeFunctionClass::get_instance())) {
+        func = new MethodObject((FunctionObject*) func, x);
+        ArrayList<PyObject*>* args = new ArrayList<PyObject*>();
+        args->add(y);
+        args->add(z);
+        return Interpreter::get_instance()->call_virtual(func, args);
+    }
     if (x->obj_dict() == NULL) {
         x->init_dict();
     }
@@ -91,7 +100,15 @@ PyObject * Klass::setattr(PyObject *x, PyObject *y, PyObject *z) {
 //b.func(1)
 //如果一个函数没有绑定对象称之为unbound function;如果绑定了对象，它就是一个方法，称之为bound function。
 PyObject * Klass::getattr(PyObject *x, PyObject *y) {
-    PyObject* result;
+    PyObject* func = x->klass()->klass_dict()->get(StringTable::get_instance()->getattr_str);
+    if (func != Universe::PyNone && (func->klass() == FunctionKlass::get_instance()
+                                     || func->klass() == NativeFunctionClass::get_instance())) {
+        func = new MethodObject((FunctionObject*) func, x);
+        ArrayList<PyObject*>* args = new ArrayList<PyObject*>();
+        args->add(y);
+        return Interpreter::get_instance()->call_virtual(func, args);
+    }
+    PyObject* result = Universe::PyNone;
     if (x->obj_dict() != NULL) {
         result = x->obj_dict()->get(y);
         if (result != Universe::PyNone) return result;

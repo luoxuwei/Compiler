@@ -21,6 +21,8 @@ public:
     PyString* call_str = NULL;
     PyString* getitem_str = NULL;
     PyString* setitem_str = NULL;
+    PyString* setattr_str = NULL;
+    PyString* getattr_str = NULL;
 };
 
 
