@@ -18,6 +18,7 @@ public:
     PyString* init_str = NULL;
     PyString* add_str = NULL;
     PyString* len_str = NULL;
+    PyString* call_str = NULL;
 };
 
 

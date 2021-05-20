@@ -402,6 +402,14 @@ void Interpreter::build_frame(PyObject *pyObject, ArrayList<PyObject*>* args, in
     } else if (pyObject->klass() == TypeKlass::get_instance()) {
         PyObject* inst = ((PyTypeObject*) pyObject)->own_klass()->allocate_instance(pyObject, args);
         PUSH(inst);
+    } else {
+        PyObject* m = pyObject->getattr(StringTable::get_instance()->call_str);
+        if (m != Universe::PyNone) {
+            build_frame(m, args, op_arg);
+        } else {
+            pyObject->print();
+            printf("\nError: can not call a normal object.\n");
+        }
     }
 }
 

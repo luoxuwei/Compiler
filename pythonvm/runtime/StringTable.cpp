@@ -19,4 +19,5 @@ StringTable::StringTable() {
     init_str = new PyString("__init__");
     add_str = new PyString("__add__");
     len_str = new PyString("__len__");
+    call_str = new PyString("__call__");
 }
