@@ -133,3 +133,15 @@ PyObject * Klass::len(PyObject *x) {
     return find_and_call(x, NULL, StringTable::get_instance()->len_str);
 }
 
+PyObject * Klass::subscr(PyObject *x, PyObject *y) {
+    ArrayList<PyObject*>* args = new ArrayList<PyObject*>();
+    args->add(y);
+    return find_and_call(x, args, StringTable::get_instance()->getitem_str);
+}
+
+void Klass::store_subscr(PyObject *x, PyObject *y, PyObject *z) {
+    ArrayList<PyObject*>* args = new ArrayList<PyObject*>();
+    args->add(y);
+    args->add(z);
+    find_and_call(x, args, StringTable::get_instance()->setitem_str);
+}

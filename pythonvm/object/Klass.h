@@ -70,9 +70,9 @@ public:
     virtual PyObject *mod(PyObject *x, PyObject *y) { return 0; }
 
     virtual PyObject *len(PyObject *x);
-    virtual PyObject *subscr(PyObject* x, PyObject* y) {return 0;}
+    virtual PyObject *subscr(PyObject* x, PyObject* y);
     virtual PyObject* contains(PyObject* x, PyObject* y) {return 0;}
-    virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z) {}
+    virtual void store_subscr(PyObject* x, PyObject* y, PyObject* z);
     virtual void delete_subscr(PyObject* x, PyObject* y) {};
     virtual PyObject* iter(PyObject* x) {};
     virtual PyObject* next(PyObject* x) {};

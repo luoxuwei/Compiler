@@ -19,6 +19,8 @@ public:
     PyString* add_str = NULL;
     PyString* len_str = NULL;
     PyString* call_str = NULL;
+    PyString* getitem_str = NULL;
+    PyString* setitem_str = NULL;
 };
 
 

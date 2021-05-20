@@ -20,4 +20,6 @@ StringTable::StringTable() {
     add_str = new PyString("__add__");
     len_str = new PyString("__len__");
     call_str = new PyString("__call__");
+    getitem_str = new PyString("__getitem__");
+    setitem_str = new PyString("__setitem__");
 }
