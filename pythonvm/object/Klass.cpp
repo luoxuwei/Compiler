@@ -129,3 +129,7 @@ PyObject * Klass::find_and_call(PyObject *lhs, ArrayList<PyObject *> *args, PyOb
     return Universe::PyNone;
 }
 
+PyObject * Klass::len(PyObject *x) {
+    return find_and_call(x, NULL, StringTable::get_instance()->len_str);
+}
+
