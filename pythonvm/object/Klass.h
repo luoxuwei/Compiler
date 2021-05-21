@@ -25,6 +25,10 @@ private:
     PyDict* _klass_dict = NULL;
     PyTypeObject* _type_object = NULL;
     PyList* _super = NULL;
+    PyList* _mro = NULL;//记录该类的方法解析顺序 method resolution order.
+    //在python中类的定义一定会有先后顺序，所以绝对不可能出现两个类相互继承的情况。这样的话，无论继承的结构如何复杂，继承关系一定是
+    //一个有向无环图。查找方法就是遍历这个图，遍历过程中发现某个类定义了就直接返回。python中是以深度优先遍历为基础，然后加了一点改进
+    //区别在于遍历时被重复访问的节点，真正起作用的是最后一次。把深度优先遍历结果中重复的元素，只保留最后一次，就和实际探测的结果一致。
 public:
     Klass() {}
 
@@ -35,6 +39,10 @@ public:
     PyTypeObject* super();
 
     void set_super_list(PyList* x) {_super = x;}
+
+    PyList* mro() {return _mro;}
+
+    void order_supers();
 
     void set_name(PyString *x) { _name = x; }
 
@@ -83,5 +91,6 @@ public:
     virtual PyObject* setattr(PyObject* x, PyObject* y, PyObject* z);
     virtual PyObject* getattr(PyObject* x, PyObject* y);
     PyObject* find_and_call(PyObject* lhs, ArrayList<PyObject*>* args, PyObject* func_name);
+    PyObject* find_in_parents(PyObject* x, PyObject* y);
 };
 #endif //PYTHONVM_KLASS_H

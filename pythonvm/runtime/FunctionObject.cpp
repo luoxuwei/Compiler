@@ -14,6 +14,8 @@ FunctionKlass* FunctionKlass::_instance = NULL;
 
 FunctionKlass::FunctionKlass() {
     (new PyTypeObject())->set_own_klass(this);
+    set_name(new PyString("function"));
+    add_super(ObjectKlass::get_instance());
 }
 
 FunctionKlass * FunctionKlass::get_instance() {
@@ -38,6 +40,7 @@ NativeFunctionClass* NativeFunctionClass::instance = NULL;
 NativeFunctionClass::NativeFunctionClass() {
     set_name(new PyString("native function"));
     PyTypeObject* type_obj = new PyTypeObject();
+    add_super(ObjectKlass::get_instance());
     type_obj->set_own_klass(this);
 }
 NativeFunctionClass * NativeFunctionClass::get_instance() {

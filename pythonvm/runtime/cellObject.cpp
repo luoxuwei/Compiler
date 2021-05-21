@@ -18,6 +18,7 @@ CellKlass * CellKlass::getInstance() {
 CellKlass::CellKlass() {
     set_klass_dict(new PyDict());
     (new PyTypeObject())->set_own_klass(this);
+    add_super(ObjectKlass::get_instance());
     set_name(new PyString("cell"));
 }
 

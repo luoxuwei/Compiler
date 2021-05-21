@@ -46,6 +46,7 @@ PyObject * Klass::create_class(PyObject *x, PyObject *supers, PyObject *name) {
 
     PyTypeObject* type_obj = new PyTypeObject();
     type_obj->set_own_klass(new_klass);
+    new_klass->order_supers();
     return type_obj;
 }
 
@@ -100,7 +101,7 @@ PyObject * Klass::setattr(PyObject *x, PyObject *y, PyObject *z) {
 //b.func(1)
 //如果一个函数没有绑定对象称之为unbound function;如果绑定了对象，它就是一个方法，称之为bound function。
 PyObject * Klass::getattr(PyObject *x, PyObject *y) {
-    PyObject* func = x->klass()->klass_dict()->get(StringTable::get_instance()->getattr_str);
+    PyObject* func = find_in_parents(x, StringTable::get_instance()->getattr_str);
     if (func != Universe::PyNone && (func->klass() == FunctionKlass::get_instance()
                                      || func->klass() == NativeFunctionClass::get_instance())) {
         func = new MethodObject((FunctionObject*) func, x);
@@ -114,7 +115,7 @@ PyObject * Klass::getattr(PyObject *x, PyObject *y) {
         if (result != Universe::PyNone) return result;
     }
 
-    result = klass_dict()->get(y);
+    result = find_in_parents(x, y);
     if (result == Universe::PyNone) return result;
 //    if (MethodObject::is_function(result)) {
 //    }
@@ -123,6 +124,23 @@ PyObject * Klass::getattr(PyObject *x, PyObject *y) {
     if (result->klass() == FunctionKlass::get_instance()
         || result->klass() == NativeFunctionClass::get_instance()) {
         result = new MethodObject((FunctionObject*)result, x);
+    }
+    return result;
+}
+
+//处理继承
+PyObject * Klass::find_in_parents(PyObject *x, PyObject *y) {
+    PyObject* result = Universe::PyNone;
+    result = x->klass()->klass_dict()->get(y);
+    if(result != Universe::PyNone) return result;
+
+    //find attribute in all parents
+    if (x->klass()->mro() == NULL)
+        return result;
+
+    for (int i=0; i<x->klass()->mro()->size(); i++) {
+        result = ((PyTypeObject*)x->klass()->mro()->get(i))->own_klass()->klass_dict()->get(y);
+        if (result != Universe::PyNone) return result;
     }
     return result;
 }
@@ -161,4 +179,51 @@ void Klass::store_subscr(PyObject *x, PyObject *y, PyObject *z) {
     args->add(y);
     args->add(z);
     find_and_call(x, args, StringTable::get_instance()->setitem_str);
+}
+
+void Klass::order_supers() {
+    if (_super == NULL) return;
+
+    if (_mro == NULL) {
+        _mro = new PyList();
+    }
+
+    int cur = -1;
+    //cur用来判断两个父类中的mro顺序出现冲突的情况。考虑下面的例子：
+    // class A(X,Y), class B(Y,X), class C(B,A) python会报错
+    //因为B的mro是XY，A的mro是YX，当A和B做C的父类时，C的mro就出现矛盾。python会抛异常
+    //这种冲突的前提条件是两个元素在两个直接父类的mro中都出现并且在不同父类里的顺序不同。
+    //使用cur记录上一个元素出现重复的情况，如果在不同父类里的顺序不同，则直接报错退出
+    for (int i=0; i<_super->size(); i++) {
+        PyTypeObject* tp_obj = (PyTypeObject*)_super->get(i);
+        _mro->append(tp_obj);
+        if (tp_obj->own_klass()->mro() == NULL) {
+            continue;
+        }
+        Klass* k = tp_obj->own_klass();
+        for (int j=0; j<k->mro()->size(); j++) {
+            int index = _mro->inner_list()->index(k->mro()->get(j));
+            if (index < cur) {
+                printf("Error: method resolution order conflicts.\n");
+                assert(false);
+            }
+            cur = index;
+            if (index > 0) {
+                _mro->inner_list()->delete_index(index);
+            }
+            _mro->append(k->mro()->get(j));
+        }
+
+        if (_mro == NULL) {
+            return;
+        }
+
+        printf("%s' s mro is ", _name->value());
+        for (int i=0; i<_mro->size(); i++) {
+            PyTypeObject* tp_obj = (PyTypeObject*) (_mro->get(i));
+            Klass* k = tp_obj->own_klass();
+            printf("%s, ", k->name()->value());
+        }
+        printf("\n");
+    }
 }

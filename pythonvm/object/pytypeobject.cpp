@@ -18,6 +18,7 @@ TypeKlass * TypeKlass::get_instance() {
 
 void TypeKlass::initialize() {
     (new PyTypeObject())->set_own_klass(this);
+    add_super(ObjectKlass::get_instance());
     set_name(new PyString("type"));
 }
 

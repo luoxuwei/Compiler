@@ -10,6 +10,7 @@
 #include "../object/PyList.h"
 #include "../object/PyInteger.h"
 #include "../object/pytypeobject.h"
+#include "../runtime/cellObject.h"
 
 PyObject* Universe::PyFalse = NULL;
 PyObject* Universe::PyTrue = NULL;
@@ -19,6 +20,19 @@ void Universe::genesis() {
     PyFalse = new PyString("False");
     PyTrue = new PyString("True");
     PyNone = new PyString("None");
+
+    Klass* object_klass = ObjectKlass::get_instance();
+    Klass* type_klass   = TypeKlass::get_instance();
+
+    PyTypeObject* tp_obj = new PyTypeObject();
+    tp_obj->set_own_klass(type_klass);
+
+    PyTypeObject* obj_obj = new PyTypeObject();
+    obj_obj->set_own_klass(object_klass);
+
+    type_klass->add_super(object_klass);
+    // do nothing for object klass
+    //object_klass->add_super(NULL);
 
     ObjectKlass::get_instance()->initialize();
 
@@ -32,6 +46,20 @@ void Universe::genesis() {
     ListKlass::get_instance()->initialize();
     TypeKlass::get_instance()->initialize();
 
+    type_klass->set_klass_dict(new PyDict());
+    object_klass->set_klass_dict(new PyDict());
+
+    type_klass->set_name(new PyString("type"));
+    object_klass->set_name(new PyString("object"));
+
+    IntegerKlass::get_instance()->order_supers();
+    DictKlass::get_instance()->order_supers();
+    StringKlass::get_instance()->order_supers();
+    ListKlass::get_instance()->order_supers();
+    TypeKlass::get_instance()->order_supers();
+    FunctionKlass::get_instance()->order_supers();
+    NativeFunctionClass::get_instance()->order_supers();
+    CellKlass::getInstance()->order_supers();
 }
 
 void Universe::destroy() {
