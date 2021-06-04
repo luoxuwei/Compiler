@@ -5,6 +5,8 @@
 #ifndef PYTHONVM_ARRAYLIST_H
 #define PYTHONVM_ARRAYLIST_H
 #include <stdio.h>
+#include "../memory/oopClosure.h"
+
 template <typename T>
 class ArrayList {
 private:
@@ -25,6 +27,7 @@ public:
     T top();
     void delete_index(int index);
     int index(T t);
+    void oops_do(OopClosure* closure);;
 };
 
 

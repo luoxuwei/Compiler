@@ -108,6 +108,28 @@ int ArrayList<PyObject*>::index(PyObject *t) {
     return -1;
 }
 
+template<typename T>
+void ArrayList<T>::oops_do(OopClosure *closure) {
+    closure->do_raw_mem((char **)&_data, _length*sizeof(T));
+}
+
+//使用模版偏特化
+template<>
+void ArrayList<Klass*>::oops_do(OopClosure *closure) {
+    closure->do_raw_mem((char **)&_data, _length*sizeof(Klass*));
+    for (int i=0; i<_size; i++) {
+        closure->do_klass((Klass**)&_data[i]);
+    }
+}
+
+template<>
+void ArrayList<PyObject*>::oops_do(OopClosure *closure) {
+    closure->do_raw_mem((char **)&_data, _length*sizeof(PyObject*));
+    for (int i=0; i<_size; i++) {
+        closure->do_oop(&_data[i]);
+    }
+}
+
 //由于arraylist声明在h文件，实现在cpp文件，所以编译器不会自动实例化模版类
 //在这里进行声明强制编译器对模版类进行实例化
 class PyObject;

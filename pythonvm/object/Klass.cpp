@@ -238,12 +238,16 @@ Klass::Klass() {
     Universe::klasses->add(this);
 }
 
-void Klass::oops_do(OopClosure *closure) {
-
-}
-
 void Klass::oops_do(OopClosure *closure, PyObject *obj) {
     printf("warning: klass oops_do for ");
     _name->print();
     printf("\n");
+}
+
+void Klass::oops_do(OopClosure* f) {
+    f->do_oop((PyObject**)&_super);
+    f->do_oop((PyObject**)&_mro);
+    f->do_oop((PyObject**)&_name);
+    f->do_oop((PyObject**)&_klass_dict);
+    f->do_oop((PyObject**)&_type_object);
 }

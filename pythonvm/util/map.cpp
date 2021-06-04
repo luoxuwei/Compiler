@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "../object/PyObject.h"
 #include "../runtime/universe.h"
+#include "../memory/oopClosure.h"
 
 template<typename K, typename V>
 MapEntry<K,V>::MapEntry(const MapEntry<K, V> &entry) {
@@ -98,6 +99,17 @@ V Map<K,V>::remove(K k) {
     }
     return Universe::PyNone;
 }
+
+template<typename K, typename V>
+void Map<K, V>::oops_do(OopClosure * oopClosure) {
+    oopClosure->do_raw_mem((char**)(&_value),
+                        _length * sizeof(MapEntry<K, V>));
+    for (int i = 0; i < _size; i++) {
+        oopClosure->do_oop(&(_value[i]._k));
+        oopClosure->do_oop(&(_value[i]._v));
+    }
+}
+
 
 //强制编译器实例化，不然编译链接时会报Undefined symbols
 template class Map<PyObject*, PyObject*>;

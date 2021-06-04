@@ -6,6 +6,8 @@
 #include "../runtime/universe.h"
 #include "../runtime/Interpreter.h"
 #include "../runtime/StringTable.h"
+#include "../util/stack.h"
+#include "heap.h"
 
 void ScavengeOopClosure::scavenge() {
     //step1, mark roots
@@ -72,4 +74,53 @@ void ScavengeOopClosure::do_raw_mem(char **mem, int lenght) {
     char* target = (char*) _to->allocate(lenght);
     memcpy(target, (*mem), lenght);
     (*mem) = target;
+}
+
+void ScavengeOopClosure::do_array_list(ArrayList<Klass *> **alist) {
+    if (alist == NULL || *alist == NULL) {
+        return;
+    }
+
+    assert(_from->has_obj((char *)(*alist)));//防止重复回收
+    size_t size = sizeof(ArrayList<PyObject*>);
+    char *target = (char*)_to->allocate(size);
+    memcpy(target, *alist, size);
+    *(char **)alist = target;
+    (*alist)->oops_do(this);
+}
+
+//两个do_array_list 方法逻辑一样，不同的仅仅是输入的参数类型，正好可以用模版，但c++中虚方法不可以是模版方法所以只能用重载
+void ScavengeOopClosure::do_array_list(ArrayList<PyObject *> **alist) {
+    if (alist == NULL || *alist == NULL)
+        return;
+
+    assert(_from->has_obj((char*)*alist));
+
+    size_t size = sizeof(ArrayList<PyObject*>);
+    char* target = (char*)_to->allocate(size);
+    memcpy(target, (*alist), size);
+    (*(char**)alist) = target;
+    (*alist)->oops_do(this);
+}
+
+//class对象都放在meta空间不需要移动
+void ScavengeOopClosure::do_klass(Klass **k) {
+    if (k == NULL || *k == NULL)
+        return;
+
+    (*k)->oops_do(this);
+}
+
+void ScavengeOopClosure::do_map(Map<PyObject *, PyObject *> **amap) {
+    if (amap == NULL || *amap == NULL) {
+        return;
+    }
+
+    assert(_from->has_obj((char *)*amap));
+
+    size_t size = sizeof(Map<PyObject*, PyObject*>);
+    char* target = (char *)_to->allocate(size);
+    memcpy(target, *amap, size);
+    *(char **)amap = target;
+    (*amap)->oops_do(this);
 }

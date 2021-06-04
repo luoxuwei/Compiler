@@ -4,6 +4,7 @@
 
 #ifndef PYTHONVM_MAP_H
 #define PYTHONVM_MAP_H
+class OopClosure;
 template<typename K, typename V>
 class MapEntry {
 public:
@@ -36,7 +37,7 @@ public:
     V remove(K k);
     int index(K k);
     MapEntry<K, V>* entries() {return _value;};
-
+    void oops_do(OopClosure* oopClosure);
 };
 
 

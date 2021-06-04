@@ -4,11 +4,21 @@
 
 #ifndef PYTHONVM_OOPCLOSURE_H
 #define PYTHONVM_OOPCLOSURE_H
-#include "../object/PyObject.h"
-#include "../util/map.h"
-#include "../object/Klass.h"
-#include "heap.h"
-#include "../util/stack.h"
+
+class Space;
+class Heap;
+
+class PyObject;
+class Klass;
+
+template <typename T>
+class ArrayList;
+
+template <typename K, typename V>
+class Map;
+
+template <typename T>
+class Stack;
 
 class OopClosure {
 public:
