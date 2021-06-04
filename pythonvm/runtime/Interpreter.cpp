@@ -29,7 +29,7 @@ Interpreter * Interpreter::get_instance() {
 }
 
 Interpreter::Interpreter() {
-    _builtins = new Map<PyObject*, PyObject*>();
+    _builtins = new PyDict();
     _builtins->put(new PyString("True"), Universe::PyTrue);
     _builtins->put(new PyString("False"), Universe::PyFalse);
     _builtins->put(new PyString("None"), Universe::PyNone);
@@ -449,4 +449,12 @@ PyObject * Interpreter::call_virtual(PyObject *func, ArrayList<PyObject *> *args
         return _ret_value;
     }
     return Universe::PyNone;
+}
+
+void Interpreter::oops_do(OopClosure *closure) {
+    closure->do_oop((PyObject**)&_builtins);
+    closure->do_oop((PyObject**) &_ret_value);
+    if (_frame) {
+        _frame-
+    }
 }

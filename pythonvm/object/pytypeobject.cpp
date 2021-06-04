@@ -45,6 +45,10 @@ PyObject * TypeKlass::setattr(PyObject *x, PyObject *y, PyObject *z) {
     return Universe::PyNone;
 }
 
+size_t TypeKlass::size() {
+    return sizeof(PyTypeObject);
+}
+
 void PyTypeObject::set_own_klass(Klass *k) {
     _own_klass = k;
     k->set_type_object(this);

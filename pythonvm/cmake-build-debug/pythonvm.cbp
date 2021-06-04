@@ -140,6 +140,21 @@
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/main.cpp">
 			<Option target="test"/>
 		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/memory/heap.cpp">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/memory/heap.h">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/memory/oopClosure.cpp">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/memory/oopClosure.h">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/Klass.cpp">
+			<Option target="pythonvm"/>
+		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/Klass.h">
 			<Option target="pythonvm"/>
 		</Unit>
@@ -171,12 +186,6 @@
 			<Option target="pythonvm"/>
 		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/PyString.h">
-			<Option target="pythonvm"/>
-		</Unit>
-		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/klass.cpp">
-			<Option target="pythonvm"/>
-		</Unit>
-		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/klass.h">
 			<Option target="pythonvm"/>
 		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/object/pytypeobject.cpp">
@@ -234,6 +243,12 @@
 			<Option target="pythonvm"/>
 		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/util/map.h">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/util/stack.cpp">
+			<Option target="pythonvm"/>
+		</Unit>
+		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/util/stack.h">
 			<Option target="pythonvm"/>
 		</Unit>
 		<Unit filename="/Users/xuwei.luo/workspace/nio/project/Compiler/pythonvm/CMakeLists.txt">

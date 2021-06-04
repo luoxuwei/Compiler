@@ -36,3 +36,7 @@ CodeKlass * CodeKlass::get_instance() {
 CodeKlass::CodeKlass() {
     (new PyTypeObject())->set_own_klass(this);
 }
+
+size_t CodeKlass::size() {
+    return sizeof(CodeObject);
+}

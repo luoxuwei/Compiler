@@ -30,6 +30,7 @@ private:
 
 public:
     static CodeKlass* get_instance();
+    size_t size() override;
 };
 
 class CodeObject: public PyObject {

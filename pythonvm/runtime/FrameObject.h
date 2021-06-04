@@ -77,6 +77,7 @@ public:
     bool is_first_frame() {return _sender == NULL;}
     PyList* closure() {return _closure;}
     PyObject* get_cell_from_parameter(int i);
+    void oops_do(OopClosure* closure);
 };
 
 

@@ -5,6 +5,7 @@
 #ifndef PYTHONVM_STRINGTABLE_H
 #define PYTHONVM_STRINGTABLE_H
 #include "../object/PyString.h"
+#include "../memory/oopClosure.h"
 
 class StringTable {
 private:
@@ -23,6 +24,7 @@ public:
     PyString* setitem_str = NULL;
     PyString* setattr_str = NULL;
     PyString* getattr_str = NULL;
+    void oops_do(OopClosure* closure);
 };
 
 

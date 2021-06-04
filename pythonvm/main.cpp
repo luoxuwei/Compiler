@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
     Universe::genesis();
     BufferInputStream bis(path);
     BinaryFileParser fileParser(&bis);
-    CodeObject* codeObject = fileParser.parse();
-    Interpreter::get_instance()->run(codeObject);
+    Universe::main_code = fileParser.parse();
+    Interpreter::get_instance()->run(Universe::main_code);
     return 0;
 }

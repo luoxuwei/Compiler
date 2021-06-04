@@ -36,6 +36,10 @@ void FunctionKlass::print(PyObject *x) {
     printf(">");
 }
 
+size_t FunctionKlass::size() {
+    return sizeof(FunctionObject);
+}
+
 NativeFunctionClass* NativeFunctionClass::instance = NULL;
 NativeFunctionClass::NativeFunctionClass() {
     set_name(new PyString("native function"));
@@ -48,6 +52,10 @@ NativeFunctionClass * NativeFunctionClass::get_instance() {
         instance = new NativeFunctionClass();
     }
     return instance;
+}
+
+size_t NativeFunctionClass::size() {
+    return sizeof(FunctionObject);
 }
 
 FunctionObject::FunctionObject(PyObject *code_object) {
@@ -96,6 +104,10 @@ MethodKlass::MethodKlass() {
     PyTypeObject* type_obj = new PyTypeObject();
     type_obj->set_own_klass(this);
     set_klass_dict(new PyDict());
+}
+
+size_t MethodKlass::size() {
+    return sizeof(MethodObject);
 }
 
 bool MethodObject::is_function(PyObject *x) {

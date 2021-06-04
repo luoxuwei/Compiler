@@ -143,6 +143,10 @@ PyObject * StringKlass::allocate_instance(PyObject* type_object, ArrayList<PyObj
     }
 }
 
+size_t StringKlass::size() {
+    return sizeof(PyString);
+}
+
 PyString::PyString(const char *x) {
     _len = strlen(x);
     _value = new char[_len];

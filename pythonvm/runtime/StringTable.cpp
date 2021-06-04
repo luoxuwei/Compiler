@@ -25,3 +25,7 @@ StringTable::StringTable() {
     setattr_str = new PyString("__setattr__");
     getattr_str = new PyString("__getattr__");
 }
+
+void StringTable::oops_do(OopClosure *closure) {
+
+}

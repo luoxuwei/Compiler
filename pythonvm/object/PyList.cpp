@@ -157,6 +157,10 @@ PyObject * ListKlass::allocate_instance(PyObject* type_object, ArrayList<PyObjec
     }
 }
 
+size_t ListKlass::size() {
+    return sizeof(PyList);
+}
+
 PyList::PyList() {
     _inner_list = new ArrayList<PyObject*>();
     set_kclass(ListKlass::get_instance());
@@ -180,6 +184,10 @@ ListIteratorKlass * ListIteratorKlass::get_instance() {
         instance = new ListIteratorKlass();
     }
     return instance;
+}
+
+size_t ListIteratorKlass::size() {
+    return sizeof(ListIterator);
 }
 
 ListIterator::ListIterator(PyList *owner) {

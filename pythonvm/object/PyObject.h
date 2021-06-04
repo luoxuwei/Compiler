@@ -7,9 +7,12 @@
 #include "Klass.h"
 #include "stdio.h"
 #include "assert.h"
+#include "../memory/oopClosure.h"
+
 //python中所有数据都是对象，字符串/整数/浮点数/函数/模块/类定义等，它们都有共同的基类object。
 class PyObject {
 private:
+    long _mark_world=0; //放在偏移为0的位置
     Klass* _klass = NULL;
     PyDict* _obj_dict = NULL;
 public:
@@ -53,7 +56,10 @@ public:
     void store_subscr(PyObject* x, PyObject* y);
     void delete_subscr(PyObject* x);
     PyObject* iter();
-
+    void oops_do(OopClosure* oopClosure);
+    size_t size();
+    char* new_address();
+    void set_new_address(char* addr);
 };
 
 class ObjectKlass : public Klass {

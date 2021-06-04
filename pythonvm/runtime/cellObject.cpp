@@ -27,7 +27,7 @@ CellObject::CellObject(PyList *l, int i) :_index(i),_table(l) {
 }
 
 size_t CellKlass::size() {
-    return sizeof(CellKlass);
+    return sizeof(CellObject);
 }
 
 PyObject * CellObject::value() {

@@ -15,7 +15,7 @@ add_library(pythonvm SHARED
         code/bytecode.h
         runtime/universe.cpp
         util/map.cpp
-        object/Klass.h
+        object/Klass.cpp
         runtime/FrameObject.cpp
         runtime/FunctionObject.cpp
         object/PyDict.cpp
@@ -23,8 +23,10 @@ add_library(pythonvm SHARED
         object/klass.cpp
         runtime/StringTable.cpp
         runtime/cellObject.cpp
-        object/pytypeobject.cpp)
-
+        object/pytypeobject.cpp
+        util/stack.cpp
+        memory/heap.cpp
+        memory/oopClosure.cpp)
 
 add_executable(test main.cpp)
 

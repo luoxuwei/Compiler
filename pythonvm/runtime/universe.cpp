@@ -15,11 +15,15 @@
 PyObject* Universe::PyFalse = NULL;
 PyObject* Universe::PyTrue = NULL;
 PyObject* Universe::PyNone = NULL;
+ArrayList<Klass*>* Universe::klasses   = NULL;
+CodeObject* Universe::main_code = NULL;
 
 void Universe::genesis() {
     PyFalse = new PyString("False");
     PyTrue = new PyString("True");
     PyNone = new PyString("None");
+    klasses = new ArrayList<Klass*>();
+
 
     Klass* object_klass = ObjectKlass::get_instance();
     Klass* type_klass   = TypeKlass::get_instance();
@@ -64,4 +68,12 @@ void Universe::genesis() {
 
 void Universe::destroy() {
 
+}
+
+void Universe::oops_do(OopClosure *closure) {
+    closure->do_oop(&PyTrue);
+    closure->do_oop(&PyFalse);
+    closure->do_oop(&PyNone);
+    closure->do_oop((PyObject**)&main_code);
+    closure->do_array_list(&klasses);
 }

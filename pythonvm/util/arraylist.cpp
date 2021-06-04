@@ -118,3 +118,6 @@ template class ArrayList<PyString*>;
 
 class Block;
 template class ArrayList<Block*>;
+
+class Klass;
+template class ArrayList<Klass*>;

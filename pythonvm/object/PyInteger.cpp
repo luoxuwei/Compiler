@@ -136,6 +136,10 @@ PyObject * IntegerKlass::not_equal(PyObject *x, PyObject *y) {
     }
 }
 
+size_t IntegerKlass::size() {
+    return sizeof(PyInteger);
+}
+
 PyInteger::PyInteger(int v) {
     _value = v;
     set_kclass(IntegerKlass::get_instance());

@@ -164,3 +164,16 @@ PyObject * FrameObject::get_cell_from_parameter(int i) {
     i = _codes->_var_names->index(cell_name);
     return _fast_locals->get(i);
 }
+
+void FrameObject::oops_do(OopClosure *closure) {
+    closure->do_array_list(&_consts);
+    closure->do_array_list(&_names);
+    closure->do_oop((PyObject**) &_globals);
+    closure->do_oop((PyObject**) &_locals);
+    closure->do_oop((PyObject**) &_fast_locals);
+    closure->do_oop((PyObject**) &_stack);
+    closure->do_oop((PyObject**) &_codes);
+    if (_sender) {
+        _sender->oops_do(closure);
+    }
+}

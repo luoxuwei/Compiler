@@ -23,6 +23,7 @@ public:
     static DictIteratorKlass* get_instance();
     virtual PyObject* iter(PyObject* x) override {return x;}//入参实际上是一个迭代器对象
     virtual PyObject* next(PyObject* x);
+    size_t size() override;
 };
 class DictIterator: public PyObject {
 private:
@@ -49,6 +50,7 @@ public:
     virtual void print(PyObject* x) override;
     virtual void delete_subscr(PyObject* x, PyObject* y);
     virtual PyObject* allocate_instance(PyObject* type_object, ArrayList<PyObject*>* args);
+    size_t size() override;
 };
 
 class PyDict: public PyObject {

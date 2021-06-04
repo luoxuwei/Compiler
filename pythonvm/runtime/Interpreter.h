@@ -12,7 +12,7 @@ class Interpreter {
 private:
     FrameObject* _frame = NULL;
     PyObject* _ret_value = NULL;
-    Map<PyObject*, PyObject*>* _builtins = NULL;
+    PyDict* _builtins = NULL;
     Interpreter();
     static Interpreter* _instance;
 public:
@@ -24,6 +24,7 @@ public:
     void eval_frame();
     PyObject* call_virtual(PyObject* func, ArrayList<PyObject*>* args);
     void enter_frame(FrameObject* frame);
+    void oops_do(OopClosure* closure);
 };
 
 

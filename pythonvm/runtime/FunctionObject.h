@@ -17,6 +17,7 @@ private:
 public:
     static FunctionKlass* get_instance();
     virtual void print(PyObject* x) override;
+    size_t size() override;
 };
 
 typedef PyObject* (*NativeFuncPointer)(ArrayList<PyObject*>* args);
@@ -69,6 +70,7 @@ private:
 
 public:
     static NativeFunctionClass* get_instance();
+    size_t size() override;
 };
 
 class MethodKlass: public Klass {
@@ -78,6 +80,7 @@ private:
 
 public:
     static MethodKlass* get_instance();
+    size_t size() override;
 };
 
 class MethodObject: public PyObject {

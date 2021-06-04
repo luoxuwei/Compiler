@@ -109,3 +109,27 @@ PyObject * PyObject::setattr(PyObject *x, PyObject *y) {
 void PyObject::init_dict() {
     _obj_dict = new PyDict();
 }
+
+//没有直接赋值，而是将地址与2做了二进制"或运算"以后在赋值，这样做的目的是对forwarding指针加以区分。
+//堆中的地址都是8字节对齐的所以指向它们的指针的低3位就一定是0，在这里把从低位开始的第2位置为1是完全没问题的。
+//同样在new_address方法中，如果发现了当前的forwarding不为空，则需要将这个指针的低3位重置为0。也就是和"-8"进行"与操作"。
+void PyObject::set_new_address(char *addr) {
+    if (!addr)
+        return;
+    _mark_world = ((long)addr) | 0x2;
+}
+
+char * PyObject::new_address() {
+    if ((_mark_world & 0x2) == 0x2)
+        return (char*)(_mark_world&((long)-8));
+
+    return NULL;
+}
+
+size_t PyObject::size() {
+    return klass()->size();
+}
+
+void PyObject::oops_do(OopClosure *oopClosure) {
+
+}

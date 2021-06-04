@@ -44,6 +44,7 @@ public:
     virtual PyObject *subscr(PyObject* x, PyObject* y) override;
     PyObject* contains(PyObject* x, PyObject* y);
     virtual PyObject* allocate_instance(PyObject* type_object, ArrayList<PyObject*>* args);
+    size_t size() override;
 };
 
 class PyString: public PyObject {

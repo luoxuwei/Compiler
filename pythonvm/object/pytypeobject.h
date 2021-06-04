@@ -28,6 +28,7 @@ public:
     virtual void print(PyObject* obj);
     void initialize();
     virtual PyObject* setattr(PyObject* x, PyObject* y, PyObject* z) override;
+    size_t size() override;
 };
 
 

@@ -12,6 +12,7 @@ class PyString;
 class PyDict;
 class PyList;
 class PyTypeObject;
+class OopClosure;
 /*
  * 需要一种机制来判断某个对象的实际类型到底是什么，在虚拟机中，最常用的解决办法就是Klass-Oop的二元结构。Klass代表一种具体类型
  * 它是类这个概念的实际体现。
@@ -30,7 +31,7 @@ private:
     //一个有向无环图。查找方法就是遍历这个图，遍历过程中发现某个类定义了就直接返回。python中是以深度优先遍历为基础，然后加了一点改进
     //区别在于遍历时被重复访问的节点，真正起作用的是最后一次。把深度优先遍历结果中重复的元素，只保留最后一次，就和实际探测的结果一致。
 public:
-    Klass() {}
+    Klass();
 
     static int compare_klass(Klass* x, Klass* y);
 
@@ -92,5 +93,8 @@ public:
     virtual PyObject* getattr(PyObject* x, PyObject* y);
     PyObject* find_and_call(PyObject* lhs, ArrayList<PyObject*>* args, PyObject* func_name);
     PyObject* find_in_parents(PyObject* x, PyObject* y);
+    virtual size_t size();
+    virtual void oops_do(OopClosure* closure, PyObject* obj);
+    virtual void oops_do(OopClosure* closure);
 };
 #endif //PYTHONVM_KLASS_H

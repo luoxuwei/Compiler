@@ -39,6 +39,7 @@ public:
 
     virtual PyObject *mod(PyObject *x, PyObject *y) { return NULL; }
     virtual PyObject* allocate_instance(PyObject* type_object, ArrayList<PyObject*>* args) override;
+    size_t size() override;
 };
 
 class PyInteger: public PyObject {

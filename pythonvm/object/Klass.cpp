@@ -13,6 +13,8 @@
 #include "../runtime/FunctionObject.h"
 #include "../runtime/StringTable.h"
 #include "../runtime/Interpreter.h"
+#include "../util/arraylist.h"
+#include "../runtime/universe.h"
 
 int Klass::compare_klass(Klass *x, Klass *y) {
     if (x == y) {
@@ -226,4 +228,20 @@ void Klass::order_supers() {
         }
         printf("\n");
     }
+}
+
+size_t Klass::size() {
+    return sizeof(PyObject);
+}
+
+Klass::Klass() {
+    Universe::klasses->add(this);
+}
+
+void Klass::oops_do(OopClosure *closure) {
+
+}
+
+void Klass::oops_do(OopClosure *closure, PyObject *obj) {
+
 }

@@ -60,6 +60,11 @@ PyObject * DictIteratorKlass<n>::next(PyObject *x) {
     }
 }
 
+template<ITER_TYPE n>
+size_t DictIteratorKlass<n>::size() {
+    return sizeof(DictIterator);
+}
+
 DictIterator::DictIterator(PyDict *owner) {
     _owner = owner;
     _iter_cnt = 0;
@@ -147,6 +152,10 @@ PyObject * DictKlass::allocate_instance(PyObject* type_object, ArrayList<PyObjec
     } else {
         return NULL;
     }
+}
+
+size_t DictKlass::size() {
+    return sizeof(PyDict);
 }
 
 PyDict::PyDict(Map<PyObject*, PyObject*>* map) {
