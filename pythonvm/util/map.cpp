@@ -16,7 +16,7 @@ MapEntry<K,V>::MapEntry(const MapEntry<K, V> &entry) {
 }
 
 template<typename K, typename V>
-void * MapEntry<K,V>::operator new[](int size) {
+void * MapEntry<K,V>::operator new[](size_t size) {
     return Universe::heap->allocate(size);
 }
 
@@ -46,7 +46,7 @@ void Map<K, V>::expand() {
        for (int i=0; i<_size; i++) {
            newValue[i] = _value[i];
        }
-       delete[] _value;
+//       delete[] _value;
        _value = newValue;
        _length = _length<<1;
     }
@@ -117,7 +117,7 @@ void Map<K, V>::oops_do(OopClosure * oopClosure) {
 }
 
 template<typename K, typename V>
-void * Map<K,V>::operator new(int size) {
+void * Map<K,V>::operator new(size_t size) {
     return Universe::heap->allocate(size);
 }
 

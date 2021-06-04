@@ -22,10 +22,10 @@ Heap* Universe::heap = NULL;
 
 void Universe::genesis() {
     heap = Heap::get_instance();
+    klasses = new ArrayList<Klass*>();
     PyFalse = new PyString("False");
     PyTrue = new PyString("True");
     PyNone = new PyString("None");
-    klasses = new ArrayList<Klass*>();
 
 
     Klass* object_klass = ObjectKlass::get_instance();

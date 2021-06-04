@@ -232,7 +232,7 @@ void Interpreter::eval_frame() {
                 }
                 build_frame(POP(), args, op_arg);
                 if (args != NULL) {
-                    delete args;
+//                    delete args; 不能调用delete了，Arraylist重载了new操作符，内存在自己管理的堆中创建
                     args = NULL;
                 }
                 break;

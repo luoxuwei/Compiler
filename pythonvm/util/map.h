@@ -4,6 +4,8 @@
 
 #ifndef PYTHONVM_MAP_H
 #define PYTHONVM_MAP_H
+#include <stdio.h>
+
 class OopClosure;
 template<typename K, typename V>
 class MapEntry {
