@@ -11,14 +11,17 @@
 #include "../object/PyInteger.h"
 #include "../object/pytypeobject.h"
 #include "../runtime/cellObject.h"
+#include "../memory/heap.h"
 
 PyObject* Universe::PyFalse = NULL;
 PyObject* Universe::PyTrue = NULL;
 PyObject* Universe::PyNone = NULL;
 ArrayList<Klass*>* Universe::klasses   = NULL;
 CodeObject* Universe::main_code = NULL;
+Heap* Universe::heap = NULL;
 
 void Universe::genesis() {
+    heap = Heap::get_instance();
     PyFalse = new PyString("False");
     PyTrue = new PyString("True");
     PyNone = new PyString("None");

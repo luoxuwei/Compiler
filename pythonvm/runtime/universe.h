@@ -9,6 +9,7 @@
 #include "../util/arraylist.h"
 
 class Klass;
+class Heap;
 
 class Universe {
 public:
@@ -17,6 +18,7 @@ public:
     static PyObject* PyNone;
     static CodeObject* main_code;
     static ArrayList<Klass*>* klasses;
+    static Heap* heap;
 
 public:
     static void genesis();//这里创建虚拟机最原始的对象结构，虚拟机里所有的对象以后都会以这个方法为起点

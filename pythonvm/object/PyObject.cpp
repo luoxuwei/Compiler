@@ -8,6 +8,7 @@
 #include "../runtime/universe.h"
 #include "../runtime/FunctionObject.h"
 #include "pytypeobject.h"
+#include "../memory/heap.h"
 
 ObjectKlass* ObjectKlass::instance = NULL;
 
@@ -128,6 +129,10 @@ char * PyObject::new_address() {
 
 size_t PyObject::size() {
     return klass()->size();
+}
+
+void * PyObject::operator new(size_t size) {
+    return Universe::heap->allocate(size);
 }
 
 void PyObject::oops_do(OopClosure *oopClosure) {

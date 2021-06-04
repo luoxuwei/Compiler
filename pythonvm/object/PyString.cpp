@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "../runtime/universe.h"
 #include "pytypeobject.h"
+#include "../memory/heap.h"
 
 StringKlass* StringKlass::instance = NULL;
 
@@ -155,14 +156,16 @@ void StringKlass::oops_do(OopClosure *closure, PyObject* obj) {
 
 PyString::PyString(const char *x) {
     _len = strlen(x);
-    _value = new char[_len];
+//    _value = new char[_len];
+    _value = (char*)Universe::heap->allocate(_len);
     strcpy(_value, x);
     set_kclass(StringKlass::get_instance());
 }
 
 PyString::PyString(const char *x, const int len) {
     _len = len;
-    _value = new char[len];
+//    _value = new char[len];
+    _value = (char*)Universe::heap->allocate(_len);
     //do not use strcpy here, since '\0' is allowed.
     for (int i=0; i<len; i++) {
         _value[i] = x[i];

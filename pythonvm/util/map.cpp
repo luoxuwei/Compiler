@@ -7,11 +7,17 @@
 #include "../object/PyObject.h"
 #include "../runtime/universe.h"
 #include "../memory/oopClosure.h"
+#include "../memory/heap.h"
 
 template<typename K, typename V>
 MapEntry<K,V>::MapEntry(const MapEntry<K, V> &entry) {
     _k = entry._k;
     _v = entry._v;
+}
+
+template<typename K, typename V>
+void * MapEntry<K,V>::operator new[](int size) {
+    return Universe::heap->allocate(size);
 }
 
 template<typename K, typename V>
@@ -108,6 +114,11 @@ void Map<K, V>::oops_do(OopClosure * oopClosure) {
         oopClosure->do_oop(&(_value[i]._k));
         oopClosure->do_oop(&(_value[i]._v));
     }
+}
+
+template<typename K, typename V>
+void * Map<K,V>::operator new(int size) {
+    return Universe::heap->allocate(size);
 }
 
 

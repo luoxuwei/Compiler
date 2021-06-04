@@ -60,6 +60,12 @@ public:
     size_t size();
     char* new_address();
     void set_new_address(char* addr);
+    //c++中使用new来创建对象有三个步骤:1.分配内存;2.调用A()构造对象;3.返回分配指针.
+    //分配内存这个操作就是由 operator new(size_t)来完成的，如果类A重载了operator new
+    //那么将调用A::operator new(size_t)，否则调用全局"::operator new(size_t)",后者
+    //由c++默认提供。new带的参数就是sizeof(A)，通过这种方式，所有PyObject的子类在实例化的时候
+    //都会通过虚拟机的堆分配内存。也就是说，所有的Python对象全部都已经被管理起来了。
+    void* operator new(size_t size);
 };
 
 class ObjectKlass : public Klass {

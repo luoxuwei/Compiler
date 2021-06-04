@@ -27,7 +27,8 @@ public:
     T top();
     void delete_index(int index);
     int index(T t);
-    void oops_do(OopClosure* closure);;
+    void oops_do(OopClosure* closure);
+    void* operator new(size_t size);
 };
 
 

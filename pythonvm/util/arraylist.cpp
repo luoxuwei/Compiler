@@ -6,23 +6,31 @@
 #include <stdio.h>
 #include "../runtime/Interpreter.h"
 #include "../runtime/universe.h"
+#include "../memory/heap.h"
 
 template<typename T>
 ArrayList<T>::ArrayList(int n) {
     _length = n;
-    _data = new T[n];
+//    _data = new T[n];
+//我们不知道T的具体类型所以不能为T增加数组new 操作。这里就需要一种新的技巧，那就是placement new,也称为定位new。
+//在已分配的原始内存中初始化一个对象，它与new的其他版本的不同之处在于，它不分配内存。相反它接受一个已经分配好的内存地址，
+//然后在这块内存里初始化一个对象，这就使其能够在特定的预分配的内存地址中构造一个对象。简单来说就是定位new可以让我们有办法单独地调用构造函数。
+    void* temp = Universe::heap->allocate(sizeof(T)*n);
+    _data = new(temp)T[n];
     _size = 0;
 }
 
 template<typename T>
 void ArrayList<T>::expend() {
     if (_size < _length) return;
-    T* temp = new T[_length<<1];
+//    T* temp = new T[_length<<1];
+    void* temp = Universe::heap->allocate(sizeof(T)*(_length<<1));
+    T* new_array = new(temp)T[_length<<1];
     for (int i=0; i<_size; i++) {
-        temp[i] = _data[i];
+        new_array[i] = _data[i];
     }
-    delete _data;
-    _data = temp;
+//    delete _data;
+    _data = new_array;
     _length = _length<<1;
     printf("expend an array to %d, size is %d\n", _length, _size);
 }
@@ -129,6 +137,12 @@ void ArrayList<PyObject*>::oops_do(OopClosure *closure) {
         closure->do_oop(&_data[i]);
     }
 }
+
+template<typename T>
+void * ArrayList<T>::operator new(size_t size) {
+    return Universe::heap->allocate(size);
+}
+
 
 //由于arraylist声明在h文件，实现在cpp文件，所以编译器不会自动实例化模版类
 //在这里进行声明强制编译器对模版类进行实例化

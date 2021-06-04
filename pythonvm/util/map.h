@@ -14,6 +14,8 @@ public:
     MapEntry():_v(0),_k(0){}
     MapEntry(K k, V v):_k(k), _v(v) {}
     MapEntry(const MapEntry<K, V>& entry);
+    //在map创建的MapEntry都是数组形式
+    void * operator new[](size_t size);
 
 };
 
@@ -38,6 +40,7 @@ public:
     int index(K k);
     MapEntry<K, V>* entries() {return _value;};
     void oops_do(OopClosure* oopClosure);
+    void* operator new(size_t size);
 };
 
 

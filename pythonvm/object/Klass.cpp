@@ -15,6 +15,7 @@
 #include "../runtime/Interpreter.h"
 #include "../util/arraylist.h"
 #include "../runtime/universe.h"
+#include "../memory/heap.h"
 
 int Klass::compare_klass(Klass *x, Klass *y) {
     if (x == y) {
@@ -250,4 +251,8 @@ void Klass::oops_do(OopClosure* f) {
     f->do_oop((PyObject**)&_name);
     f->do_oop((PyObject**)&_klass_dict);
     f->do_oop((PyObject**)&_type_object);
+}
+
+void * Klass::operator new(size_t size) {
+    return Universe::heap->allocate_meta(size);
 }
