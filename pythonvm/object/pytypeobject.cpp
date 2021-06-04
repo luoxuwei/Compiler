@@ -57,3 +57,7 @@ void PyTypeObject::set_own_klass(Klass *k) {
 PyTypeObject::PyTypeObject() {
     set_kclass(TypeKlass::get_instance());
 }
+
+void TypeKlass::oops_do(OopClosure *closure, PyObject *obj) {
+
+}

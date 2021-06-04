@@ -127,6 +127,12 @@ void DictKlass::print(PyObject *x) {
     printf("}");
 }
 
+void DictKlass::oops_do(OopClosure *closure, PyObject *obj) {
+    assert(obj->klass() == (Klass*)this);
+
+    closure->do_map(&((PyDict*)obj)->_map);
+}
+
 PyDict::PyDict() {
     _map = new Map<PyObject*, PyObject*>();
     set_kclass(DictKlass::get_instance());

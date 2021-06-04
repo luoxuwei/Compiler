@@ -40,6 +40,17 @@ size_t FunctionKlass::size() {
     return sizeof(FunctionObject);
 }
 
+void FunctionKlass::oops_do(OopClosure *closure, PyObject *obj) {
+    FunctionObject* fo = (FunctionObject*)obj;
+    assert(fo->klass() == (Klass*)this);
+
+    closure->do_oop((PyObject**)&fo->_func_code);
+    closure->do_oop((PyObject**)&fo->_func_name);
+    closure->do_oop((PyObject**)&fo->_globals);
+    closure->do_oop((PyObject**)&fo->_closure);
+    closure->do_array_list(&fo->_defaults);
+}
+
 NativeFunctionClass* NativeFunctionClass::instance = NULL;
 NativeFunctionClass::NativeFunctionClass() {
     set_name(new PyString("native function"));
@@ -56,6 +67,17 @@ NativeFunctionClass * NativeFunctionClass::get_instance() {
 
 size_t NativeFunctionClass::size() {
     return sizeof(FunctionObject);
+}
+
+void NativeFunctionClass::oops_do(OopClosure *closure, PyObject *obj) {
+    FunctionObject* fo = (FunctionObject*)obj;
+    assert(fo->klass() == (Klass*)this);
+
+    closure->do_oop((PyObject**)&fo->_func_code);
+    closure->do_oop((PyObject**)&fo->_func_name);
+    closure->do_oop((PyObject**)&fo->_globals);
+    closure->do_oop((PyObject**)&fo->_closure);
+    closure->do_array_list(&fo->_defaults);
 }
 
 FunctionObject::FunctionObject(PyObject *code_object) {
@@ -114,7 +136,13 @@ bool MethodObject::is_function(PyObject *x) {
     return x->klass() == FunctionKlass::get_instance();
 }
 
+void MethodKlass::oops_do(OopClosure *closure, PyObject *obj) {
+    MethodObject* mo = (MethodObject*)obj;
+    assert(mo->klass() == (Klass*)this);
 
+    closure->do_oop((PyObject**)&mo->_owner);
+    closure->do_oop((PyObject**)&mo->_func);
+}
 
 PyObject* len(ArrayList<PyObject*>* args) {
     return args->get(0)->len();

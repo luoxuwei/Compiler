@@ -51,6 +51,7 @@ public:
     virtual void delete_subscr(PyObject* x, PyObject* y);
     virtual PyObject* allocate_instance(PyObject* type_object, ArrayList<PyObject*>* args);
     size_t size() override;
+    void oops_do(OopClosure *closure, PyObject *obj) override;
 };
 
 class PyDict: public PyObject {

@@ -243,5 +243,7 @@ void Klass::oops_do(OopClosure *closure) {
 }
 
 void Klass::oops_do(OopClosure *closure, PyObject *obj) {
-
+    printf("warning: klass oops_do for ");
+    _name->print();
+    printf("\n");
 }

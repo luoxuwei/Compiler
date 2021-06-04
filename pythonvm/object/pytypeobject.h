@@ -29,6 +29,7 @@ public:
     void initialize();
     virtual PyObject* setattr(PyObject* x, PyObject* y, PyObject* z) override;
     size_t size() override;
+    void oops_do(OopClosure *closure, PyObject *obj) override;
 };
 
 

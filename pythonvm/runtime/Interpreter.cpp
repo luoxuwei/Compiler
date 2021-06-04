@@ -455,6 +455,6 @@ void Interpreter::oops_do(OopClosure *closure) {
     closure->do_oop((PyObject**)&_builtins);
     closure->do_oop((PyObject**) &_ret_value);
     if (_frame) {
-        _frame-
+        _frame->oops_do(closure);//FrameObject不是继承自PyObject
     }
 }

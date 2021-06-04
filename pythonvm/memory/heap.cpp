@@ -3,6 +3,7 @@
 //
 
 #include "heap.h"
+#include "oopClosure.h"
 
 Space::Space(size_t size) {
     _size = size;
@@ -110,7 +111,9 @@ void * Heap::allocate_meta(size_t size) {
 }
 
 void Heap::copy_live_objects() {
-
+    ScavengeOopClosure* closure = new ScavengeOopClosure(eden, survivor, metaspace);
+    closure->scavenge();
+    delete closure;
 }
 
 void Heap::gc() {

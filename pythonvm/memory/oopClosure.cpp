@@ -17,6 +17,21 @@ void ScavengeOopClosure::scavenge() {
     }
 }
 
+ScavengeOopClosure::ScavengeOopClosure(Space *from, Space *to, Space *meta) {
+    _from = from;
+    _to = to;
+    _meta = meta;
+    _oop_stack = new Stack<PyObject*>(1024);
+}
+
+ScavengeOopClosure::~ScavengeOopClosure() {
+    _from = NULL;
+    _to = NULL;
+
+    delete _oop_stack;
+    _oop_stack = NULL;
+}
+
 void ScavengeOopClosure::process_roots() {
     Universe::oops_do(this);
     Interpreter::get_instance()->oops_do(this);
@@ -47,4 +62,14 @@ PyObject * ScavengeOopClosure::copy_and_push(PyObject *obj) {
     //push
     _oop_stack->push((PyObject *)target);
     return (PyObject*)target;
+}
+
+void ScavengeOopClosure::do_raw_mem(char **mem, int lenght) {
+    if (*mem == NULL) {
+        return;
+    }
+
+    char* target = (char*) _to->allocate(lenght);
+    memcpy(target, (*mem), lenght);
+    (*mem) = target;
 }

@@ -45,6 +45,7 @@ public:
     PyObject* contains(PyObject* x, PyObject* y);
     virtual PyObject* allocate_instance(PyObject* type_object, ArrayList<PyObject*>* args);
     size_t size() override;
+    void oops_do(OopClosure *closure, PyObject* obj) override;
 };
 
 class PyString: public PyObject {
@@ -58,6 +59,7 @@ public:
     PyString(const char* x, const int len);
 
     const char* value() {return _value;}
+    char** value_address()  { return &_value; }
     int length() {return _len;}
 };
 

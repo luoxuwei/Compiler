@@ -161,6 +161,12 @@ size_t ListKlass::size() {
     return sizeof(PyList);
 }
 
+void ListKlass::oops_do(OopClosure *closure, PyObject *obj) {
+    assert(obj && obj->klass() == (Klass*) this);
+
+    closure->do_array_list(&((PyList*)obj)->_inner_list);
+}
+
 PyList::PyList() {
     _inner_list = new ArrayList<PyObject*>();
     set_kclass(ListKlass::get_instance());

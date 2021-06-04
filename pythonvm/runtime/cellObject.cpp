@@ -33,3 +33,8 @@ size_t CellKlass::size() {
 PyObject * CellObject::value() {
     return _table->get(_index);
 }
+
+void CellKlass::oops_do(OopClosure *closure, PyObject *obj) {
+    CellObject* co = (CellObject*) obj;
+    closure->do_oop((PyObject**)&co->_table);
+}

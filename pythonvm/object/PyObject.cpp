@@ -131,5 +131,6 @@ size_t PyObject::size() {
 }
 
 void PyObject::oops_do(OopClosure *oopClosure) {
-
+    oopClosure->do_oop((PyObject**)&_obj_dict);
+    klass()->oops_do(oopClosure);
 }

@@ -15,6 +15,7 @@ public:
     static CellKlass* getInstance();
 
     virtual size_t size();
+    void oops_do(OopClosure *closure, PyObject *obj) override;
 };
 
 //为了实现LOAD_CLOSURE字节码需要一种新的数据结构，记录cell变量所在表和表中的序号。

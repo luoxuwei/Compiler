@@ -18,6 +18,7 @@ public:
     static FunctionKlass* get_instance();
     virtual void print(PyObject* x) override;
     size_t size() override;
+    void oops_do(OopClosure *closure, PyObject *obj) override;
 };
 
 typedef PyObject* (*NativeFuncPointer)(ArrayList<PyObject*>* args);
@@ -25,6 +26,7 @@ typedef PyObject* (*NativeFuncPointer)(ArrayList<PyObject*>* args);
 class FunctionObject: public PyObject {
     friend class FunctionKlass;
     friend class FrameObject;
+    friend class NativeFunctionClass;
 private:
     CodeObject* _func_code = NULL;
     PyString* _func_name = NULL;
@@ -71,6 +73,7 @@ private:
 public:
     static NativeFunctionClass* get_instance();
     size_t size() override;
+    void oops_do(OopClosure *closure, PyObject *obj) override;
 };
 
 class MethodKlass: public Klass {
@@ -81,9 +84,11 @@ private:
 public:
     static MethodKlass* get_instance();
     size_t size() override;
+    void oops_do(OopClosure *closure, PyObject *obj) override;
 };
 
 class MethodObject: public PyObject {
+    friend class MethodKlass;
 private:
     PyObject* _owner = NULL;
     FunctionObject* _func = NULL;

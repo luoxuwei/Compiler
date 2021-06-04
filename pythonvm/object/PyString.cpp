@@ -147,6 +147,12 @@ size_t StringKlass::size() {
     return sizeof(PyString);
 }
 
+void StringKlass::oops_do(OopClosure *closure, PyObject* obj) {
+    PyString* str_obj = (PyString*) obj;
+    assert(str_obj && str_obj->klass() == this);
+    closure->do_raw_mem(str_obj->value_address(), str_obj->length());
+}
+
 PyString::PyString(const char *x) {
     _len = strlen(x);
     _value = new char[_len];
