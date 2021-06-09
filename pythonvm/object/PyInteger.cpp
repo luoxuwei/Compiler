@@ -152,3 +152,12 @@ PyObject * IntegerKlass::allocate_instance(PyObject* type_object, ArrayList<PyOb
         return NULL;
     }
 }
+
+PyObject * IntegerKlass::mod(PyObject *x, PyObject *y) {
+    assert(x && x->klass() == this);
+    assert(y && y->klass() == this);
+    PyInteger* ix = (PyInteger*) x;
+    PyInteger* iy = (PyInteger*) y;
+
+    return new PyInteger(ix->value() % iy->value());
+}

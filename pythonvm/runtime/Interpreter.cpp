@@ -84,6 +84,11 @@ void Interpreter::eval_frame() {
                 w = POP();
                 PUSH(w->add(v));
                 break;
+            case ByteCode::BINARY_MODULO:
+                v = POP();
+                w = POP();
+                PUSH(w->mod(v));
+                break;
             case ByteCode::BINARY_MULTIPLY:
                 v = POP();
                 w = POP();

@@ -12,6 +12,7 @@
 #include "../object/pytypeobject.h"
 #include "../runtime/cellObject.h"
 #include "../memory/heap.h"
+#include "StringTable.h"
 
 PyObject* Universe::PyFalse = NULL;
 PyObject* Universe::PyTrue = NULL;
@@ -26,6 +27,7 @@ void Universe::genesis() {
     PyFalse = new PyString("False");
     PyTrue = new PyString("True");
     PyNone = new PyString("None");
+    StringTable::get_instance();
 
 
     Klass* object_klass = ObjectKlass::get_instance();

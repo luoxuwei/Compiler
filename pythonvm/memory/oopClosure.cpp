@@ -37,6 +37,10 @@ ScavengeOopClosure::~ScavengeOopClosure() {
 void ScavengeOopClosure::process_roots() {
     Universe::oops_do(this);
     Interpreter::get_instance()->oops_do(this);
+    //这里可能会发生gc重入就是gc时再触发gc，
+    //由于StringTable是单例模式，相当于懒加载，如果gc之前一直没有用到StringTable
+    //会在这里调用get_instance时构造StringTable对象，因为StringTable的构造函数里初始化了全局的字符串，
+    //创建字符串 new PyString需要堆分配内存，堆分配内存时又会触发gc。解决办法是提前初始化。
     StringTable::get_instance()->oops_do(this);
 }
 
@@ -82,7 +86,7 @@ void ScavengeOopClosure::do_array_list(ArrayList<Klass *> **alist) {
     }
 
     assert(_from->has_obj((char *)(*alist)));//防止重复回收
-    size_t size = sizeof(ArrayList<PyObject*>);
+    size_t size = sizeof(ArrayList<Klass*>);
     char *target = (char*)_to->allocate(size);
     memcpy(target, *alist, size);
     *(char **)alist = target;
