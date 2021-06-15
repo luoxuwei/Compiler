@@ -13,10 +13,10 @@
 #include "cellObject.h"
 #include "../object/pytypeobject.h"
 
-#define PUSH(x) _frame->_stack->append(x)
-#define POP() _frame->_stack->pop()
-#define TOP() _frame->_stack->top()
-#define STACK_LEVEL() _frame->_stack->size()
+#define PUSH(x) _frame->stack()->append(x)
+#define POP() _frame->stack()->pop()
+#define TOP() _frame->stack()->top()
+#define STACK_LEVEL() _frame->stack()->size()
 #define PY_TRUE Universe::PyTrue
 #define PY_FALSE Universe::PyFalse
 Interpreter* Interpreter::_instance = NULL;
@@ -87,7 +87,8 @@ void Interpreter::eval_frame() {
             case ByteCode::BINARY_MODULO:
                 v = POP();
                 w = POP();
-                PUSH(w->mod(v));
+                u = w->mod(v);
+                PUSH(u);
                 break;
             case ByteCode::BINARY_MULTIPLY:
                 v = POP();
@@ -154,7 +155,7 @@ void Interpreter::eval_frame() {
                 }
                 break;
             case ByteCode::POP_JUMP_IF_FALSE:
-                v = _frame->_stack->pop();
+                v = _frame->stack()->pop();
                 if (v == Universe::PyFalse) {
                     _frame->set_pc(op_arg);
                 }
