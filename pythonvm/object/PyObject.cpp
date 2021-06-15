@@ -137,5 +137,5 @@ void * PyObject::operator new(size_t size) {
 
 void PyObject::oops_do(OopClosure *oopClosure) {
     oopClosure->do_oop((PyObject**)&_obj_dict);
-    klass()->oops_do(oopClosure);
+    klass()->oops_do(oopClosure, this);
 }

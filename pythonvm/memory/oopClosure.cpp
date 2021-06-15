@@ -89,7 +89,7 @@ void ScavengeOopClosure::do_array_list(ArrayList<Klass *> **alist) {
     size_t size = sizeof(ArrayList<Klass*>);
     char *target = (char*)_to->allocate(size);
     memcpy(target, *alist, size);
-    *(char **)alist = target;
+    (*(char **)alist) = target;
     (*alist)->oops_do(this);
 }
 

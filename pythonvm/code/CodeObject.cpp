@@ -34,6 +34,8 @@ CodeKlass * CodeKlass::get_instance() {
 }
 
 CodeKlass::CodeKlass() {
+    set_name(new PyString("code"));
+    add_super(ObjectKlass::get_instance());
     (new PyTypeObject())->set_own_klass(this);
 }
 

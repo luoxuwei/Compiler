@@ -134,7 +134,7 @@ template<>
 void ArrayList<PyObject*>::oops_do(OopClosure *closure) {
     closure->do_raw_mem((char **)&_data, _length*sizeof(PyObject*));
     for (int i=0; i<_size; i++) {
-        closure->do_oop(&_data[i]);
+        closure->do_oop((PyObject**)&_data[i]);
     }
 }
 
