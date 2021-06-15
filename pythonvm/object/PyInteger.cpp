@@ -153,11 +153,14 @@ PyObject * IntegerKlass::allocate_instance(PyObject* type_object, ArrayList<PyOb
     }
 }
 
+//天坑！！如果在最后return 语句中new Integer时发生gc，会导致除0异常
+//因为return这一行代码是先执行new然后再执行取模计算，
+// ix和iy保存的还是gc前的对象地址，gc后两个空间交换，原来的eden变成survivor会调用clear将内存全部设置为0。再取模就会发生除0异常
 PyObject * IntegerKlass::mod(PyObject *x, PyObject *y) {
     assert(x && x->klass() == this);
     assert(y && y->klass() == this);
     PyInteger* ix = (PyInteger*) x;
     PyInteger* iy = (PyInteger*) y;
-
-    return new PyInteger(ix->value() % iy->value());
+    int ret = ix->value() % iy->value();
+    return new PyInteger(ret);
 }
