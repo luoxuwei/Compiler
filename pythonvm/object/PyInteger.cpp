@@ -38,6 +38,7 @@ PyObject * IntegerKlass::add(PyObject *x, PyObject* y) {
 
     assert(ix&&ix->klass() == (Klass* )this);
     assert(iy&&iy->klass() == (Klass* )this);
+
     return new PyInteger(ix->value() + iy->value());
 }
 

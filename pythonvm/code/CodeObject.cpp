@@ -42,3 +42,17 @@ CodeKlass::CodeKlass() {
 size_t CodeKlass::size() {
     return sizeof(CodeObject);
 }
+
+void CodeKlass::oops_do(OopClosure *closure, PyObject *obj) {
+    CodeObject* co = (CodeObject*)obj;
+    assert(co && co->klass() == this);
+    closure->do_oop((PyObject**)&co->_bytecodes);
+    closure->do_array_list(&co->_names);
+    closure->do_array_list(&co->_consts);
+    closure->do_array_list(&co->_var_names);
+    closure->do_array_list(&co->_free_vars);
+    closure->do_array_list(&co->_cell_vars);
+    closure->do_oop((PyObject**)&co->_co_name);
+    closure->do_oop((PyObject**)&co->_file_name);
+    closure->do_oop((PyObject**)&co->_notable);
+}

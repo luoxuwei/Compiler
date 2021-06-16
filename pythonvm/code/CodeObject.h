@@ -31,6 +31,7 @@ private:
 public:
     static CodeKlass* get_instance();
     size_t size() override;
+    virtual void oops_do(OopClosure* closure, PyObject* obj);
 };
 
 class CodeObject: public PyObject {
