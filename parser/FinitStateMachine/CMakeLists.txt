@@ -3,4 +3,4 @@ project(FinitStateMachine)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(FinitStateMachine main.cpp Lexer.cpp Lexer.h fms.cpp fms.h)
+add_executable(FinitStateMachine main.cpp Lexer.cpp Lexer.h fms.cpp fms.h FiniteStateMachine.cpp FiniteStateMachine.h)

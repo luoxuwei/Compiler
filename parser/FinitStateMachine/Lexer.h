@@ -10,7 +10,7 @@
 #include <string>
 
 using std::string;
-
+#define EOF = 0
 class Lexer {
 private:
     char *buf = NULL;
