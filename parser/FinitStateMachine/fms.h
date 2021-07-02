@@ -6,8 +6,9 @@
 #define FINITSTATEMACHINE_FMS_H
 #define ASCII_COUNT 128
 #define STATE_COUNT 6
+#define STATE_FAILURE -1
 
-class fms {
+class FMS {
 private:
     int fmsTable[STATE_COUNT][ASCII_COUNT];
     bool accept[STATE_COUNT] = {false, true, true, false, true, false};
@@ -17,10 +18,10 @@ private:
         }
     }
 public:
-    fms() {
+    FMS() {
         for (int i=0; i<STATE_COUNT; i++) {
             for (int j=0; j<ASCII_COUNT; j++) {
-                fmsTable[i][j] = -1;
+                fmsTable[i][j] = STATE_FAILURE;
             }
         }
         fmsTable[0]['.'] = 3;
@@ -34,8 +35,20 @@ public:
         initForNumber(5, 4);
         initForNumber(4, 4);
     }
-    int next(int state, char c);
-    bool isAcceptSate(int state);
+
+    int next(int state, char c) {
+        if (state == STATE_FAILURE || c >= ASCII_COUNT) {
+            return STATE_FAILURE;
+        }
+        return fmsTable[state][c];
+    }
+
+    bool isAcceptSate(int state) {
+        if (state != STATE_FAILURE) {
+            return accept[state];
+        }
+        return false;
+    }
 };
 
 
