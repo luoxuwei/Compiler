@@ -10,7 +10,7 @@
 #include <string>
 
 using std::string;
-#define EOF = 0
+#define EOF 0
 class Lexer {
 private:
     char *buf = NULL;
@@ -43,8 +43,9 @@ public:
 
     char * text() {
         int len = length();
-        char *res = new char[len];
+        char *res = new char[len+1];
         memcpy(res, buf + cur_start, len);
+        res[len] = 0;
         return res;
     }
 
@@ -52,10 +53,15 @@ public:
         return cur_end - cur_start;
     }
 
+    int line() {
+        return lineno;
+    }
+
     char * pre_text() {
         int len = pre_length();
-        char *res = new char[len];
+        char *res = new char[len+1];
         memcpy(res, buf + pre_start, len);
+        res[len] = 0;
         return res;
     }
 
@@ -65,7 +71,7 @@ public:
 
     char advance() {
         if (next >= buf_len) {
-            return 0;
+            return EOF;
         }
         if (buf[next] == '\n') {
             lineno++;
@@ -96,7 +102,7 @@ public:
 
     char lookahead(int n) {
         if (next + n -1 >= buf_len) {
-            return 0;
+            return EOF;
         }
 
         return buf[next + n -1];
