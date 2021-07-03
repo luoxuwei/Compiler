@@ -94,3 +94,29 @@ exp? (重复0或1次)的NFA:
 ![](parser/image/Picture7.png)
 
 任何复杂的正则表达式它的NFA的构造都是上面几种构造的组合
+
+#### 宏替换
+
+宏定义即：D [0-9]在转换前，需要将正则表达式中的宏进行替换，也就是要将{D}+转换成：{[0-9]}。它有一个难点是需要处理宏定义的间套情况，例如：
+
+D [0-9]
+
+A [a-z] 
+
+AD {D}|{A}
+
+替换了宏AD之后，还需要继续替换D 和A.
+
+```shell
+cd parser/regex
+mkdir build
+cd build
+cmake ..
+make
+./regex ../test_macro.txt {AD}.{AD}+
+```
+
+##### commit
+
+> [创建正则表达式项目](https://github.com/luoxuwei/Compiler/commit/07190377a064d8fefe7cea8b3f9aaa02b45b5f20) | [开发宏扩展功能](https://github.com/luoxuwei/Compiler/commit/ef823601d26d48be8c244200d4f145401ebe49e1) | [开发正则表达式宏预处理逻辑](https://github.com/luoxuwei/Compiler/commit/bffec863281ec6fa1ac081812c82a3a43e49c700)
+
