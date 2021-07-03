@@ -69,3 +69,28 @@ make
 
 > [定义词法分析模块接口](https://github.com/luoxuwei/Compiler/commit/9d1e26cbe21a0034685b0aae642c56ed649e7076) | [完成词法解析简单实现](https://github.com/luoxuwei/Compiler/commit/a613cd5ac6895f48408e536919482757b4181836) | [定义有限自动机接口](https://github.com/luoxuwei/Compiler/commit/c47128b8414aaeb8b0c1b7d587a1df50474274e7) | [完成状态机状态初始化](https://github.com/luoxuwei/Compiler/commit/3f354d6a05f93d00ff12b6756e90226775c6aaa8) | [完成状态装换逻辑](https://github.com/luoxuwei/Compiler/commit/f909562c492c8464d36f3a4da4be4e87d294f2c5) | [搭建有限状态自动机执行流程](https://github.com/luoxuwei/Compiler/commit/4c94d5745c881929a35f9213ac121adec087cb1e) | [完成状态机识别逻辑](https://github.com/luoxuwei/Compiler/commit/e93b553dee4d93856af21874cd3cb6c80d2044f5) 
 
+## 将正则表达式转换为有限状态自动机
+
+大多数正则表达式识别程序，基本上都是先将其转换为自动机，然后通过驱动自动机来识别输入的，一般是将正则表达式转换为NFA, 将NFA转换为DFA。将正则表达式转换为NFA的算法是由贝尔实验室的Ken Thompson 给出的。连接表达式ab 可以表示如下：
+
+![](parser/image/Picture4.png)
+
+两个表达式进行 OR操作的时候 |  构造图如下：
+
+![](parser/image/Picture3.png)
+
+exp* 的NFA:
+
+如果是自我从复0次，那直接从下面的边走到末尾节点。
+
+![](parser/image/Picture5.png)
+
+exp+（至少重复一次） 的NFA:
+
+![](parser/image/Picture6.png)
+
+exp? (重复0或1次)的NFA:
+
+![](parser/image/Picture7.png)
+
+任何复杂的正则表达式它的NFA的构造都是上面几种构造的组合

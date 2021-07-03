@@ -38,6 +38,7 @@
 # *.ipr
 
 # CMake
+**/..DS_Store
 **/cmake-build-*/
 **/build
 # Mongo Explorer plugin
