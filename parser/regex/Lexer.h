@@ -25,7 +25,7 @@ private:
     int lineno = 1;        //
 
 public:
-    Lexer(char *content, size_t len) {
+    Lexer(const char *content, size_t len) {
         if (content == NULL || len <= 0) {
             return;
         }

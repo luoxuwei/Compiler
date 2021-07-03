@@ -2,9 +2,11 @@
 #include "Regex.h"
 
 int main(int argc, char** argv) {
-    if (argc > 1) {
+    if (argc > 2) {
         Regex regex(argv[1]);
         regex.printMacs();
+        regex.parse(argv[2]);
+        regex.printExpr();
     }
     return 0;
 }
