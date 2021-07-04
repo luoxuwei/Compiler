@@ -1,12 +1,11 @@
 #include <iostream>
-#include "Regex.h"
+#include "ExprLexer.h"
 
 int main(int argc, char** argv) {
     if (argc > 2) {
-        Regex regex(argv[1]);
-        regex.printMacs();
-        regex.parse(argv[2]);
-        regex.printExpr();
+        ExprLexer lexer(argv[1], argv[2]);
+        lexer.printMacs();
+        lexer.printExpr();
     }
     return 0;
 }
