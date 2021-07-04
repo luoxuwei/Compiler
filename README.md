@@ -118,5 +118,12 @@ make
 
 ##### commit
 
-> [创建正则表达式项目](https://github.com/luoxuwei/Compiler/commit/07190377a064d8fefe7cea8b3f9aaa02b45b5f20) | [开发宏扩展功能](https://github.com/luoxuwei/Compiler/commit/ef823601d26d48be8c244200d4f145401ebe49e1) | [开发正则表达式宏预处理逻辑](https://github.com/luoxuwei/Compiler/commit/bffec863281ec6fa1ac081812c82a3a43e49c700)
+> [创建正则表达式项目](https://github.com/luoxuwei/Compiler/commit/07190377a064d8fefe7cea8b3f9aaa02b45b5f20) | [开发宏扩展功能](https://github.com/luoxuwei/Compiler/commit/ef823601d26d48be8c244200d4f145401ebe49e1) | [开发正则表达式宏预处理逻辑](https://github.com/luoxuwei/Compiler/commit/bffec863281ec6fa1ac081812c82a3a43e49c700) | [项目重构](https://github.com/luoxuwei/Compiler/commit/e2502d62935eebd85a22082b2a0637bbd1eeb356) | [重构LexerBuffer](https://github.com/luoxuwei/Compiler/commit/9e58e8784b1bba8faf4ff5663b5738a831c3ff57) | [将词法解析逻辑封装到单独模块](https://github.com/luoxuwei/Compiler/commit/8bc575916d0e2bc8c2cd5c7d4746f4f3b7f97026)
 
+### 正则表达式词法解析
+
+正则表达式其实是由一组由普通字符和特殊字符组合而成的一种表达形式。特殊的字符有特殊的含义，在正则表达式中，特殊字符有：\+ ? { } [ ] ( )  .  ^  $  “ \ 。普通字符和特殊字符结合在一起时，需要进行不同的解读，正则表达式词法解析麻烦的就是处理这种情况。
+
+#### commit
+
+> [开发正则表达式词法解析逻辑](https://github.com/luoxuwei/Compiler/commit/6387ccc84661ea3daa040384da7f6ff30e7995ee) | [开发正则表达式词法解析功能测试逻辑](https://github.com/luoxuwei/Compiler/commit/a71f19b3ffb5575d2ac4a19b592347d3ab7c713f) | 
