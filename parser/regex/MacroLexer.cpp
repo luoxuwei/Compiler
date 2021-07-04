@@ -7,17 +7,8 @@
 
 MacroLexer::MacroLexer(const char * macroFilePath) {
     if (macroFilePath != NULL) {
-        FILE* f = fopen(macroFilePath, "r");
-        if (f == NULL) {
-            assert(false);
-        }
-        struct stat statbuf;
-        fstat(fileno(f), &statbuf);
-        char buf[statbuf.st_size];
-        fread(buf, statbuf.st_size, 1, f);
-        LexerBuffer lexer(buf, statbuf.st_size);
+        LexerBuffer lexer(macroFilePath);
         processMacro(lexer);
-        fclose(f);
     }
 }
 

@@ -6,9 +6,7 @@
 #define REGEX_MACROLEXER_H
 #include <string>
 #include <map>
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/stat.h>
+
 #include "LexerBuffer.h"
 class MacroLexer {
 private:

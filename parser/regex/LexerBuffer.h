@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <string>
+#include <fcntl.h>
+#include <sys/stat.h>
 #include "util.h"
 
 using std::string;
@@ -26,29 +28,13 @@ private:
     int lineno = 1;        //
 
 public:
-    LexerBuffer(const char *content, size_t len) {
-        if (content == NULL || len <= 0) {
-            return;
-        }
-        buf = new char[len];
-        buf_len = len;
-        memcpy(buf, content, len);
-    }
+    LexerBuffer(const char *filePath);
 
-    ~LexerBuffer() {
-        if (buf != NULL) {
-            delete buf;
-            buf = NULL;
-        }
-    }
+    LexerBuffer(const char *content, size_t len);
 
-    char * text() {
-        int len = length();
-        char *res = new char[len+1];
-        memcpy(res, buf + cur_start, len);
-        res[len] = 0;
-        return res;
-    }
+    ~LexerBuffer();
+
+    char * text();
 
     int length() {
         return cur_end - cur_start;
@@ -58,56 +44,23 @@ public:
         return lineno;
     }
 
-    char * pre_text() {
-        int len = pre_length();
-        char *res = new char[len+1];
-        memcpy(res, buf + pre_start, len);
-        res[len] = 0;
-        return res;
-    }
+    char * pre_text();
 
     int pre_length() {
         return cur_start - pre_start;
     }
 
-    char advance() {
-        if (next >= buf_len) {
-            return EOF;
-        }
-        if (buf[next] == '\n') {
-            lineno++;
-        }
-        return buf[next++];
-    }
+    char advance();
 
-    int mark_start() {
-        cur_end = cur_start = next;
-        return cur_start;
-    }
+    int mark_start();
 
-    int mark_end() {
-        cur_end = next;
-        return cur_end;
-    }
+    int mark_end();
 
-    int to_mark() {
-        next = cur_end;
-        return next;
-    }
+    int to_mark();
 
-    int mark_prev() {
-        pre_start = cur_start;
-        pre_lineno = lineno;
-        return pre_start;
-    }
+    int mark_prev();
 
-    char lookahead(int n) {
-        if (next + n -1 >= buf_len) {
-            return EOF;
-        }
-
-        return buf[next + n -1];
-    }
+    char lookahead(int n);
 };
 
 
