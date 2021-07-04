@@ -210,30 +210,36 @@ int ExprLexer::handleEsc() {
             }
 
             if (isHexDigit(c)) {
-                rval << 4;
+                rval = rval << 4;
                 rval += hex2Bin(c);
                 charIndex++;
                 c = curExpr->at(charIndex);
             }
 
             if (isHexDigit(c)) {
-                rval << 4;
+                rval = rval << 4;
                 rval += hex2Bin(c);
+                charIndex++;
             }
+
+            charIndex--;
             break;
         default:
             if (isOctDigit(c)) {
                rval = oct2Bin(curExpr->at(charIndex));
                charIndex++;
                if (isOctDigit(curExpr->at(charIndex))) {
-                   rval << 3;
+                   rval = rval << 3;
                    rval += oct2Bin(curExpr->at(charIndex));
                    charIndex++;
                }
                 if (isOctDigit(curExpr->at(charIndex))) {
-                    rval << 3;
+                    rval = rval << 3;
                     rval += oct2Bin(curExpr->at(charIndex));
+                    charIndex++;
                 }
+
+                charIndex--;
             } else {
                 rval = c;
             }

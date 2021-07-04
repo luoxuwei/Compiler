@@ -124,6 +124,19 @@ make
 
 正则表达式其实是由一组由普通字符和特殊字符组合而成的一种表达形式。特殊的字符有特殊的含义，在正则表达式中，特殊字符有：\+ ? { } [ ] ( )  .  ^  $  “ \ 。普通字符和特殊字符结合在一起时，需要进行不同的解读，正则表达式词法解析麻烦的就是处理这种情况。
 
+```shell
+cd parser/regex
+mkdir build
+cd build
+cmake ..
+make
+./regex ../test_macro.txt {AD}.{AD}+
+# ./regex ../test_macro.txt "[\b\r\n]"
+# ./regex ../test_macro.txt [\"+*?\"]
+# ./regex ../test_macro.txt [\\x1F]
+```
+
 #### commit
 
 > [开发正则表达式词法解析逻辑](https://github.com/luoxuwei/Compiler/commit/6387ccc84661ea3daa040384da7f6ff30e7995ee) | [开发正则表达式词法解析功能测试逻辑](https://github.com/luoxuwei/Compiler/commit/a71f19b3ffb5575d2ac4a19b592347d3ab7c713f) | 
+
