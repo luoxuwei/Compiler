@@ -37,7 +37,9 @@ public:
     bool term();
     bool character();
     bool dot();
+    //字符集[..]和字符集取反[^...]
     bool charClass();
+
 };
 
 

@@ -52,7 +52,7 @@ bool Regex::dot() {
     exprLexer->advance();
 }
 
-//字符集类的正则表达式,如:[abcd]
+//字符集类的正则表达式,如:[abcd] 和字符集取反[^...]
 bool Regex::charClass() {
     if (!exprLexer->matchToken(ExprLexer::Token::CCL_START)) {
         return false;
@@ -64,12 +64,24 @@ bool Regex::charClass() {
     nfa.setEndState(end);
     start->next = end;
     start->edge = CCL;
+
+    bool complement = false;
+    if (exprLexer->matchToken(ExprLexer::Token::AT_BOL)) {
+        complement = true;
+    }
+
     if (!exprLexer->matchToken(ExprLexer::Token::CCL_END)) {
         dodash(start);
     }
+
     if (!exprLexer->matchToken(ExprLexer::Token::CCL_END)) {
         parseErr(Error::E_BADEXPR);
     }
+
+    if (complement) {
+        start->inputSet.flip();
+    }
+    
     exprLexer->advance();
     return true;
 }
@@ -90,3 +102,4 @@ void Regex::dodash(NFA::State *state) {
         exprLexer->advance();
     }
 }
+
