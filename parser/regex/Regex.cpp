@@ -14,6 +14,9 @@ Regex::Regex(const char *macroFilePath, char *regex) {
 
 bool Regex::term() {
     bool handle = character();
+    if (!handle) {
+        dot();
+    }
 }
 
 bool Regex::character() {
@@ -31,3 +34,20 @@ bool Regex::character() {
     return true;
 }
 
+//正则表达式 “.” 匹配除\n \r 外的任意单字符,
+bool Regex::dot() {
+    if (!exprLexer->matchToken(ExprLexer::Token::ANY)) {
+        return false;
+    }
+
+    NFA::State *start = nfa.newNfa();
+    nfa.setStartState(start);
+    NFA::State *end = nfa.newNfa();
+    nfa.setEndState(end);
+    start->next = end;
+    start->edge = CCL;
+    start->inputSet.set('\n');
+    start->inputSet.set('\r');
+    start->inputSet.flip();
+    exprLexer->advance();
+}

@@ -36,6 +36,7 @@ public:
      * */
     bool term();
     bool character();
+    bool dot();
 };
 
 
