@@ -51,3 +51,42 @@ bool Regex::dot() {
     start->inputSet.flip();
     exprLexer->advance();
 }
+
+//字符集类的正则表达式,如:[abcd]
+bool Regex::charClass() {
+    if (!exprLexer->matchToken(ExprLexer::Token::CCL_START)) {
+        return false;
+    }
+    exprLexer->advance();
+    NFA::State *start = nfa.newNfa();
+    nfa.setStartState(start);
+    NFA::State *end = nfa.newNfa();
+    nfa.setEndState(end);
+    start->next = end;
+    start->edge = CCL;
+    if (!exprLexer->matchToken(ExprLexer::Token::CCL_END)) {
+        dodash(start);
+    }
+    if (!exprLexer->matchToken(ExprLexer::Token::CCL_END)) {
+        parseErr(Error::E_BADEXPR);
+    }
+    exprLexer->advance();
+    return true;
+}
+
+void Regex::dodash(NFA::State *state) {
+    int first = 0;
+    while (!exprLexer->matchToken(ExprLexer::Token::EOS) &&
+            !exprLexer->matchToken(ExprLexer::Token::CCL_END)) {
+        if (!exprLexer->matchToken(ExprLexer::Token::DASH)) {
+            first = exprLexer->getLexeme();
+            state->inputSet.set(first);
+        } else {
+            exprLexer->advance();//越过 -
+            for (int i = first; i <= exprLexer->getLexeme(); i++) {
+                state->inputSet.set(i);
+            }
+        }
+        exprLexer->advance();
+    }
+}

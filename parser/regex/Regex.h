@@ -19,7 +19,7 @@ class Regex {
 private:
     ExprLexer* exprLexer;
     NFA nfa;
-
+    void dodash(NFA::State *state);
 
 public:
     Regex(const char * macroFilePath, char * regex);
@@ -37,6 +37,7 @@ public:
     bool term();
     bool character();
     bool dot();
+    bool charClass();
 };
 
 
