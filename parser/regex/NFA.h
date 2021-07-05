@@ -10,8 +10,8 @@
 #include <stack>
 
 #define EPSILON -1 //边对应的是ε
-#define CCL -2; //边对应的是字符集
-#define EMPTY -3; //该节点没有出去的边
+#define CCL -2 //边对应的是字符集
+#define EMPTY -3 //该节点没有出去的边
 #define ASCII_COUNT 127
 #define NFA_MAX 256 //最多运行分配256个NFA节点
 
@@ -61,11 +61,17 @@ public:
     void setStartState(State *state) {start = state;}
     void setEndState(State *state) {end = state;}
 
+    void printNfa();
+
 private:
     std::deque<State> states;
     std::stack<State*> stateStack;
-    int nfaStates;
+    int nfaStates = 0;
     State *start = NULL, *end = NULL;
+
+    void printNfa(State *state);
+    void printNfaNode(State *state);
+    void printCCL(State *state);
 };
 
 

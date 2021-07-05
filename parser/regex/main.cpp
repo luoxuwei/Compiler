@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ExprLexer.h"
+#include "Regex.h"
 void printLexResult(ExprLexer &lexer);
 void printMetaCharMeaning(ExprLexer &lexer);
 
@@ -28,6 +29,10 @@ int main(int argc, char** argv) {
             }
 
         }
+
+        Regex regex(argv[1], argv[2]);
+        regex.term();
+        regex.printNfa();
     }
     return 0;
 }

@@ -10,12 +10,16 @@ void Regex::parse() {
 
 Regex::Regex(const char *macroFilePath, char *regex) {
     exprLexer = new ExprLexer(macroFilePath, std::string(regex));
+    exprLexer->advance();
 }
 
 bool Regex::term() {
     bool handle = character();
     if (!handle) {
         dot();
+    }
+    if (!handle) {
+        charClass();
     }
 }
 
@@ -81,7 +85,7 @@ bool Regex::charClass() {
     if (complement) {
         start->inputSet.flip();
     }
-    
+
     exprLexer->advance();
     return true;
 }
@@ -101,5 +105,9 @@ void Regex::dodash(NFA::State *state) {
         }
         exprLexer->advance();
     }
+}
+
+void Regex::printNfa() {
+    nfa.printNfa();
 }
 
