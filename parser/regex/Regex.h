@@ -7,28 +7,35 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "LexerBuffer.h"
 #include <stdio.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <algorithm>
-#include "MacroLexer.h"
+#include "ExprLexer.h"
+#include "NFA.h"
 
 
 class Regex {
 private:
-
+    ExprLexer* exprLexer;
+    NFA nfa;
 
 
 public:
-    Regex(const char * macroFilePath) {
-
-    }
+    Regex(const char * macroFilePath, char * regex);
 
     ~Regex() {
-
+        if (exprLexer != NULL) {
+            delete exprLexer;
+        }
     }
 
+    void parse();
+    /*
+     *term ->  character | [...] | [^...]
+     * */
+    bool term();
+    bool character();
 };
 
 
