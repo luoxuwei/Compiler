@@ -140,3 +140,31 @@ make
 
 > [开发正则表达式词法解析逻辑](https://github.com/luoxuwei/Compiler/commit/6387ccc84661ea3daa040384da7f6ff30e7995ee) | [开发正则表达式词法解析功能测试逻辑](https://github.com/luoxuwei/Compiler/commit/a71f19b3ffb5575d2ac4a19b592347d3ab7c713f) | 
 
+### 构造简单的正则表达式对应的NFA状态机
+
+```
+term ->  character | [...] | [^...]
+```
+
+任何复杂的形式，都建立在多种简单的形式组合之上。
+
+```shell
+cd parser/regex
+mkdir build
+cd build
+cmake ..
+make
+# 单字符
+./regex ../test_macro.txt a
+# 匹配任意字符
+# ./regex ../test_macro.txt .
+# 字符集匹配
+#./regex ../test_macro.txt [a-zA-Z]
+# 字符集取反
+# ./regex ../test_macro.txt [^a-zA-Z]
+```
+
+#### commit
+
+> [开发构造nfa需要的基础数据结构和状态节点管理模块](https://github.com/luoxuwei/Compiler/commit/fb0fe680398dfc2cde3b9f1536d0fca8b462efd7) | [开发单字符匹配规则构造](https://github.com/luoxuwei/Compiler/commit/74d2429e4f7fba67895d02d61a3bc4e57b0ee4a5) | [开发正则表达式‘.’匹配规则构造逻辑](https://github.com/luoxuwei/Compiler/commit/df0a4b8754d6dd6edd828e04f0e06a6a8b3f1ec8) | [开发正则表达式字符集构造逻辑](https://github.com/luoxuwei/Compiler/commit/eb63f2e8bc2e528c08103125be23d5fc2b8f3339) | [开发正则表达式字符集取反逻辑](https://github.com/luoxuwei/Compiler/commit/1914d75c961d6b70f6ef3e3e2f8fe4c995100d41) | [打印nfa和测试nfa构造逻辑](https://github.com/luoxuwei/Compiler/commit/8f8aaf036ae21c6779d3b753def1a5693cf1df34)
+
