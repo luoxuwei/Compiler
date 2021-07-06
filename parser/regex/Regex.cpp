@@ -107,6 +107,24 @@ void Regex::dodash(NFA::State *state) {
     }
 }
 
+bool Regex::starClosure() {
+    term();
+    if (!exprLexer->matchToken(ExprLexer::Token::CLOSURE)) {
+        return false;
+    }
+
+    NFA::State *start = nfa.newNfa();
+    NFA::State *end = nfa.newNfa();
+    start->next = nfa.startState();
+    start->next2 = end;
+    nfa.endState()->next = nfa.startState();
+    nfa.endState()->next2 = end;
+    nfa.setStartState(start);
+    nfa.setEndState(end);
+    exprLexer->advance();
+    return true;
+}
+
 void Regex::printNfa() {
     nfa.printNfa();
 }

@@ -40,6 +40,8 @@ public:
     bool dot();
     //字符集[..]和字符集取反[^...]
     bool charClass();
+    //[]*, *闭包
+    bool starClosure();
 
 };
 
