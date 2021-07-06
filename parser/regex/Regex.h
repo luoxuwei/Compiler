@@ -51,6 +51,8 @@ public:
     void factor();
     //正则表达式连接操作 cat_expr -> factor factor .....
     void cat_expr();
+    //or 操作
+    void expr();
 };
 
 

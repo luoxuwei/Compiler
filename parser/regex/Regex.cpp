@@ -195,6 +195,36 @@ void Regex::cat_expr() {
     nfa.setEndState(end);
 }
 
+void Regex::expr() {
+    /*
+    * expr 由一个或多个cat_expr 之间进行 OR 形成
+    * 如果表达式只有一个cat_expr 那么expr 就等价于cat_expr
+    * 如果表达式由多个cat_expr做或连接构成那么 expr-> cat_expr | cat_expr | ....
+    * 由此得到expr的语法描述为:
+    * expr -> expr OR cat_expr
+    *         | cat_expr
+    *
+    */
+    cat_expr();
+    NFA::State *start1 = nfa.startState();
+    NFA::State *end1 = nfa.endState();
+    NFA::State *start2 = NULL, *end2 = NULL;
+    while (exprLexer->matchToken(ExprLexer::Token::OR)) {
+        exprLexer->advance();
+        cat_expr();
+        start2 = nfa.newNfa();
+        end2 = nfa.newNfa();
+        start2->next = start1;
+        start2->next2 = nfa.startState();
+        end1->next = end2;
+        nfa.endState()->next = end2;
+        start1 = start2;
+        end1 = end2;
+    }
+    nfa.setStartState(start1);
+    nfa.setEndState(end1);
+}
+
 //判断正则表达式的输入是否合法
 bool Regex::first_in_cat(ExprLexer::Token token) {
     switch (token) {
