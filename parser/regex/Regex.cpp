@@ -125,6 +125,23 @@ bool Regex::starClosure() {
     return true;
 }
 
+bool Regex::plusClosure() {
+    term();
+    if (!exprLexer->matchToken(ExprLexer::Token::PLUS_CLOSE)) {
+        return false;
+    }
+
+    NFA::State *start = nfa.newNfa();
+    NFA::State *end = nfa.newNfa();
+    start->next = nfa.startState();
+    nfa.endState()->next = nfa.startState();
+    nfa.endState()->next2 = end;
+    nfa.setStartState(start);
+    nfa.setEndState(end);
+    exprLexer->advance();
+    return true;
+}
+
 void Regex::printNfa() {
     nfa.printNfa();
 }

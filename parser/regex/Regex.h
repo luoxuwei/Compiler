@@ -42,6 +42,8 @@ public:
     bool charClass();
     //[]*, *闭包
     bool starClosure();
+    //[]+，+闭包
+    bool plusClosure();
 
 };
 
