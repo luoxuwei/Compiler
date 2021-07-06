@@ -124,7 +124,7 @@ void Regex::dodash(NFA::State *state) {
 
 //term*
 bool Regex::starClosure() {
-    term();
+
     if (!exprLexer->matchToken(ExprLexer::Token::CLOSURE)) {
         return false;
     }
@@ -143,7 +143,7 @@ bool Regex::starClosure() {
 
 //term+
 bool Regex::plusClosure() {
-    term();
+
     if (!exprLexer->matchToken(ExprLexer::Token::PLUS_CLOSE)) {
         return false;
     }
@@ -161,7 +161,7 @@ bool Regex::plusClosure() {
 
 //term?
 bool Regex::optionClosure() {
-    term();
+
     if (!exprLexer->matchToken(ExprLexer::Token::OPTIONAL)) {
         return false;
     }
@@ -180,6 +180,7 @@ bool Regex::optionClosure() {
 //factor -> term* | term+ | term?.
 void Regex::factor() {
     bool handle = false;
+    term();
     handle = starClosure();
     if (!handle) {
         handle = plusClosure();
