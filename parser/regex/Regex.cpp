@@ -174,6 +174,55 @@ void Regex::factor() {
     }
 }
 
+//正则表达式连接操作 cat_expr -> factor factor .....
+void Regex::cat_expr() {
+    /*
+     * cat_expr -> factor factor .....
+     * 由于多个factor 前后结合就是一个cat_expr所以
+     * cat_expr-> factor cat_expr
+     */
+    if (first_in_cat(exprLexer->token())) {
+        factor();
+    }
+    NFA::State *start = nfa.startState();
+    NFA::State *end = nfa.endState();
+    while (first_in_cat(exprLexer->token())) {
+        factor();
+        end->next = nfa.startState();
+        end = nfa.endState();
+    }
+    nfa.setStartState(start);
+    nfa.setEndState(end);
+}
+
+//判断正则表达式的输入是否合法
+bool Regex::first_in_cat(ExprLexer::Token token) {
+    switch (token) {
+        //正确的表达式不会以 ) $ 开头,如果遇到EOS表示正则表达式解析完毕，那么就不应该执行该函数
+        case ExprLexer::Token::CLOSE_PAREN:
+        case ExprLexer::Token::AT_EOL:
+        case ExprLexer::Token::OR:
+        case ExprLexer::Token::EOS:
+            return false;
+        case ExprLexer::Token::CLOSURE:
+        case ExprLexer::Token::PLUS_CLOSE:
+        case ExprLexer::Token::OPTIONAL:
+            //*, +, ? 这几个符号应该放在表达式的末尾
+            parseErr(Error::E_CLOSE);
+            return false;
+        case ExprLexer::Token::CCL_END:
+            //表达式不应该以]开头
+            parseErr(Error::E_BRACKET);
+            return false;
+        case ExprLexer::Token::AT_BOL:
+            //^必须在表达式的最开始
+            parseErr(Error::E_BOL);
+            return false;
+    }
+
+    return true;
+}
+
 void Regex::printNfa() {
     nfa.printNfa();
 }

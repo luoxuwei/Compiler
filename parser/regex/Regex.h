@@ -20,6 +20,7 @@ private:
     ExprLexer* exprLexer;
     NFA nfa;
     void dodash(NFA::State *state);
+    bool first_in_cat(ExprLexer::Token token);
 
 public:
     Regex(const char * macroFilePath, char * regex);
@@ -48,7 +49,8 @@ public:
     bool optionClosure();
     //factor -> term* | term+ | term?.
     void factor();
-
+    //正则表达式连接操作 cat_expr -> factor factor .....
+    void cat_expr();
 };
 
 

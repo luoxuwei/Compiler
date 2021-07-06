@@ -62,6 +62,10 @@ public:
         return currentToken == t;
     }
 
+    Token token() {
+        return currentToken;
+    }
+
     int getLexeme() {
         return lexeme;
     }
