@@ -33,6 +33,7 @@ int main(int argc, char** argv) {
         Regex regex(argv[1], argv[2]);
         regex.expr();
         regex.printNfa();
+        regex.matchNfa();
     }
     return 0;
 }

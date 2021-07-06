@@ -3,6 +3,7 @@
 //
 
 #include "Regex.h"
+#include<iostream>
 
 void Regex::parse() {
 
@@ -312,19 +313,19 @@ void Regex::e_closure(std::set<NFA::State *> &in) {
             in.insert(cur->next2);
         }
     }
-    printf("{ %s }", stringFromNfa(in).c_str());
+    printf("{ %s } \n", stringFromNfa(in).c_str());
 }
 
-std::string Regex::stringFromNfa(std::set<NFA::State *> set) {
-    std::stack<NFA::State*> stateStack;
+std::string Regex::stringFromNfa(std::set<NFA::State *>& set) {
     std::set<NFA::State *>::iterator iterator = set.begin();
-    std::set<NFA::State *>::iterator last = --set.end();
     std::string ret;
 
     while (iterator != set.end()) {
         ret.append(std::to_string((*iterator)->id));
         ret.append(",");
+        iterator++;
     }
+    return ret;
 }
 
 void Regex::move(std::set<NFA::State *> &in, std::set<NFA::State *> &out, char c) {
@@ -338,5 +339,55 @@ void Regex::move(std::set<NFA::State *> &in, std::set<NFA::State *> &out, char c
         }
     }
     printf("move({ %s }, ' %c ')= ", stringFromNfa(in).c_str(), c);
-    printf("{ %s }", stringFromNfa(out).c_str());
+    printf("{ %s } \n", stringFromNfa(out).c_str());
+}
+
+void Regex::matchNfa() {
+    std::string str;
+    printf("Input string: \n");
+    getline(std::cin, str);
+
+    LexerBuffer lexerBuffer(str.data(), str.length());
+    std::set<NFA::State*> next, cur;
+    cur.insert(nfa.startState());
+    e_closure(cur);
+    char c;
+    bool lastAccepted = false;
+    while ((c = (char) lexerBuffer.advance()) != EOF) {
+        move(cur, next, c);
+        e_closure(next);
+        if (!next.empty()) {
+            if (hasAcceptState(next)) {
+                lastAccepted = true;
+            }
+        } else {
+            break;
+        }
+        cur = next;
+        next.clear();
+    }
+    if (lastAccepted) {
+        printf("The Nfa Machine can recognize string: %s \n", str.c_str());
+    }
+
+}
+
+bool Regex::hasAcceptState(std::set<NFA::State *> &set) {
+    std::string str("Accept State: ");
+    bool isAccepted = false;
+    std::set<NFA::State*>::iterator iterator = set.begin();
+    NFA::State *state;
+    while (iterator != set.end()) {
+        state = *iterator;
+        iterator++;
+        if (state->next == NULL && state->next2 == NULL) {
+            isAccepted = true;
+            str.append(std::to_string(state->id));
+            str.append(" ");
+        }
+    }
+    if (isAccepted) {
+        printf("%s \n", str.c_str());
+    }
+    return isAccepted;
 }

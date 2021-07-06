@@ -27,8 +27,9 @@ private:
      * 并将闭包的节点加入到in中
     */
     void e_closure(std::set<NFA::State*> &in);
-    std::string stringFromNfa(std::set<NFA::State*> set);
+    std::string stringFromNfa(std::set<NFA::State*> &set);
     void move(std::set<NFA::State*> &in, std::set<NFA::State*> &out, char c);
+    bool hasAcceptState(std::set<NFA::State*> &set);
 
 public:
     Regex(const char * macroFilePath, char * regex);
@@ -62,7 +63,7 @@ public:
     //or 操作
     void expr();
 
-
+    void matchNfa();
 };
 
 
