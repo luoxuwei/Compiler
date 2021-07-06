@@ -284,3 +284,46 @@ void Regex::printNfa() {
     nfa.printNfa();
 }
 
+/*
+* 计算in集合中nfa节点所对应的ε闭包，
+* 并将闭包的节点加入到in中
+*/
+void Regex::e_closure(std::set<NFA::State *> &in) {
+    if (in.empty()) return;
+    printf("ε-Closure( %s ) = ", stringFromNfa(in).c_str());
+
+    std::stack<NFA::State*> stateStack;
+    std::set<NFA::State *>::iterator iterator = in.begin();
+    while (iterator != in.end()) {
+        stateStack.push(*iterator);
+        iterator++;
+    }
+
+    NFA::State *cur;
+    while (!stateStack.empty()) {
+        cur = stateStack.top();
+        stateStack.pop();
+        if (cur->edge == EPSILON && cur->next != NULL) {
+            stateStack.push(cur->next);
+            in.insert(cur->next);
+        }
+        if (cur->next2 != NULL) {
+            stateStack.push(cur->next2);
+            in.insert(cur->next2);
+        }
+    }
+    printf("{ %s }", stringFromNfa(in).c_str());
+}
+
+std::string Regex::stringFromNfa(std::set<NFA::State *> set) {
+    std::stack<NFA::State*> stateStack;
+    std::set<NFA::State *>::iterator iterator = set.begin();
+    std::set<NFA::State *>::iterator last = --set.end();
+    std::string ret;
+
+    while (iterator != set.end()) {
+        ret.append(std::to_string((*iterator)->id));
+        ret.append(",");
+    }
+}
+

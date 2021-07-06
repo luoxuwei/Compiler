@@ -13,6 +13,7 @@
 #include <algorithm>
 #include "ExprLexer.h"
 #include "NFA.h"
+#include <set>
 
 
 class Regex {
@@ -21,6 +22,12 @@ private:
     NFA nfa;
     void dodash(NFA::State *state);
     bool first_in_cat(ExprLexer::Token token);
+    /*
+     * 计算in集合中nfa节点所对应的ε闭包，
+     * 并将闭包的节点加入到in中
+    */
+    void e_closure(std::set<NFA::State*> &in);
+    std::string stringFromNfa(std::set<NFA::State*> set);
 
 public:
     Regex(const char * macroFilePath, char * regex);
@@ -53,6 +60,8 @@ public:
     void cat_expr();
     //or 操作
     void expr();
+
+
 };
 
 
