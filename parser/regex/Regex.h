@@ -28,6 +28,7 @@ private:
     */
     void e_closure(std::set<NFA::State*> &in);
     std::string stringFromNfa(std::set<NFA::State*> set);
+    void move(std::set<NFA::State*> &in, std::set<NFA::State*> &out, char c);
 
 public:
     Regex(const char * macroFilePath, char * regex);

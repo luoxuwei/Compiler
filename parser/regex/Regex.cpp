@@ -327,3 +327,16 @@ std::string Regex::stringFromNfa(std::set<NFA::State *> set) {
     }
 }
 
+void Regex::move(std::set<NFA::State *> &in, std::set<NFA::State *> &out, char c) {
+    std::set<NFA::State *>::iterator iterator = in.begin();
+    NFA::State *state;
+    while (iterator != in.end()) {
+        state = *iterator;
+        iterator++;
+        if (state->edge == c || (state->edge == CCL && state->inputSet.test(c))) {
+            out.insert(state->next);
+        }
+    }
+    printf("move({ %s }, ' %c ')= ", stringFromNfa(in).c_str(), c);
+    printf("{ %s }", stringFromNfa(out).c_str());
+}
