@@ -209,3 +209,31 @@ make
 
 > [实现正则表达式*闭包的nfa构造](https://github.com/luoxuwei/Compiler/commit/76bfbaf0ad45baaae4dad8c5d08e33d4fae89bf2) | [实现正则表达式+闭包的nfa构造](https://github.com/luoxuwei/Compiler/commit/ef99f3a0efd829336bd24a9f8baa26cb853fe4df) | [实现正则表达式？选择操作的nfa构造](https://github.com/luoxuwei/Compiler/commit/fe98389a2c1cf0d48b2383c6691d36c52af2bad5) | [将正则表达式闭包操作整合到factor中](https://github.com/luoxuwei/Compiler/commit/db7f85c8a49b66231afcadb50fcf9a1b65f10b24) | [实现正则表达式连接操作的nfa构造](https://github.com/luoxuwei/Compiler/commit/031c9f2304471317c99a157cc96051e997014450) | [实现正则表达式OR操作的nfa构造](https://github.com/luoxuwei/Compiler/commit/ebe5c11e88c05d51a14db60f784721f21a194eeb) | [实现正则表达式()处理机制](https://github.com/luoxuwei/Compiler/commit/1be16092b86195341cf3e40708459371d7e7643a)
 
+### NFA 状态机识别字符串
+
+对应给定的一组初始状态，通过他们的ε边所能达到的状态的集合，我们称之为ε闭包记做ε-Closure，从输入中，读入字符后，得到的跳转状态要从ε闭包集合中找能够读取字符的状态，得到转移状态集合。得到转移状态集合后，求转移状态集合的ε闭包。继续读入字符，求转移状态集合。就这样循环直到处理完所有输入字符，最终的集合中如果有接受状态就识别成功。
+
+ε-Closure({17}) = { 5,9,17,1,3,4 }
+
+move({5,9,17,1,3,4}, ‘1’) = {2, 10}
+
+ε-Closure({2, 10}) = { 10,5,2,11,1,4 }.
+
+.....
+
+```shell
+cd parser/regex
+mkdir build
+cd build
+cmake ..
+make
+./regex ../test_macro.txt "{D}*\.{D}|{D}\.{D}*"
+# 控制台输入要识别的数字
+#Input string:
+#1.2
+```
+
+#### commit
+
+> [实现求集合的ε-Closure](https://github.com/luoxuwei/Compiler/commit/df93ed3cf2e9c8bfe902909487f550dbe8b6ccf1) | [实现求对应字符的跳转集合](https://github.com/luoxuwei/Compiler/commit/80272b734f5a3d1c347f7d9b1ab2f69839a4ea0d) | [实现nfa 识别字符串](https://github.com/luoxuwei/Compiler/commit/e0d65da31139a8af54a80539dd60b426a81c85b5) 
+
