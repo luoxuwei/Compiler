@@ -168,3 +168,44 @@ make
 
 > [开发构造nfa需要的基础数据结构和状态节点管理模块](https://github.com/luoxuwei/Compiler/commit/fb0fe680398dfc2cde3b9f1536d0fca8b462efd7) | [开发单字符匹配规则构造](https://github.com/luoxuwei/Compiler/commit/74d2429e4f7fba67895d02d61a3bc4e57b0ee4a5) | [开发正则表达式‘.’匹配规则构造逻辑](https://github.com/luoxuwei/Compiler/commit/df0a4b8754d6dd6edd828e04f0e06a6a8b3f1ec8) | [开发正则表达式字符集构造逻辑](https://github.com/luoxuwei/Compiler/commit/eb63f2e8bc2e528c08103125be23d5fc2b8f3339) | [开发正则表达式字符集取反逻辑](https://github.com/luoxuwei/Compiler/commit/1914d75c961d6b70f6ef3e3e2f8fe4c995100d41) | [打印nfa和测试nfa构造逻辑](https://github.com/luoxuwei/Compiler/commit/8f8aaf036ae21c6779d3b753def1a5693cf1df34)
 
+### 构建复杂的正则表达式对应的NFA状态机（闭包连接OR）
+
+正则表达式解析语法：
+
+expr -> expr  “|”  cat_expr
+
+​            | cat_expr
+
+cat_expr -> factor cat_expr
+
+​                   | factor
+
+factor -> term* | term+ | term?
+
+term -> [string] | . | character | (expr) | [ ^string]
+
+```shell
+cd parser/regex
+mkdir build
+cd build
+cmake ..
+make
+# *
+./regex ../test_macro.txt [0-9]*
+# +
+# ./regex ../test_macro.txt [0-9]+
+#?
+# ./regex ../test_macro.txt [0-9]?
+#& 连接
+# ./regex ../test_macro.txt [0-9]*[a-z]
+# | OR操作
+# ./regex ../test_macro.txt "[0-9]*|[a-z]+"
+# ()
+# ./regex ../test_macro.txt "([0-9])*|([a-z])+"
+
+```
+
+#### commit
+
+> [实现正则表达式*闭包的nfa构造](https://github.com/luoxuwei/Compiler/commit/76bfbaf0ad45baaae4dad8c5d08e33d4fae89bf2) | [实现正则表达式+闭包的nfa构造](https://github.com/luoxuwei/Compiler/commit/ef99f3a0efd829336bd24a9f8baa26cb853fe4df) | [实现正则表达式？选择操作的nfa构造](https://github.com/luoxuwei/Compiler/commit/fe98389a2c1cf0d48b2383c6691d36c52af2bad5) | [将正则表达式闭包操作整合到factor中](https://github.com/luoxuwei/Compiler/commit/db7f85c8a49b66231afcadb50fcf9a1b65f10b24) | [实现正则表达式连接操作的nfa构造](https://github.com/luoxuwei/Compiler/commit/031c9f2304471317c99a157cc96051e997014450) | [实现正则表达式OR操作的nfa构造](https://github.com/luoxuwei/Compiler/commit/ebe5c11e88c05d51a14db60f784721f21a194eeb) | [实现正则表达式()处理机制](https://github.com/luoxuwei/Compiler/commit/1be16092b86195341cf3e40708459371d7e7643a)
+
