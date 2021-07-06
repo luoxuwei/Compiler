@@ -13,7 +13,22 @@ Regex::Regex(const char *macroFilePath, char *regex) {
     exprLexer->advance();
 }
 
+/*
+* term ->  character | [...] | [^...] | [character-charcter] | . | (expr)
+*
+*/
 bool Regex::term() {
+    if (exprLexer->matchToken(ExprLexer::Token::OPEN_PAREN)) {
+        exprLexer->advance();
+        expr();
+        if (exprLexer->matchToken(ExprLexer::Token::CLOSE_PAREN)) {
+            exprLexer->advance();
+        }
+        else {
+            parseErr(Error::E_PAREN);
+        }
+        return true;
+    }
     bool handle = character();
     if (!handle) {
         dot();
@@ -195,6 +210,17 @@ void Regex::cat_expr() {
     nfa.setEndState(end);
 }
 
+/*
+ * expr -> expr  “|”  cat_expr
+ *         | cat_expr
+ * cat_expr -> factor cat_expr
+ *             | factor
+
+ * factor -> term* | term+ | term?
+
+ * term -> [string] | . | character | (expr) | [^string]
+ *
+ * */
 void Regex::expr() {
     /*
     * expr 由一个或多个cat_expr 之间进行 OR 形成
