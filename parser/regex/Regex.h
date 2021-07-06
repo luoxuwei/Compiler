@@ -44,6 +44,8 @@ public:
     bool starClosure();
     //[]+，+闭包
     bool plusClosure();
+    //?,0或1次，选择操作
+    bool optionClosure();
 
 };
 
