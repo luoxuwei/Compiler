@@ -162,6 +162,18 @@ bool Regex::optionClosure() {
     return true;
 }
 
+//factor -> term* | term+ | term?.
+void Regex::factor() {
+    bool handle = false;
+    handle = starClosure();
+    if (!handle) {
+        handle = plusClosure();
+    }
+    if (!handle) {
+        handle = optionClosure();
+    }
+}
+
 void Regex::printNfa() {
     nfa.printNfa();
 }

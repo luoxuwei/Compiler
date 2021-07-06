@@ -46,6 +46,8 @@ public:
     bool plusClosure();
     //?,0或1次，选择操作
     bool optionClosure();
+    //factor -> term* | term+ | term?.
+    void factor();
 
 };
 
