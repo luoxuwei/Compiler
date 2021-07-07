@@ -14,21 +14,21 @@
 #include "ExprLexer.h"
 #include "NFA.h"
 #include <set>
-
+#include "DFA.h"
 
 class Regex {
 private:
     ExprLexer* exprLexer;
     NFA nfa;
+    DFA dfa;
     void dodash(NFA::State *state);
     bool first_in_cat(ExprLexer::Token token);
     /*
      * 计算in集合中nfa节点所对应的ε闭包，
      * 并将闭包的节点加入到in中
     */
-    void e_closure(std::set<NFA::State*> &in);
+
     std::string stringFromNfa(std::set<NFA::State*> &set);
-    void move(std::set<NFA::State*> &in, std::set<NFA::State*> &out, char c);
     bool hasAcceptState(std::set<NFA::State*> &set);
 
 public:
@@ -64,6 +64,8 @@ public:
     void expr();
 
     void matchNfa();
+    void e_closure(std::set<NFA::State*> &in);
+    void move(std::set<NFA::State*> &in, std::set<NFA::State*> &out, char c);
 };
 
 

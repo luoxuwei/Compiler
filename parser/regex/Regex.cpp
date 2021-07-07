@@ -6,7 +6,8 @@
 #include<iostream>
 
 void Regex::parse() {
-
+    expr();
+    dfa.construct(nfa);
 }
 
 Regex::Regex(const char *macroFilePath, char *regex) {
@@ -65,7 +66,7 @@ bool Regex::dot() {
     NFA::State *end = nfa.newNfa();
     nfa.setEndState(end);
     start->next = end;
-    start->edge = CCL;
+    start->edge = NFA::CCL;
     start->inputSet.set('\n');
     start->inputSet.set('\r');
     start->inputSet.flip();
@@ -83,7 +84,7 @@ bool Regex::charClass() {
     NFA::State *end = nfa.newNfa();
     nfa.setEndState(end);
     start->next = end;
-    start->edge = CCL;
+    start->edge = NFA::CCL;
 
     bool complement = false;
     if (exprLexer->matchToken(ExprLexer::Token::AT_BOL)) {
@@ -304,7 +305,7 @@ void Regex::e_closure(std::set<NFA::State *> &in) {
     while (!stateStack.empty()) {
         cur = stateStack.top();
         stateStack.pop();
-        if (cur->edge == EPSILON && cur->next != NULL) {
+        if (cur->edge == NFA::EPSILON && cur->next != NULL) {
             stateStack.push(cur->next);
             in.insert(cur->next);
         }

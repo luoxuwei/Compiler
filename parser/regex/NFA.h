@@ -9,14 +9,14 @@
 #include <deque>
 #include <stack>
 
-#define EPSILON -1 //边对应的是ε
-#define CCL -2 //边对应的是字符集
-#define EMPTY -3 //该节点没有出去的边
 #define ASCII_COUNT 127
 #define NFA_MAX 256 //最多运行分配256个NFA节点
 
 class NFA {
 public:
+    const static int EPSILON = -1; //边对应的是ε
+    const static int CCL = -2;     //边对应的是字符集
+    const static int EMPTY = -3;   //该节点没有出去的边
     typedef uint32_t state_t;
     /*
      *位置锚定
