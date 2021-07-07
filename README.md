@@ -277,4 +277,11 @@ make
 
 > [实现dfa节点分区算法](https://github.com/luoxuwei/Compiler/commit/66993cda449253a40d3c159dc723b33d2f2cfdfd) | [构建最小化后的dfa的跳转表](https://github.com/luoxuwei/Compiler/commit/b6cc1aff58bf4a082b0b9d6eab8ac78d2fa0c242)
 
-## 
+### 后续
+
+1.使用更高效的算法 [An Efficient and Elegant Regular Expression Matcher in Python](http://morepypy.blogspot.ru/2010/05/efficient-and-elegant-regular.html).
+
+2.使用Jit加速
+
+3.支持更多的规则
+
