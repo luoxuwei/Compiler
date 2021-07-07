@@ -44,7 +44,7 @@ public:
                 printf("%d ", (*iterator)->id);
                 iterator++;
             }
-            printf("/n");
+            printf("\n");
         }
 
         void addToRemove(State *state) {
@@ -53,12 +53,15 @@ public:
 
         void commitRemove() {
             std::vector<State*>::iterator iterator = tobeRemove.begin();
-            std::vector<State*>::iterator last;
+            std::vector<State*>::iterator last = dfaGroup.end();//!!!!!
             while (iterator != tobeRemove.end()) {
                 last = std::remove(dfaGroup.begin(), dfaGroup.end(), *iterator);
                 iterator++;
             }
-            dfaGroup.erase(last, dfaGroup.end());
+
+            if (last != dfaGroup.end()) {
+                dfaGroup.erase(last, dfaGroup.end());
+            }
         }
     };
 
@@ -72,14 +75,17 @@ public:
         groups.resize(groups.size() + 1);
         ret = &groups.back();
         ret->id = groups.size();
+        return ret;
     }
 
     void minimize();
+    ~DFA();
 
 private:
     std::deque<State> states;
     std::deque<StateGroup> groups;
     int dfaStateTransFormTable[MAX_DFA_STATE_COUNT][ASCII_COUNT+1];
+    state_t (*minDfa)[ASCII_COUNT+1];
     std::vector<State *> dfaList;
     bool addNewGroup = false;
     StateGroup *newGroup;
@@ -91,6 +97,8 @@ private:
     void doGroupSeperation();
     bool doGroupSeperationOnInput(StateGroup *group, State *first, State *next, char c);
     StateGroup *getContainingGroup(state_t state);
+    void createMiniDfaTransTable();
+    void printMiniDfaTable();
 };
 
 

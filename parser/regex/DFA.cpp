@@ -156,6 +156,9 @@ void DFA::minimize() {
         addNewGroup = false;
         doGroupSeperation();
     } while (addNewGroup);
+
+    createMiniDfaTransTable();
+    printMiniDfaTable();
 }
 
 /*
@@ -224,8 +227,8 @@ bool DFA::doGroupSeperationOnInput(StateGroup *group, DFA::State *first, DFA::St
         }
         newGroup->add(next);
         group->addToRemove(next);
-        printf("Dfa:%d and Dfa:%d jump to different group on input char %c", first->id, next->id, c);
-        printf("remove Dfa:%d from group:%d and add it to group:%d", next->id, group->id, newGroup->id);
+        printf("Dfa:%d and Dfa:%d jump to different group on input char %c \n", first->id, next->id, c);
+        printf("remove Dfa:%d from group:%d and add it to group:%d \n", next->id, group->id, newGroup->id);
         return true;
     }
 
@@ -243,4 +246,49 @@ DFA::StateGroup * DFA::getContainingGroup(state_t state) {
         iterator++;
     }
     return NULL;
+}
+
+/*
+* 把点与点的跳转关系转换为分区与分区的转移关系
+*/
+void DFA::createMiniDfaTransTable() {
+    minDfa = new state_t[groups.size()][ASCII_COUNT+1];
+    for (int i=0; i<groups.size(); i++) {
+        for (int j=0; j<=ASCII_COUNT; j++) {
+            minDfa[i][j] = STATE_FAILURE;
+        }
+    }
+
+    std::vector<DFA::State *>::iterator iterator = dfaList.begin();
+    while (iterator != dfaList.end()) {
+        for (int c=0; c<=ASCII_COUNT; c++) {
+            if (dfaStateTransFormTable[(*iterator)->id][c] != STATE_FAILURE) {
+                state_t from = (*iterator)->id;
+                state_t to = dfaStateTransFormTable[(*iterator)->id][c];
+                StateGroup *groupFrom = getContainingGroup(from);
+                StateGroup *groupTo = getContainingGroup(to);
+                minDfa[groupFrom->id][c] = groupTo->id;
+            }
+        }
+
+        iterator++;
+    }
+
+}
+
+void DFA::printMiniDfaTable() {
+    for (int i = 0; i < groups.size(); i++)
+        for (int j = 0; j < groups.size(); j++) {
+            if (isOnNumberClass(i,j)) {
+                printf("From state %d to state %d on D \n", i, j);
+            }
+
+            if (isOnDot(i, j)) {
+                printf("From state %d to state %d on dot \n", i, j);
+            }
+        }
+}
+
+DFA::~DFA() {
+    delete[] minDfa;
 }

@@ -9,6 +9,7 @@ void Regex::parse() {
     expr();
     dfa.construct(nfa);
     dfa.printDfa();
+    dfa.minimize();
 }
 
 Regex::Regex(const char *macroFilePath, char *regex) {
