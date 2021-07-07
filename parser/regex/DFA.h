@@ -8,11 +8,16 @@
 #include <set>
 #include <map>
 #include <vector>
-#define ASCII_COUNT 128
+#define ASCII_COUNT 127
+//假定DFA状态机节点数不会超过254个
+#define MAX_DFA_STATE_COUNT 254
 class DFA {
 public:
     const static int STATE_FAILURE = -1;
     typedef uint32_t state_t;
+
+
+
     struct State {
         std::set<NFA::State*> nfaStates; //dfa节点对应的nfa节点集合
         state_t id; //节点编号
@@ -24,10 +29,16 @@ public:
     DFA();
     State * getDfaFromNfaSet(std::set<NFA::State*> &nfaSet);
     void construct(NFA &nfa);
+    void printDfa();
 private:
     std::deque<State> states;
-    std::map<state_t, std::map<int, state_t>> dfaStateTransFormTable;
+    int dfaStateTransFormTable[MAX_DFA_STATE_COUNT][ASCII_COUNT];
     std::vector<State *> dfaList;
+
+    void printDfaState(State *state);
+    State *isNfaStatesExistInDfa(std::set<NFA::State*> &set);
+    bool isOnNumberClass(int from, int to);
+    bool isOnDot(int from, int to);
 };
 
 

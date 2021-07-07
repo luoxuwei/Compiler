@@ -55,6 +55,8 @@ public:
         }
     };
 
+    bool debug = true;
+
     NFA();
     State* newNfa();
     void recycleNfa(State *state);
@@ -74,7 +76,7 @@ public:
     /*
      * 求状态集合对应某个输入字符的转移集合
      * */
-    void move(std::set<State*> &in, std::set<NFA::State*> &out, char c);
+    void move(std::set<State*> &in, std::set<State*> &out, char c);
 
 private:
     std::deque<State> states;

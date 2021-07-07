@@ -35,6 +35,7 @@ public:
 
     void parse();
     void printNfa();
+    void printDfa();
     /*
      *term ->  character | [...] | [^...]
      * */

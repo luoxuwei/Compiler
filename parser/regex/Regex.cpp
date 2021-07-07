@@ -8,6 +8,7 @@
 void Regex::parse() {
     expr();
     dfa.construct(nfa);
+    dfa.printDfa();
 }
 
 Regex::Regex(const char *macroFilePath, char *regex) {
@@ -285,6 +286,10 @@ bool Regex::first_in_cat(ExprLexer::Token token) {
 
 void Regex::printNfa() {
     nfa.printNfa();
+}
+
+void Regex::printDfa() {
+    dfa.printDfa();
 }
 
 void Regex::matchNfa() {

@@ -149,7 +149,9 @@ bool NFA::hasAcceptState(std::set<NFA::State *> &set) {
 */
 void NFA::e_closure(std::set<NFA::State *> &in) {
     if (in.empty()) return;
-    printf("ε-Closure( %s ) = ", stringFromNfa(in).c_str());
+    if (debug) {
+        printf("ε-Closure( %s ) = ", stringFromNfa(in).c_str());
+    }
 
     std::stack<NFA::State*> stateStack;
     std::set<NFA::State *>::iterator iterator = in.begin();
@@ -171,7 +173,10 @@ void NFA::e_closure(std::set<NFA::State *> &in) {
             in.insert(cur->next2);
         }
     }
-    printf("{ %s } \n", stringFromNfa(in).c_str());
+
+    if (debug) {
+        printf("{ %s } \n", stringFromNfa(in).c_str());
+    }
 }
 
 std::string NFA::stringFromNfa(std::set<NFA::State *>& set) {
@@ -196,6 +201,9 @@ void NFA::move(std::set<NFA::State *> &in, std::set<NFA::State *> &out, char c) 
             out.insert(state->next);
         }
     }
-    printf("move({ %s }, ' %c ')= ", stringFromNfa(in).c_str(), c);
-    printf("{ %s } \n", stringFromNfa(out).c_str());
+
+    if (debug) {
+        printf("move({ %s }, ' %c ')= ", stringFromNfa(in).c_str(), c);
+        printf("{ %s } \n", stringFromNfa(out).c_str());
+    }
 }
