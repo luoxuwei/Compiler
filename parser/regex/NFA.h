@@ -8,6 +8,8 @@
 #include <bitset>
 #include <deque>
 #include <stack>
+#include "LexerBuffer.h"
+#include <set>
 
 #define ASCII_COUNT 127
 #define NFA_MAX 256 //最多运行分配256个NFA节点
@@ -62,6 +64,17 @@ public:
     void setEndState(State *state) {end = state;}
 
     void printNfa();
+    void match(std::string &str);
+    /*
+     * 计算in集合中nfa节点所对应的ε闭包，
+     * 并将闭包的节点加入到in中
+     * */
+    void e_closure(std::set<State*> &in);
+
+    /*
+     * 求状态集合对应某个输入字符的转移集合
+     * */
+    void move(std::set<State*> &in, std::set<NFA::State*> &out, char c);
 
 private:
     std::deque<State> states;
@@ -72,6 +85,9 @@ private:
     void printNfa(State *state);
     void printNfaNode(State *state);
     void printCCL(State *state);
+
+    std::string stringFromNfa(std::set<State*> &set);
+    bool hasAcceptState(std::set<State*> &set);
 };
 
 

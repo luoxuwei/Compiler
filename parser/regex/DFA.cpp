@@ -4,6 +4,10 @@
 
 #include "DFA.h"
 
+DFA::DFA() {
+
+}
+
 DFA::State * DFA::getDfaFromNfaSet(std::set<NFA::State *> &nfaSet) {
     State *ret;
     states.resize(states.size() + 1);
@@ -17,4 +21,10 @@ DFA::State * DFA::getDfaFromNfaSet(std::set<NFA::State *> &nfaSet) {
         }
     }
     return ret;
+}
+
+void DFA::construct(NFA &nfa) {
+    std::set<NFA::State*> next, cur;
+    cur.insert(nfa.startState());
+    nfa.e_closure(cur);
 }
