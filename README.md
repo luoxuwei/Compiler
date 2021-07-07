@@ -254,3 +254,27 @@ make
 
 > [创建构建DFA所需的基础数据结构和dfa节点管理模块](https://github.com/luoxuwei/Compiler/commit/8df5da680f49a60199baca197c60b54b42ee2547) | [将nfa相关逻辑从regex类中挪到nfa类里](https://github.com/luoxuwei/Compiler/commit/8fe4130fad2225ee55ae66c6b439889596915ae7) | [实现nfa转dfa算法](https://github.com/luoxuwei/Compiler/commit/906484f5bf11a4debb428cf56a5f5dd0bccb52c8)
 
+### DFA最小化
+
+NFA转化的DFA不是最优的其中有些节点可以合并，DFA最小化就是要去掉和合并不必要的节点。
+
+1.把所有状态节点分成两分区，接收状态为一分区，非接收状态为一分区
+
+2.根据每一个状态节点对应输入字符后的跳转情况，进行下一步分区。将那些根据输入字符跳转到的节点不在同一分区（不在本分区）的节点切分成新的分区。
+
+不断的迭代，直到所有分区无法再分割，根据分割后的情况，我们把点到点的转移关系转化成分区与分区的转移关系，就得到一个新的DFA。
+
+```shell
+cd parser/regex
+mkdir build
+cd build
+cmake ..
+make
+./regex ../test_macro.txt "{D}*\.{D}|{D}\.{D}*"
+```
+
+#### commit
+
+> [实现dfa节点分区算法](https://github.com/luoxuwei/Compiler/commit/66993cda449253a40d3c159dc723b33d2f2cfdfd) | [构建最小化后的dfa的跳转表](https://github.com/luoxuwei/Compiler/commit/b6cc1aff58bf4a082b0b9d6eab8ac78d2fa0c242)
+
+## 
