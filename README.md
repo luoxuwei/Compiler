@@ -237,3 +237,20 @@ make
 
 > [实现求集合的ε-Closure](https://github.com/luoxuwei/Compiler/commit/df93ed3cf2e9c8bfe902909487f550dbe8b6ccf1) | [实现求对应字符的跳转集合](https://github.com/luoxuwei/Compiler/commit/80272b734f5a3d1c347f7d9b1ab2f69839a4ea0d) | [实现nfa 识别字符串](https://github.com/luoxuwei/Compiler/commit/e0d65da31139a8af54a80539dd60b426a81c85b5) 
 
+### NFA转DFA
+
+nfa转dfa的过程和使用nfa识别字符串的过程类似，先求初始状态ε-Closure，得到初始状态集合，一个nfa状态集合对应一个dfa节点，将新产生的dfa节点加入到一个列表中，然后遍历dfa节点对应nfa集合中所有状态的可接受的输入，求得每个输入的转移集合，求这些转移集合的ε-Closure，这些ε-Closure对应新的nfa节点，再将这些新的dfa节点入到列表中，加入时需要判断列表中是否已经存在同样的dfa节点（判断两个dfa节点对应的nfa集合是否相同），不存在才加入，如果存在则不产生新的dfa节点。继续求新加入的集合的转移集合，如此循环直到没有新的集合产生。
+
+```shell
+cd parser/regex
+mkdir build
+cd build
+cmake ..
+make
+./regex ../test_macro.txt "{D}*\.{D}|{D}\.{D}*"
+```
+
+#### commit
+
+> [创建构建DFA所需的基础数据结构和dfa节点管理模块](https://github.com/luoxuwei/Compiler/commit/8df5da680f49a60199baca197c60b54b42ee2547) | [将nfa相关逻辑从regex类中挪到nfa类里](https://github.com/luoxuwei/Compiler/commit/8fe4130fad2225ee55ae66c6b439889596915ae7) | [实现nfa转dfa算法](https://github.com/luoxuwei/Compiler/commit/906484f5bf11a4debb428cf56a5f5dd0bccb52c8)
+
