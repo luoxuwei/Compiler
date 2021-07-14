@@ -217,18 +217,20 @@ void Klass::order_supers() {
             _mro->append(k->mro()->get(j));
         }
 
-        if (_mro == NULL) {
-            return;
-        }
 
-        printf("%s' s mro is ", _name->value());
-        for (int i=0; i<_mro->size(); i++) {
-            PyTypeObject* tp_obj = (PyTypeObject*) (_mro->get(i));
-            Klass* k = tp_obj->own_klass();
-            printf("%s, ", k->name()->value());
-        }
-        printf("\n");
     }
+
+    if (_mro == NULL) {
+        return;
+    }
+
+    printf("%s' s mro is ", _name->value());
+    for (int i=0; i<_mro->size(); i++) {
+        PyTypeObject* tp_obj = (PyTypeObject*) (_mro->get(i));
+        Klass* k = tp_obj->own_klass();
+        printf("%s, ", k->name()->value());
+    }
+    printf("\n");
 }
 
 size_t Klass::size() {
