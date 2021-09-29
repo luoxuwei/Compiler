@@ -42,3 +42,71 @@ CLexer::CLexer(const char *content, size_t len): CLexer() {
     buf_len = len;
     memcpy(buf, content, len);
 }
+
+CLexer::~CLexer() {
+    if (buf != NULL) {
+        delete buf;
+        buf = NULL;
+    }
+}
+
+void CLexer::advance() {
+    lookAhead = lex();
+    while (lookAhead == CTokenType::Token::WHITE_SPACE) {
+        lookAhead = lex();
+    }
+}
+
+CTokenType::Token CLexer::isKeyWord(string &str) {
+    if (keywordMap.find(str) != keywordMap.end()) {
+        return keywordMap[str];
+    }
+    return CTokenType::Token::NAME;
+}
+
+CTokenType::Token CLexer::id_keyword_or_number() {
+    if (isalpha(buf[charIndex])) {
+        string text(buf + charIndex, textLen);
+        return isKeyWord(text);
+    }
+    return CTokenType::Token::UNKNOWN_TOKEN;
+}
+
+CTokenType::Token CLexer::lex() {
+    if (buf == NULL) {
+        return CTokenType::Token::UNKNOWN_TOKEN;
+    }
+
+    charIndex = charIndex + textLen;
+    textLen = 0;
+    switch (buf[charIndex]) {
+        case ';': textLen = 1; return CTokenType::Token::SEMI;
+        case '+': textLen = 1; return CTokenType::Token::PLUS;
+        case '*': textLen = 1; return CTokenType::Token::STAR;
+        case '(': textLen = 1; return CTokenType::Token::LP;
+        case ')': textLen = 1; return CTokenType::Token::RP;
+        case ',': textLen = 1; return CTokenType::Token::COMMA;
+
+        case '\n':
+        case '\t':
+        case ' ':
+            textLen = 1;
+            return CTokenType::Token::WHITE_SPACE;
+        default:
+            if (isalnum(buf[charIndex]) == false) {
+                return CTokenType::Token::UNKNOWN_TOKEN;
+            }
+            else {
+                int i = charIndex;
+                while (i < buf_len && isalnum(buf[i])) {
+                    i++;
+                    textLen++;
+                }
+
+                return id_keyword_or_number();
+            }
+
+    }
+
+
+}

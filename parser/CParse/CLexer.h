@@ -14,14 +14,28 @@ using namespace std;
 
 class CLexer {
 private:
-    int lookAhead = CTokenType::Token::UNKNOWN_TOKEN;
+    CTokenType::Token lookAhead = CTokenType::Token::UNKNOWN_TOKEN;
     char *buf = NULL;
     size_t buf_len = 0;
-    map<string, int> keywordMap;
+    int charIndex = 0;
+    int textLen = 0;
+    map<string, CTokenType::Token> keywordMap;
+
+    CTokenType::Token lex();
+    CTokenType::Token isKeyWord(string& str);
+    CTokenType::Token id_keyword_or_number();
+
 public:
     CLexer(const char *filePath);
     CLexer(const char *content, size_t len);
     CLexer();
+    ~CLexer();
+
+    CTokenType::Token token() {
+        return lookAhead;
+    }
+
+    void advance();
 
 };
 
