@@ -6,6 +6,7 @@
 #define CPARSE_CTOKENTYPE_H
 
 class CTokenType {
+public:
     enum Token {
 //non-termals
 

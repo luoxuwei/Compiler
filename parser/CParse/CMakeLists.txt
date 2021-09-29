@@ -3,4 +3,4 @@ project(CParse)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(CParse main.cpp)
+add_executable(CParse main.cpp CLexer.cpp CLexer.h CTokenType.cpp CTokenType.h)
