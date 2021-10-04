@@ -1,36 +1,4 @@
-- [Compiler](#compiler)
-- [Pythonvm](#pythonvm)
-  * [commit列表](#commit--)
-    + [垃圾回收](#----)
-    + [类和对象](#----)
-    + [列表和字典](#-----)
-    + [函数和方法](#-----)
-    + [基本数据类型](#------)
-    + [控制流](#---)
-    + [pyc文件解析](#pyc----)
-- [parser](#parser)
-  * [词法分析](#----)
-    + [使用有限状态机实现整形和浮点型数值识别器](#--------------------)
-      - [commit](#commit)
-  * [将正则表达式转换为有限状态自动机](#----------------)
-      - [宏替换](#---)
-        * [commit](#commit-1)
-    + [正则表达式词法解析](#---------)
-      - [commit](#commit-2)
-    + [构造简单的正则表达式对应的NFA状态机](#-------------nfa---)
-      - [commit](#commit-3)
-    + [构建复杂的正则表达式对应的NFA状态机（闭包连接OR）](#-------------nfa--------or-)
-      - [commit](#commit-4)
-    + [NFA 状态机识别字符串](#nfa---------)
-      - [commit](#commit-5)
-    + [NFA转DFA](#nfa-dfa)
-      - [commit](#commit-6)
-    + [DFA最小化](#dfa---)
-      - [commit](#commit-7)
-    + [后续](#--)
-  * [语法分析](#----)
-- [C语言语法解析](#c------)
-  * [commit](#commit-8)
+
 
 # Compiler
 
@@ -92,7 +60,7 @@ make
 ![](parser/image/Picture1.png)
 
 ```shell
-cd parser/FinitStateMachine
+cd FinitStateMachine
 mkdir build
 cd build
 cmake ..
@@ -103,8 +71,8 @@ make
 ####  commit
 
 > [定义词法分析模块接口](https://github.com/luoxuwei/Compiler/commit/9d1e26cbe21a0034685b0aae642c56ed649e7076) | [完成词法解析简单实现](https://github.com/luoxuwei/Compiler/commit/a613cd5ac6895f48408e536919482757b4181836) | [定义有限自动机接口](https://github.com/luoxuwei/Compiler/commit/c47128b8414aaeb8b0c1b7d587a1df50474274e7) | [完成状态机状态初始化](https://github.com/luoxuwei/Compiler/commit/3f354d6a05f93d00ff12b6756e90226775c6aaa8) | [完成状态装换逻辑](https://github.com/luoxuwei/Compiler/commit/f909562c492c8464d36f3a4da4be4e87d294f2c5) | [搭建有限状态自动机执行流程](https://github.com/luoxuwei/Compiler/commit/4c94d5745c881929a35f9213ac121adec087cb1e) | [完成状态机识别逻辑](https://github.com/luoxuwei/Compiler/commit/e93b553dee4d93856af21874cd3cb6c80d2044f5) 
-
-## 将正则表达式转换为有限状态自动机
+## 正则表达式
+### 将正则表达式转换为有限状态自动机
 
 大多数正则表达式识别程序，基本上都是先将其转换为自动机，然后通过驱动自动机来识别输入的，一般是将正则表达式转换为NFA, 将NFA转换为DFA。将正则表达式转换为NFA的算法是由贝尔实验室的Ken Thompson 给出的。连接表达式ab 可以表示如下：
 
@@ -130,7 +98,7 @@ exp? (重复0或1次)的NFA:
 
 任何复杂的正则表达式它的NFA的构造都是上面几种构造的组合
 
-#### 宏替换
+### 宏替换
 
 宏定义即：D [0-9]在转换前，需要将正则表达式中的宏进行替换，也就是要将{D}+转换成：{[0-9]}。它有一个难点是需要处理宏定义的间套情况，例如：
 
@@ -143,7 +111,7 @@ AD {D}|{A}
 替换了宏AD之后，还需要继续替换D 和A.
 
 ```shell
-cd parser/regex
+cd regex
 mkdir build
 cd build
 cmake ..
@@ -151,7 +119,7 @@ make
 ./regex ../test_macro.txt {AD}.{AD}+
 ```
 
-##### commit
+#### commit
 
 > [创建正则表达式项目](https://github.com/luoxuwei/Compiler/commit/07190377a064d8fefe7cea8b3f9aaa02b45b5f20) | [开发宏扩展功能](https://github.com/luoxuwei/Compiler/commit/ef823601d26d48be8c244200d4f145401ebe49e1) | [开发正则表达式宏预处理逻辑](https://github.com/luoxuwei/Compiler/commit/bffec863281ec6fa1ac081812c82a3a43e49c700) | [项目重构](https://github.com/luoxuwei/Compiler/commit/e2502d62935eebd85a22082b2a0637bbd1eeb356) | [重构LexerBuffer](https://github.com/luoxuwei/Compiler/commit/9e58e8784b1bba8faf4ff5663b5738a831c3ff57) | [将词法解析逻辑封装到单独模块](https://github.com/luoxuwei/Compiler/commit/8bc575916d0e2bc8c2cd5c7d4746f4f3b7f97026)
 
@@ -160,7 +128,7 @@ make
 正则表达式其实是由一组由普通字符和特殊字符组合而成的一种表达形式。特殊的字符有特殊的含义，在正则表达式中，特殊字符有：\+ ? { } [ ] ( )  .  ^  $  “ \ 。普通字符和特殊字符结合在一起时，需要进行不同的解读，正则表达式词法解析麻烦的就是处理这种情况。
 
 ```shell
-cd parser/regex
+cd regex
 mkdir build
 cd build
 cmake ..
@@ -184,7 +152,7 @@ term ->  character | [...] | [^...]
 任何复杂的形式，都建立在多种简单的形式组合之上。
 
 ```shell
-cd parser/regex
+cd regex
 mkdir build
 cd build
 cmake ..
@@ -220,7 +188,7 @@ factor -> term* | term+ | term?
 term -> [string] | . | character | (expr) | [ ^string]
 
 ```shell
-cd parser/regex
+cd regex
 mkdir build
 cd build
 cmake ..
@@ -257,7 +225,7 @@ move({5,9,17,1,3,4}, ‘1’) = {2, 10}
 .....
 
 ```shell
-cd parser/regex
+cd regex
 mkdir build
 cd build
 cmake ..
@@ -277,7 +245,7 @@ make
 nfa转dfa的过程和使用nfa识别字符串的过程类似，先求初始状态ε-Closure，得到初始状态集合，一个nfa状态集合对应一个dfa节点，将新产生的dfa节点加入到一个列表中，然后遍历dfa节点对应nfa集合中所有状态的可接受的输入，求得每个输入的转移集合，求这些转移集合的ε-Closure，这些ε-Closure对应新的nfa节点，再将这些新的dfa节点入到列表中，加入时需要判断列表中是否已经存在同样的dfa节点（判断两个dfa节点对应的nfa集合是否相同），不存在才加入，如果存在则不产生新的dfa节点。继续求新加入的集合的转移集合，如此循环直到没有新的集合产生。
 
 ```shell
-cd parser/regex
+cd regex
 mkdir build
 cd build
 cmake ..
@@ -300,7 +268,7 @@ NFA转化的DFA不是最优的其中有些节点可以合并，DFA最小化就�
 不断的迭代，直到所有分区无法再分割，根据分割后的情况，我们把点到点的转移关系转化成分区与分区的转移关系，就得到一个新的DFA。
 
 ```shell
-cd parser/regex
+cd regex
 mkdir build
 cd build
 cmake ..
