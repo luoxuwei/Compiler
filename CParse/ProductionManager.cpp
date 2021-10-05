@@ -36,7 +36,7 @@ void ProductionManager::addProduction(Production &production) {
         productionList = iter->second;
     }
 
-    auto listIter = find(productionList->begin(), productionList->end(), ProductionComparator(production));
+    auto listIter = find_if(productionList->begin(), productionList->end(), ProductionComparator(production));
     if (listIter != productionList->end()) {
         productionList->push_back(&production);
     }
