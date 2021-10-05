@@ -15,7 +15,7 @@ private:
     vector<CTokenType::Token> &right;//语法推导表达式右边的符号列表
 public:
     Production(CTokenType::Token left, int dot, vector<CTokenType::Token> &right);
-    Production doForword();//分区生成新的状态节点时，将位置标识往前以一步
+    Production *doForword();//分区生成新的状态节点时，将位置标识往前以一步
     CTokenType::Token getLeft() {return left;};
     vector<CTokenType::Token> & getRight() {return right;};
     int getDotPosition() {return dotPos;};

@@ -59,3 +59,44 @@ void GrammarState::doPartition() {
         }
     }
 }
+
+void GrammarState::makeTransition() {
+    for (auto pair : partition) {
+        transition[pair.first] = makeNextGrammarState(pair.first);
+    }
+    extendFollowingTransition();
+}
+
+GrammarState * GrammarState::makeNextGrammarState(CTokenType::Token token) {
+    auto iter = partition.find(token);
+    if (iter == partition.end()) return NULL;
+    vector<Production*> *newStateProductionList = new vector<Production*>();
+    for (auto p : *(iter->second)) {
+        newStateProductionList->push_back(p->doForword());
+    }
+    return grammarStateManager->getGrammarState(newStateProductionList);
+}
+
+void GrammarState::extendFollowingTransition() {
+    for (auto pair : transition) {
+        if (!pair.second->transitionDone) {
+            pair.second->createTransition();
+        }
+    }
+}
+
+bool GrammarState::operator==(GrammarState &grammarState) {
+    if (productions->size() != grammarState.productions->size()) return false;
+    return std::equal(productions->begin(), productions->end(), grammarState.productions->begin(), [](Production* p1, Production *p2) -> bool  {
+        return *p1 == *p2;
+    });
+}
+
+void GrammarState::createTransition() {
+    if (transitionDone) return;
+    transitionDone = true;
+
+    makeClosure();
+    doPartition();
+    makeTransition();
+}

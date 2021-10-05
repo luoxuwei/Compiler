@@ -10,8 +10,8 @@ Production::Production(CTokenType::Token left, int dot, vector<CTokenType::Token
     }
 }
 
-Production Production::doForword() {
-    return Production(left, dotPos + 1, right);
+Production *Production::doForword() {
+    return new Production(left, dotPos + 1, right);
 }
 
 CTokenType::Token Production::getDotSymbol() {

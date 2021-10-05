@@ -9,21 +9,30 @@
 #include "Production.h"
 #include "ProductionManager.h"
 #include "CTokenType.h"
+#include "GrammarStateManager.h"
 
 using namespace std;
 class GrammarState {
 private:
     static int stateNumCount;
     int stateNum;
+    bool transitionDone = false;
     vector<Production*> *productions;
     vector<Production*> closureSet;
     map<CTokenType::Token, vector<Production*>*> partition;
+    map<CTokenType::Token, GrammarState*> transition;
     ProductionManager *productionManager = ProductionManager::getInstance();
+    GrammarStateManager *grammarStateManager = GrammarStateManager::getInstance();
     void makeClosure();
     void doPartition();
+    void makeTransition();
+    GrammarState * makeNextGrammarState(CTokenType::Token token);
+    void extendFollowingTransition();
 public:
     GrammarState(vector<Production*> *productions);
     static void increateStateNum();
+    bool operator==(GrammarState &grammarState);
+    void createTransition();
 };
 
 
