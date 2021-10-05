@@ -14,7 +14,9 @@ private:
     static int stateNumCount;
     int stateNum;
     vector<Production*> *productions;
+    vector<Production*> closureSet;
     ProductionManager *productionManager = ProductionManager::getInstance();
+    void makeClosure();
 
 public:
     GrammarState(vector<Production*> *productions);
