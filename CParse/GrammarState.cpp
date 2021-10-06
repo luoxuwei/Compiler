@@ -39,6 +39,8 @@ void GrammarState::makeClosure() {
             }
         });
     }
+
+    printClosure();
 }
 
 void GrammarState::doPartition() {
@@ -61,11 +63,18 @@ void GrammarState::doPartition() {
             productionList->push_back(production);
         }
     }
+
+    printPartition();
 }
 
 void GrammarState::makeTransition() {
     for (auto pair : partition) {
-        transition[pair.first] = makeNextGrammarState(pair.first);
+        printf("\n====begin print transition info ====");
+        GrammarState *nextState = makeNextGrammarState(pair.first);
+        transition[pair.first] = nextState;
+        printf("from state %d to state %d on %s \n", stateNum, nextState->stateNum, CTokenType::getSymbolStr(pair.first));
+        printf("----state %d ---- \n", nextState->stateNum);
+        nextState->print();
     }
     extendFollowingTransition();
 }
@@ -99,7 +108,39 @@ void GrammarState::createTransition() {
     if (transitionDone) return;
     transitionDone = true;
 
+    printf("\n====make transition=====\n");
+    print();
+
     makeClosure();
     doPartition();
     makeTransition();
+
+    printInfo = false;
+}
+
+void GrammarState::print() {
+    printf("state number: %d \n", stateNum);
+    for (auto p : *productions) {
+        p->print();
+    }
+}
+
+void GrammarState::printClosure() {
+    if (!printInfo) return;
+
+    printf("closure set is: \n");
+    for (auto p : closureSet) {
+        p->print();
+    }
+}
+
+void GrammarState::printPartition() {
+    if (!printInfo) return;
+
+    for (auto iter : partition) {
+        printf("partition for symbol: %d \n", CTokenType::getSymbolStr(iter.first));
+        for (auto p : (*iter.second)) {
+            p->print();
+        }
+    }
 }

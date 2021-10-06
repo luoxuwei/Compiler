@@ -17,6 +17,7 @@ private:
     static int stateNumCount;
     int stateNum;
     bool transitionDone = false;
+    bool printInfo = true;
     vector<Production*> *productions;
     vector<Production*> closureSet;
     map<CTokenType::Token, vector<Production*>*> partition;
@@ -33,6 +34,9 @@ public:
     static void increateStateNum();
     bool operator==(GrammarState &grammarState);
     void createTransition();
+    void print();
+    void printClosure();
+    void printPartition();
 };
 
 

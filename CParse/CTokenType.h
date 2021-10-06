@@ -4,7 +4,7 @@
 
 #ifndef CPARSE_CTOKENTYPE_H
 #define CPARSE_CTOKENTYPE_H
-
+#define stringify(token) # token
 class CTokenType {
 public:
     enum Token {
@@ -31,5 +31,11 @@ public:
     static const int FIRST_TERMINAL_INDEX = NAME;
     static const int LAST_TERMINAL_INDEX = UNKNOWN_TOKEN;
     bool isTerminal(CTokenType::Token token);
+    static const char * getSymbolStr(CTokenType::Token token) {
+        const static char *symbolStr[] = {
+                stringify(NUMBER)
+        };
+        return symbolStr[token];
+    }
 };
 #endif //CPARSE_CTOKENTYPE_H

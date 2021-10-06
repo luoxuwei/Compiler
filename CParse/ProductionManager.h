@@ -20,6 +20,7 @@ private:
 public:
     static ProductionManager* getInstance();
     vector<Production*> *getProduction(CTokenType::Token left);
+    void printAllProductions();
 };
 
 

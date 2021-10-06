@@ -22,3 +22,19 @@ CTokenType::Token Production::getDotSymbol() {
 bool Production::operator==(const Production &production) {
     return left == production.left && right == production.right && dotPos == production.dotPos;
 }
+
+void Production::print() {
+    printf("%s -> ", CTokenType::getSymbolStr(left));
+    bool printDot = false;
+    for (int i=0; i<right.size(); i++) {
+        if (i == dotPos) {
+            printf(".");
+            printDot = true;
+        }
+        printf("%s ", CTokenType::getSymbolStr(right.at(i)));
+    }
+    if (!printDot) {
+        printf(".");
+    }
+    printf("\n");
+}

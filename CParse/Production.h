@@ -21,6 +21,7 @@ public:
     int getDotPosition() {return dotPos;};
     CTokenType::Token getDotSymbol();
     bool operator==(const Production & production);
+    void print();
 };
 
 

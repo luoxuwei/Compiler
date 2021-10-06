@@ -23,3 +23,11 @@ vector<Production *> * ProductionManager::getProduction(CTokenType::Token left) 
     if (iter == productionMap->end()) return NULL;
     return iter->second;
 }
+
+void ProductionManager::printAllProductions() {
+    for (auto iter : *productionMap) {
+        for (auto p : (*iter.second)) {
+            p->print();
+        }
+    }
+}
