@@ -3,6 +3,7 @@
 //
 
 #include "GrammarState.h"
+#include "GrammarStateManager.h"
 #include <stack>
 
 int GrammarState::stateNumCount = 0;
@@ -10,6 +11,7 @@ int GrammarState::stateNumCount = 0;
 GrammarState::GrammarState(vector<Production *> *productions): productions(productions) {
     stateNum = stateNumCount;
     closureSet.insert(closureSet.end(), productions->begin(), productions->end());
+    grammarStateManager = GrammarStateManager::getInstance();
 }
 
 void GrammarState::increateStateNum() {
@@ -27,6 +29,7 @@ void GrammarState::makeClosure() {
         productionStack.pop();
         CTokenType::Token symbol = production->getDotSymbol();
         vector<Production *> *closures = productionManager->getProduction(symbol);
+        if (closures == NULL) continue;
         for_each(closures->begin(), closures->end(), [&](Production *production1) -> void {
             if (find_if(closureSet.begin(), closureSet.end(), [&](Production *production2) -> bool {
                 return *production1 == *production2;

@@ -8,27 +8,18 @@
 #include <vector>
 #include "CTokenType.h"
 #include "Production.h"
+#include "GrammarInitializer.h"
 
 using namespace std;
 class ProductionManager {
 private:
     static ProductionManager *instance;
-    map<CTokenType::Token, vector<Production*>*> productionMap;
-    ProductionManager() {};
+    GrammarInitializer::ProductionMap *productionMap;
+    ProductionManager();
     ProductionManager(const ProductionManager& productionManager) {};
-    void addProduction(Production &production);
 public:
     static ProductionManager* getInstance();
     vector<Production*> *getProduction(CTokenType::Token left);
-    void initProductions();
-
-    struct ProductionComparator {
-        Production &value;
-        ProductionComparator(Production &production):value(production) {}
-        bool operator()(Production * production) {
-            return value == *production;
-        }
-    };
 };
 
 

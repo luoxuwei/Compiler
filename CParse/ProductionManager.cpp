@@ -3,6 +3,7 @@
 //
 
 #include "ProductionManager.h"
+#include "GrammarInitializer.h"
 
 ProductionManager* ProductionManager::instance = NULL;
 
@@ -13,31 +14,12 @@ ProductionManager * ProductionManager::getInstance() {
     return instance;
 }
 
-void ProductionManager::initProductions() {
-    vector<CTokenType::Token> *right = NULL;
-    right = new vector<CTokenType::Token>({CTokenType::Token::UNKNOWN_TOKEN});
-    Production *production = new Production(CTokenType::Token::UNKNOWN_TOKEN, 0, *right);
-    addProduction(*production);
+ProductionManager::ProductionManager() {
+    productionMap = GrammarInitializer::getInstance()->getProductionMap();
 }
 
 vector<Production *> * ProductionManager::getProduction(CTokenType::Token left) {
-    auto iter = productionMap.find(left);
-    if (iter == productionMap.end()) return NULL;
+    auto iter = productionMap->find(left);
+    if (iter == productionMap->end()) return NULL;
     return iter->second;
-}
-
-void ProductionManager::addProduction(Production &production) {
-    vector<Production *>* productionList = NULL;
-    auto iter = productionMap.find(production.getLeft());
-    if (iter == productionMap.end()) {
-        productionList = new vector<Production *>();
-        productionMap[production.getLeft()] = productionList;
-    } else {
-        productionList = iter->second;
-    }
-
-    auto listIter = find_if(productionList->begin(), productionList->end(), ProductionComparator(production));
-    if (listIter != productionList->end()) {
-        productionList->push_back(&production);
-    }
 }

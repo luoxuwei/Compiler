@@ -21,7 +21,7 @@ public:
 
 
         //terminals
-        NAME, TYPE, CLASS, LP, RP, LB, RB, PLUS,
+        NAME, TYPE, CLASS, LP, RP, LB, RB, PLUS, NUMBER,
 
 //	NUM, TIMES,
 

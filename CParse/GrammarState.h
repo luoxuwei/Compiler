@@ -9,7 +9,7 @@
 #include "Production.h"
 #include "ProductionManager.h"
 #include "CTokenType.h"
-#include "GrammarStateManager.h"
+class GrammarStateManager;
 
 using namespace std;
 class GrammarState {
@@ -22,7 +22,7 @@ private:
     map<CTokenType::Token, vector<Production*>*> partition;
     map<CTokenType::Token, GrammarState*> transition;
     ProductionManager *productionManager = ProductionManager::getInstance();
-    GrammarStateManager *grammarStateManager = GrammarStateManager::getInstance();
+    GrammarStateManager *grammarStateManager;
     void makeClosure();
     void doPartition();
     void makeTransition();
