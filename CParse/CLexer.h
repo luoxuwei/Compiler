@@ -24,7 +24,7 @@ private:
     CTokenType::Token lex();
     CTokenType::Token isKeyWord(string& str);
     CTokenType::Token id_keyword_or_number();
-
+    bool isNum();
 public:
     CLexer(const char *filePath);
     CLexer(const char *content, size_t len);

@@ -1,6 +1,10 @@
 #include <iostream>
-
+#include "ProductionManager.h"
+#include "GrammarStateManager.h"
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    ProductionManager::getInstance()->initProductions();
+    ProductionManager::getInstance()->printAllProductions();
+
+    GrammarStateManager::getInstance()->buildTransitionStateMachine();
     return 0;
 }

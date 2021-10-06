@@ -31,3 +31,8 @@ void ProductionManager::printAllProductions() {
         }
     }
 }
+
+void ProductionManager::initProductions() {
+    GrammarInitializer::getInstance()->initStmtForDebug();
+    productionMap = GrammarInitializer::getInstance()->getProductionMap();
+}

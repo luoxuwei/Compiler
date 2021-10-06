@@ -10,22 +10,22 @@ public:
     enum Token {
 //non-termals
 
-        PROGRAM, EXT_DEF_LIST, EXT_DEF, OPT_SPECIFIERS, EXT_DECL_LIST,
-        EXT_DECL, VAR_DECL, SPECIFIERS,
+//        PROGRAM, EXT_DEF_LIST, EXT_DEF, OPT_SPECIFIERS, EXT_DECL_LIST,
+//        EXT_DECL, VAR_DECL, SPECIFIERS,
 
-        //	stmt, expr, term, factor,
+        	stmt, expr, term, factor,
 
 
-        TYPE_OR_CLASS, TYPE_NT,
-        TYPE_SPECIFIER, NEW_NAME, NAME_NT,
+//        TYPE_OR_CLASS, TYPE_NT,
+//        TYPE_SPECIFIER, NEW_NAME, NAME_NT,
 
 
         //terminals
-        NAME, TYPE, CLASS, LP, RP, LB, RB, PLUS, NUMBER,
+        NUMBER, STAR, LP, RP, PLUS, NAME, TYPE, CLASS, LB, RB,
 
 //	NUM, TIMES,
 
-        COMMA, SEMI, WHITE_SPACE, EQUAL, TTYPE, STAR, UNKNOWN_TOKEN
+        COMMA, SEMI, WHITE_SPACE, EQUAL, TTYPE, UNKNOWN_TOKEN
     };
 
     static const int FIRST_TERMINAL_INDEX = NAME;
@@ -33,8 +33,17 @@ public:
     bool isTerminal(CTokenType::Token token);
     static const char * getSymbolStr(CTokenType::Token token) {
         const static char *symbolStr[] = {
-                stringify(NUMBER)
+                stringify(stmt),
+                stringify(expr),
+                stringify(term),
+                stringify(factor),
+                stringify(NUMBER),
+                stringify(STAR),
+                stringify(LP),
+                stringify(RP),
+                stringify(PLUS)
         };
+        if (token > PLUS) return "";
         return symbolStr[token];
     }
 };

@@ -68,6 +68,8 @@ CTokenType::Token CLexer::id_keyword_or_number() {
     if (isalpha(buf[charIndex])) {
         string text(buf + charIndex, textLen);
         return isKeyWord(text);
+    } else if (isNum()) {
+        return CTokenType::Token::NUMBER;
     }
     return CTokenType::Token::UNKNOWN_TOKEN;
 }
@@ -109,4 +111,15 @@ CTokenType::Token CLexer::lex() {
     }
 
 
+}
+
+bool CLexer::isNum() {
+    int i = 0;
+    if (buf[charIndex] == '-' || buf[charIndex] == '+') {
+        i++;
+    }
+    for (; i<textLen; i++) {
+        if (!isdigit(buf[charIndex+i])) return false;
+    }
+    return true;
 }

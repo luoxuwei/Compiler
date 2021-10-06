@@ -17,6 +17,7 @@ private:
 public:
     static GrammarStateManager *getInstance();
     GrammarState* getGrammarState(vector<Production *> *pl);
+    void buildTransitionStateMachine();
     struct GrammarStateComparetor {
         GrammarState *value;
         GrammarStateComparetor(GrammarState *grammarState) :value(grammarState){}

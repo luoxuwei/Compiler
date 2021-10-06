@@ -26,3 +26,8 @@ GrammarState * GrammarStateManager::getGrammarState(vector<Production *> *pl) {
     }
     return NULL;
 }
+
+void GrammarStateManager::buildTransitionStateMachine() {
+    GrammarState *grammarState = getGrammarState(ProductionManager::getInstance()->getProduction(CTokenType::Token::stmt));
+    grammarState->createTransition();
+}

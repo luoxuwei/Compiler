@@ -138,7 +138,7 @@ void GrammarState::printPartition() {
     if (!printInfo) return;
 
     for (auto iter : partition) {
-        printf("partition for symbol: %d \n", CTokenType::getSymbolStr(iter.first));
+        printf("partition for symbol: %s \n", CTokenType::getSymbolStr(iter.first));
         for (auto p : (*iter.second)) {
             p->print();
         }
