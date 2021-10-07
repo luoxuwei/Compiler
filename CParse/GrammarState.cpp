@@ -69,7 +69,7 @@ void GrammarState::doPartition() {
 
 void GrammarState::makeTransition() {
     for (auto pair : partition) {
-        printf("\n====begin print transition info ====");
+        printf("\n====begin print transition info ====\n");
         GrammarState *nextState = makeNextGrammarState(pair.first);
         transition[pair.first] = nextState;
         printf("from state %d to state %d on %s \n", stateNum, nextState->stateNum, CTokenType::getSymbolStr(pair.first));

@@ -30,4 +30,5 @@ GrammarState * GrammarStateManager::getGrammarState(vector<Production *> *pl) {
 void GrammarStateManager::buildTransitionStateMachine() {
     GrammarState *grammarState = getGrammarState(ProductionManager::getInstance()->getProduction(CTokenType::Token::stmt));
     grammarState->createTransition();
+    printf("\nbuildTransitionStateMachine finish\n");
 }
