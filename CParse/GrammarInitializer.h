@@ -6,7 +6,9 @@
 #define CPARSE_GRAMMARINITIALIZER_H
 #include "CTokenType.h"
 #include "Production.h"
+#include "Symbols.h"
 #include <map>
+#include <vector>
 
 using namespace std;
 class GrammarInitializer {
@@ -16,6 +18,8 @@ public:
     static GrammarInitializer* getInstance();
     ProductionMap* getProductionMap();
     void initStmtForDebug();
+    vector<Symbols> * getSymbleArray() {return &symbolArray;}
+    map<CTokenType::Token, Symbols> * getSymbolMap() {return &symbolMap;}
     struct ProductionComparator {
         Production &value;
         ProductionComparator(Production &production):value(production) {}
@@ -27,7 +31,10 @@ public:
 private:
     static GrammarInitializer* instance;
     ProductionMap productionMap;
+    vector<Symbols*> symbolArray;
+    map<CTokenType::Token, Symbols*> symbolMap;
     void addProduction(Production &production);
+    void addSymbolMapAndArray(Production &production, bool nullable);
 };
 
 

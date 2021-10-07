@@ -69,4 +69,20 @@ void GrammarInitializer::addProduction(Production &production) {
     if (listIter == productionList->end()) {
         productionList->push_back(&production);
     }
+    addSymbolMapAndArray(production, false);
+}
+
+void GrammarInitializer::addSymbolMapAndArray(Production &production, bool nullable) {
+    vector<CTokenType::Token> &right = production.getRight();
+
+    auto iter = symbolMap.find(production.getLeft());
+    if (iter != symbolMap.end()) {
+        symbolMap[production.getLeft()]->addProduction(right);
+    } else {
+        Symbols::ProductionList *productionList = new Symbols::ProductionList();
+        productionList->push_back(right);
+        Symbols *symbols = new Symbols(production.getLeft(), nullable, productionList);
+        symbolMap[production.getLeft()] = symbols;
+        symbolArray.push_back(symbols);
+    }
 }

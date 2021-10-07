@@ -30,7 +30,7 @@ public:
 
     static const int FIRST_TERMINAL_INDEX = NAME;
     static const int LAST_TERMINAL_INDEX = UNKNOWN_TOKEN;
-    bool isTerminal(CTokenType::Token token);
+    static bool isTerminal(CTokenType::Token token);
     static const char * getSymbolStr(CTokenType::Token token) {
         const static char *symbolStr[] = {
                 stringify(stmt),
