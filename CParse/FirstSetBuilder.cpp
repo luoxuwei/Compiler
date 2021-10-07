@@ -17,6 +17,8 @@ void FirstSetBuilder::runFirstSets() {
             addSymbolFirstSet(s);
         }
     }
+
+    printAllFistSet();
 }
 
 void FirstSetBuilder::addSymbolFirstSet(Symbols *symbols) {
@@ -68,4 +70,19 @@ vector<CTokenType::Token> * FirstSetBuilder::getFirstSet(CTokenType::Token symbo
         return &(iter->second->firstSet);
     }
     return NULL;
+}
+
+void FirstSetBuilder::printAllFistSet() {
+    for (auto s : (*symbolArray)) {
+        printFirstSet(s);
+    }
+}
+
+void FirstSetBuilder::printFirstSet(Symbols *symbols) {
+    printf("%s { ", CTokenType::getSymbolStr(symbols->value));
+    for (auto s : symbols->firstSet) {
+        printf("%s ", CTokenType::getSymbolStr(s));
+    }
+    printf(" }\n");
+    printf("=========\n");
 }

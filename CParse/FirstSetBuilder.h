@@ -16,11 +16,13 @@ private:
     vector<Symbols*> *symbolArray;
     bool runFirstSetPass = true;
     void addSymbolFirstSet(Symbols *symbols);
+    void printFirstSet(Symbols * symbols);
 public:
     FirstSetBuilder();
     bool isSymbolNullable(CTokenType::Token token);
     void runFirstSets();
     vector<CTokenType::Token> *getFirstSet(CTokenType::Token symbol);
+    void printAllFistSet();
 };
 
 
