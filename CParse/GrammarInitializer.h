@@ -18,8 +18,8 @@ public:
     static GrammarInitializer* getInstance();
     ProductionMap* getProductionMap();
     void initStmtForDebug();
-    vector<Symbols> * getSymbleArray() {return &symbolArray;}
-    map<CTokenType::Token, Symbols> * getSymbolMap() {return &symbolMap;}
+    vector<Symbols*> * getSymbleArray() {return &symbolArray;}
+    map<CTokenType::Token, Symbols*> * getSymbolMap() {return &symbolMap;}
     struct ProductionComparator {
         Production &value;
         ProductionComparator(Production &production):value(production) {}

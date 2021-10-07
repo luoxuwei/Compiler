@@ -80,6 +80,8 @@ CTokenType::Token CLexer::lex() {
     }
 
     charIndex = charIndex + textLen;
+    if (charIndex >= buf_len) return CTokenType::Token::SEMI;
+
     textLen = 0;
     switch (buf[charIndex]) {
         case ';': textLen = 1; return CTokenType::Token::SEMI;

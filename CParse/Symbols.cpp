@@ -11,7 +11,7 @@ Symbols::Symbols(CTokenType::Token symVal, bool nullable, ProductionList *produc
 }
 
 void Symbols::addProduction(vector<CTokenType::Token> production) {
-    if (find(productions->begin(), productions->end(), production) == productions->end()) {
-        productions->push_back(production);
+    if (find(productions.begin(), productions.end(), production) == productions.end()) {
+        productions.push_back(production);
     }
 }

@@ -16,6 +16,7 @@ ProductionManager * ProductionManager::getInstance() {
 
 ProductionManager::ProductionManager() {
     productionMap = GrammarInitializer::getInstance()->getProductionMap();
+    firstSetBuilder = new FirstSetBuilder();
 }
 
 vector<Production *> * ProductionManager::getProduction(CTokenType::Token left) {
@@ -35,4 +36,5 @@ void ProductionManager::printAllProductions() {
 void ProductionManager::initProductions() {
     GrammarInitializer::getInstance()->initStmtForDebug();
     productionMap = GrammarInitializer::getInstance()->getProductionMap();
+    firstSetBuilder->runFirstSets();
 }

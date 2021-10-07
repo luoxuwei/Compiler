@@ -9,12 +9,14 @@
 #include "CTokenType.h"
 #include "Production.h"
 #include "GrammarInitializer.h"
+#include "FirstSetBuilder.h"
 
 using namespace std;
 class ProductionManager {
 private:
     static ProductionManager *instance;
     GrammarInitializer::ProductionMap *productionMap;
+    FirstSetBuilder *firstSetBuilder;
     ProductionManager();
     ProductionManager(const ProductionManager& productionManager) {};
 public:
