@@ -13,6 +13,7 @@ private:
     int dotPos = 0;//求闭包和状态跳转时用的标识
     CTokenType::Token left = CTokenType::Token::UNKNOWN_TOKEN;//语法推导表达式左边的非终结符
     vector<CTokenType::Token> &right;//语法推导表达式右边的符号列表
+    vector<CTokenType::Token> lookAhead;
 public:
     Production(CTokenType::Token left, int dot, vector<CTokenType::Token> &right);
     Production *doForword();//分区生成新的状态节点时，将位置标识往前以一步
@@ -22,6 +23,12 @@ public:
     CTokenType::Token getDotSymbol();
     bool operator==(const Production & production);
     void print();
+    Production * cloneSelf();
+    vector<CTokenType::Token> computeFirstSetOfBetaAndC();
+    void addLookAheadSet(vector<CTokenType::Token> &list);
+    bool productionEquals(const Production &production);
+    int lookAheadSetComparing(const Production &production);
+    bool coverUp(const Production &production);
 };
 
 

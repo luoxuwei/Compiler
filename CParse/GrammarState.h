@@ -29,6 +29,7 @@ private:
     void makeTransition();
     GrammarState * makeNextGrammarState(CTokenType::Token token);
     void extendFollowingTransition();
+    void removeRedundantProduction(Production *production);
 public:
     GrammarState(vector<Production*> *productions);
     static void increateStateNum();

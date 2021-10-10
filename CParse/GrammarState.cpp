@@ -24,23 +24,60 @@ void GrammarState::makeClosure() {
         productionStack.push(production);
     });
     Production *production = NULL;
+    printf("------begin make closure-------\n");
     while (!productionStack.empty()) {
         production = productionStack.top();
         productionStack.pop();
+        printf("production on top of stack is : \n");
+        production->print();
         CTokenType::Token symbol = production->getDotSymbol();
+        if (CTokenType::isTerminal(symbol)) {
+            printf("symbol after dot is not non-terminal, ignore and press next item\n");
+            continue;
+        }
+
         vector<Production *> *closures = productionManager->getProduction(symbol);
         if (closures == NULL) continue;
+        vector<CTokenType::Token> lookAhead = production->computeFirstSetOfBetaAndC();
         for_each(closures->begin(), closures->end(), [&](Production *production1) -> void {
+            Production *newProduct = production1->cloneSelf();
+            newProduct->addLookAheadSet(lookAhead);
+            printf("create new production \n");
+            newProduct->print();
             if (find_if(closureSet.begin(), closureSet.end(), [&](Production *production2) -> bool {
-                return *production1 == *production2;
+                return *newProduct == *production2;
             }) == closureSet.end()) {
-                closureSet.push_back(production1);
-                productionStack.push(production1);
+                printf("push and add new production to stack and closureSet");
+                closureSet.push_back(newProduct);
+                productionStack.push(newProduct);
+                removeRedundantProduction(newProduct);
+            } else {
+                printf("the production is already exist!");
             }
         });
     }
 
     printClosure();
+    printf("\n--------------end make closure-----------------");
+}
+
+void GrammarState::removeRedundantProduction(Production *production) {
+    bool removeHappended = true;
+    while(removeHappended) {
+        removeHappended = false;
+        auto iter = closureSet.begin();
+        while (iter != closureSet.end()) {
+            Production *item = *iter;
+            if (production->coverUp(*item)) {
+                removeHappended = true;
+                closureSet.erase(iter);
+                printf("remove redundant production: ");
+                item->print();
+                break;
+            }
+            iter++;
+        }
+    }
 }
 
 void GrammarState::doPartition() {

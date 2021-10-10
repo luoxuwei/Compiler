@@ -21,11 +21,11 @@ public:
 
 
         //terminals
-        NUMBER, STAR, LP, RP, PLUS, NAME, TYPE, CLASS, LB, RB,
+        NUMBER, STAR, LP, RP, PLUS, SEMI, NAME, TYPE, CLASS, LB, RB,
 
 //	NUM, TIMES,
 
-        COMMA, SEMI, WHITE_SPACE, EQUAL, TTYPE, UNKNOWN_TOKEN
+        COMMA, WHITE_SPACE, EQUAL, TTYPE, UNKNOWN_TOKEN
     };
 
     static const int FIRST_TERMINAL_INDEX = NAME;
@@ -41,9 +41,10 @@ public:
                 stringify(STAR),
                 stringify(LP),
                 stringify(RP),
-                stringify(PLUS)
+                stringify(PLUS),
+                stringify(SEMI)
         };
-        if (token > PLUS) return "";
+        if (token > SEMI) return "";
         return symbolStr[token];
     }
 };

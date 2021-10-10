@@ -30,8 +30,8 @@ void FirstSetBuilder::addSymbolFirstSet(Symbols *symbols) {
         return;
     }
 
-    Symbols::ProductionList &productionList = symbols->productions;
-    for (auto right : productionList) {
+    Symbols::ProductionList *productionList = symbols->productions;
+    for (auto right : *productionList) {
         if (right.size() == 0) continue;
         if (CTokenType::isTerminal(right.at(0)) && (find(firstSet.begin(), firstSet.end(), right.at(0)) == firstSet.end())) {
             runFirstSetPass = true;

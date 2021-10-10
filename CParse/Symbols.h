@@ -12,7 +12,7 @@ class Symbols {
 public:
     typedef vector<vector<CTokenType::Token>> ProductionList;
     CTokenType::Token value;
-    ProductionList productions;
+    ProductionList *productions;
     vector<CTokenType::Token> firstSet;
     bool nullable;
     Symbols(CTokenType::Token symVal, bool nullable, ProductionList *productions);

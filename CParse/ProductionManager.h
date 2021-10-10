@@ -24,6 +24,7 @@ public:
     vector<Production*> *getProduction(CTokenType::Token left);
     void printAllProductions();
     void initProductions();
+    FirstSetBuilder * getFirstSetBuilder() {return firstSetBuilder;}
 };
 
 

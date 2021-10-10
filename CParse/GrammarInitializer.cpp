@@ -53,6 +53,24 @@ void GrammarInitializer::initStmtForDebug() {
     right = new vector<CTokenType::Token>({CTokenType::Token::NUMBER});
     production = new Production(CTokenType::Token::factor, 0, *right);
     addProduction(*production);
+
+    Symbols *symbols = new Symbols(CTokenType::Token::LP, false, NULL);
+    symbolMap[CTokenType::Token::LP] = symbols;
+    symbolArray.push_back(symbols);
+//    RP || token == PLUS || token == STAR || token == NUMBER
+    symbols = new Symbols(CTokenType::Token::RP, false, NULL);
+    symbolMap[CTokenType::Token::RP] = symbols;
+    symbolArray.push_back(symbols);
+    symbols = new Symbols(CTokenType::Token::PLUS, false, NULL);
+    symbolMap[CTokenType::Token::PLUS] = symbols;
+    symbolArray.push_back(symbols);
+    symbols = new Symbols(CTokenType::Token::STAR, false, NULL);
+    symbolMap[CTokenType::Token::STAR] = symbols;
+    symbolArray.push_back(symbols);
+    symbols = new Symbols(CTokenType::Token::NUMBER, false, NULL);
+    symbolMap[CTokenType::Token::NUMBER] = symbols;
+    symbolArray.push_back(symbols);
+
 }
 
 void GrammarInitializer::addProduction(Production &production) {
