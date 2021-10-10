@@ -25,22 +25,31 @@ Production * Production::cloneSelf() {
 }
 
 vector<CTokenType::Token> Production::computeFirstSetOfBetaAndC() {
+    /*
+     * 计算 First(β C)
+     * 将β 和 C ,前后相连再计算他们的First集合，如果β 里面的每一项都是nullable的，那么
+     * First(β C) 就是 First(β) 并上First(C), 由于C 必定是终结符的组合，所以First(C)等于C的第一个非终结符
+     * 例如C = {+, * , EOI} , First(C) = {+}
+     */
     vector<CTokenType::Token> set;
-    vector<CTokenType::Token> *firstSet;
-    set.insert(set.end(), lookAhead.begin(), lookAhead.end());
+    vector<CTokenType::Token> firstSet;
     for (int i=dotPos+1; i<right.size(); i++) {
-        firstSet = ProductionManager::getInstance()->getFirstSetBuilder()->getFirstSet(right[i]);
-        for (auto token : *firstSet) {
-            if (find(set.begin(), set.end(), token) == set.end()) {
-                set.push_back(token);
+        set.push_back(right.at(i));
+    }
+    set.insert(set.end(), lookAhead.begin(), lookAhead.end());
+    for (int i=0; i<set.size(); i++) {
+        auto l = ProductionManager::getInstance()->getFirstSetBuilder()->getFirstSet(set[i]);
+        for (auto token : *l) {
+            if (find(firstSet.begin(), firstSet.end(), token) == firstSet.end()) {
+                firstSet.push_back(token);
             }
         }
 
-        if (!ProductionManager::getInstance()->getFirstSetBuilder()->isSymbolNullable(right[i])) {
+        if (!ProductionManager::getInstance()->getFirstSetBuilder()->isSymbolNullable(set[i])) {
             break;
         }
     }
-    return set;
+    return firstSet;
 }
 
 void Production::addLookAheadSet(vector<CTokenType::Token> &list) {
