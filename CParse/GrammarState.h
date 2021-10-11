@@ -15,7 +15,6 @@ using namespace std;
 class GrammarState {
 private:
     static int stateNumCount;
-    int stateNum;
     bool transitionDone = false;
     bool printInfo = true;
     vector<Production*> *productions;
@@ -24,6 +23,7 @@ private:
     map<CTokenType::Token, GrammarState*> transition;
     ProductionManager *productionManager = ProductionManager::getInstance();
     GrammarStateManager *grammarStateManager;
+    vector<Production *> mergedProduction;//压缩节点时，将合并过来的节点的表达式添加到这个集合
     void makeClosure();
     void doPartition();
     void makeTransition();
@@ -31,13 +31,16 @@ private:
     void extendFollowingTransition();
     void removeRedundantProduction(Production *production);
 public:
+    int stateNum;
     GrammarState(vector<Production*> *productions);
     static void increateStateNum();
-    bool operator==(GrammarState &grammarState);
+    bool operator==(const GrammarState &grammarState);
     void createTransition();
     void print();
     void printClosure();
     void printPartition();
+    bool checkProductionEqual(const GrammarState &grammarState, bool isPartial);
+    void stateMerge(GrammarState *state);
 };
 
 

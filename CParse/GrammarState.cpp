@@ -14,6 +14,15 @@ GrammarState::GrammarState(vector<Production *> *productions): productions(produ
     grammarStateManager = GrammarStateManager::getInstance();
 }
 
+void GrammarState::stateMerge(GrammarState *state) {
+    for (auto p : *state->productions) {
+        if (find(productions->begin(), productions->end(), p) == productions->end()
+                && find(mergedProduction.begin(), mergedProduction.end(), p) == mergedProduction.end()) {
+            mergedProduction.push_back(p);
+        }
+    }
+}
+
 void GrammarState::increateStateNum() {
     stateNumCount++;
 }
@@ -42,23 +51,24 @@ void GrammarState::makeClosure() {
         for_each(closures->begin(), closures->end(), [&](Production *production1) -> void {
             Production *newProduct = production1->cloneSelf();
             newProduct->addLookAheadSet(lookAhead);
-            printf("create new production \n");
+            printf("\ncreate new production \n");
             newProduct->print();
             if (find_if(closureSet.begin(), closureSet.end(), [&](Production *production2) -> bool {
                 return *newProduct == *production2;
             }) == closureSet.end()) {
-                printf("push and add new production to stack and closureSet");
+                printf("push and add new production to stack and closureSet\n");
                 closureSet.push_back(newProduct);
                 productionStack.push(newProduct);
                 removeRedundantProduction(newProduct);
             } else {
-                printf("the production is already exist!");
+                printf("\nthe production is already exist!\n");
+                delete newProduct;
             }
         });
     }
 
     printClosure();
-    printf("\n--------------end make closure-----------------");
+    printf("\n--------------end make closure-----------------\n");
 }
 
 void GrammarState::removeRedundantProduction(Production *production) {
@@ -112,6 +122,7 @@ void GrammarState::makeTransition() {
         printf("from state %d to state %d on %s \n", stateNum, nextState->stateNum, CTokenType::getSymbolStr(pair.first));
         printf("----state %d ---- \n", nextState->stateNum);
         nextState->print();
+        GrammarStateManager::getInstance()->addTransition(this, nextState, pair.first);
     }
     extendFollowingTransition();
 }
@@ -134,11 +145,31 @@ void GrammarState::extendFollowingTransition() {
     }
 }
 
-bool GrammarState::operator==(GrammarState &grammarState) {
+bool GrammarState::operator==(const GrammarState &grammarState) {
+    return checkProductionEqual(grammarState, false);
+}
+
+bool GrammarState::checkProductionEqual(const GrammarState &grammarState, bool isPartial) {
     if (productions->size() != grammarState.productions->size()) return false;
-    return std::equal(productions->begin(), productions->end(), grammarState.productions->begin(), [](Production* p1, Production *p2) -> bool  {
-        return *p1 == *p2;
-    });
+
+    int equalCount = 0;
+    for (int i=0; i<grammarState.productions->size(); i++) {
+        for (int j=0; j<productions->size(); j++) {
+            if (!isPartial) {
+                if (*(grammarState.productions->at(i)) == *(productions->at(j))) {
+                    equalCount++;
+                    break;
+                }
+            } else {
+                if (grammarState.productions->at(i)->productionEquals(*productions->at(j))) {
+                    equalCount++;
+                    break;
+                }
+            }
+        }
+    }
+
+    return equalCount == grammarState.productions->size();
 }
 
 void GrammarState::createTransition() {
@@ -159,6 +190,9 @@ void GrammarState::print() {
     printf("state number: %d \n", stateNum);
     for (auto p : *productions) {
         p->print();
+    }
+    for (int i = 0; i < mergedProduction.size(); i++) {
+        mergedProduction.at(i)->print();
     }
 }
 

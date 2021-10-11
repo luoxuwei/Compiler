@@ -14,7 +14,7 @@ Production::Production(CTokenType::Token left, int dot, vector<CTokenType::Token
 
 Production *Production::doForword() {
     Production *production = new Production(left, dotPos + 1, right);
-    production->lookAhead.insert(production->lookAhead.end(), lookAhead.begin(), lookAhead.end());
+    production->lookAhead = vector<CTokenType::Token>(lookAhead);
     return production;
 }
 
@@ -53,11 +53,12 @@ vector<CTokenType::Token> Production::computeFirstSetOfBetaAndC() {
 }
 
 void Production::addLookAheadSet(vector<CTokenType::Token> &list) {
-    for (auto token : list) {
-        if (find(lookAhead.begin(), lookAhead.end(), token) == lookAhead.end()) {
-            lookAhead.push_back(token);
-        }
-    }
+//    for (auto token : list) {
+//        if (find(lookAhead.begin(), lookAhead.end(), token) == lookAhead.end()) {
+//            lookAhead.push_back(token);
+//        }
+//    }
+    lookAhead = list;//TODO:注释部分为错误逻辑，导致生成跳转表错误，调试了很多次才发现。
 }
 
 CTokenType::Token Production::getDotSymbol() {

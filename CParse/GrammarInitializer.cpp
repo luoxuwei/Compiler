@@ -71,6 +71,11 @@ void GrammarInitializer::initStmtForDebug() {
     symbolMap[CTokenType::Token::NUMBER] = symbols;
     symbolArray.push_back(symbols);
 
+    //输入结束
+    symbols = new Symbols(CTokenType::Token::SEMI, false, NULL);
+    symbolMap[CTokenType::Token::SEMI] = symbols;
+    symbolArray.push_back(symbols);
+
 }
 
 void GrammarInitializer::addProduction(Production &production) {
