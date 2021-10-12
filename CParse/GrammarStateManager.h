@@ -35,6 +35,7 @@ public:
     void addTransition(GrammarState *from, GrammarState *to, CTokenType::Token on);
     LRStateTable * getLRStateTable();
     void printReduceInfo();
+    GrammarState* getGrammarState(int);
 };
 
 

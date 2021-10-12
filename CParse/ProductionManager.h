@@ -25,6 +25,7 @@ public:
     void printAllProductions();
     void initProductions();
     FirstSetBuilder * getFirstSetBuilder() {return firstSetBuilder;}
+    Production *getProductionByIndex(int index);
 };
 
 

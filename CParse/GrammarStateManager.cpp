@@ -161,3 +161,17 @@ void GrammarStateManager::printReduceInfo() {
     }
 }
 
+GrammarState * GrammarStateManager::getGrammarState(int stateNum) {
+    auto begin = stateList.begin();
+    auto end = stateList.end();
+    if (isTransitionTableCompressed) {
+        begin = compressedStateList.begin();
+        end = compressedStateList.end();
+    }
+    auto ret = find_if(begin, end, [=](GrammarState *state) ->bool {
+        return state->stateNum == stateNum;
+    });
+    if (ret != end) return *ret;
+    return NULL;
+}
+

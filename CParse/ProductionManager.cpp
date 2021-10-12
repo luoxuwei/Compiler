@@ -38,3 +38,14 @@ void ProductionManager::initProductions() {
     productionMap = GrammarInitializer::getInstance()->getProductionMap();
     firstSetBuilder->runFirstSets();
 }
+
+Production * ProductionManager::getProductionByIndex(int index) {
+    for (auto i : *productionMap) {
+        for (auto p : (*i.second)) {
+            if (p->getProductionNum() == index) {
+                return p;
+            }
+        }
+    }
+    return NULL;
+}

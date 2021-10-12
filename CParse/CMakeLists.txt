@@ -8,4 +8,4 @@ add_executable(CParse main.cpp
         CTokenType.cpp CTokenType.h
         Production.cpp Production.h
         ProductionManager.cpp ProductionManager.h
-        GrammarState.cpp GrammarState.h GrammarStateManager.cpp GrammarStateManager.h GrammarInitializer.cpp GrammarInitializer.h Symbols.cpp Symbols.h FirstSetBuilder.cpp FirstSetBuilder.h)
+        GrammarState.cpp GrammarState.h GrammarStateManager.cpp GrammarStateManager.h GrammarInitializer.cpp GrammarInitializer.h Symbols.cpp Symbols.h FirstSetBuilder.cpp FirstSetBuilder.h LRStateTableParser.cpp LRStateTableParser.h)

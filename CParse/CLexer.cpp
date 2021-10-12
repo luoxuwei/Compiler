@@ -125,3 +125,7 @@ bool CLexer::isNum() {
     }
     return true;
 }
+
+string CLexer::lookAheadText() {
+    return string(buf + charIndex, textLen);
+}

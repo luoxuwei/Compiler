@@ -36,7 +36,7 @@ public:
     }
 
     void advance();
-
+    string lookAheadText();
 };
 
 
