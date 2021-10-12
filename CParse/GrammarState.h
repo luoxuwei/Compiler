@@ -30,6 +30,7 @@ private:
     GrammarState * makeNextGrammarState(CTokenType::Token token);
     void extendFollowingTransition();
     void removeRedundantProduction(Production *production);
+    void reduce(map<CTokenType::Token, int> &map, vector<Production *> *pl);
 public:
     int stateNum;
     GrammarState(vector<Production*> *productions);
@@ -41,6 +42,7 @@ public:
     void printPartition();
     bool checkProductionEqual(const GrammarState &grammarState, bool isPartial);
     void stateMerge(GrammarState *state);
+    map<CTokenType::Token, int> makeReduce();
 };
 
 

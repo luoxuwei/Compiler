@@ -14,8 +14,9 @@ private:
     CTokenType::Token left = CTokenType::Token::UNKNOWN_TOKEN;//语法推导表达式左边的非终结符
     vector<CTokenType::Token> &right;//语法推导表达式右边的符号列表
     vector<CTokenType::Token> lookAhead;
+    int productionNum = -1;
 public:
-    Production(CTokenType::Token left, int dot, vector<CTokenType::Token> &right);
+    Production(int productionNum, CTokenType::Token left, int dot, vector<CTokenType::Token> &right);
     Production *doForword();//分区生成新的状态节点时，将位置标识往前以一步
     CTokenType::Token getLeft() {return left;};
     vector<CTokenType::Token> & getRight() {return right;};
@@ -29,6 +30,9 @@ public:
     bool productionEquals(const Production &production);
     int lookAheadSetComparing(const Production &production);
     bool coverUp(const Production &production);
+    bool canBeReduce();
+    vector<CTokenType::Token> *getLookAheadSet() {return &lookAhead;}
+    int getProductionNum() {return productionNum;}
 };
 
 

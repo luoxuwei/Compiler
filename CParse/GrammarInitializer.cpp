@@ -21,37 +21,37 @@ void GrammarInitializer::initStmtForDebug() {
 
     //stmt -> expr
     right = new vector<CTokenType::Token>({CTokenType::Token::expr});//getProductionRight(productionRight);
-    production = new Production(CTokenType::Token::stmt, 0, *right);
+    production = new Production(0, CTokenType::Token::stmt, 0, *right);
     addProduction(*production);
 
     //expr -> expr + term
     right = new vector<CTokenType::Token>({CTokenType::Token::expr, CTokenType::Token::PLUS, CTokenType::Token::term});
-    production = new Production(CTokenType::expr, 0, *right);
+    production = new Production(1, CTokenType::expr, 0, *right);
     addProduction(*production);
 
     //expr -> term
     right = new vector<CTokenType::Token>({ CTokenType::Token::term});
-    production = new Production(CTokenType::Token::expr, 0, *right);
+    production = new Production(2, CTokenType::Token::expr, 0, *right);
     addProduction(*production);
 
     //term -> term * factor
     right = new vector<CTokenType::Token>({CTokenType::Token::term, CTokenType::Token::STAR, CTokenType::Token::factor});
-    production = new Production(CTokenType::Token::term, 0, *right);
+    production = new Production(3, CTokenType::Token::term, 0, *right);
     addProduction(*production);
 
     //term -> factor
     right = new vector<CTokenType::Token>({CTokenType::Token::factor});
-    production = new Production(CTokenType::Token::term, 0, *right);
+    production = new Production(4, CTokenType::Token::term, 0, *right);
     addProduction(*production);
 
     //factor -> ( expr )
     right = new vector<CTokenType::Token>({CTokenType::Token::LP, CTokenType::Token::expr, CTokenType::Token::RP});
-    production = new Production(CTokenType::Token::factor, 0, *right);
+    production = new Production(5, CTokenType::Token::factor, 0, *right);
     addProduction(*production);
 
     //factor -> num
     right = new vector<CTokenType::Token>({CTokenType::Token::NUMBER});
-    production = new Production(CTokenType::Token::factor, 0, *right);
+    production = new Production(6, CTokenType::Token::factor, 0, *right);
     addProduction(*production);
 
     Symbols *symbols = new Symbols(CTokenType::Token::LP, false, NULL);

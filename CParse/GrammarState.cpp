@@ -215,3 +215,20 @@ void GrammarState::printPartition() {
         }
     }
 }
+
+map<CTokenType::Token, int> GrammarState::makeReduce() {
+    map<CTokenType::Token, int> map;
+    reduce(map, productions);
+    reduce(map, &mergedProduction);
+    return map;
+}
+
+void GrammarState::reduce(map<CTokenType::Token, int> &map, vector<Production *> *pl) {
+    for (auto p : *pl) {
+        if (p->canBeReduce()) {
+            for (CTokenType::Token t : *p->getLookAheadSet()) {
+                map[t] = p->getProductionNum();
+            }
+        }
+    }
+}

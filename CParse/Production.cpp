@@ -5,7 +5,7 @@
 #include "Production.h"
 #include "ProductionManager.h"
 
-Production::Production(CTokenType::Token left, int dot, vector<CTokenType::Token> &right): left(left), dotPos(dot), right(right) {
+Production::Production(int productionNum, CTokenType::Token left, int dot, vector<CTokenType::Token> &right): productionNum(productionNum), left(left), dotPos(dot), right(right) {
     if (dot >= right.size()) {
         dotPos = right.size();
     }
@@ -13,13 +13,13 @@ Production::Production(CTokenType::Token left, int dot, vector<CTokenType::Token
 }
 
 Production *Production::doForword() {
-    Production *production = new Production(left, dotPos + 1, right);
+    Production *production = new Production(productionNum, left, dotPos + 1, right);
     production->lookAhead = vector<CTokenType::Token>(lookAhead);
     return production;
 }
 
 Production * Production::cloneSelf() {
-    Production *production = new Production(left, dotPos, right);
+    Production *production = new Production(productionNum, left, dotPos, right);
     production->lookAhead = vector<CTokenType::Token>(lookAhead);
     return production;
 }
@@ -116,4 +116,8 @@ void Production::print() {
         printf("%s ", CTokenType::getSymbolStr(token));
     }
     printf("}\n");
+}
+
+bool Production::canBeReduce() {
+    return dotPos >= right.size();
 }

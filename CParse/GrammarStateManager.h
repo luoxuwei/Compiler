@@ -8,11 +8,15 @@
 #include "GrammarState.h"
 using namespace std;
 class GrammarStateManager {
+public:
+    typedef map<int, map<CTokenType::Token, int>> LRStateTable;
 private:
     vector<GrammarState *> stateList;
+    vector<GrammarState*> compressedStateList;
     static GrammarStateManager *instance;
     bool isTransitionTableCompressed = true;
     map<GrammarState*, map<CTokenType::Token, GrammarState*>> transition;
+    LRStateTable lrStateTable;
     GrammarStateManager(){}
     GrammarStateManager(const GrammarStateManager& grammarStateManager){}
     GrammarState *getAndMergeSimilarState(GrammarState *state);
@@ -29,6 +33,8 @@ public:
         }
     };
     void addTransition(GrammarState *from, GrammarState *to, CTokenType::Token on);
+    LRStateTable * getLRStateTable();
+    void printReduceInfo();
 };
 
 

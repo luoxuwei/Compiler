@@ -12,6 +12,35 @@ GrammarStateManager * GrammarStateManager::getInstance() {
     return instance;
 }
 
+GrammarStateManager::LRStateTable * GrammarStateManager::getLRStateTable() {
+    auto begin = stateList.begin();
+    auto end = stateList.end();
+    if (isTransitionTableCompressed) {
+        begin = compressedStateList.begin();
+        end = compressedStateList.end();
+    }
+
+    while (begin != end) {
+        auto s = *begin;
+        begin++;
+        map<CTokenType::Token, int> jump;
+        if (transition.find(s) != transition.end()) {
+            for (auto i : transition[s]) {
+                jump[i.first] = i.second->stateNum;
+            }
+        }
+
+        map<CTokenType::Token, int > reduceMap = s->makeReduce();
+        if (reduceMap.size() > 0) {
+            for (auto ri : reduceMap) {
+                jump[ri.first] = -ri.second;
+            }
+        }
+        lrStateTable[s->stateNum] = jump;
+    }
+    return &lrStateTable;
+}
+
 GrammarState * GrammarStateManager::getGrammarState(vector<Production *> *pl) {
     GrammarState *state = new GrammarState(pl);
     if (std::find_if(stateList.begin(), stateList.end(), GrammarStateComparetor(state)) == stateList.end()) {
@@ -72,6 +101,11 @@ GrammarState * GrammarStateManager::getAndMergeSimilarState(GrammarState *state)
             break;
         }
     }
+
+    if (find_if(compressedStateList.begin(), compressedStateList.end(), GrammarStateComparetor(returnState)) == compressedStateList.end()) {
+        compressedStateList.push_back(returnState);
+    }
+
     return returnState;
 }
 
@@ -80,6 +114,7 @@ void GrammarStateManager::buildTransitionStateMachine() {
     grammarState->createTransition();
     printf("\nbuildTransitionStateMachine finish\n");
     printStateMap();
+    printReduceInfo();
 }
 
 void GrammarStateManager::printStateMap() {
@@ -100,6 +135,29 @@ void GrammarStateManager::printStateMap() {
         }
 
         printf("\n********end a map row********\n");
+    }
+}
+
+void GrammarStateManager::printReduceInfo() {
+    printf("\nShow reduce for each state: \n");
+    auto begin = stateList.begin();
+    auto end = stateList.end();
+    if (isTransitionTableCompressed) {
+        begin = compressedStateList.begin();
+        end = compressedStateList.end();
+    }
+
+    while (begin != end) {
+        auto s = *begin;
+        begin++;
+        s->print();
+        map<CTokenType::Token, int > reduceMap = s->makeReduce();
+        if (reduceMap.size() == 0) {
+            printf("in this state, can not take any reduce action\n");
+        }
+        for (auto i : reduceMap) {
+            printf("Reduce on symbol: %s to Production %d\n", CTokenType::getSymbolStr(i.first), i.second);
+        }
     }
 }
 
