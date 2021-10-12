@@ -1,8 +1,16 @@
 
 
-# Compiler
+# 简介
 
 练习和实践编译原理、虚拟机、AOT、JIT。
+
+## 内含项目
+
+pythonvm: python 2 虚拟机
+
+Parser:自低向上的语法解析引擎
+
+regex: 正则表达式引擎
 
 # Pythonvm
 
@@ -57,7 +65,7 @@ make
 
 通常都是用‘硬编码’的方式实现，特定语言的编译器前端都是这种方式，比如javac gcc clang等。为了更通用可以使用模式识别匹配算法，定义自己的词法规则，就可以支持多种语言的词法分析，最终可以做成*Flex*这样的项目，生成词法解析器。其中用到的技术就是正则表达式。为了研究算法，这里主要关注正则表达式的实现。
 ### 使用有限状态机实现整形和浮点型数值识别器
-![](parser/image/Picture1.png)
+![](image/Picture1.png)
 
 ```shell
 cd FinitStateMachine
@@ -76,25 +84,25 @@ make
 
 大多数正则表达式识别程序，基本上都是先将其转换为自动机，然后通过驱动自动机来识别输入的，一般是将正则表达式转换为NFA, 将NFA转换为DFA。将正则表达式转换为NFA的算法是由贝尔实验室的Ken Thompson 给出的。连接表达式ab 可以表示如下：
 
-![](parser/image/Picture4.png)
+![](image/Picture4.png)
 
 两个表达式进行 OR操作的时候 |  构造图如下：
 
-![](parser/image/Picture3.png)
+![](image/Picture3.png)
 
 exp* 的NFA:
 
 如果是自我从复0次，那直接从下面的边走到末尾节点。
 
-![](parser/image/Picture5.png)
+![](image/Picture5.png)
 
 exp+（至少重复一次） 的NFA:
 
-![](parser/image/Picture6.png)
+![](image/Picture6.png)
 
 exp? (重复0或1次)的NFA:
 
-![](parser/image/Picture7.png)
+![](image/Picture7.png)
 
 任何复杂的正则表达式它的NFA的构造都是上面几种构造的组合
 
@@ -356,9 +364,20 @@ a -> b c d,那么我们先将d 压入栈，然后是c,然后是b.如果右边是
 
 DFA的作用不再是状态跳转， 当前状态（栈顶元素）和输入字符（token）不是对应跳转的下一个状态，而是对应于某个动作。这个动作一般是将指定的状态压入堆栈或弹出栈顶元素，编译器中的语义分析，代码生成等。
 
-# C语言语法解析
+# 自低向上的语法解析
 
-使用LALR(1)算法实现c语言语法解析
+实现LALR(1)算法实现
+
+```shell
+cd Parser
+mkdir build
+cd build
+cmake ..
+make
+./regex ../test.txt
+```
+
+
 
 ## commit
 
