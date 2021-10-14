@@ -36,19 +36,30 @@ vector<CTokenType::Token> Production::computeFirstSetOfBetaAndC() {
     for (int i=dotPos+1; i<right.size(); i++) {
         set.push_back(right.at(i));
     }
-    set.insert(set.end(), lookAhead.begin(), lookAhead.end());
-    for (int i=0; i<set.size(); i++) {
-        auto l = ProductionManager::getInstance()->getFirstSetBuilder()->getFirstSet(set[i]);
-        for (auto token : *l) {
-            if (find(firstSet.begin(), firstSet.end(), token) == firstSet.end()) {
-                firstSet.push_back(token);
+    //beta 部分不为空,计算FIRST(B)作为该表达式的lookahad集合
+    if (set.size() > 0) {
+        for (int i=0; i<set.size(); i++) {
+            auto l = ProductionManager::getInstance()->getFirstSetBuilder()->getFirstSet(set[i]);
+            for (auto token : *l) {
+                if (find(firstSet.begin(), firstSet.end(), token) == firstSet.end()) {
+                    firstSet.push_back(token);
+                }
+            }
+
+            if (!ProductionManager::getInstance()->getFirstSetBuilder()->isSymbolNullable(set[i])) {
+                break;
+            }
+
+            if (i == l->size() -1) {
+                //beta is composed by nulleable terms
+                firstSet.insert(firstSet.end(), lookAhead.begin(), lookAhead.end());
             }
         }
-
-        if (!ProductionManager::getInstance()->getFirstSetBuilder()->isSymbolNullable(set[i])) {
-            break;
-        }
+    } else {
+        //如果beta 部分为空的话，直接将上一个表达式的lookaHead集合作为该表达式的lookAhead集合
+        firstSet.insert(firstSet.end(), lookAhead.begin(), lookAhead.end());
     }
+
     return firstSet;
 }
 
@@ -67,10 +78,17 @@ CTokenType::Token Production::getDotSymbol() {
 }
 
 bool Production::operator==(const Production &production) {
+    /*
+    * 判断两个表达式是否相同有两个条件，一是表达式相同，而是对应的Look ahead 集合也必须一致
+    */
     return productionEquals(production) && lookAheadSetComparing(production) == 0;
 }
 
 bool Production::coverUp(const Production &production) {
+    /*
+    * 如果表达式相同，但是表达式1的look ahead 集合 覆盖了表达式2的look ahead 集合，
+    * 那么表达式1 就覆盖 表达式2
+    */
     return productionEquals(production) && lookAheadSetComparing(production) > 0;
 }
 
@@ -80,6 +98,12 @@ bool Production::productionEquals(const Production &production) {
 
 int Production::lookAheadSetComparing(const Production &production) {
     if (lookAhead.size() > production.lookAhead.size()) {
+        //looAhead 集合不但要比对方大，而且对方lookAhead的所有元素都在本方的lookAhead中，这样本方才算是覆盖对方
+        for (int i = 0; i < production.lookAhead.size(); i++) {
+            if (find(lookAhead.begin(), lookAhead.end(), production.lookAhead.at(i)) == lookAhead.end()) {
+                return -1;
+            }
+        }
         return 1;
     }
 
