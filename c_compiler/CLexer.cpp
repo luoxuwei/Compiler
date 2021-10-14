@@ -69,7 +69,7 @@ CTokenType::Token CLexer::id_keyword_or_number() {
         string text(buf + charIndex, textLen);
         return isKeyWord(text);
     } else if (isNum()) {
-        return CTokenType::Token::NUMBER;
+//        return CTokenType::Token::;
     }
     return CTokenType::Token::UNKNOWN_TOKEN;
 }

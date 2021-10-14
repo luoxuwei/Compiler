@@ -4,6 +4,5 @@
 
 #include "CTokenType.h"
 bool CTokenType::isTerminal(CTokenType::Token token) {
-//    return token >= FIRST_TERMINAL_INDEX && token <= LAST_TERMINAL_INDEX;
-    return token == LP || token == RP || token == PLUS || token == STAR || token == NUMBER || token == SEMI;
+    return FIRST_TERMINAL_INDEX <= token && token <= LAST_TERMINAL_INDEX;
 }

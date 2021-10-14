@@ -34,9 +34,10 @@ void ProductionManager::printAllProductions() {
 }
 
 void ProductionManager::initProductions() {
-    GrammarInitializer::getInstance()->initStmtForDebug();
+    GrammarInitializer::getInstance()->initVariableDecalationProductions();
     productionMap = GrammarInitializer::getInstance()->getProductionMap();
     firstSetBuilder->runFirstSets();
+    firstSetBuilder->printAllFistSet();
 }
 
 Production * ProductionManager::getProductionByIndex(int index) {

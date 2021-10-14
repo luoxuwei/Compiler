@@ -42,6 +42,10 @@ GrammarStateManager::LRStateTable * GrammarStateManager::getLRStateTable() {
 }
 
 GrammarState * GrammarStateManager::getGrammarState(vector<Production *> *pl) {
+    /*
+   * 要生成新的状态节点时，需要查找给定表达式所对应的节点是否已经存在，如果存在，就不必要构造
+   * 新的节点
+   */
     GrammarState *state = new GrammarState(pl);
     if (std::find_if(stateList.begin(), stateList.end(), GrammarStateComparetor(state)) == stateList.end()) {
         stateList.push_back(state);
@@ -60,6 +64,9 @@ GrammarState * GrammarStateManager::getGrammarState(vector<Production *> *pl) {
 
 void GrammarStateManager::addTransition(GrammarState *from, GrammarState *to, CTokenType::Token on) {
     if (isTransitionTableCompressed) {
+        /*
+        * 压缩时，把相似的节点找到，然后将相似节点合并
+        */
         from = getAndMergeSimilarState(from);
         to = getAndMergeSimilarState(to);
     }
@@ -110,7 +117,11 @@ GrammarState * GrammarStateManager::getAndMergeSimilarState(GrammarState *state)
 }
 
 void GrammarStateManager::buildTransitionStateMachine() {
-    GrammarState *grammarState = getGrammarState(ProductionManager::getInstance()->getProduction(CTokenType::Token::stmt));
+    GrammarState *grammarState = getGrammarState(ProductionManager::getInstance()->getProduction(CTokenType::Token::PROGRAM));
+
+    /*
+    * 初始化节点0后，开始构建整个状态机网络，网络的构建类似一种链式反应，节点0生成节点1到5，每个子节点继续生成相应节点
+    */
     grammarState->createTransition();
     printf("\nbuildTransitionStateMachine finish\n");
     printStateMap();

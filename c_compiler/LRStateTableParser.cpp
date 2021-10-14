@@ -7,7 +7,7 @@
 LRStateTableParser::LRStateTableParser(CLexer *l) : lexer(l) {
     statusStack.push(0);//stmt
     lexer->advance();
-    lexerInput = lexer->token();
+    lexerInput = CTokenType::EXT_DEF_LIST;
     lrStateTable = GrammarStateManager::getInstance()->getLRStateTable();
     showCurrentStateInfo(0);
 }
@@ -31,16 +31,7 @@ void LRStateTableParser::showCurrentStateInfo(int stateNum) {
 }
 
 void LRStateTableParser::parse() {
-    //GrammarInitializer里定义的语法推导表达式
-    /*
-     * 0:  s -> e
-     * 1:  e -> e + t
-     * 2:  e -> t
-     * 3:  t -> t * f
-     * 4:  t -> f
-     * 5:  f -> ( e )
-     * 6:  f -> NUM
-     */
+
     while (true) {
         int action = getAction(statusStack.top(), lexerInput);
         if (INT32_MAX == action) {
@@ -50,7 +41,7 @@ void LRStateTableParser::parse() {
         }
 
         if (action > 0) {
-            showCurrentStateInfo(action);
+//            showCurrentStateInfo(action);
             //shift 操作
             statusStack.push(action);
             text = lexer->lookAheadText();
@@ -58,9 +49,10 @@ void LRStateTableParser::parse() {
             parseStack.push(lexerInput);
 
             if (CTokenType::isTerminal(lexerInput)) {
+                printf("Shift for input: %s\n", CTokenType::getSymbolStr(lexerInput));
                 lexer->advance();
                 lexerInput = lexer->token();
-                valueStack.push_back(NULL);
+//                valueStack.push_back(NULL);
             } else {
                 //输入是非终结符，不往下读取，恢复到上个输入。
                 lexerInput = lexer->token();
@@ -75,48 +67,17 @@ void LRStateTableParser::parse() {
             printf("reduce by production: \n");
             production->print();
 
-            switch (production->getProductionNum()) {
-                const char *topAttribute;
-                const char *secondAttribute;
-                const char *name;
-                case 1://e -> e + t
-                case 3://t -> t * f
-                    topAttribute = valueStack.at(valueStack.size()-1);
-                    secondAttribute = valueStack.at(valueStack.size()-3);
-                    if (production->getProductionNum() == 1) {
-                        printf("%s += %s\n", secondAttribute, topAttribute);
-                    } else {
-                        printf("%s *= %s\n", secondAttribute, topAttribute);
-                    }
-                    free_name(topAttribute);
-                    attributeForParentNode = secondAttribute;
-                    break;
-                case 2://e -> t
-                case 4://t -> f
-                    attributeForParentNode = valueStack.back();
-                    break;
-                case 5://f -> ( e )
-                    attributeForParentNode = valueStack.at(valueStack.size()-2);
-                    break;
-                case 6://f -> NUM
-                    name = new_name();
-                    printf("%s = %s\n", name, text.c_str());
-                    attributeForParentNode = name;
-                    break;
-                default:
-                    break;
-            }
 
             int rightSize = production->getRight().size();
             while (rightSize > 0) {
                 statusStack.pop();
                 parseStack.pop();
-                valueStack.pop_back();
+//                valueStack.pop_back();
                 rightSize--;
             }
             lexerInput = production->getLeft();
             parseStack.push(lexerInput);
-            valueStack.push_back(attributeForParentNode);
+//            valueStack.push_back(attributeForParentNode);
         }
     }
 

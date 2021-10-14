@@ -17,9 +17,11 @@ public:
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();
     ProductionMap* getProductionMap();
-    void initStmtForDebug();
+
     vector<Symbols*> * getSymbleArray() {return &symbolArray;}
     map<CTokenType::Token, Symbols*> * getSymbolMap() {return &symbolMap;}
+
+    void initVariableDecalationProductions();
     struct ProductionComparator {
         Production &value;
         ProductionComparator(Production &production):value(production) {}
@@ -33,8 +35,9 @@ private:
     ProductionMap productionMap;
     vector<Symbols*> symbolArray;
     map<CTokenType::Token, Symbols*> symbolMap;
-    void addProduction(Production &production);
+    void addProduction(Production &production, bool nullable);
     void addSymbolMapAndArray(Production &production, bool nullable);
+    void addTerminalToSymbolMapAndArray();
 };
 
 
