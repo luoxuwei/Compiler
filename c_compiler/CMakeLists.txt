@@ -14,4 +14,4 @@ add_executable(c_compiler main.cpp
         GrammarInitializer.cpp GrammarInitializer.h
         Symbols.cpp Symbols.h
         FirstSetBuilder.cpp FirstSetBuilder.h
-        LRStateTableParser.cpp LRStateTableParser.h)
+        LRStateTableParser.cpp LRStateTableParser.h TypeLink.cpp TypeLink.h Symbol.cpp Symbol.h Specifier.cpp Specifier.h StructDefine.cpp StructDefine.h Declarator.cpp Declarator.h TypeSystem.cpp TypeSystem.h)

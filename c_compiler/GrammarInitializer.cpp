@@ -59,43 +59,43 @@ void GrammarInitializer::initVariableDecalationProductions() {
     	 *
     	 */
     int productionNum = 0;
-    //PROGRAM -> EXT_DEF_LIST
+    //0 PROGRAM -> EXT_DEF_LIST
     right = new vector<CTokenType::Token>({CTokenType::Token::EXT_DEF_LIST});//getProductionRight(productionRight);
     production = new Production(productionNum, CTokenType::Token::PROGRAM, 0, *right);
     addProduction(*production, true);
     productionNum++;
 
-    //EXT_DEF_LIST -> EXT_DEF_LIST EXT_DEF
+    //1 EXT_DEF_LIST -> EXT_DEF_LIST EXT_DEF
     right = new vector<CTokenType::Token>({CTokenType::Token::EXT_DEF_LIST, CTokenType::Token::EXT_DEF});
     production = new Production(productionNum, CTokenType::EXT_DEF_LIST, 0, *right);
     addProduction(*production, true);
     productionNum++;
 
-    //EXT_DEF -> OPT_SPECIFIERS EXT_DECL_LIST  SEMI
+    //2 EXT_DEF -> OPT_SPECIFIERS EXT_DECL_LIST  SEMI
     right = new vector<CTokenType::Token>({ CTokenType::Token::OPT_SPECIFIERS, CTokenType::Token::EXT_DECL_LIST, CTokenType::Token::SEMI});
     production = new Production(productionNum, CTokenType::Token::EXT_DEF, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //EXT_DEF -> OPT_SPECIFIERS  SEMI
+    //3 EXT_DEF -> OPT_SPECIFIERS  SEMI
     right = new vector<CTokenType::Token>({ CTokenType::Token::OPT_SPECIFIERS, CTokenType::Token::SEMI});
     production = new Production(productionNum, CTokenType::Token::EXT_DEF, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //EXT_DECL_LIST ->   EXT_DECL
+    //4 EXT_DECL_LIST ->   EXT_DECL
     right = new vector<CTokenType::Token>({CTokenType::Token::EXT_DECL});
     production = new Production(productionNum, CTokenType::Token::EXT_DECL_LIST, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    ///EXT_DECL_LIST ->EXT_DECL_LIST COMMA EXT_DECL
+    ///5 EXT_DECL_LIST ->EXT_DECL_LIST COMMA EXT_DECL
     right = new vector<CTokenType::Token>({CTokenType::Token::EXT_DECL_LIST, CTokenType::Token::COMMA, CTokenType::Token::EXT_DECL});
     production = new Production(productionNum, CTokenType::Token::EXT_DECL_LIST, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //EXT_DECL -> VAR_DECL
+    //6 EXT_DECL -> VAR_DECL
     right = new vector<CTokenType::Token>({CTokenType::Token::VAR_DECL});
     production = new Production(productionNum, CTokenType::Token::EXT_DECL, 0, *right);
     addProduction(*production, false);
@@ -137,6 +137,12 @@ void GrammarInitializer::initVariableDecalationProductions() {
     addProduction(*production, false);
     productionNum++;
 
+    //TYPE_OR_CLASS -> CLASS   !newly add!
+    right = new vector<CTokenType::Token>({CTokenType::Token::CLASS});
+    production = new Production(productionNum,CTokenType::Token::TYPE_OR_CLASS, 0, *right);
+    productionNum++;
+    addProduction(*production, false);
+
     //TYPE_SPECIFIER ->  TYPE
     right = new vector<CTokenType::Token>({CTokenType::Token::TYPE});
     production = new Production(productionNum, CTokenType::Token::TYPE_SPECIFIER, 0, *right);
@@ -149,17 +155,45 @@ void GrammarInitializer::initVariableDecalationProductions() {
     addProduction(*production, false);
     productionNum++;
 
+    /*
+    //NAME_NT -> NAME
+    right = getProductionRight(new int[]{CTokenType.NAME.ordinal()});
+    production = new Production(productionNum,CTokenType.NAME_NT.ordinal(), 0, right);
+    productionNum++;
+    addProduction(production, false);
+    */
+
     //VAR_DECL ->  NEW_NAME
     right = new vector<CTokenType::Token>({CTokenType::Token::NEW_NAME});
     production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
     addProduction(*production, false);
     productionNum++;
+    /*
+    //VAR_DECL -> VAR_DECL LP RP
+    right = getProductionRight(new int[]{CTokenType.VAR_DECL.ordinal(), CTokenType.LP.ordinal(), CTokenType.RP.ordinal()});
+    production = new Production(productionNum,CTokenType.VAR_DECL.ordinal(), 0, right);
+    productionNum++;
+    addProduction(production, false);
 
+    //VAR_DECL ->VAR_DECL LB RB
+    right = getProductionRight(new int[]{CTokenType.VAR_DECL.ordinal(), CTokenType.LB.ordinal(), CTokenType.RB.ordinal()});
+    production = new Production(productionNum,CTokenType.VAR_DECL.ordinal(), 0, right);
+    productionNum++;
+    addProduction(production, false);
+    */
     //VAR_DECL ->START VAR_DECL
     right = new vector<CTokenType::Token>({CTokenType::Token::STAR, CTokenType::Token::VAR_DECL});
     production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
     addProduction(*production, false);
     productionNum++;
+
+    /*
+    //VAR_DECL ->LP VAR_DECL RP
+    right = getProductionRight(new int[]{CTokenType.LP.ordinal(), CTokenType.VAR_DECL.ordinal(), CTokenType.RP.ordinal()});
+    production = new Production(productionNum,CTokenType.VAR_DECL.ordinal(), 0, right);
+    productionNum++;
+    addProduction(production, false);
+    */
 
     addTerminalToSymbolMapAndArray();
 }
