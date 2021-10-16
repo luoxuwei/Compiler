@@ -53,6 +53,7 @@ void LRStateTableParser::parse() {
 
             if (CTokenType::isTerminal(lexerInput)) {
                 printf("Shift for input: %s\n", CTokenType::getSymbolStr(lexerInput));
+                takeActionForShift(lexerInput);
                 lexer->advance();
                 lexerInput = lexer->token();
                 valueStack.push_back(NULL);
@@ -87,17 +88,27 @@ void LRStateTableParser::parse() {
 
 }
 
+void LRStateTableParser::takeActionForShift(CTokenType::Token token) {
+    if (token == CTokenType::Token::LP) {
+        nestingLevel++;
+    }
+
+    if (token == CTokenType::Token::RP) {
+        nestingLevel--;
+    }
+}
+
 void LRStateTableParser::takeActionForReduce(int productNum) {
     switch(productNum) {
         Specifier *last, *dst;
-        Symbol *currentSym, *lastSym, *symbol;
+        Symbol *currentSym, *lastSym, *symbol, *argList;
         TypeLink *specifier;
         case GrammarInitializer::TYPE_TO_TYPE_SPECIFIER:
             attributeForParentNode = typeSystem.newType(text);
             break;
-        case GrammarInitializer::CLASS_TO_TypeOrClass:
+/*        case GrammarInitializer::CLASS_TO_TypeOrClass:
             attributeForParentNode = typeSystem.newClass(text);
-            break;
+            break;*/
         case GrammarInitializer::SPECIFIERS_TypeOrClass_TO_SPECIFIERS:
             attributeForParentNode = valueStack.back();
             last = (Specifier *)((TypeLink *)valueStack.at(valueStack.size() - 2))->getTypeObject();
@@ -111,18 +122,41 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             typeSystem.addDeclarator((Symbol *)attributeForParentNode, Declarator::POINTER);
             break;
         case GrammarInitializer::ExtDeclList_COMMA_ExtDecl_TO_ExtDeclList:
+        case GrammarInitializer::VarList_COMMA_ParamDeclaration_TO_VarList:
             currentSym = (Symbol *)attributeForParentNode;
             lastSym = (Symbol *)valueStack.at(valueStack.size() - 3);
             currentSym->setNextSymbol(lastSym);
             break;
         case GrammarInitializer::OptSpecifier_ExtDeclList_Semi_TO_ExtDef:
+        case GrammarInitializer::TypeNT_VarDecl_TO_ParamDeclaration:
             symbol = (Symbol *)attributeForParentNode;
             specifier = (TypeLink *)(valueStack.at(valueStack.size() - 3));
             typeSystem.addSpecifierToDeclaration(specifier, symbol);
             typeSystem.addSymbolsToTable(symbol);
             break;
 
+        case GrammarInitializer::NewName_LP_VarList_RP_TO_FunctDecl:
+            setFunctionSymbol(true);
+            argList = (Symbol *) valueStack.at(valueStack.size() -2);
+            ((Symbol *) attributeForParentNode)->args = argList;
+            break;
+        case GrammarInitializer::NewName_LP_RP_TO_FunctDecl:
+            setFunctionSymbol(false);
+            break;
+
+
     }
+}
+
+void LRStateTableParser::setFunctionSymbol(bool hasArgs) {
+    Symbol *funcSymbol;
+    if (hasArgs) {
+        funcSymbol = (Symbol *) valueStack.at(valueStack.size() - 4);
+    } else {
+        funcSymbol = (Symbol *) valueStack.at(valueStack.size() - 3);
+    }
+    typeSystem.addDeclarator(funcSymbol, Declarator::FUNCTION);
+    attributeForParentNode = funcSymbol;
 }
 
 int LRStateTableParser::getAction(int currentState, CTokenType::Token currentInput) {

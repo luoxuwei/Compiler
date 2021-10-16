@@ -30,6 +30,8 @@ private:
     void showCurrentStateInfo(int stateNum);
     int getAction(int currentState, CTokenType::Token currentInput);
     void takeActionForReduce(int productNum);
+    void takeActionForShift(CTokenType::Token token);
+    void setFunctionSymbol(bool hasArgs);
 public:
     LRStateTableParser(CLexer *);
     void parse();

@@ -26,6 +26,7 @@ private:
 public:
     string name;
     int level; //变量的层次，嵌套局部变量时用到，局部变量和全局变量就是用层次来表示
+    Symbol *args;   //如果该符号对应的是函数名,那么args指向函数的输入参数符号列表
     Symbol(string name, int level);
 
     void addDeclarator(TypeLink *type);

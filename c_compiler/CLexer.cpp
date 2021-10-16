@@ -13,6 +13,7 @@ CLexer::CLexer() {
     keywordMap["double"] = CTokenType::Token::TYPE;
     keywordMap["int"] = CTokenType::Token::TYPE;
     keywordMap["long"] = CTokenType::Token::TYPE;
+    keywordMap["short"] = CTokenType::Token::TYPE;
     keywordMap["void"] = CTokenType::Token::TYPE;
 }
 
@@ -97,7 +98,7 @@ CTokenType::Token CLexer::lex() {
             textLen = 1;
             return CTokenType::Token::WHITE_SPACE;
         default:
-            if (isalnum(buf[charIndex]) == false) {
+            if (!isalnum(buf[charIndex])) {
                 return CTokenType::Token::UNKNOWN_TOKEN;
             }
             else {

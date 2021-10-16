@@ -34,7 +34,7 @@ void ProductionManager::printAllProductions() {
 }
 
 void ProductionManager::initProductions() {
-    GrammarInitializer::getInstance()->initVariableDecalationProductions();
+    GrammarInitializer::getInstance()->initProductions();
     productionMap = GrammarInitializer::getInstance()->getProductionMap();
     firstSetBuilder->runFirstSets();
     firstSetBuilder->printAllFistSet();

@@ -17,6 +17,7 @@ public:
 
 
         TYPE_OR_CLASS, TYPE_NT,
+        FUNCT_DECL, VAR_LIST, PARAM_DECLARATION,
         TYPE_SPECIFIER, NEW_NAME, NAME_NT,
 
 
@@ -44,6 +45,11 @@ public:
                 stringify(SPECIFIERS),
                 stringify(TYPE_OR_CLASS),
                 stringify(TYPE_NT),
+
+                stringify(FUNCT_DECL),
+                stringify(VAR_LIST),
+                stringify(PARAM_DECLARATION),
+
 
                 stringify(TYPE_SPECIFIER),
                 stringify(NEW_NAME),

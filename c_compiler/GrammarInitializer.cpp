@@ -11,6 +11,15 @@ GrammarInitializer * GrammarInitializer::getInstance() {
     return instance;
 }
 
+GrammarInitializer::GrammarInitializer() {
+}
+
+void GrammarInitializer::initProductions() {
+    initVariableDecalationProductions();
+    initFunctionProductions();
+    addTerminalToSymbolMapAndArray();
+}
+
 GrammarInitializer::ProductionMap* GrammarInitializer::getProductionMap() {
     return &productionMap;
 }
@@ -18,7 +27,7 @@ GrammarInitializer::ProductionMap* GrammarInitializer::getProductionMap() {
 void GrammarInitializer::initVariableDecalationProductions() {
     vector<CTokenType::Token> *right = NULL;
     Production *production = NULL;
-
+     //long int *x, y;
     /*
     	 *
     	 * C variable declaration grammar
@@ -58,44 +67,44 @@ void GrammarInitializer::initVariableDecalationProductions() {
     	 *              | START VAR_DECL
     	 *
     	 */
-    int productionNum = 0;
-    //0 PROGRAM -> EXT_DEF_LIST
+    productionNum = 0;
+    //PROGRAM -> EXT_DEF_LIST (0)
     right = new vector<CTokenType::Token>({CTokenType::Token::EXT_DEF_LIST});//getProductionRight(productionRight);
     production = new Production(productionNum, CTokenType::Token::PROGRAM, 0, *right);
     addProduction(*production, true);
     productionNum++;
 
-    //1 EXT_DEF_LIST -> EXT_DEF_LIST EXT_DEF
+    //EXT_DEF_LIST -> EXT_DEF_LIST EXT_DEF (1)
     right = new vector<CTokenType::Token>({CTokenType::Token::EXT_DEF_LIST, CTokenType::Token::EXT_DEF});
     production = new Production(productionNum, CTokenType::EXT_DEF_LIST, 0, *right);
     addProduction(*production, true);
     productionNum++;
 
-    //2 EXT_DEF -> OPT_SPECIFIERS EXT_DECL_LIST  SEMI
+    //EXT_DEF -> OPT_SPECIFIERS EXT_DECL_LIST  SEMI (2)
     right = new vector<CTokenType::Token>({ CTokenType::Token::OPT_SPECIFIERS, CTokenType::Token::EXT_DECL_LIST, CTokenType::Token::SEMI});
     production = new Production(productionNum, CTokenType::Token::EXT_DEF, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //3 EXT_DEF -> OPT_SPECIFIERS  SEMI
+    //EXT_DEF -> OPT_SPECIFIERS  SEMI (3)
     right = new vector<CTokenType::Token>({ CTokenType::Token::OPT_SPECIFIERS, CTokenType::Token::SEMI});
     production = new Production(productionNum, CTokenType::Token::EXT_DEF, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //4 EXT_DECL_LIST ->   EXT_DECL
+    //EXT_DECL_LIST ->   EXT_DECL (4)
     right = new vector<CTokenType::Token>({CTokenType::Token::EXT_DECL});
     production = new Production(productionNum, CTokenType::Token::EXT_DECL_LIST, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    ///5 EXT_DECL_LIST ->EXT_DECL_LIST COMMA EXT_DECL
+    ///EXT_DECL_LIST ->EXT_DECL_LIST COMMA EXT_DECL (5)
     right = new vector<CTokenType::Token>({CTokenType::Token::EXT_DECL_LIST, CTokenType::Token::COMMA, CTokenType::Token::EXT_DECL});
     production = new Production(productionNum, CTokenType::Token::EXT_DECL_LIST, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //6 EXT_DECL -> VAR_DECL
+    //EXT_DECL -> VAR_DECL (6)
     right = new vector<CTokenType::Token>({CTokenType::Token::VAR_DECL});
     production = new Production(productionNum, CTokenType::Token::EXT_DECL, 0, *right);
     addProduction(*production, false);
@@ -113,43 +122,43 @@ void GrammarInitializer::initVariableDecalationProductions() {
     addProduction(*production, true);
     productionNum++;*/
 
-    //OPT_SPECIFIERS -> SPECIFIERS
+    //OPT_SPECIFIERS -> SPECIFIERS (7)
     right = new vector<CTokenType::Token>({CTokenType::Token::SPECIFIERS});
     production = new Production(productionNum, CTokenType::Token::OPT_SPECIFIERS, 0, *right);
     addProduction(*production, true);
     productionNum++;
 
-    //SPECIFIERS -> TYPE_OR_CLASS
+    //SPECIFIERS -> TYPE_OR_CLASS (8)
     right = new vector<CTokenType::Token>({CTokenType::Token::TYPE_OR_CLASS});
     production = new Production(productionNum, CTokenType::Token::SPECIFIERS, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //SPECIFIERS -> SPECIFIERS TYPE_OR_CLASS
+    //SPECIFIERS -> SPECIFIERS TYPE_OR_CLASS (9)
     right = new vector<CTokenType::Token>({CTokenType::Token::SPECIFIERS, CTokenType::Token::TYPE_OR_CLASS});
     production = new Production(productionNum, CTokenType::Token::SPECIFIERS, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //TYPE_OR_CLASS -> TYPE_SPECIFIER
+    //TYPE_OR_CLASS -> TYPE_SPECIFIER (10)
     right = new vector<CTokenType::Token>({CTokenType::Token::TYPE_SPECIFIER});
     production = new Production(productionNum, CTokenType::Token::TYPE_OR_CLASS, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //TYPE_OR_CLASS -> CLASS   !newly add!
+/*    //TYPE_OR_CLASS -> CLASS   !newly add!
     right = new vector<CTokenType::Token>({CTokenType::Token::CLASS});
     production = new Production(productionNum,CTokenType::Token::TYPE_OR_CLASS, 0, *right);
     productionNum++;
-    addProduction(*production, false);
+    addProduction(*production, false);*/
 
-    //TYPE_SPECIFIER ->  TYPE
+    //TYPE_SPECIFIER ->  TYPE (11)
     right = new vector<CTokenType::Token>({CTokenType::Token::TYPE});
     production = new Production(productionNum, CTokenType::Token::TYPE_SPECIFIER, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //NEW_NAME -> NAME
+    //NEW_NAME -> NAME (12)
     right = new vector<CTokenType::Token>({CTokenType::Token::NAME});
     production = new Production(productionNum, CTokenType::Token::NEW_NAME, 0, *right);
     addProduction(*production, false);
@@ -163,7 +172,7 @@ void GrammarInitializer::initVariableDecalationProductions() {
     addProduction(production, false);
     */
 
-    //VAR_DECL ->  NEW_NAME
+    //VAR_DECL ->  NEW_NAME (13)
     right = new vector<CTokenType::Token>({CTokenType::Token::NEW_NAME});
     production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
     addProduction(*production, false);
@@ -181,7 +190,7 @@ void GrammarInitializer::initVariableDecalationProductions() {
     productionNum++;
     addProduction(production, false);
     */
-    //VAR_DECL ->START VAR_DECL
+    //VAR_DECL ->START VAR_DECL (14)
     right = new vector<CTokenType::Token>({CTokenType::Token::STAR, CTokenType::Token::VAR_DECL});
     production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
     addProduction(*production, false);
@@ -195,7 +204,79 @@ void GrammarInitializer::initVariableDecalationProductions() {
     addProduction(production, false);
     */
 
-    addTerminalToSymbolMapAndArray();
+}
+
+void GrammarInitializer::initFunctionProductions() {
+    //void f(int x, short y, long z);
+    /*production num begin with 15
+    *
+    * EXT_DEF -> OPT_SPECIFIERS FUNCT_DECL SEMI
+     * 对应一个完整的函数声明语句 void f(int x, int y); OPT_SPECIFIERS 对应的是void，FUNCT_DECL 对应的是f(int x, int y)， SEMI对应的是分号
+    *
+     * FUNCT_DECL 对应两种情况, 有参数的情况，NEW_NAME 对应的是f，LP对应(, VAR_LIST对应的是变量列表, RP对应)
+     * 无参数的情况，对应的是 函数名 NEW_NAME, ( LP, ) RP
+    * FUNCT_DECL -> NEW_NAME LP VAR_LIST RP
+    *              | NEW_NAME LP RP
+     *
+     * 变量列表对应 一个变量声明PARAM_DECLARATION， 或者是一个变量列表VAR_LIST， 后面跟一个逗号 COMMA(,) 再跟一个变量声明
+    * VAR_LIST ->  PARAM_DECLARATION
+    *              | VAR_LIST COMMA PARAM_DECLARATION
+     *
+     * 变量声明可以解析为 前面一个类型 TYPE_NT， 接下来是一个变量所对应的一个VAR_DECL，用来表示一个变量，VAR_DECL 对应 int x 中的x
+    * PARAM_DECLARATION -> TYPE_NT VAR_DECL
+    *
+     * TYPE_NT -> TYPE_SPECIFIER
+    *            | TYPE TYPE_SPECIFIER
+    */
+    vector<CTokenType::Token> *right = NULL;
+    Production *production = NULL;
+    //EXT_DEF -> OPT_SPECIFIERS FUNCT_DECL
+    right = new vector<CTokenType::Token>({CTokenType::Token::OPT_SPECIFIERS, CTokenType::Token::FUNCT_DECL, CTokenType::Token::SEMI});
+    production = new Production(productionNum, CTokenType::Token::EXT_DEF, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //FUNCT_DECL -> NEW_NAME LP VAR_LIST RP (16)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NEW_NAME, CTokenType::Token::LP, CTokenType::Token::VAR_LIST, CTokenType::Token::RP});
+    production = new Production(productionNum, CTokenType::Token::FUNCT_DECL, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //FUNCT_DECL ->  NEW_NAME LP RP (17)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NEW_NAME, CTokenType::Token::LP, CTokenType::Token::RP});
+    production = new Production(productionNum, CTokenType::Token::FUNCT_DECL, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //VAR_LIST ->  PARAM_DECLARATION
+    right = new vector<CTokenType::Token>({CTokenType::Token::PARAM_DECLARATION});
+    production = new Production(productionNum, CTokenType::Token::VAR_LIST, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //VAR_LIST -> VAR_LIST COMMA PARAM_DECLARATION (19)
+    right = new vector<CTokenType::Token>({CTokenType::Token::VAR_LIST, CTokenType::Token::COMMA, CTokenType::Token::PARAM_DECLARATION});
+    production = new Production(productionNum, CTokenType::Token::VAR_LIST, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //PARAM_DECLARATION -> TYPE_NT VAR_DECL (20)
+    right = new vector<CTokenType::Token>({CTokenType::Token::TYPE_NT, CTokenType::Token::VAR_DECL});
+    production = new Production(productionNum, CTokenType::Token::PARAM_DECLARATION, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //TYPE_NT -> TYPE_SPECIFIER
+    right = new vector<CTokenType::Token>({CTokenType::Token::TYPE_SPECIFIER});
+    production = new Production(productionNum, CTokenType::Token::TYPE_NT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //TYPE_NT -> TYPE TYPE_SPECIFIER
+    right = new vector<CTokenType::Token>({CTokenType::Token::TYPE, CTokenType::Token::TYPE_SPECIFIER});
+    production = new Production(productionNum, CTokenType::Token::TYPE_NT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
 }
 
 void GrammarInitializer::addProduction(Production &production, bool nullable) {
