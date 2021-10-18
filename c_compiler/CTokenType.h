@@ -13,17 +13,19 @@ public:
         PROGRAM, EXT_DEF_LIST, EXT_DEF, OPT_SPECIFIERS, EXT_DECL_LIST,
         EXT_DECL, VAR_DECL, SPECIFIERS,
 
-        //	stmt, expr, term, factor,
-
-
         TYPE_OR_CLASS, TYPE_NT,
+
+        /*struct def*/
+        STRUCT_SPECIFIER,OPT_TAG,DEF_LIST,TAG,DEF,DECL_LIST,DECL,
+
         FUNCT_DECL, VAR_LIST, PARAM_DECLARATION,
+
         TYPE_SPECIFIER, NEW_NAME, NAME_NT,
 
 
 
         //terminals
-        NAME, TYPE, CLASS, LP, RP, LB, RB,PLUS,
+        NAME, TYPE, STRUCT,CLASS, LP, RP, LB, RB,PLUS,LC,RC,
 
 //	NUM, TIMES,
 
@@ -46,6 +48,14 @@ public:
                 stringify(TYPE_OR_CLASS),
                 stringify(TYPE_NT),
 
+                stringify(STRUCT_SPECIFIER),
+                stringify(OPT_TAG),
+                stringify(DEF_LIST),
+                stringify(TAG),
+                stringify(DEF),
+                stringify(DECL_LIST),
+                stringify(DECL),
+
                 stringify(FUNCT_DECL),
                 stringify(VAR_LIST),
                 stringify(PARAM_DECLARATION),
@@ -56,6 +66,7 @@ public:
                 stringify(NAME_NT),
                 stringify(NAME),
                 stringify(TYPE),
+                stringify(STRUCT),
                 stringify(CLASS),
                 stringify(LP),
                 stringify(RP),
@@ -63,6 +74,8 @@ public:
                 stringify(RB),
 
                 stringify(PLUS),
+                stringify(LC),
+                stringify(RC),
                 stringify(COMMA),
                 stringify(SEMI),
                 stringify(WHITE_SPACE),

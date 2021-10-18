@@ -36,6 +36,10 @@ public:
     Symbol * getFields() {
         return fields;
     }
+
+    void setFields(Symbol *f) {
+        fields = f;
+    }
 };
 
 

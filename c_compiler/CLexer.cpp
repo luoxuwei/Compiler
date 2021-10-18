@@ -15,6 +15,7 @@ CLexer::CLexer() {
     keywordMap["long"] = CTokenType::Token::TYPE;
     keywordMap["short"] = CTokenType::Token::TYPE;
     keywordMap["void"] = CTokenType::Token::TYPE;
+    keywordMap["struct"] = CTokenType::Token::STRUCT;
 }
 
 CLexer::CLexer(const char *filePath): CLexer() {
@@ -91,7 +92,8 @@ CTokenType::Token CLexer::lex() {
         case '(': textLen = 1; return CTokenType::Token::LP;
         case ')': textLen = 1; return CTokenType::Token::RP;
         case ',': textLen = 1; return CTokenType::Token::COMMA;
-
+        case '{': textLen = 1; return CTokenType::Token::LC;
+        case '}': textLen = 1; return CTokenType::Token::RC;
         case '\n':
         case '\t':
         case ' ':

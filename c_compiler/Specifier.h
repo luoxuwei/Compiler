@@ -99,7 +99,8 @@ public:
         return constantValue;
     }
 
-    StructDefine *vStruct;
+    StructDefine *vStruct = NULL;
+    void setStructObj(StructDefine *s) { vStruct = s;}
 };
 
 

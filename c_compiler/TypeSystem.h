@@ -9,11 +9,13 @@
 #include <vector>
 #include "Symbol.h"
 #include "Specifier.h"
+#include "StructDefine.h"
 
 using namespace std;
 class TypeSystem {
 private:
     map<string, vector<Symbol *>> symbolTable;
+    map<string, StructDefine *> structTable;
 
     void handleDublicateSymbol(Symbol *symbol, vector<Symbol *> &symList);
     void setClassType(Specifier *sp, char c);
@@ -26,7 +28,8 @@ public:
     Symbol * newSymbol(string name, int level);
     void addDeclarator(Symbol *symbol, int declaratorType);
     void addSpecifierToDeclaration(TypeLink * specifier, Symbol * symbol);
-
+    void addStructToTable(StructDefine *s);
+    StructDefine * getStructObjFromTable(string tag);
 };
 
 

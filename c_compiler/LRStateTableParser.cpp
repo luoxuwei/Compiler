@@ -100,15 +100,24 @@ void LRStateTableParser::takeActionForShift(CTokenType::Token token) {
 
 void LRStateTableParser::takeActionForReduce(int productNum) {
     switch(productNum) {
-        Specifier *last, *dst;
-        Symbol *currentSym, *lastSym, *symbol, *argList;
+        Specifier *last, *dst, *sp;
+        Symbol *currentSym, *lastSym, *symbol, *argList, *defList;
         TypeLink *specifier;
+        StructDefine *structObj;
         case GrammarInitializer::TYPE_TO_TYPE_SPECIFIER:
             attributeForParentNode = typeSystem.newType(text);
             break;
 /*        case GrammarInitializer::CLASS_TO_TypeOrClass:
             attributeForParentNode = typeSystem.newClass(text);
             break;*/
+        case GrammarInitializer::StructSpecifier_TO_TypeSpecifier:
+            attributeForParentNode = typeSystem.newType(text);
+            specifier = (TypeLink *) attributeForParentNode;
+            sp = (Specifier *) specifier->getTypeObject();
+            sp->setType(Specifier::STRUCTURE);
+            structObj = (StructDefine *) valueStack.at(valueStack.size() - 1);
+            sp->setStructObj(structObj);
+            break;
         case GrammarInitializer::SPECIFIERS_TypeOrClass_TO_SPECIFIERS:
             attributeForParentNode = valueStack.back();
             last = (Specifier *)((TypeLink *)valueStack.at(valueStack.size() - 2))->getTypeObject();
@@ -119,16 +128,24 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             attributeForParentNode = typeSystem.newSymbol(text, nestingLevel);
             break;
         case GrammarInitializer::START_VarDecl_TO_VarDecl:
+        case GrammarInitializer::Start_VarDecl_TO_VarDecl:
             typeSystem.addDeclarator((Symbol *)attributeForParentNode, Declarator::POINTER);
             break;
         case GrammarInitializer::ExtDeclList_COMMA_ExtDecl_TO_ExtDeclList:
         case GrammarInitializer::VarList_COMMA_ParamDeclaration_TO_VarList:
+        case GrammarInitializer::DeclList_Comma_Decl_TO_DeclList:
+        case GrammarInitializer::DefList_Def_TO_DefList:
             currentSym = (Symbol *)attributeForParentNode;
-            lastSym = (Symbol *)valueStack.at(valueStack.size() - 3);
+            if (productNum == GrammarInitializer::DefList_Def_TO_DefList) {
+                lastSym = (Symbol *)valueStack.at(valueStack.size() - 2);
+            } else {
+                lastSym = (Symbol *)valueStack.at(valueStack.size() - 3);
+            }
             currentSym->setNextSymbol(lastSym);
             break;
         case GrammarInitializer::OptSpecifier_ExtDeclList_Semi_TO_ExtDef:
         case GrammarInitializer::TypeNT_VarDecl_TO_ParamDeclaration:
+        case GrammarInitializer::Specifiers_DeclList_Semi_TO_Def:
             symbol = (Symbol *)attributeForParentNode;
             specifier = (TypeLink *)(valueStack.at(valueStack.size() - 3));
             typeSystem.addSpecifierToDeclaration(specifier, symbol);
@@ -143,8 +160,19 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
         case GrammarInitializer::NewName_LP_RP_TO_FunctDecl:
             setFunctionSymbol(false);
             break;
-
-
+        case GrammarInitializer::Name_To_Tag:
+            attributeForParentNode = typeSystem.getStructObjFromTable(text);
+            if (attributeForParentNode == NULL) {
+                attributeForParentNode = new StructDefine(text, nestingLevel, NULL);
+                typeSystem.addStructToTable((StructDefine *) attributeForParentNode);
+            }
+            break;
+        case GrammarInitializer::Struct_OptTag_LC_DefList_RC_TO_StructSpecifier:
+            defList = (Symbol *) valueStack.at(valueStack.size() - 2);
+            structObj = (StructDefine *) valueStack.at(valueStack.size() - 4);
+            structObj->setFields(defList);
+            attributeForParentNode = structObj;
+            break;
     }
 }
 

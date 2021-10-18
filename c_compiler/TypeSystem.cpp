@@ -5,6 +5,20 @@
 #include "TypeSystem.h"
 #include "Declarator.h"
 
+void TypeSystem::addStructToTable(StructDefine *s) {
+    auto iter = structTable.find(s->getTag());
+    if (iter != structTable.end()) {
+        printf("Struct with name: %s is already defined", s->getTag().c_str());
+    }
+    structTable[s->getTag()] = s;
+}
+
+StructDefine * TypeSystem::getStructObjFromTable(string tag) {
+    auto iter = structTable.find(tag);
+    if (iter == structTable.end()) return NULL;
+    return structTable[tag];
+}
+
 void TypeSystem::addSymbolsToTable(Symbol *headSymbol) {
     while (headSymbol != NULL) {
         auto iter = symbolTable.find(headSymbol->name);

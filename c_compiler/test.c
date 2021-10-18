@@ -1,1 +1,5 @@
-void f(int x, short y, long z);
+struct tag {
+    int *a, b;
+    long c;
+    struct tag *d;
+}name;

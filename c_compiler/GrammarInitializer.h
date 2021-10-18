@@ -26,6 +26,14 @@ public:
     const static int NewName_LP_VarList_RP_TO_FunctDecl = 16;
     const static int NewName_LP_RP_TO_FunctDecl = 17;
 
+    const static int Start_VarDecl_TO_VarDecl = 39;
+    const static int DeclList_Comma_Decl_TO_DeclList = 33;
+    const static int Specifiers_DeclList_Semi_TO_Def = 30;
+    const static int DefList_Def_TO_DefList = 29;
+    const static int Name_To_Tag = 27;
+    const static int Struct_OptTag_LC_DefList_RC_TO_StructSpecifier = 24;
+    const static int StructSpecifier_TO_TypeSpecifier = 23;
+
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();
     ProductionMap* getProductionMap();
@@ -35,6 +43,7 @@ public:
 
     void initVariableDecalationProductions();
     void initFunctionProductions();
+    void initStructureProductions();
     void initProductions();
     struct ProductionComparator {
         Production &value;

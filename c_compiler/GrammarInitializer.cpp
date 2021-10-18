@@ -17,6 +17,7 @@ GrammarInitializer::GrammarInitializer() {
 void GrammarInitializer::initProductions() {
     initVariableDecalationProductions();
     initFunctionProductions();
+    initStructureProductions();
     addTerminalToSymbolMapAndArray();
 }
 
@@ -275,6 +276,158 @@ void GrammarInitializer::initFunctionProductions() {
     //TYPE_NT -> TYPE TYPE_SPECIFIER
     right = new vector<CTokenType::Token>({CTokenType::Token::TYPE, CTokenType::Token::TYPE_SPECIFIER});
     production = new Production(productionNum, CTokenType::Token::TYPE_NT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+}
+
+void GrammarInitializer::initStructureProductions() {
+/*    struct tag {
+        int x;
+        long y;
+        char z;
+        struct tag* p;
+    }name;*/
+    /* production number begin from 23
+     *
+     * STRUCT_SPECIFIER是专门用来定义结构体的
+     * TYPE_SPECIFIER -> STRUCT_SPECIFIER
+     *
+     * STRUCT 是struct关键字对应的标签， OPT_TAG 是struct关键字后面的名字，LC左大括号，DEF_LIST括号里的变量定义，RC右括号，最后的变量名跟前面变量声明的语法一样，这里没有写出来，这一整个表达式就描述了struct的定义。
+     * STTUCT_SPECIFIER -> STRUCT OPT_TAG LC DEF_LIST RC
+     *                     | STRUCT TAG
+     *
+     * TAG是struct关键字后面的名字，就是这个额结构体类型的名字，这个额名字是可以没有的，所以另外加了一个OPT_TAG，这个OPT_TAG可以是TAG，也可以是null，所以这个表达式是nullable的
+     * OPT_TAG -> TAG
+     *
+     * TAG -> NAME
+     *
+     *
+     *一个 int x;对应一个DEF, DEF_LIST是对DEF的重复，是DEF反复连接所形成的
+     * DEF_LIST ->  DEF
+     * DEF_LIST ->  DEF_LIST DEF
+     *
+     *
+     *
+     *
+     *
+     * DEF -> SPECIFIERS  DECL_LIST SEMI
+     *        | SPECIFIERS SEMI
+     *
+     *
+     * DECL_LIST -> DECL
+     *             | DECL_LIST COMMA DECL
+     *
+     * DECL -> VAR_DECL
+     *
+     * VAR_DECL 对应一个变量声明（int x;里的x)
+     * VAR_DECL -> NEW_NAME
+     *             | VAR_DECL LP RP
+     *             | VAR_DECL LP VAR_LIST RP
+     *             | LP VAR_DECL RP
+     *             | START VAR_DECL
+     */
+    vector<CTokenType::Token> *right = NULL;
+    Production *production = NULL;
+    //
+    //TYPE_SPECIFIER -> STRUCT_SPECIFIER  (23)
+    right = new vector<CTokenType::Token>({CTokenType::Token::STRUCT_SPECIFIER});
+    production = new Production(productionNum, CTokenType::Token::TYPE_SPECIFIER, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //STTUCT_SPECIFIER -> STRUCT OPT_TAG LC DEF_LIST RC (24)
+    right = new vector<CTokenType::Token>({CTokenType::Token::STRUCT, CTokenType::Token::OPT_TAG, CTokenType::Token::LC, CTokenType::Token::DEF_LIST, CTokenType::Token::RC});
+    production = new Production(productionNum, CTokenType::Token::STRUCT_SPECIFIER, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //STRUCT_SPECIFIER -> STRUCT TAG (25)
+    right = new vector<CTokenType::Token>({CTokenType::Token::STRUCT, CTokenType::Token::TAG});
+    production = new Production(productionNum, CTokenType::Token::STRUCT_SPECIFIER, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //OPT_TAG -> TAG (26)
+    right = new vector<CTokenType::Token>({CTokenType::Token::TAG});
+    production = new Production(productionNum, CTokenType::Token::OPT_TAG, 0, *right);
+    addProduction(*production, true);
+    productionNum++;
+
+    //TAG -> NAME (27)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NAME});
+    production = new Production(productionNum, CTokenType::Token::TAG, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //DEF_LIST ->  DEF (28)
+    right = new vector<CTokenType::Token>({CTokenType::Token::DEF});
+    production = new Production(productionNum, CTokenType::Token::DEF_LIST, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //DEF_LIST -> DEF_LIST DEF (29)
+    right = new vector<CTokenType::Token>({CTokenType::Token::DEF_LIST, CTokenType::Token::DEF});
+    production = new Production(productionNum, CTokenType::Token::DEF_LIST, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //DEF -> SPECIFIERS DECL_LIST SEMI (30)
+    right = new vector<CTokenType::Token>({CTokenType::Token::SPECIFIERS, CTokenType::Token::DECL_LIST, CTokenType::Token::SEMI});
+    production = new Production(productionNum, CTokenType::Token::DEF, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //DEF -> SPECIFIERS SEMI (31)
+    right = new vector<CTokenType::Token>({CTokenType::Token::SPECIFIERS, CTokenType::Token::SEMI});
+    production = new Production(productionNum, CTokenType::Token::DEF, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //DECL_LIST -> DECL (32)
+    right = new vector<CTokenType::Token>({CTokenType::Token::DECL});
+    production = new Production(productionNum, CTokenType::Token::DECL_LIST, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //DECL_LIST -> DECL_LIST COMMA DECL (33)
+    right = new vector<CTokenType::Token>({CTokenType::Token::DECL_LIST, CTokenType::Token::COMMA, CTokenType::Token::DECL});
+    production = new Production(productionNum, CTokenType::Token::DECL_LIST, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //DECL -> VAR_DECL (34)
+    right = new vector<CTokenType::Token>({CTokenType::Token::VAR_DECL});
+    production = new Production(productionNum, CTokenType::Token::DECL, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //VAR_DECL -> NEW_NAME (35)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NEW_NAME});
+    production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //VAR_DECL -> VAR_DECL LP RP (36)
+    right = new vector<CTokenType::Token>({CTokenType::Token::VAR_DECL, CTokenType::Token::LP, CTokenType::Token::RP});
+    production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //VAR_DECL -> VAR_DECL LP VAR_LIS RP (37)
+    right = new vector<CTokenType::Token>({CTokenType::Token::VAR_DECL, CTokenType::Token::LP, CTokenType::Token::VAR_LIST, CTokenType::Token::RP});
+    production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //VAR_DECL -> LP VAR_DECL RP (38)
+    right = new vector<CTokenType::Token>({CTokenType::Token::LP, CTokenType::Token::VAR_DECL, CTokenType::Token::RP});
+    production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //VAR_DECL -> STAR VAR_DECL (39)
+    right = new vector<CTokenType::Token>({CTokenType::Token::STAR, CTokenType::Token::VAR_DECL});
+    production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
     addProduction(*production, false);
     productionNum++;
 }
