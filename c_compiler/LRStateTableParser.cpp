@@ -39,6 +39,7 @@ void LRStateTableParser::parse() {
         int action = getAction(statusStack.top(), lexerInput);
         if (INT32_MAX == action) {
             //解析出错
+            printf("\nShift for input: %s\n", CTokenType::getSymbolStr(lexerInput));
             printf("\nThe input is denied\n");
             return;
         }

@@ -27,14 +27,17 @@ public:
 
         COMPOUND_STMT, LOCAL_DEFS, STMT_LIST, INITIALIZER, EXPR, NO_COMMA_EXPR,BINARY, UNARY, STATEMENT,
 
+        TEST, OPT_EXPR, END_OPT_EXPR, TARGET, ELSE_STATEMENT, IF_STATEMENT, IF_ELSE_STATEMENT,
+
         TYPE_SPECIFIER, NEW_NAME, NAME_NT,
 
 
 
         //terminals
         NAME, TYPE, STRUCT,CLASS, LP, RP, LB, RB,PLUS,LC,RC,NUMBER, STRING, QUEST, COLON,
-        RELOP, ANDAND, OR, AND, EQUOP, SHIFTOP, DIVOP,
-        RETURN,
+        RELOP, ANDAND, OR, AND, EQUOP, SHIFTOP, DIVOP, XOR, MINUS, INCOP,
+
+        RETURN, IF, ELSE, SWITCH, CASE, DEFAULT, BREAK, WHILE, FOR, DO, CONTINUE, GOTO,
 
         //Enum def
         ENUM,
@@ -86,6 +89,14 @@ public:
                 stringify(UNARY),
                 stringify(STATEMENT),
 
+                stringify(TEST),
+                stringify(OPT_EXPR),
+                stringify(END_OPT_EXPR),
+                stringify(TARGET),
+                stringify(ELSE_STATEMENT),
+                stringify(IF_STATEMENT),
+                stringify(IF_ELSE_STATEMENT),
+
                 stringify(TYPE_SPECIFIER),
                 stringify(NEW_NAME),
                 stringify(NAME_NT),
@@ -113,7 +124,21 @@ public:
                 stringify(EQUOP),
                 stringify(SHIFTOP),
                 stringify(DIVOP),
+                stringify(XOR),
+                stringify(MINUS),
+                stringify(INCOP),
                 stringify(RETURN),
+                stringify(IF),
+                stringify(ELSE),
+                stringify(SWITCH),
+                stringify(CASE),
+                stringify(DEFAULT),
+                stringify(BREAK),
+                stringify(WHILE),
+                stringify(FOR),
+                stringify(DO),
+                stringify(CONTINUE),
+                stringify(GOTO),
                 stringify(ENUM),
 
 

@@ -54,6 +54,11 @@ public:
     void initEmunProductions();
     void initFunctionDefinition();
     void initFunctionDefinition2();
+    void initFunctionDefinitionWithIfElse();
+    void initFunctionDefinitionWithSwitchCase();
+    void initFunctionDefinitionWithLoop();
+    void initComputingOperation();
+    void initRemaindingProduction();
     void initProductions();
     struct ProductionComparator {
         Production &value;

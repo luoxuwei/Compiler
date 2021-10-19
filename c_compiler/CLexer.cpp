@@ -18,6 +18,16 @@ CLexer::CLexer() {
     keywordMap["void"] = CTokenType::Token::TYPE;
     keywordMap["struct"] = CTokenType::Token::STRUCT;
     keywordMap["return"] = CTokenType::Token::RETURN;
+    keywordMap["if"] = CTokenType::Token::IF;
+    keywordMap["else"] = CTokenType::Token::ELSE;
+    keywordMap["switch"] = CTokenType::Token::SWITCH;
+    keywordMap["case"] = CTokenType::Token::CASE;
+    keywordMap["default"] = CTokenType::Token::DEFAULT;
+    keywordMap["break"] = CTokenType::Token::BREAK;
+    keywordMap["for"] = CTokenType::Token::FOR;
+    keywordMap["while"] = CTokenType::Token::WHILE;
+    keywordMap["do"] = CTokenType::Token::DO;
+    keywordMap["goto"] = CTokenType::Token::GOTO;
 }
 
 CLexer::CLexer(const char *filePath): CLexer() {
@@ -91,18 +101,31 @@ CTokenType::Token CLexer::lex() {
     for (int i = charIndex; i < buf_len; i++) {
         switch (buf[charIndex]) {
             case ';': textLen = 1; return CTokenType::Token::SEMI;
-            case '+': textLen = 1; return CTokenType::Token::PLUS;
+            case '+':
+                if (buf[charIndex + 1] == '+') {
+                    textLen = 2;
+                    return CTokenType::Token::INCOP;
+                }
+                textLen = 1;
+                return CTokenType::Token::PLUS;
             case '*': textLen = 1; return CTokenType::Token::STAR;
             case '(': textLen = 1; return CTokenType::Token::LP;
             case ')': textLen = 1; return CTokenType::Token::RP;
             case ',': textLen = 1; return CTokenType::Token::COMMA;
             case '{': textLen = 1; return CTokenType::Token::LC;
             case '}': textLen = 1; return CTokenType::Token::RC;
-            case '=': textLen = 1; return CTokenType::Token::EQUAL;
+            case '=':
+                if (buf[charIndex + 1] == '=') {
+                    textLen = 2;
+                    return CTokenType::Token::RELOP;
+                }
+                textLen = 1;
+                return CTokenType::Token::EQUAL;
             case '?': textLen = 1; return CTokenType::Token::QUEST;
             case ':': textLen = 1; return CTokenType::Token::COLON;
             case '&': textLen = 1; return CTokenType::Token::AND;
             case '|': textLen = 1; return CTokenType::Token::OR;
+            case '^': textLen = 1; return CTokenType::Token::XOR;
             case '/':
             case '%':
                 textLen = 1;
