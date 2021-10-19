@@ -702,18 +702,18 @@ void GrammarInitializer::initFunctionDefinition() {
 }
 
 void GrammarInitializer::initFunctionDefinition2() {
-    //COMPOUND_STMT -> LC RC(68)
-    //COMPOUNT_STMT -> LC STMT_LIST RC(69)
+    //COMPOUND_STMT -> LC RC(69)
+    //COMPOUNT_STMT -> LC STMT_LIST RC(70)
     vector<CTokenType::Token> *right = NULL;
     Production *production = NULL;
 
-    //COMPOUND_STMT -> LC RC(68)
+    //COMPOUND_STMT -> LC RC(69)
     right = new vector<CTokenType::Token>({CTokenType::Token::LC, CTokenType::Token::RC});
     production = new Production(productionNum, CTokenType::Token::COMPOUND_STMT, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //COMPOUNT_STMT -> LC STMT_LIST RC(69)
+    //COMPOUNT_STMT -> LC STMT_LIST RC(70)
     right = new vector<CTokenType::Token>({CTokenType::Token::LC, CTokenType::Token::STMT_LIST, CTokenType::Token::RC});
     production = new Production(productionNum, CTokenType::Token::COMPOUND_STMT, 0, *right);
     addProduction(*production, false);
@@ -740,9 +740,9 @@ void GrammarInitializer::initFunctionDefinitionWithIfElse() {
             a = a + 1;
         }
     }*/
-    //STATEMENT -> COMPOUND_STMT (70)
+    //STATEMENT -> COMPOUND_STMT (71)
     //TEST对应if后面括号里的条件判断表达式，STATEMENT是if (i<1) 后面的部分
-    //IF_STATEMENT -> IF LP TEST RP STATEMENT (71)
+    //IF_STATEMENT -> IF LP TEST RP STATEMENT (72)
     //IF_ELSE_STATEMENT -> IF_STATEMENT
     //IF_ELSE_STATEMENT ->IF_ELSE_STATEMENT ELSE STATEMENT
     //STATEMENT -> IF_ELSE_STATEMENT
@@ -755,13 +755,13 @@ void GrammarInitializer::initFunctionDefinitionWithIfElse() {
     vector<CTokenType::Token> *right = NULL;
     Production *production = NULL;
 
-    //STATEMENT -> COMPOUND_STMT (70)
+    //STATEMENT -> COMPOUND_STMT (71)
     right = new vector<CTokenType::Token>({CTokenType::Token::COMPOUND_STMT});
     production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //IF_STATEMENT -> IF LP TEST RP STATEMENT (71)
+    //IF_STATEMENT -> IF LP TEST RP STATEMENT (72)
     right = new vector<CTokenType::Token>({CTokenType::Token::IF, CTokenType::Token::LP, CTokenType::Token::TEST, CTokenType::Token::RP, CTokenType::Token::STATEMENT});
     production = new Production(productionNum, CTokenType::Token::IF_STATEMENT, 0, *right);
     addProduction(*production, false);
@@ -805,36 +805,36 @@ void GrammarInitializer::initFunctionDefinitionWithIfElse() {
 }
 
 void GrammarInitializer::initFunctionDefinitionWithSwitchCase() {
-    //STATEMENT -> SWITCH LP EXPR RP COMPOUND_STATEMENT (76)
+    //STATEMENT -> SWITCH LP EXPR RP COMPOUND_STATEMENT (79)
 
-    //STATEMENT -> CASE CONST_EXPR COLON(77)
+    //STATEMENT -> CASE CONST_EXPR COLON(80)
 
-    //STATEMENT -> DEFAULT COLON (78)
+    //STATEMENT -> DEFAULT COLON (81)
 
-    //STATEMENT -> BREAK SEMI; (79)
+    //STATEMENT -> BREAK SEMI; (82)
 
     vector<CTokenType::Token> *right = NULL;
     Production *production = NULL;
 
-    //STATEMENT -> SWITCH LP EXPR RP COMPOUND_STATEMENT (76)
+    //STATEMENT -> SWITCH LP EXPR RP COMPOUND_STATEMENT (79)
     right = new vector<CTokenType::Token>({CTokenType::Token::SWITCH, CTokenType::Token::LP, CTokenType::Token::EXPR, CTokenType::Token::RP, CTokenType::Token::STATEMENT});
     production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //STATEMENT -> CASE CONST_EXPR COLON(77)
+    //STATEMENT -> CASE CONST_EXPR COLON(80)
     right = new vector<CTokenType::Token>({CTokenType::Token::CASE, CTokenType::Token::CONST_EXPR, CTokenType::Token::COLON});
     production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //STATEMENT -> DEFAULT COLON (78)
+    //STATEMENT -> DEFAULT COLON (81)
     right = new vector<CTokenType::Token>({CTokenType::Token::DEFAULT, CTokenType::Token::COLON});
     production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //STATEMENT -> BREAK SEMI; (79)
+    //STATEMENT -> BREAK SEMI; (82)
     right = new vector<CTokenType::Token>({CTokenType::Token::BREAK, CTokenType::Token::SEMI});
     production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
     addProduction(*production, false);
@@ -869,57 +869,57 @@ void GrammarInitializer::initFunctionDefinitionWithLoop() {
 /*    while (i<10) {
         ...
     }*/
-    //STATEMENT -> WHILE LP TEST RP STATEMENT (80)
+    //STATEMENT -> WHILE LP TEST RP STATEMENT (83)
 
     //for (int i=0; i<10; i++)
     //for (; i<10; i++)
     //OPT_EXPR 是 int i=0这一段，可以是空的，END_OPT_EXPR 是i++
-    //STATEMENT -> FOR LP OPT_EXPR  TEST SEMI END_OPT_EXPR RP STATEMENT(81)
+    //STATEMENT -> FOR LP OPT_EXPR  TEST SEMI END_OPT_EXPR RP STATEMENT(84)
 
-    //OPT_EXPR -> EXPR SEMI(82)
+    //OPT_EXPR -> EXPR SEMI(85)
 
-    //OPT_EXPR -> SEMI(83)
+    //OPT_EXPR -> SEMI(86)
 
-    //END_OPT_EXPR -> EXPR(84)
+    //END_OPT_EXPR -> EXPR(87)
 
     //do while 循环
-    //STATEMENT -> DO STATEMENT WHILE LP TEST RP SEMI(85)
+    //STATEMENT -> DO STATEMENT WHILE LP TEST RP SEMI(88)
 
     vector<CTokenType::Token> *right = NULL;
     Production *production = NULL;
 
-    //STATEMENT -> WHILE LP TEST RP STATEMENT (80)
+    //STATEMENT -> WHILE LP TEST RP STATEMENT (83)
     right = new vector<CTokenType::Token>({CTokenType::Token::WHILE, CTokenType::Token::LP, CTokenType::Token::TEST, CTokenType::Token::RP, CTokenType::Token::STATEMENT});
     production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //STATEMENT -> FOR LP OPT_EXPR  TEST SEMI END_OPT_EXPR RP STATEMENT(81)
+    //STATEMENT -> FOR LP OPT_EXPR  TEST SEMI END_OPT_EXPR RP STATEMENT(84)
     right = new vector<CTokenType::Token>({CTokenType::Token::FOR, CTokenType::Token::LP, CTokenType::Token::OPT_EXPR, CTokenType::Token::TEST, CTokenType::Token::SEMI,
                                            CTokenType::Token::END_OPT_EXPR, CTokenType::Token::RP, CTokenType::Token::STATEMENT});
     production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //OPT_EXPR -> EXPR SEMI(82)
+    //OPT_EXPR -> EXPR SEMI(85)
     right = new vector<CTokenType::Token>({CTokenType::Token::EXPR, CTokenType::Token::SEMI});
     production = new Production(productionNum, CTokenType::Token::OPT_EXPR, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //OPT_EXPR -> SEMI(83)
+    //OPT_EXPR -> SEMI(86)
     right = new vector<CTokenType::Token>({CTokenType::Token::SEMI});
     production = new Production(productionNum, CTokenType::Token::OPT_EXPR, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //END_OPT_EXPR -> EXPR(84)
+    //END_OPT_EXPR -> EXPR(87)
     right = new vector<CTokenType::Token>({CTokenType::Token::EXPR});
     production = new Production(productionNum, CTokenType::Token::END_OPT_EXPR, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //STATEMENT -> DO STATEMENT WHILE LP TEST RP SEMI(85)
+    //STATEMENT -> DO STATEMENT WHILE LP TEST RP SEMI(88)
     right = new vector<CTokenType::Token>({CTokenType::Token::DO, CTokenType::Token::STATEMENT, CTokenType::Token::WHILE, CTokenType::Token::LP, CTokenType::Token::TEST,
                                            CTokenType::Token::RP, CTokenType::Token::SEMI});
     production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
@@ -928,82 +928,129 @@ void GrammarInitializer::initFunctionDefinitionWithLoop() {
 }
 
 void GrammarInitializer::initComputingOperation() {
-    //BINARY -> BINARY STAR BINARY(86)
+    //BINARY -> BINARY STAR BINARY(89)
 
-    //BINARY -> BINARY DIVOP BINARY(87)
+    //BINARY -> BINARY DIVOP BINARY(90)
 
-    //BINARY -> BINARY SHIFTOP BINARY(88)
+    //BINARY -> BINARY SHIFTOP BINARY(91)
 
-    //BINARY -> BINARY AND BINARY(89)
+    //BINARY -> BINARY AND BINARY(92)
 
-    //BINARY -> BINARY XOR BINARY(90)
+    //BINARY -> BINARY XOR BINARY(93)
 
-    //BINARY -> BINARY PLUS BINARY(91)
+    //BINARY -> BINARY PLUS BINARY(94)
 
-    //BINARY -> BINARY MINUS BINARY(92)
+    //BINARY -> BINARY MINUS BINARY(95)
 
-    //UNARY -> UNARY INCOP (93)
+    //UNARY -> UNARY INCOP (96)
 
-    //UNARY -> INCOP UNARY  (94)
+    //UNARY -> INCOP UNARY  (97)
 
 
     vector<CTokenType::Token> *right = NULL;
     Production *production = NULL;
 
-    //BINARY -> BINARY STAR BINARY(86)
+    //BINARY -> BINARY STAR BINARY(89)
     right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::STAR, CTokenType::Token::BINARY});
     production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //BINARY -> BINARY DIVOP BINARY(87)
+    //BINARY -> BINARY DIVOP BINARY(90)
     right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::DIVOP, CTokenType::Token::BINARY});
     production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //BINARY -> BINARY SHIFTOP BINARY(88)
+    //BINARY -> BINARY SHIFTOP BINARY(91)
     right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::SHIFTOP, CTokenType::Token::BINARY});
     production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //BINARY -> BINARY AND BINARY(89)
+    //BINARY -> BINARY AND BINARY(92)
     right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::AND, CTokenType::Token::BINARY});
     production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //BINARY -> BINARY XOR BINARY(90)
+    //BINARY -> BINARY XOR BINARY(93)
     right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::XOR, CTokenType::Token::BINARY});
     production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //BINARY -> BINARY PLUS BINARY(91)
+    //BINARY -> BINARY PLUS BINARY(94)
     right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::PLUS, CTokenType::Token::BINARY});
     production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //BINARY -> BINARY MINUS BINARY(92)
+    //BINARY -> BINARY MINUS BINARY(95)
     right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::MINUS, CTokenType::Token::BINARY});
     production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //UNARY -> UNARY INCOP  i++ (93)
+    //UNARY -> UNARY INCOP  i++ (96)
     right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::INCOP});
     production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //UNARY -> INCOP UNARY  ++i (94)
+    //UNARY -> INCOP UNARY  ++i (97)
     right = new vector<CTokenType::Token>({CTokenType::Token::INCOP, CTokenType::Token::UNARY});
     production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
+    //UNARY -> MINUS UNARY  a = -a
+    right = new vector<CTokenType::Token>({CTokenType::Token::MINUS, CTokenType::Token::UNARY});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //UNARY -> STAR UNARY b = *a
+    right = new vector<CTokenType::Token>({CTokenType::Token::STAR, CTokenType::Token::UNARY});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //UNARY -> UNARY STRUCTOP NAME  a = tag->name
+    right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::STRUCTOP, CTokenType::Token::UNARY});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //UNARY -> UNARY LB EXPR RB b = a[2];
+    right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::LB, CTokenType::Token::EXPR, CTokenType::Token::RB});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //UNARY -> UNARY LP ARGS RP fun(a, b ,c)
+    right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::LP, CTokenType::Token::ARGS, CTokenType::Token::RP});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //UNARY -> UNARY LP RP  fun()
+    right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::LP, CTokenType::Token::RP});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //ARGS -> NO_COMMA_EXPR
+    right = new vector<CTokenType::Token>({CTokenType::Token::NO_COMMA_EXPR});
+    production = new Production(productionNum, CTokenType::Token::ARGS, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //ARGS -> NO_COMMA_EXPR COMMA ARGS
+    right = new vector<CTokenType::Token>({CTokenType::Token::NO_COMMA_EXPR, CTokenType::Token::COMMA, CTokenType::Token::ARGS});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
 }
 
 void GrammarInitializer::initRemaindingProduction() {

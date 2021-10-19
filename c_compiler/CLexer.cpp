@@ -108,6 +108,17 @@ CTokenType::Token CLexer::lex() {
                 }
                 textLen = 1;
                 return CTokenType::Token::PLUS;
+            case '-':
+                if (buf[charIndex + 1] == '>') {
+                    textLen = 2;
+                    return CTokenType::Token::STRUCTOP;
+                } else if (buf[charIndex + 1] == '-') {
+                    textLen = 2;
+                    return CTokenType::Token::INCOP;
+                }
+                textLen = 1;
+                return CTokenType::Token::MINUS;
+                break;
             case '*': textLen = 1; return CTokenType::Token::STAR;
             case '(': textLen = 1; return CTokenType::Token::LP;
             case ')': textLen = 1; return CTokenType::Token::RP;

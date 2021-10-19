@@ -41,6 +41,25 @@ public:
     const static int Number_TO_ConstExpr = 47;
     const static int EnumSpecifier_TO_TypeSpecifier = 49;
 
+    const static int NoCommaExpr_TO_Expr = 53;
+    const static int NoCommaExpr_Equal_NoCommaExpr_TO_NoCommaExpr = 54;
+    const static int Binary_TO_NoCommaExpr = 56;
+    const static int Uanry_TO_Binary = 57;
+    const static int Number_TO_Unary = 58;
+    const static int Name_TO_Unary = 59;
+    const static int String_TO_Unary = 60;
+    //STATEMENT -> EXPR SEMI(63)
+    const static int  Expr_Semi_TO_Statement = 63;
+    //STMT_LIST ->  STATEMENT(62)
+    const static int  Statement_TO_StmtList = 62;
+    //STMT_LIST -> STMT_LIST STATEMENT(61)
+    const static int  StmtList_Statement_TO_StmtList = 61;
+
+    const static int Binary_Plus_Binary_TO_Binary = 94;
+
+    //STATEMENT -> LOCAL_DEFS(68)
+    const static int LocalDefs_TO_Statement = 68;
+
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();
     ProductionMap* getProductionMap();

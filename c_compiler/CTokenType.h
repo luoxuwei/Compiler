@@ -35,7 +35,7 @@ public:
 
         //terminals
         NAME, TYPE, STRUCT,CLASS, LP, RP, LB, RB,PLUS,LC,RC,NUMBER, STRING, QUEST, COLON,
-        RELOP, ANDAND, OR, AND, EQUOP, SHIFTOP, DIVOP, XOR, MINUS, INCOP,
+        RELOP, ANDAND, OR, AND, EQUOP, SHIFTOP, DIVOP, XOR, MINUS, INCOP, STRUCTOP, ARGS,
 
         RETURN, IF, ELSE, SWITCH, CASE, DEFAULT, BREAK, WHILE, FOR, DO, CONTINUE, GOTO,
 
@@ -127,6 +127,8 @@ public:
                 stringify(XOR),
                 stringify(MINUS),
                 stringify(INCOP),
+                stringify(STRUCTOP),
+                stringify(ARGS),
                 stringify(RETURN),
                 stringify(IF),
                 stringify(ELSE),
