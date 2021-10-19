@@ -33,6 +33,7 @@ public:
     void addSpecifier(TypeLink *type);
     void setNextSymbol(Symbol *symbol);
     Symbol * getNextSymbol();
+    TypeLink *getTypeHead() {return typeLinkBegin;};
 };
 
 

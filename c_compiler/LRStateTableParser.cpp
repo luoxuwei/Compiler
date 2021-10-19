@@ -53,10 +53,10 @@ void LRStateTableParser::parse() {
 
             if (CTokenType::isTerminal(lexerInput)) {
                 printf("Shift for input: %s\n", CTokenType::getSymbolStr(lexerInput));
-                takeActionForShift(lexerInput);
+                void *obj = takeActionForShift(lexerInput);
                 lexer->advance();
                 lexerInput = lexer->token();
-                valueStack.push_back(NULL);
+                valueStack.push_back(obj);
             } else {
                 //输入是非终结符，不往下读取，恢复到上个输入。
                 lexerInput = lexer->token();
@@ -88,14 +88,15 @@ void LRStateTableParser::parse() {
 
 }
 
-void LRStateTableParser::takeActionForShift(CTokenType::Token token) {
-    if (token == CTokenType::Token::LP) {
+void *LRStateTableParser::takeActionForShift(CTokenType::Token token) {
+    if (token == CTokenType::Token::LP || token == CTokenType::Token::LC) {
         nestingLevel++;
     }
 
-    if (token == CTokenType::Token::RP) {
+    if (token == CTokenType::Token::RP || token == CTokenType::Token::RC) {
         nestingLevel--;
     }
+    return NULL;
 }
 
 void LRStateTableParser::takeActionForReduce(int productNum) {
@@ -106,6 +107,9 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
         StructDefine *structObj;
         case GrammarInitializer::TYPE_TO_TYPE_SPECIFIER:
             attributeForParentNode = typeSystem.newType(text);
+            break;
+        case GrammarInitializer::EnumSpecifier_TO_TypeSpecifier:
+            attributeForParentNode = typeSystem.newType("int");
             break;
 /*        case GrammarInitializer::CLASS_TO_TypeOrClass:
             attributeForParentNode = typeSystem.newClass(text);
@@ -125,6 +129,7 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             typeSystem.specifierCpy(dst, last);
             break;
         case GrammarInitializer::NAME_TO_NewName:
+        case GrammarInitializer::Name_TO_NameNT:
             attributeForParentNode = typeSystem.newSymbol(text, nestingLevel);
             break;
         case GrammarInitializer::START_VarDecl_TO_VarDecl:
@@ -173,7 +178,45 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             structObj->setFields(defList);
             attributeForParentNode = structObj;
             break;
+        case GrammarInitializer::Enum_TO_EnumNT:
+            enumValue = 0;
+            break;
+        case GrammarInitializer::NameNT_TO_Emurator:
+            doEnum();
+            break;
+        case GrammarInitializer::Name_Eequal_ConstExpr_TO_Enuerator:
+            enumValue = (long) valueStack.at(valueStack.size() - 1);
+            attributeForParentNode = valueStack.at(valueStack.size() - 3);
+            doEnum();
+            break;
+        case GrammarInitializer::Number_TO_ConstExpr:
+            attributeForParentNode = (void *)stoi(text);
+            break;
     }
+}
+
+void LRStateTableParser::doEnum() {
+    Symbol *symbol = (Symbol *) attributeForParentNode;
+    if (convSymToIntConst(symbol, enumValue)) {
+        typeSystem.addSymbolsToTable(symbol);
+        enumValue++;
+    } else {
+        printf("enum symbol redefinition: %s\n", symbol->name.c_str());
+    }
+
+}
+
+bool LRStateTableParser::convSymToIntConst(Symbol *symbol, int val) {
+    if (symbol->getTypeHead() != NULL) {
+        return false;
+    }
+
+    TypeLink *typeLink = typeSystem.newType("int");
+    Specifier *specifier = (Specifier *) typeLink->getTypeObject();
+    specifier->setConstantVal(val);
+    specifier->setType(Specifier::CONSTANT);
+    symbol->addSpecifier(typeLink);
+    return true;
 }
 
 void LRStateTableParser::setFunctionSymbol(bool hasArgs) {

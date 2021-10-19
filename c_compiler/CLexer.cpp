@@ -12,10 +12,12 @@ CLexer::CLexer() {
     keywordMap["float"] = CTokenType::Token::TYPE;
     keywordMap["double"] = CTokenType::Token::TYPE;
     keywordMap["int"] = CTokenType::Token::TYPE;
+    keywordMap["enum"] = CTokenType::Token::ENUM;
     keywordMap["long"] = CTokenType::Token::TYPE;
     keywordMap["short"] = CTokenType::Token::TYPE;
     keywordMap["void"] = CTokenType::Token::TYPE;
     keywordMap["struct"] = CTokenType::Token::STRUCT;
+    keywordMap["return"] = CTokenType::Token::RETURN;
 }
 
 CLexer::CLexer(const char *filePath): CLexer() {
@@ -71,7 +73,7 @@ CTokenType::Token CLexer::id_keyword_or_number() {
         string text(buf + charIndex, textLen);
         return isKeyWord(text);
     } else if (isNum()) {
-//        return CTokenType::Token::;
+        return CTokenType::Token::NUMBER;
     }
     return CTokenType::Token::UNKNOWN_TOKEN;
 }
@@ -84,38 +86,78 @@ CTokenType::Token CLexer::lex() {
     charIndex = charIndex + textLen;
     if (charIndex >= buf_len) return CTokenType::Token::SEMI;
 
+    bool inString = false;
     textLen = 0;
-    switch (buf[charIndex]) {
-        case ';': textLen = 1; return CTokenType::Token::SEMI;
-        case '+': textLen = 1; return CTokenType::Token::PLUS;
-        case '*': textLen = 1; return CTokenType::Token::STAR;
-        case '(': textLen = 1; return CTokenType::Token::LP;
-        case ')': textLen = 1; return CTokenType::Token::RP;
-        case ',': textLen = 1; return CTokenType::Token::COMMA;
-        case '{': textLen = 1; return CTokenType::Token::LC;
-        case '}': textLen = 1; return CTokenType::Token::RC;
-        case '\n':
-        case '\t':
-        case ' ':
-            textLen = 1;
-            return CTokenType::Token::WHITE_SPACE;
-        default:
-            if (!isalnum(buf[charIndex])) {
-                return CTokenType::Token::UNKNOWN_TOKEN;
-            }
-            else {
-                int i = charIndex;
-                while (i < buf_len && isalnum(buf[i])) {
-                    i++;
-                    textLen++;
+    for (int i = charIndex; i < buf_len; i++) {
+        switch (buf[charIndex]) {
+            case ';': textLen = 1; return CTokenType::Token::SEMI;
+            case '+': textLen = 1; return CTokenType::Token::PLUS;
+            case '*': textLen = 1; return CTokenType::Token::STAR;
+            case '(': textLen = 1; return CTokenType::Token::LP;
+            case ')': textLen = 1; return CTokenType::Token::RP;
+            case ',': textLen = 1; return CTokenType::Token::COMMA;
+            case '{': textLen = 1; return CTokenType::Token::LC;
+            case '}': textLen = 1; return CTokenType::Token::RC;
+            case '=': textLen = 1; return CTokenType::Token::EQUAL;
+            case '?': textLen = 1; return CTokenType::Token::QUEST;
+            case ':': textLen = 1; return CTokenType::Token::COLON;
+            case '&': textLen = 1; return CTokenType::Token::AND;
+            case '|': textLen = 1; return CTokenType::Token::OR;
+            case '/':
+            case '%':
+                textLen = 1;
+                return CTokenType::Token::DIVOP;
+            case '>':
+            case '<':
+                if (buf[i + 1] == '=') {
+                    textLen = 2;
+                } else if ((buf[i] == '<' && buf[i + 1] == '<') || (buf[i] == '>' && buf[i + 1] == '>')) {
+                    textLen = 2;
+                    return CTokenType::Token::SHIFTOP;
+                } else {
+                    textLen = 1;
+                }
+                return CTokenType::Token::RELOP;
+            case '\n':
+            case '\t':
+            case ' ':
+                textLen = 1;
+                return CTokenType::Token::WHITE_SPACE;
+            case '"':
+                inString = !inString;
+                if (!inString) {
+                    return CTokenType::Token::STRING;
+                }
+                break;
+            default:
+                if (!isalnum(buf[charIndex])) {
+                    return CTokenType::Token::UNKNOWN_TOKEN;
+                }
+                else {
+                    while (i < buf_len && isalnum(buf[i]) || inString) {
+                        i++;
+                        textLen++;
+                    }
+
+                    if (i >= buf_len && inString) {
+                        printf("Missing the ending quatation mark!");
+                        throw 1;
+                    }
+
+                    return translateStringToToken();
                 }
 
-                return id_keyword_or_number();
-            }
-
+        }
     }
 
+}
 
+CTokenType::Token CLexer::translateStringToToken() {
+    CTokenType::Token type = id_keyword_or_number();
+    if (type != CTokenType::Token::UNKNOWN_TOKEN) {
+        return type;
+    }
+    return CTokenType::Token::NAME;
 }
 
 bool CLexer::isNum() {

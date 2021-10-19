@@ -34,6 +34,13 @@ public:
     const static int Struct_OptTag_LC_DefList_RC_TO_StructSpecifier = 24;
     const static int StructSpecifier_TO_TypeSpecifier = 23;
 
+    const static int Enum_TO_EnumNT = 41;
+    const static int NameNT_TO_Emurator = 44;
+    const static int Name_TO_NameNT = 45;
+    const static int Name_Eequal_ConstExpr_TO_Enuerator = 46;
+    const static int Number_TO_ConstExpr = 47;
+    const static int EnumSpecifier_TO_TypeSpecifier = 49;
+
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();
     ProductionMap* getProductionMap();
@@ -44,6 +51,7 @@ public:
     void initVariableDecalationProductions();
     void initFunctionProductions();
     void initStructureProductions();
+    void initEmunProductions();
     void initProductions();
     struct ProductionComparator {
         Production &value;

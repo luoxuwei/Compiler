@@ -18,6 +18,7 @@ void GrammarInitializer::initProductions() {
     initVariableDecalationProductions();
     initFunctionProductions();
     initStructureProductions();
+    initEmunProductions();
     addTerminalToSymbolMapAndArray();
 }
 
@@ -410,13 +411,13 @@ void GrammarInitializer::initStructureProductions() {
     //VAR_DECL -> VAR_DECL LP RP (36)
     right = new vector<CTokenType::Token>({CTokenType::Token::VAR_DECL, CTokenType::Token::LP, CTokenType::Token::RP});
     production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
-    addProduction(*production, false);
+//    addProduction(*production, false);
     productionNum++;
 
     //VAR_DECL -> VAR_DECL LP VAR_LIS RP (37)
     right = new vector<CTokenType::Token>({CTokenType::Token::VAR_DECL, CTokenType::Token::LP, CTokenType::Token::VAR_LIST, CTokenType::Token::RP});
     production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
-    addProduction(*production, false);
+//    addProduction(*production, false);
     productionNum++;
 
     //VAR_DECL -> LP VAR_DECL RP (38)
@@ -430,6 +431,92 @@ void GrammarInitializer::initStructureProductions() {
     production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
     addProduction(*production, false);
     productionNum++;
+}
+
+void GrammarInitializer::initEmunProductions() {
+    //enum tag {a, b, c=5, d} x;
+    /*
+     * begin from production number 40
+     *
+     */
+    //ENUM_SPECIFIER对应整个enum定义（enum tag {...}）,ENUM_NT对应关键字enum，NAME_NT 对应tag,OPT_ENUM_LIST对应的是后面{}这一段
+    //ENUM_SPECIFIER -> ENUM_NT NAME_NT OPT_ENUM_LIST(40)
+    //ENUM_NT -> ENUM(41)
+    //ENUMERATOR_LIST -> ENUMERATOR(42)
+    //EMERATOR_LIST -> ENUMERATOR_LIST COMMA ENUMERATOR(43)
+    //ENUMERATOR -> NAME_NT(44)
+    //NAME_NT -> NAME(45)
+    //给一个变量赋初值对应（ c=5 ) EQUAL对应等号，后面的常量对应 CONST_EXPR
+    //ENUMERATOR -> NAME_NT EQUAL CONST_EXPR(46)
+    //把CONST_EXPR做了简化处理，变成一个NUMBER来处理，也就是看到一个数字常量的时候会自动推导成一个CONST_EXPR, 实际上CONST_EXPR的推导还是比较复杂的，只是这里做了简化
+    //CONST_EXPR -> NUMBER (47)
+    //OPT_ENUM_LIST -> LC ENUMERATOR_LIST RC (48)
+    //TYPE_SPECIFIER -> ENUM_SPECIFIER (49)
+
+    vector<CTokenType::Token> *right = NULL;
+    Production *production = NULL;
+
+    //ENUM_SPECIFIER -> ENUM_NT NAME_NT OPT_ENUM_LIST(40)
+    right = new vector<CTokenType::Token>({CTokenType::Token::ENUM_NT, CTokenType::Token::NAME_NT, CTokenType::Token::OPT_ENUM_LIST});
+    production = new Production(productionNum, CTokenType::Token::ENUM_SPECIFIER, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //ENUM_NT -> ENUM(41)
+    right = new vector<CTokenType::Token>({CTokenType::Token::ENUM});
+    production = new Production(productionNum, CTokenType::Token::ENUM_NT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //ENUMERATOR_LIST -> ENUMERATOR(42)
+    right = new vector<CTokenType::Token>({CTokenType::Token::ENUMERATOR});
+    production = new Production(productionNum, CTokenType::Token::ENUMERATOR_LIST, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //EMERATOR_LIST -> ENUMERATOR_LIST COMMA ENUMERATOR(43)
+    right = new vector<CTokenType::Token>({CTokenType::Token::ENUMERATOR_LIST, CTokenType::Token::COMMA, CTokenType::Token::ENUMERATOR});
+    production = new Production(productionNum, CTokenType::Token::ENUMERATOR_LIST, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //ENUMERATOR -> NAME_NT(44)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NAME_NT});
+    production = new Production(productionNum, CTokenType::Token::ENUMERATOR, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //NAME_NT -> NAME(45)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NAME});
+    production = new Production(productionNum, CTokenType::Token::NAME_NT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //ENUMERATOR -> NAME_NT EQUAL CONST_EXPR(46)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NAME_NT, CTokenType::Token::EQUAL, CTokenType::Token::CONST_EXPR});
+    production = new Production(productionNum, CTokenType::Token::ENUMERATOR, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //CONST_EXPR -> NUMBER (47)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NUMBER});
+    production = new Production(productionNum, CTokenType::Token::CONST_EXPR, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //OPT_ENUM_LIST -> LC ENUMERATOR_LIST RC (48)
+    right = new vector<CTokenType::Token>({CTokenType::Token::LC, CTokenType::Token::ENUMERATOR_LIST, CTokenType::Token::RC});
+    production = new Production(productionNum, CTokenType::Token::OPT_ENUM_LIST, 0, *right);
+    addProduction(*production, true);
+    productionNum++;
+
+    //TYPE_SPECIFIER -> ENUM_SPECIFIER (49)
+    right = new vector<CTokenType::Token>({CTokenType::Token::ENUM_SPECIFIER});
+    production = new Production(productionNum, CTokenType::Token::TYPE_SPECIFIER, 0, *right);
+    addProduction(*production, true);
+    productionNum++;
+
+
 }
 
 void GrammarInitializer::addProduction(Production &production, bool nullable) {

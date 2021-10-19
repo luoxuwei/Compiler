@@ -20,14 +20,24 @@ public:
 
         FUNCT_DECL, VAR_LIST, PARAM_DECLARATION,
 
+        //Enum
+        ENUM_SPECIFIER, OPT_ENUM_LIST, ENUMERATOR_LIST, ENUMERATOR, ENUM_NT,
+
+        CONST_EXPR,
+
+        COMPOUND_STMT, LOCAL_DEFS, STMT_LIST, INITIALIZER, EXPR, NO_COMMA_EXPR,BINARY, UNARY, STATEMENT,
+
         TYPE_SPECIFIER, NEW_NAME, NAME_NT,
 
 
 
         //terminals
-        NAME, TYPE, STRUCT,CLASS, LP, RP, LB, RB,PLUS,LC,RC,
+        NAME, TYPE, STRUCT,CLASS, LP, RP, LB, RB,PLUS,LC,RC,NUMBER, STRING, QUEST, COLON,
+        RELOP, ANDAND, OR, AND, EQUOP, SHIFTOP, DIVOP,
+        RETURN,
 
-//	NUM, TIMES,
+        //Enum def
+        ENUM,
 
         COMMA, SEMI, WHITE_SPACE, EQUAL,TTYPE, STAR, UNKNOWN_TOKEN
     };
@@ -60,6 +70,21 @@ public:
                 stringify(VAR_LIST),
                 stringify(PARAM_DECLARATION),
 
+                stringify(ENUM_SPECIFIER),
+                stringify(OPT_ENUM_LIST),
+                stringify(ENUMERATOR_LIST),
+                stringify(ENUMERATOR),
+                stringify(ENUM_NT),
+                stringify(CONST_EXPR),
+                stringify(COMPOUND_STMT),
+                stringify(LOCAL_DEFS),
+                stringify(STMT_LIST),
+                stringify(INITIALIZER),
+                stringify(EXPR),
+                stringify(NO_COMMA_EXPR),
+                stringify(BINARY),
+                stringify(UNARY),
+                stringify(STATEMENT),
 
                 stringify(TYPE_SPECIFIER),
                 stringify(NEW_NAME),
@@ -76,6 +101,22 @@ public:
                 stringify(PLUS),
                 stringify(LC),
                 stringify(RC),
+
+                stringify(NUMBER),
+                stringify(STRING),
+                stringify(QUEST),
+                stringify(COLON),
+                stringify(RELOP),
+                stringify(ANDAND),
+                stringify(OR),
+                stringify(AND),
+                stringify(EQUOP),
+                stringify(SHIFTOP),
+                stringify(DIVOP),
+                stringify(RETURN),
+                stringify(ENUM),
+
+
                 stringify(COMMA),
                 stringify(SEMI),
                 stringify(WHITE_SPACE),

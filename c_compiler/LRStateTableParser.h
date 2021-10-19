@@ -17,6 +17,7 @@ private:
     string text;
     CTokenType::Token lexerInput;
     int nestingLevel = 0;
+    int enumValue = 0;
     const char *names[8] = {"t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"};
     void *attributeForParentNode = NULL;
     TypeSystem typeSystem;
@@ -30,8 +31,10 @@ private:
     void showCurrentStateInfo(int stateNum);
     int getAction(int currentState, CTokenType::Token currentInput);
     void takeActionForReduce(int productNum);
-    void takeActionForShift(CTokenType::Token token);
+    void *takeActionForShift(CTokenType::Token token);
     void setFunctionSymbol(bool hasArgs);
+    void doEnum();
+    bool convSymToIntConst(Symbol *symbol, int val);
 public:
     LRStateTableParser(CLexer *);
     void parse();

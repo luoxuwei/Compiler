@@ -41,6 +41,7 @@ void TypeSystem::handleDublicateSymbol(Symbol *symbol, vector<Symbol *> &symList
         if (sym->level == symbol->level) {
             //同一层有两个同名的变量，就是出错了，需要处理这种情况
             //TODO, handle duplication here
+            printf("Symbol definition replicate: %s", symbol->name.c_str());
         }
     }
     if (harmless) {
