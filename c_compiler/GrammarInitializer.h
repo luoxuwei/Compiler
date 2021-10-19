@@ -52,6 +52,8 @@ public:
     void initFunctionProductions();
     void initStructureProductions();
     void initEmunProductions();
+    void initFunctionDefinition();
+    void initFunctionDefinition2();
     void initProductions();
     struct ProductionComparator {
         Production &value;

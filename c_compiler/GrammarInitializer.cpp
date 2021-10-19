@@ -19,6 +19,8 @@ void GrammarInitializer::initProductions() {
     initFunctionProductions();
     initStructureProductions();
     initEmunProductions();
+    initFunctionDefinition();
+    initFunctionDefinition2();
     addTerminalToSymbolMapAndArray();
 }
 
@@ -517,6 +519,200 @@ void GrammarInitializer::initEmunProductions() {
     productionNum++;
 
 
+}
+
+void GrammarInitializer::initFunctionDefinition() {
+
+    /*
+     * begin production number 50
+     */
+/*    void f() {
+        int a;
+        int b;
+        a = 1;
+        b = 2;
+        int c;
+        c = a > b ? a : b;
+
+        return c;
+    }*/
+    //OPT_SPECIFIERS对应void，FUNCT_DECL对应f(),COMPOUND_STMT覆盖了后面大括号这一段
+    //EXT_DEF -> OPT_SPECIFIERS FUNCT_DECL COMPOUND_STMT(50)
+
+    //LC是右括号，LOCAL_DEFS是开始的a,b两个变量定义，STMT_LIST后面那一段
+    //COMPOUND_STMT-> LC LOCAL_DEFS STMT_LIST RC(51)
+    //本地变量定义
+    //LOCAL_DEFS -> DEF_LIST(52)
+    //EXPR表示表达式
+    //EXPR -> NO_COMMA_EXPR(53)
+
+    //中间的EQUAL是等号，整个表示对应 a = 1;这种类型的表达式，a和1都对应NO_COMMA_EXPR，中间的等号是EQUAL
+    //NO_COMMA_EXPR -> NO_COMMA_EXPR EQUAL NO_COMMA_EXPR(54)
+    //QUEST对应？号，NO_COMMA_EXPR-->BINARY-->BINARY RELOP BINARY, 所以整个表示a > b ? a : b这种表达式
+    //NO_COMMA_EXPR -> NO_COMMA_EXPR QUEST  NO_COMMA_EXPR COLON NO_COMMA_EXPR(55)
+
+    //NO_COMMA_EXPR -> BINARY(56)
+
+    //BINARY -> UNARY (57)
+
+    //UNARY -> NUMBER (58)
+
+    //UNARY -> NAME (59)
+
+    //UNARY -> STRING(60)
+
+    //STMT_LIST -> STMT_LIST STATEMENT(61)
+
+    //STMT_LIST ->  STATEMENT(62)
+
+    //STATEMENT -> EXPR SEMI(63)
+
+    //STATEMENT -> RETURN EXPR SEMI (64)
+
+    //RELOP对应的是比较符号>< >= <=都对应RELOP，整个表示 a>b这种表达式
+    //BINARY -> BINARY RELOP BINARY (65)
+
+    //EQUOP是等于比较 == !=
+    //BINARY -> BINARY EQUOP BINARY (66)
+
+    //STAR 对应 *号
+    //BINARY -> BINARY START BINARY (66)
+
+    vector<CTokenType::Token> *right = NULL;
+    Production *production = NULL;
+
+    //EXT_DEF -> OPT_SPECIFIERS FUNCT_DECL COMPOUND_STMT(50)
+    right = new vector<CTokenType::Token>({CTokenType::Token::OPT_SPECIFIERS, CTokenType::Token::FUNCT_DECL, CTokenType::Token::COMPOUND_STMT});
+    production = new Production(productionNum, CTokenType::Token::EXT_DEF, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //COMPOUND_STMT-> LC LOCAL_DEFS STMT_LIST RC(51)
+    right = new vector<CTokenType::Token>({CTokenType::Token::LC, CTokenType::Token::LOCAL_DEFS, CTokenType::Token::STMT_LIST, CTokenType::Token::RC});
+    production = new Production(productionNum, CTokenType::Token::COMPOUND_STMT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //LOCAL_DEFS -> DEF_LIST(52)
+    right = new vector<CTokenType::Token>({CTokenType::Token::DEF_LIST});
+    production = new Production(productionNum, CTokenType::Token::LOCAL_DEFS, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //EXPR -> NO_COMMA_EXPR(53)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NO_COMMA_EXPR});
+    production = new Production(productionNum, CTokenType::Token::EXPR, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //NO_COMMA_EXPR -> NO_COMMA_EXPR EQUAL NO_COMMA_EXPR(54)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NO_COMMA_EXPR, CTokenType::Token::EQUAL, CTokenType::Token::NO_COMMA_EXPR});
+    production = new Production(productionNum, CTokenType::Token::NO_COMMA_EXPR, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //NO_COMMA_EXPR -> NO_COMMA_EXPR QUEST  NO_COMMA_EXPR COLON NO_COMMA_EXPR(55)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NO_COMMA_EXPR, CTokenType::Token::QUEST, CTokenType::Token::NO_COMMA_EXPR, CTokenType::Token::COLON, CTokenType::Token::NO_COMMA_EXPR});
+    production = new Production(productionNum, CTokenType::Token::NO_COMMA_EXPR, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //NO_COMMA_EXPR -> BINARY(56)
+    right = new vector<CTokenType::Token>({CTokenType::Token::BINARY});
+    production = new Production(productionNum, CTokenType::Token::NO_COMMA_EXPR, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //BINARY -> UNARY (57)
+    right = new vector<CTokenType::Token>({CTokenType::Token::UNARY});
+    production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //UNARY -> NUMBER (58)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NUMBER});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //UNARY -> NAME (59)
+    right = new vector<CTokenType::Token>({CTokenType::Token::NAME});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //UNARY -> STRING(60)
+    right = new vector<CTokenType::Token>({CTokenType::Token::STRING});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //STMT_LIST -> STMT_LIST STATEMENT(61)
+    right = new vector<CTokenType::Token>({CTokenType::Token::STMT_LIST, CTokenType::Token::STATEMENT});
+    production = new Production(productionNum, CTokenType::Token::STMT_LIST, 0, *right);
+    addProduction(*production, true);
+    productionNum++;
+
+    //STMT_LIST ->  STATEMENT(62)
+    right = new vector<CTokenType::Token>({CTokenType::Token::STATEMENT});
+    production = new Production(productionNum, CTokenType::Token::STMT_LIST, 0, *right);
+    addProduction(*production, true);
+    productionNum++;
+
+    //STATEMENT -> EXPR SEMI(63)
+    right = new vector<CTokenType::Token>({CTokenType::Token::EXPR, CTokenType::Token::SEMI});
+    production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //STATEMENT -> RETURN EXPR SEMI (64)
+    right = new vector<CTokenType::Token>({CTokenType::Token::RETURN, CTokenType::Token::EXPR, CTokenType::Token::SEMI});
+    production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //BINARY -> BINARY RELOP BINARY (65)
+    right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::RELOP, CTokenType::Token::BINARY});
+    production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //BINARY -> BINARY EQUOP BINARY (66)
+    right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::EQUOP, CTokenType::Token::BINARY});
+    production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //BINARY -> BINARY START BINARY (67)
+    right = new vector<CTokenType::Token>({CTokenType::Token::BINARY, CTokenType::Token::STAR, CTokenType::Token::BINARY});
+    production = new Production(productionNum, CTokenType::Token::BINARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //STATEMENT -> LOCAL_DEFS(68)
+    right = new vector<CTokenType::Token>({CTokenType::Token::LOCAL_DEFS});
+    production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+}
+
+void GrammarInitializer::initFunctionDefinition2() {
+    //COMPOUND_STMT -> LC RC(68)
+    //COMPOUNT_STMT -> LC STMT_LIST RC(69)
+    vector<CTokenType::Token> *right = NULL;
+    Production *production = NULL;
+
+    //COMPOUND_STMT -> LC RC(68)
+    right = new vector<CTokenType::Token>({CTokenType::Token::LC, CTokenType::Token::RC});
+    production = new Production(productionNum, CTokenType::Token::COMPOUND_STMT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //COMPOUNT_STMT -> LC STMT_LIST RC(69)
+    right = new vector<CTokenType::Token>({CTokenType::Token::LC, CTokenType::Token::STMT_LIST, CTokenType::Token::RC});
+    production = new Production(productionNum, CTokenType::Token::COMPOUND_STMT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
 }
 
 void GrammarInitializer::addProduction(Production &production, bool nullable) {
