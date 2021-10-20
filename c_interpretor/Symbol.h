@@ -22,6 +22,7 @@ private:
 
     TypeLink *typeLinkBegin = NULL;
     TypeLink *typeLinkEnd = NULL;
+    void *value = NULL;
 
 public:
     string name;
@@ -34,6 +35,10 @@ public:
     void setNextSymbol(Symbol *symbol);
     Symbol * getNextSymbol();
     TypeLink *getTypeHead() {return typeLinkBegin;};
+    string getName() {return name;}
+    void setValue(void *obj) {value = obj;}
+    void *getValue() {return value;}
+    int getLevel() {return level;}
 };
 
 

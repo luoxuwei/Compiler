@@ -5,14 +5,20 @@
 #include "LRStateTableParser.h"
 #include "GrammarInitializer.h"
 #include "Declarator.h"
+#include "CodeTreeBuilder.h"
 
-LRStateTableParser::LRStateTableParser(CLexer *l) : lexer(l) {
-    statusStack.push(0);//stmt
-    valueStack.push_back(NULL);
-    lexer->advance();
-    lexerInput = CTokenType::EXT_DEF_LIST;
+LRStateTableParser *LRStateTableParser::instance = NULL;
+
+LRStateTableParser * LRStateTableParser::getInstance() {
+    if (instance == NULL) {
+        instance = new LRStateTableParser();
+    }
+    return instance;
+}
+
+LRStateTableParser::LRStateTableParser() {
+    typeSystem = TypeSystem::getInstance();
     lrStateTable = GrammarStateManager::getInstance()->getLRStateTable();
-    showCurrentStateInfo(0);
 }
 
 const char * LRStateTableParser::new_name() {
@@ -33,7 +39,13 @@ void LRStateTableParser::showCurrentStateInfo(int stateNum) {
     GrammarStateManager::getInstance()->getGrammarState(stateNum)->print();
 }
 
-void LRStateTableParser::parse() {
+void LRStateTableParser::parse(CLexer *l) {
+    lexer = l;
+    statusStack.push(0);//stmt
+    valueStack.push_back(NULL);
+    lexer->advance();
+    lexerInput = CTokenType::EXT_DEF_LIST;
+    showCurrentStateInfo(0);
 
     while (true) {
         int action = getAction(statusStack.top(), lexerInput);
@@ -107,16 +119,16 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
         TypeLink *specifier;
         StructDefine *structObj;
         case GrammarInitializer::TYPE_TO_TYPE_SPECIFIER:
-            attributeForParentNode = typeSystem.newType(text);
+            attributeForParentNode = typeSystem->newType(text);
             break;
         case GrammarInitializer::EnumSpecifier_TO_TypeSpecifier:
-            attributeForParentNode = typeSystem.newType("int");
+            attributeForParentNode = typeSystem->newType("int");
             break;
 /*        case GrammarInitializer::CLASS_TO_TypeOrClass:
             attributeForParentNode = typeSystem.newClass(text);
             break;*/
         case GrammarInitializer::StructSpecifier_TO_TypeSpecifier:
-            attributeForParentNode = typeSystem.newType(text);
+            attributeForParentNode = typeSystem->newType(text);
             specifier = (TypeLink *) attributeForParentNode;
             sp = (Specifier *) specifier->getTypeObject();
             sp->setType(Specifier::STRUCTURE);
@@ -127,15 +139,15 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             attributeForParentNode = valueStack.back();
             last = (Specifier *)((TypeLink *)valueStack.at(valueStack.size() - 2))->getTypeObject();
             dst = (Specifier *)((TypeLink *)attributeForParentNode)->getTypeObject();
-            typeSystem.specifierCpy(dst, last);
+            typeSystem->specifierCpy(dst, last);
             break;
         case GrammarInitializer::NAME_TO_NewName:
         case GrammarInitializer::Name_TO_NameNT:
-            attributeForParentNode = typeSystem.newSymbol(text, nestingLevel);
+            attributeForParentNode = typeSystem->newSymbol(text, nestingLevel);
             break;
         case GrammarInitializer::START_VarDecl_TO_VarDecl:
         case GrammarInitializer::Start_VarDecl_TO_VarDecl:
-            typeSystem.addDeclarator((Symbol *)attributeForParentNode, Declarator::POINTER);
+            typeSystem->addDeclarator((Symbol *)attributeForParentNode, Declarator::POINTER);
             break;
         case GrammarInitializer::ExtDeclList_COMMA_ExtDecl_TO_ExtDeclList:
         case GrammarInitializer::VarList_COMMA_ParamDeclaration_TO_VarList:
@@ -154,8 +166,8 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
         case GrammarInitializer::Specifiers_DeclList_Semi_TO_Def:
             symbol = (Symbol *)attributeForParentNode;
             specifier = (TypeLink *)(valueStack.at(valueStack.size() - 3));
-            typeSystem.addSpecifierToDeclaration(specifier, symbol);
-            typeSystem.addSymbolsToTable(symbol);
+            typeSystem->addSpecifierToDeclaration(specifier, symbol);
+            typeSystem->addSymbolsToTable(symbol);
             break;
 
         case GrammarInitializer::NewName_LP_VarList_RP_TO_FunctDecl:
@@ -167,10 +179,10 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             setFunctionSymbol(false);
             break;
         case GrammarInitializer::Name_To_Tag:
-            attributeForParentNode = typeSystem.getStructObjFromTable(text);
+            attributeForParentNode = typeSystem->getStructObjFromTable(text);
             if (attributeForParentNode == NULL) {
                 attributeForParentNode = new StructDefine(text, nestingLevel, NULL);
-                typeSystem.addStructToTable((StructDefine *) attributeForParentNode);
+                typeSystem->addStructToTable((StructDefine *) attributeForParentNode);
             }
             break;
         case GrammarInitializer::Struct_OptTag_LC_DefList_RC_TO_StructSpecifier:
@@ -194,12 +206,14 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             attributeForParentNode = (void *)stoi(text);
             break;
     }
+
+    CodeTreeBuilder::getInstance()->buildCodeTree(productNum, text);
 }
 
 void LRStateTableParser::doEnum() {
     Symbol *symbol = (Symbol *) attributeForParentNode;
     if (convSymToIntConst(symbol, enumValue)) {
-        typeSystem.addSymbolsToTable(symbol);
+        typeSystem->addSymbolsToTable(symbol);
         enumValue++;
     } else {
         printf("enum symbol redefinition: %s\n", symbol->name.c_str());
@@ -212,7 +226,7 @@ bool LRStateTableParser::convSymToIntConst(Symbol *symbol, int val) {
         return false;
     }
 
-    TypeLink *typeLink = typeSystem.newType("int");
+    TypeLink *typeLink = typeSystem->newType("int");
     Specifier *specifier = (Specifier *) typeLink->getTypeObject();
     specifier->setConstantVal(val);
     specifier->setType(Specifier::CONSTANT);
@@ -227,7 +241,7 @@ void LRStateTableParser::setFunctionSymbol(bool hasArgs) {
     } else {
         funcSymbol = (Symbol *) valueStack.at(valueStack.size() - 3);
     }
-    typeSystem.addDeclarator(funcSymbol, Declarator::FUNCTION);
+    typeSystem->addDeclarator(funcSymbol, Declarator::FUNCTION);
     attributeForParentNode = funcSymbol;
 }
 

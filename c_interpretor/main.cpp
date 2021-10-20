@@ -14,7 +14,6 @@ int main(int argc, char** argv) {
 
     GrammarStateManager::getInstance()->buildTransitionStateMachine();
     CLexer lexer(path);
-    LRStateTableParser parser(&lexer);
-    parser.parse();
+    LRStateTableParser::getInstance()->parse(&lexer);
     return 0;
 }

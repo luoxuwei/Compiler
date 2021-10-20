@@ -14,13 +14,17 @@
 using namespace std;
 class TypeSystem {
 private:
+    static TypeSystem *instance;
     map<string, vector<Symbol *>> symbolTable;
     map<string, StructDefine *> structTable;
 
+    TypeSystem() {}
+    TypeSystem(TypeSystem &t) {}
     void handleDublicateSymbol(Symbol *symbol, vector<Symbol *> &symList);
     void setClassType(Specifier *sp, char c);
 
 public:
+    static TypeSystem * getInstance();
     void addSymbolsToTable(Symbol * headSymbol);
     TypeLink * newType(string typeText);
     void specifierCpy(Specifier *dst, Specifier *org);
@@ -30,6 +34,7 @@ public:
     void addSpecifierToDeclaration(TypeLink * specifier, Symbol * symbol);
     void addStructToTable(StructDefine *s);
     StructDefine * getStructObjFromTable(string tag);
+    vector<Symbol *> * getSymbol(string &text);
 };
 
 

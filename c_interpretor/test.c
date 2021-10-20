@@ -1,8 +1,8 @@
 void f() {
-    int a = 0;
-    int i = 0;
-    do {
-        a = a + 1;
-        i = i + 1;
-    } while (i < 10);
+    int a;
+    int b;
+    a = 1;
+    b = 2;
+
+    b = a + b;
 }

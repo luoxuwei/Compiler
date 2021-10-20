@@ -13,6 +13,7 @@
 #include <deque>
 class LRStateTableParser {
 private:
+    static LRStateTableParser *instance;
     CLexer *lexer;
     string text;
     CTokenType::Token lexerInput;
@@ -20,12 +21,14 @@ private:
     int enumValue = 0;
     const char *names[8] = {"t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"};
     void *attributeForParentNode = NULL;
-    TypeSystem typeSystem;
+    TypeSystem *typeSystem;
     int curName = 0;
     stack<int> statusStack;
     deque<void *> valueStack;
     stack<int> parseStack;
     GrammarStateManager::LRStateTable *lrStateTable;
+    LRStateTableParser();
+    LRStateTableParser(LRStateTableParser &l) {}
     const char * new_name();
     void free_name(const char *s);
     void showCurrentStateInfo(int stateNum);
@@ -36,8 +39,9 @@ private:
     void doEnum();
     bool convSymToIntConst(Symbol *symbol, int val);
 public:
-    LRStateTableParser(CLexer *);
-    void parse();
+    static LRStateTableParser *getInstance();
+    void parse(CLexer *l);
+    int getCurrentLevel() {return nestingLevel;};
 };
 
 

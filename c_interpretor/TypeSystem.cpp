@@ -4,6 +4,14 @@
 
 #include "TypeSystem.h"
 #include "Declarator.h"
+TypeSystem *TypeSystem::instance = NULL;
+
+TypeSystem * TypeSystem::getInstance() {
+    if (instance == NULL) {
+        instance = new TypeSystem();
+    }
+    return instance;
+}
 
 void TypeSystem::addStructToTable(StructDefine *s) {
     auto iter = structTable.find(s->getTag());
@@ -30,6 +38,14 @@ void TypeSystem::addSymbolsToTable(Symbol *headSymbol) {
         }
         headSymbol = headSymbol->getNextSymbol();
     }
+}
+
+vector<Symbol *> * TypeSystem::getSymbol(string &text) {
+    auto iter = symbolTable.find(text);
+    if (iter != symbolTable.end()) {
+        return &symbolTable[text];
+    }
+    return NULL;
 }
 
 void TypeSystem::handleDublicateSymbol(Symbol *symbol, vector<Symbol *> &symList) {
