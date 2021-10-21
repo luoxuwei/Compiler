@@ -15,6 +15,7 @@ private:
     CTokenType::Token type;
     vector<ICodeNode *> children;
     ICodeNode *parent = NULL;
+    bool isChildrenReverse = false;
 public:
     ICodeNodeImpl(CTokenType::Token type);
     ICodeNode * getParent();
@@ -24,6 +25,7 @@ public:
     void *getAttribute(ICodeKey key);
     ICodeNode *copy();
     const char *toString();
+    void reverseChildren() override;
 };
 
 

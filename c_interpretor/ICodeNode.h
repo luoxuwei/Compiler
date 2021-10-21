@@ -24,6 +24,7 @@ public:
     virtual void *getAttribute(ICodeKey key) = 0;
     virtual ICodeNode *copy() = 0;
     virtual const char *toString() = 0;
+    virtual void reverseChildren() = 0;
 };
 
 

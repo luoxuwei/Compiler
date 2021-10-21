@@ -32,7 +32,7 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
                 symbol = getSymbolByText(text);
                 node->setAttribute(ICodeNode::SYMBOL, symbol);
             }
-            node->setAttribute(ICodeNode::TEXT, (void *) text.c_str());
+            node->setAttribute(ICodeNode::TEXT, (void *) new string(text));
             break;
         case GrammarInitializer::Uanry_TO_Binary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::BINARY);

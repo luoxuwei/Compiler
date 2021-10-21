@@ -28,7 +28,11 @@ void ICodeNodeImpl::setAttribute(ICodeKey key, void *value) {
 }
 
 void * ICodeNodeImpl::getAttribute(ICodeKey key) {
-    return attributeMap[key];
+    auto iter = attributeMap.find(key);
+    if (iter != attributeMap.end()) {
+        return attributeMap[key];
+    }
+    return NULL;
 }
 
 ICodeNode * ICodeNodeImpl::copy() {
@@ -41,4 +45,13 @@ ICodeNode * ICodeNodeImpl::copy() {
 
 const char * ICodeNodeImpl::toString() {
     return CTokenType::getSymbolStr(type);
+}
+
+void ICodeNodeImpl::reverseChildren() {
+    if (isChildrenReverse) {
+        return;
+    }
+
+    std::reverse(children.begin(), children.end());
+    isChildrenReverse = true;
 }
