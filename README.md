@@ -4,13 +4,17 @@
 
 练习和实践编译原理、虚拟机、AOT、JIT。
 
-## 内含项目
+## 项目列表
 
-pythonvm: python 2 虚拟机
+[pythonvm:](./pythonvm) python 2 虚拟机
 
-Parser:自低向上的语法解析引擎
+[Parser:](./Parser) 自低向上的语法解析引擎
 
-regex: 正则表达式引擎
+[regex:](./regex) 正则表达式引擎
+
+[c_compiler:](./c_compiler) C语言编译器
+
+[c_interpretor:](./c_interpretor) C语言解释器
 
 # Pythonvm
 
@@ -374,12 +378,35 @@ mkdir build
 cd build
 cmake ..
 make
-./regex ../test.txt
+./CParse ../test.c
 ```
 
-
+执行过程每一步都会打印日志，可以通过日志查看推导和解析过程，执行完最终输出“The input can be accepted”表示正确解析。
 
 ## commit
 
 [定义C语言变量定义相关token](https://github.com/luoxuwei/Compiler/commit/7cbef8afaff947eb1a625331385341c32c1e9245) | [创建c语言词法解析类完成初始化逻辑](https://github.com/luoxuwei/Compiler/commit/80c62371f98cf4e41ec304803310d6987bac49c1) | [完成简单的c语言变量声明语法所需词法解析](https://github.com/luoxuwei/Compiler/commit/aad12aebca55e7f2c92f135569f6533ccfb41b65) | [实现语法推导表达式的封装](https://github.com/luoxuwei/Compiler/commit/f7510f16ec7c388b0d3ecfd86935f0b13038d71b) | [实现语法推导表达式管理模块](https://github.com/luoxuwei/Compiler/commit/f17e0335d6cf2514ea152f778bb567463034a3b9) | [定义自动机状态节点](https://github.com/luoxuwei/Compiler/commit/f73f913ffb67047a378baab2a24865b91d18ae96) | [实现状态节点闭包操作](https://github.com/luoxuwei/Compiler/commit/654b2d345b491d7b8ac7924375012b7703feb8a4) | [实现状态节点语法推导表达式分区算法](https://github.com/luoxuwei/Compiler/commit/5a7f680417b8a7096d9f8fad1e41e1884e31bbc2) | [实现自动机跳转表](https://github.com/luoxuwei/Compiler/commit/f10fb7e8eed4bbcdab94fb4375c90dc59bd9498a) | [将数据初始化移到单独的模](https://github.com/luoxuwei/Compiler/commit/ceb1b77447abcbe2ac0b8cbd2ea3d3e2d58514b5) | [打印log方便调试](https://github.com/luoxuwei/Compiler/commit/093c5471e0762fa92bfe543e02c4cbf5a87a751c) | [使用四则运算的表达式语法进行测试](https://github.com/luoxuwei/Compiler/commit/80c78b73b7e7f738fd5a468c74191d88cb73da19) | [实现语法推导表达式中的符号封装和符号数据初始化](https://github.com/luoxuwei/Compiler/commit/ae0b2a88faca4aa92ef56ca03d0b50f0c497e9b3) | [实现求first set算法](https://github.com/luoxuwei/Compiler/commit/2f02992790448d511c694da665c98540c1e272a1) | [添加求first set相关的日志，方便调试](https://github.com/luoxuwei/Compiler/commit/e82a0ab69c2bd6cc7c9d7322161202d976d5ef01) | [实现求表达式look ahead 集合](https://github.com/luoxuwei/Compiler/commit/0f504077b4d5812fb40c1a509476c62d869e50a0) | [求look ahead集合算法有误](https://github.com/luoxuwei/Compiler/commit/17786b8ba4832f58b0aa41dead0d008e6faf697c) | [状态机压缩](https://github.com/luoxuwei/Compiler/commit/be5194458340ecbdb8381328f95941b4554efc4e) | [LR跳转表的构建](https://github.com/luoxuwei/Compiler/commit/247cecdab3cec2557ea1d1e40e58c135bd33c11c) | [利用LR跳转表实现语法解析](https://github.com/luoxuwei/Compiler/commit/857ffebd496730e44c48be52622f8b4084a56105)
+
+# C语言编译器
+
+```shell
+cd c_compiler
+mkdir build
+cd build
+cmake ..
+make
+./c_compiler ../test.c
+```
+
+执行过程每一步都会打印日志，可以通过日志查看推导和解析过程，执行完最终输出“The input can be accepted”表示正确解析。
+
+## commit
+
+[c语言变量声明语句的语法解析算法实现](https://github.com/luoxuwei/Compiler/commit/ab16df1e0ef2e4ba77dcc09e626217f4d73d2b7e) | [实现符号表和类型系统](https://github.com/luoxuwei/Compiler/commit/8ce794db0a63bf0c9d0bec4a7db07174233d93f3) | [函数声明的语法及类型系统的建立](https://github.com/luoxuwei/Compiler/commit/bd7faeae8e00de0e28b0cd5d6a092b5e5bec6161) | [c语言结构体符号表和类型系统](https://github.com/luoxuwei/Compiler/commit/78286dc22de598f7bffc4b287d4284a5babfdb42) | [C语言枚举类型的语法分析和类型系统实现](https://github.com/luoxuwei/Compiler/commit/8e6ff168d34c24bf18173be48b73c0d81da28d7a) | [C语言函数定义的语法解析](https://github.com/luoxuwei/Compiler/commit/3d49c0a5a86581efc573f26c4784dfd87764513d) | [C语言逻辑和循环控制语句语法解析](https://github.com/luoxuwei/Compiler/commit/8b93be1a44bec9dcee46fa53446697cdd565c03f)
+
+# C语言解释器
+
+在语法解析的过程中构造语法执行树，本质上也是一颗多叉树，一般来说，每一个非终结符都会对应一个节点。遍历这个树，然后在合适的节点，执行某种动作实现执行C语言源代码的效果。
+
+## commit
 
