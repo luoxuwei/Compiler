@@ -7,6 +7,7 @@
 #include <stack>
 #include "ICodeNode.h"
 #include "LRStateTableParser.h"
+#include <deque>
 
 using namespace std;
 class CodeTreeBuilder {
@@ -15,13 +16,13 @@ private:
     stack<ICodeNode *> codeNodeStack;
     LRStateTableParser *parser = NULL;
     TypeSystem *typeSystem = NULL;
+    deque<void *> *valueStack = NULL;
     CodeTreeBuilder();
     CodeTreeBuilder(CodeTreeBuilder *codeTreeBuilder) {}
 
 public:
     static CodeTreeBuilder *getInstance();
     ICodeNode *buildCodeTree(int production, string text);
-    Symbol *getSymbolByText(string text);
     ICodeNode *getCodeTreeRoot();
 };
 

@@ -60,6 +60,12 @@ public:
     //STATEMENT -> LOCAL_DEFS(68)
     const static int LocalDefs_TO_Statement = 68;
 
+    //VAR_DECL -> VAR_DECL LB CONST_EXPR RB  a[5] (109)
+    const static int VarDecl_LB_ConstExpr_RB_TO_VarDecl = 109;
+
+    //UNARY -> UNARY LB EXPR RB (110)
+    const static int Unary_LB_Expr_RB_TO_Unary = 101;
+
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();
     ProductionMap* getProductionMap();

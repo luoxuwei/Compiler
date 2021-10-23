@@ -118,6 +118,8 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
         Symbol *currentSym, *lastSym, *symbol, *argList, *defList;
         TypeLink *specifier;
         StructDefine *structObj;
+        Declarator *declarator;
+        int arrayNum;
         case GrammarInitializer::TYPE_TO_TYPE_SPECIFIER:
             attributeForParentNode = typeSystem->newType(text);
             break;
@@ -148,6 +150,16 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
         case GrammarInitializer::START_VarDecl_TO_VarDecl:
         case GrammarInitializer::Start_VarDecl_TO_VarDecl:
             typeSystem->addDeclarator((Symbol *)attributeForParentNode, Declarator::POINTER);
+            break;
+        case GrammarInitializer::VarDecl_LB_ConstExpr_RB_TO_VarDecl:
+            //数组定义
+            declarator = typeSystem->addDeclarator((Symbol *) valueStack.at(valueStack.size() - 4), Declarator::ARRAY);
+            arrayNum = (long) attributeForParentNode;
+            declarator->setElementNum(arrayNum);
+            attributeForParentNode = valueStack.at(valueStack.size() - 4);
+            break;
+        case GrammarInitializer::Name_TO_Unary:
+            attributeForParentNode = typeSystem->getSymbolByText(text, nestingLevel);
             break;
         case GrammarInitializer::ExtDeclList_COMMA_ExtDecl_TO_ExtDeclList:
         case GrammarInitializer::VarList_COMMA_ParamDeclaration_TO_VarList:
@@ -203,7 +215,8 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             doEnum();
             break;
         case GrammarInitializer::Number_TO_ConstExpr:
-            attributeForParentNode = (void *)stoi(text);
+        case GrammarInitializer::Number_TO_Unary:
+            attributeForParentNode = (void *) stoi(text);
             break;
     }
 
@@ -251,5 +264,9 @@ int LRStateTableParser::getAction(int currentState, CTokenType::Token currentInp
         return INT32_MAX;
     }
     return iter->second[currentInput];
+}
+
+deque<void *> * LRStateTableParser::getValueStack() {
+    return &valueStack;
 }
 

@@ -42,6 +42,7 @@ public:
     static LRStateTableParser *getInstance();
     void parse(CLexer *l);
     int getCurrentLevel() {return nestingLevel;};
+    deque<void *> *getValueStack();
 };
 
 

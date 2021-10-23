@@ -5,15 +5,17 @@
 #include "NoCommaExprExecutor.h"
 #include "Symbol.h"
 #include "GrammarInitializer.h"
+#include "Value.h"
 #include <string>
+#include "IValueSetter.h"
 
 void * NoCommaExprExecutor::Execute(ICodeNode *root) {
     executeChildren(root);
     long production = (long) root->getAttribute(ICodeNode::PRODUCTION);
     ICodeNode *child;
     string text;
-    Symbol *symbol;
-    void *value;
+    IValueSetter *symbol;
+    Value *value;
     switch (production) {
         case GrammarInitializer::Binary_TO_NoCommaExpr:
             child = root->getChildren()->at(0);
@@ -21,14 +23,14 @@ void * NoCommaExprExecutor::Execute(ICodeNode *root) {
             break;
         case GrammarInitializer::NoCommaExpr_Equal_NoCommaExpr_TO_NoCommaExpr:
             child = root->getChildren()->at(0);
-            symbol = (Symbol *) child->getAttribute(ICodeNode::SYMBOL);
+            symbol = (IValueSetter *) child->getAttribute(ICodeNode::SYMBOL);
             child = root->getChildren()->at(1);
-            value = child->getAttribute(ICodeNode::VALUE);
+            value = (Value *) child->getAttribute(ICodeNode::VALUE);
             symbol->setValue(value);
             child = root->getChildren()->at(0);
             child->setAttribute(ICodeNode::VALUE, value);
             copyChild(root, child);
-            printf("\nVariable %s is assigned to value of %d\n", ((string *) root->getAttribute(ICodeNode::TEXT))->c_str(), (long) value);
+            printf("\nVariable %s is assigned to value of %s\n", ((string *) root->getAttribute(ICodeNode::TEXT))->c_str(), value->toString());
             break;
 
     }

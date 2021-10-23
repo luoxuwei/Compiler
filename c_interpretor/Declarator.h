@@ -4,7 +4,8 @@
 
 #ifndef C_COMPILER_DECLARATOR_H
 #define C_COMPILER_DECLARATOR_H
-
+#include <map>
+#include "Value.h"
 
 class Declarator {
 public:
@@ -20,9 +21,15 @@ public:
 
     int getElementNum();
 
+    void addElement(int index, Value *obj);
+
+    Value * getElement(int index);
+
 private:
     int declareType = POINTER;
     int numberOfElements = 0;
+    //存数组元素的值,给数组元素赋值取值时用到
+    map<int, Value *> elements;
 };
 
 

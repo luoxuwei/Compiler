@@ -119,6 +119,8 @@ CTokenType::Token CLexer::lex() {
                 textLen = 1;
                 return CTokenType::Token::MINUS;
                 break;
+            case '[': textLen = 1; return CTokenType::Token::LB;
+            case ']': textLen = 1; return CTokenType::Token::RB;
             case '*': textLen = 1; return CTokenType::Token::STAR;
             case '(': textLen = 1; return CTokenType::Token::LP;
             case ')': textLen = 1; return CTokenType::Token::RP;

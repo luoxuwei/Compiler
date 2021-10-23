@@ -1060,6 +1060,8 @@ void GrammarInitializer::initRemaindingProduction() {
 
     //TARGET -> NAME
 
+    //VAR_DECL -> VAR_DECL LB CONST_EXPR RB  a[5] (109)
+
     vector<CTokenType::Token> *right = NULL;
     Production *production = NULL;
 
@@ -1081,6 +1083,11 @@ void GrammarInitializer::initRemaindingProduction() {
     addProduction(*production, false);
     productionNum++;
 
+    //VAR_DECL -> VAR_DECL LB CONST_EXPR RB  a[5] (109)
+    right = new vector<CTokenType::Token>({CTokenType::Token::VAR_DECL, CTokenType::Token::LB, CTokenType::Token::CONST_EXPR, CTokenType::Token::RB});
+    production = new Production(productionNum, CTokenType::Token::VAR_DECL, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
 
 }
 

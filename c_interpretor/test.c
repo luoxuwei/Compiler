@@ -1,8 +1,8 @@
 void f() {
-    int a;
     int b;
-    a = 1;
-    b = 2;
+    int a[3];
 
-    b = a + b;
+    a[0] = 1;
+    a[1] = 2;
+    b = a[0] + a[1];
 }

@@ -8,11 +8,11 @@
 
 class TypeLink {
 private:
-    bool isDeclarator = true;//true 那么该object的对象是declarator, false那么object指向的是specifier
     bool isTypeDef = false;//true，那么当前变量的类型是有typedef 定义的
     void * typeObject;
     TypeLink *next = NULL;
 public:
+    bool isDeclarator = true;//true 那么该object的对象是declarator, false那么object指向的是specifier
     TypeLink(bool isDeclarator, bool typeDef, void *typeObj);
     void * getTypeObject() {return typeObject;}
     TypeLink * toNext() {return next;}

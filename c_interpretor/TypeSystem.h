@@ -30,11 +30,12 @@ public:
     void specifierCpy(Specifier *dst, Specifier *org);
     TypeLink * newClass(string classText);
     Symbol * newSymbol(string name, int level);
-    void addDeclarator(Symbol *symbol, int declaratorType);
+    Declarator * addDeclarator(Symbol *symbol, int declaratorType);
     void addSpecifierToDeclaration(TypeLink * specifier, Symbol * symbol);
     void addStructToTable(StructDefine *s);
     StructDefine * getStructObjFromTable(string tag);
     vector<Symbol *> * getSymbol(string &text);
+    Symbol * getSymbolByText(string text, int level);
 };
 
 

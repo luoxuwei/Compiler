@@ -16,6 +16,7 @@ private:
     vector<ICodeNode *> children;
     ICodeNode *parent = NULL;
     bool isChildrenReverse = false;
+    string *name;
 public:
     ICodeNodeImpl(CTokenType::Token type);
     ICodeNode * getParent();

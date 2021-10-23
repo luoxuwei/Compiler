@@ -18,6 +18,7 @@ CodeTreeBuilder * CodeTreeBuilder::getInstance() {
 CodeTreeBuilder::CodeTreeBuilder() {
     parser = LRStateTableParser::getInstance();
     typeSystem = TypeSystem::getInstance();
+    valueStack = parser->getValueStack();
 }
 
 ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
@@ -29,10 +30,18 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
         case GrammarInitializer::String_TO_Unary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
             if (production == GrammarInitializer::Name_TO_Unary) {
-                symbol = getSymbolByText(text);
+                symbol = typeSystem->getSymbolByText(text, parser->getCurrentLevel());
                 node->setAttribute(ICodeNode::SYMBOL, symbol);
             }
             node->setAttribute(ICodeNode::TEXT, (void *) new string(text));
+            break;
+        case GrammarInitializer::Unary_LB_Expr_RB_TO_Unary:
+            ////访问或更改数组元素
+            node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
+            node->addChild(codeNodeStack.top());  //EXPR
+            codeNodeStack.pop();
+            node->addChild(codeNodeStack.top());  //UNARY
+            codeNodeStack.pop();
             break;
         case GrammarInitializer::Uanry_TO_Binary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::BINARY);
@@ -101,19 +110,6 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
         codeNodeStack.push(node);
     }
     return node;
-}
-
-Symbol * CodeTreeBuilder::getSymbolByText(string text) {
-    vector<Symbol *> *symbolList = typeSystem->getSymbol(text);
-    int i = 0;
-    int level = parser->getCurrentLevel();
-    while (i < symbolList->size()) {
-        if (symbolList->at(i)->getLevel() == level) {
-            return symbolList->at(i);
-        }
-    }
-
-    return NULL;
 }
 
 ICodeNode * CodeTreeBuilder::getCodeTreeRoot() {

@@ -164,10 +164,11 @@ Symbol * TypeSystem::newSymbol(string name, int level) {
     return new Symbol(name, level);
 }
 
-void TypeSystem::addDeclarator(Symbol *symbol, int declaratorType) {
+Declarator * TypeSystem::addDeclarator(Symbol *symbol, int declaratorType) {
     Declarator *declarator = new Declarator(declaratorType);
     TypeLink *link = new TypeLink(true, false, declarator);
     symbol->addDeclarator(link);
+    return declarator;
 }
 
 void TypeSystem::addSpecifierToDeclaration(TypeLink *specifier, Symbol *symbol) {
@@ -175,4 +176,16 @@ void TypeSystem::addSpecifierToDeclaration(TypeLink *specifier, Symbol *symbol) 
         symbol->addSpecifier(specifier);
         symbol = symbol->getNextSymbol();
     }
+}
+
+Symbol * TypeSystem::getSymbolByText(string text, int level) {
+    vector<Symbol *> *symbolList = getSymbol(text);
+    int i = 0;
+    while (i < symbolList->size()) {
+        if (symbolList->at(i)->level == level) {
+            return symbolList->at(i);
+        }
+    }
+
+    return NULL;
 }

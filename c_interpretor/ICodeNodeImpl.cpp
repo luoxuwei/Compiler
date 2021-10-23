@@ -24,6 +24,9 @@ vector<ICodeNode *> * ICodeNodeImpl::getChildren() {
 }
 
 void ICodeNodeImpl::setAttribute(ICodeKey key, void *value) {
+    if (ICodeNode::TEXT == key) {
+        name = (string *) value;
+    }
     attributeMap[key] = value;
 }
 
