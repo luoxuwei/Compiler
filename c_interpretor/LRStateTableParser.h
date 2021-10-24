@@ -16,6 +16,7 @@ private:
     static LRStateTableParser *instance;
     CLexer *lexer;
     string text;
+    string relOperatorText;
     CTokenType::Token lexerInput;
     int nestingLevel = 0;
     int enumValue = 0;
@@ -43,6 +44,7 @@ public:
     void parse(CLexer *l);
     int getCurrentLevel() {return nestingLevel;};
     deque<void *> *getValueStack();
+    string * getRelOpereatorText();
 };
 
 

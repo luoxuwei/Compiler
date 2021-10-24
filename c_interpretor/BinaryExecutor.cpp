@@ -28,6 +28,24 @@ void * BinaryExecutor::Execute(ICodeNode *root) {
             s2 = (string *) (root->getChildren()->at(1)->getAttribute(ICodeNode::TEXT));
             printf("\nsum of %s and %s is %d\n", s1->c_str(), s2->c_str(), (v1->u.i + v2->u.i));
             break;
+        case GrammarInitializer::Binary_RelOP_Binary_TO_Binray:
+            v1 = (Value *) root->getChildren()->at(0)->getAttribute(ICodeNode::VALUE);
+            s1 = (string *) root->getChildren()->at(1)->getAttribute(ICodeNode::TEXT);
+            v2 = (Value *) root->getChildren()->at(2)->getAttribute(ICodeNode::VALUE);
+            if (*s1 == "==") {
+                root->setAttribute(ICodeNode::VALUE, new Value(*v1 == *v2? 1:0));
+            } else if (*s1 == "<") {
+                root->setAttribute(ICodeNode::VALUE, new Value(*v1 < *v2? 1:0));
+            } else if (*s1 == "<=") {
+                root->setAttribute(ICodeNode::VALUE, new Value(*v1 <= *v2? 1:0));
+            } else if (*s1 == ">") {
+                root->setAttribute(ICodeNode::VALUE, new Value(*v1 > *v2? 1:0));
+            } else if (*s1 == ">=") {
+                root->setAttribute(ICodeNode::VALUE, new Value(*v1 >= *v2? 1:0));
+            } else if (*s1 == "!=") {
+                root->setAttribute(ICodeNode::VALUE, new Value(*v1 == *v2? 0:1));
+            }
+            break;
     }
 
     return root;

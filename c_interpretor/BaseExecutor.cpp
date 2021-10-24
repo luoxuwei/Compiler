@@ -12,7 +12,25 @@ void BaseExecutor::executeChildren(ICodeNode *root) {
     for (int i = 0; i < child->size(); i++) {
         ICodeNode *childNode = child->at(i);
         Executor *excutor = ExecutorFactory::getInstance()->getExecutor(childNode);
-        excutor->Execute(childNode);
+        if (excutor != NULL) {
+            excutor->Execute(childNode);
+        } else {
+            printf("Not suitable Executor found, node is: %s", childNode->toString());
+        }
+
+    }
+}
+
+ICodeNode * BaseExecutor::executeChild(ICodeNode *root, int idx) {
+    root->reverseChildren();
+    vector<ICodeNode *> *child = root->getChildren();
+    ICodeNode *childNode = child->at(idx);
+    Executor *excutor = ExecutorFactory::getInstance()->getExecutor(childNode);
+    if (excutor != NULL) {
+        return (ICodeNode *) excutor->Execute(childNode);
+    } else {
+        printf("Not suitable Executor found, node is: %s", childNode->toString());
+        return NULL;
     }
 }
 

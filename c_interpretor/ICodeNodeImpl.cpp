@@ -4,6 +4,7 @@
 
 #include "ICodeNodeImpl.h"
 #include "ICodeFactory.h"
+#include "Value.h"
 
 ICodeNodeImpl::ICodeNodeImpl(CTokenType::Token type): type(type) {
     attributeMap[ICodeKey::TokenType] = (void *) type;
@@ -47,7 +48,20 @@ ICodeNode * ICodeNodeImpl::copy() {
 }
 
 const char * ICodeNodeImpl::toString() {
-    return CTokenType::getSymbolStr(type);
+    auto itr = attributeMap.find(ICodeNode::VALUE);
+
+    if (itr != attributeMap.end()) {
+        str.append("Node Value is ");
+        str.append(((Value *)(itr->second))->toString());
+    }
+    itr = attributeMap.find(ICodeNode::TEXT);
+    if (itr != attributeMap.end()) {
+        str.append("\nNode Text is ");
+        str.append(((string *)itr->second)->c_str());
+    }
+    str.append("\n Node Type is ");
+    str.append(CTokenType::getSymbolStr(type));
+    return str.c_str();
 }
 
 void ICodeNodeImpl::reverseChildren() {

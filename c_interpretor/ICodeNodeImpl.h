@@ -8,7 +8,9 @@
 #include "CTokenType.h"
 #include <map>
 #include <vector>
+#include <string>
 
+using namespace std;
 class ICodeNodeImpl : public ICodeNode {
 private:
     map<ICodeKey, void *> attributeMap;
@@ -17,6 +19,7 @@ private:
     ICodeNode *parent = NULL;
     bool isChildrenReverse = false;
     string *name;
+    string str;
 public:
     ICodeNodeImpl(CTokenType::Token type);
     ICodeNode * getParent();

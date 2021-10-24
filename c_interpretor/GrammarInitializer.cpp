@@ -722,6 +722,16 @@ void GrammarInitializer::initFunctionDefinition2() {
 
 void GrammarInitializer::initFunctionDefinitionWithIfElse() {
 /*    void f() {
+        int a;
+        int b;
+
+        a = 1;
+
+        if (a > 0) {
+            b = a + 2;
+        }
+    }*/
+/*    void f() {
         int a = 0;
         int b = 0;
 
@@ -1054,6 +1064,15 @@ void GrammarInitializer::initComputingOperation() {
 }
 
 void GrammarInitializer::initRemaindingProduction() {
+/*    void f() {
+        int b;
+        int a[3];
+
+        a[0] = 1;
+        a[1] = 2;
+        b = a[0] + a[1];
+    }*/
+
     //STATEMENT -> TARGET COLON STATEMENT
 
     //STATEMENT -> GOTO TARGET SEMI

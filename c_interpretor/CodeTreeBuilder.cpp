@@ -22,7 +22,7 @@ CodeTreeBuilder::CodeTreeBuilder() {
 }
 
 ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
-    ICodeNode *node = NULL, *child = NULL;
+    ICodeNode *node = NULL, *child = NULL, *operatorNode;
     Symbol *symbol = NULL;
     switch (production) {
         case GrammarInitializer::Number_TO_Unary:
@@ -71,6 +71,20 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             codeNodeStack.pop();
             node->addChild(child);
             break;
+        case GrammarInitializer::Binary_RelOP_Binary_TO_Binray:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::BINARY);
+            child = codeNodeStack.top();
+            codeNodeStack.pop();
+            node->addChild(child);
+
+            operatorNode = ICodeFactory::createICodeNode(CTokenType::Token::RELOP);
+            operatorNode->setAttribute(ICodeNode::TEXT, new string(*parser->getRelOpereatorText()));
+            node->addChild(operatorNode);
+
+            child = codeNodeStack.top();
+            codeNodeStack.pop();
+            node->addChild(child);
+            break;
         case GrammarInitializer::NoCommaExpr_TO_Expr:
             node = ICodeFactory::createICodeNode(CTokenType::Token::EXPR);
             child = codeNodeStack.top();
@@ -100,6 +114,30 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             codeNodeStack.pop();
             node->addChild(child);
             child = codeNodeStack.top();
+            codeNodeStack.pop();
+            node->addChild(child);
+            break;
+        case GrammarInitializer::Expr_TO_Test:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::TEST);
+            child = codeNodeStack.top();
+            codeNodeStack.pop();
+            node->addChild(child);
+            break;
+        case GrammarInitializer::If_Test_Statement_TO_IFStatement:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::IF_STATEMENT);
+            child = codeNodeStack.top();//Test
+            codeNodeStack.pop();
+            node->addChild(child);
+            child = codeNodeStack.top();//Statement
+            codeNodeStack.pop();
+            node->addChild(child);
+            break;
+        case GrammarInitializer::IfElseStatemnt_Else_Statemenet_TO_IfElseStatement:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::IF_ELSE_STATEMENT);
+            child = codeNodeStack.top();//IfElseStatement:
+            codeNodeStack.pop();
+            node->addChild(child);
+            child = codeNodeStack.top();//Statemenet
             codeNodeStack.pop();
             node->addChild(child);
             break;

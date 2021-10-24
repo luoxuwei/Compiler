@@ -47,6 +47,71 @@ const char *Value::toString() {
     return "";
 }
 
+bool Value::operator==(const Value &v) {
+    if (type != v.type) return false;
+    if (type == INT) {
+        return u.i == v.u.i;
+    } else if (type == LONG) {
+        return u.l == v.u.l;
+    } else if (type == FLOAT) {
+        return u.f == v.u.f;
+    } else if (type == STRING) {
+        return *u.s == *v.u.s;
+    }
+}
+
+bool Value::operator>=(const Value &v) {
+    if (type != v.type) return false;
+    if (type == INT) {
+        return u.i >= v.u.i;
+    } else if (type == LONG) {
+        return u.l >= v.u.l;
+    } else if (type == FLOAT) {
+        return u.f >= v.u.f;
+    } else if (type == STRING) {
+        return *u.s >= *v.u.s;
+    }
+}
+
+bool Value::operator>(const Value &v) {
+    if (type != v.type) return false;
+    if (type == INT) {
+        return u.i > v.u.i;
+    } else if (type == LONG) {
+        return u.l > v.u.l;
+    } else if (type == FLOAT) {
+        return u.f > v.u.f;
+    } else if (type == STRING) {
+        return *u.s > *v.u.s;
+    }
+}
+
+bool Value::operator<=(const Value &v) {
+    if (type != v.type) return false;
+    if (type == INT) {
+        return u.i <= v.u.i;
+    } else if (type == LONG) {
+        return u.l <= v.u.l;
+    } else if (type == FLOAT) {
+        return u.f <= v.u.f;
+    } else if (type == STRING) {
+        return *u.s <= *v.u.s;
+    }
+}
+
+bool Value::operator<(const Value &v) {
+    if (type != v.type) return false;
+    if (type == INT) {
+        return u.i < v.u.i;
+    } else if (type == LONG) {
+        return u.l < v.u.l;
+    } else if (type == FLOAT) {
+        return u.f < v.u.f;
+    } else if (type == STRING) {
+        return *u.s < *v.u.s;
+    }
+}
+
 Value::~Value() {
     if (str != NULL) {
         delete str;

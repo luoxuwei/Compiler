@@ -11,6 +11,9 @@
 #include "ExprExecutor.h"
 #include "StatementExecutor.h"
 #include "StatementListExecutor.h"
+#include "TestExecutor.h"
+#include "IfStatementExecutor.h"
+#include "ElseStatementExecutor.h"
 
 ExecutorFactory *ExecutorFactory::instance = NULL;
 
@@ -36,6 +39,12 @@ Executor * ExecutorFactory::getExecutor(ICodeNode *node) {
             return new StatementExecutor();
         case CTokenType::Token::STMT_LIST:
             return new StatementListExecutor();
+        case CTokenType::Token::TEST:
+            return new TestExecutor();
+        case CTokenType::Token::IF_STATEMENT:
+            return new IfStatementExecutor();
+        case CTokenType::Token::IF_ELSE_STATEMENT:
+            return new ElseStatementExecutor();
     }
 
     return NULL;

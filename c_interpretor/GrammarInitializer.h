@@ -66,6 +66,15 @@ public:
     //UNARY -> UNARY LB EXPR RB (110)
     const static int Unary_LB_Expr_RB_TO_Unary = 101;
 
+    //TEST -> EXPR 76
+    const static int Expr_TO_Test= 76;
+    //IF_STATEMENT -> IF LP TEST RP STATEMENT (72)
+    const static int If_Test_Statement_TO_IFStatement = 72;
+    //BINARY -> BINARY RELOP BINARY (65)
+    const static int Binary_RelOP_Binary_TO_Binray = 65;
+    //IF_ELSE_STATEMENT ->IF_ELSE_STATEMENT ELSE STATEMENT 74
+    const static int IfElseStatemnt_Else_Statemenet_TO_IfElseStatement = 74;
+
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();
     ProductionMap* getProductionMap();

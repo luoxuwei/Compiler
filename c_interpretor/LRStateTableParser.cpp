@@ -33,6 +33,10 @@ void LRStateTableParser::free_name(const char *s) {
     names[--curName] = s;
 }
 
+string * LRStateTableParser::getRelOpereatorText() {
+    return &relOperatorText;
+}
+
 void LRStateTableParser::showCurrentStateInfo(int stateNum) {
     printf("current input is :%s\n", CTokenType::getSymbolStr(lexerInput));
     printf("current state is:\n");
@@ -61,6 +65,9 @@ void LRStateTableParser::parse(CLexer *l) {
             //shift 操作
             statusStack.push(action);
             text = lexer->lookAheadText();
+            if (lexerInput == CTokenType::Token::RELOP) {
+                relOperatorText = text;
+            }
 
             parseStack.push(lexerInput);
 

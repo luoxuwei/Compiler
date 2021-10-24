@@ -181,11 +181,16 @@ void TypeSystem::addSpecifierToDeclaration(TypeLink *specifier, Symbol *symbol) 
 Symbol * TypeSystem::getSymbolByText(string text, int level) {
     vector<Symbol *> *symbolList = getSymbol(text);
     int i = 0;
+    Symbol *symbol = NULL;
     while (i < symbolList->size()) {
+        symbol = symbolList->at(0);
         if (symbolList->at(i)->level == level) {
             return symbolList->at(i);
+        } else if (symbolList->at(i)->getLevel() >= symbol->getLevel()) {
+            symbol = symbolList->at(i);
         }
+        i++;
     }
 
-    return NULL;
+    return symbol;
 }

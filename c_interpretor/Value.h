@@ -32,6 +32,11 @@ public:
     Value(float f);
     const char *toString();
     ~Value();
+    bool operator==(const Value &v);
+    bool operator>=(const Value &v);
+    bool operator>(const Value &v);
+    bool operator<=(const Value &v);
+    bool operator<(const Value &v);
 };
 
 
