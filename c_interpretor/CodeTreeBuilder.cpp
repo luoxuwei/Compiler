@@ -30,10 +30,14 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
         case GrammarInitializer::String_TO_Unary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
             if (production == GrammarInitializer::Name_TO_Unary) {
-                symbol = typeSystem->getSymbolByText(text, parser->getCurrentLevel());
-                node->setAttribute(ICodeNode::SYMBOL, symbol);
+                assignSymbolToNode(node, text);
             }
             node->setAttribute(ICodeNode::TEXT, (void *) new string(text));
+            break;
+        case GrammarInitializer::Unary_Incop_TO_Unary:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
             break;
         case GrammarInitializer::Unary_LB_Expr_RB_TO_Unary:
             ////访问或更改数组元素
@@ -92,6 +96,7 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             node->addChild(child);
             break;
         case GrammarInitializer::Expr_Semi_TO_Statement:
+        case GrammarInitializer::CompountStmt_TO_Statement:
             node = ICodeFactory::createICodeNode(CTokenType::Token::STATEMENT);
             child = codeNodeStack.top();
             codeNodeStack.pop();
@@ -107,6 +112,21 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
                 codeNodeStack.pop();
                 node->addChild(child);
             }
+            break;
+        case GrammarInitializer::FOR_OptExpr_Test_EndOptExpr_Statement_TO_Statement:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::STATEMENT);
+            child = codeNodeStack.top();
+            codeNodeStack.pop();
+            node->addChild(child);
+            child = codeNodeStack.top();
+            codeNodeStack.pop();
+            node->addChild(child);
+            child = codeNodeStack.top();
+            codeNodeStack.pop();
+            node->addChild(child);
+            child = codeNodeStack.top();
+            codeNodeStack.pop();
+            node->addChild(child);
             break;
         case GrammarInitializer::StmtList_Statement_TO_StmtList:
             node = ICodeFactory::createICodeNode(CTokenType::Token::STMT_LIST);
@@ -141,6 +161,21 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             codeNodeStack.pop();
             node->addChild(child);
             break;
+        case GrammarInitializer::Expr_Semi_TO_OptExpr:
+        case GrammarInitializer::Semi_TO_OptExpr:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::OPT_EXPR);
+            if (production == GrammarInitializer::Expr_Semi_TO_OptExpr) {
+                child = codeNodeStack.top();
+                codeNodeStack.pop();
+                node->addChild(child);
+            }
+            break;
+        case GrammarInitializer::Expr_TO_EndOpt:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::END_OPT_EXPR);
+            child = codeNodeStack.top();
+            codeNodeStack.pop();
+            node->addChild(child);
+            break;
     }
 
     if (node != NULL) {
@@ -152,4 +187,10 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
 
 ICodeNode * CodeTreeBuilder::getCodeTreeRoot() {
     return codeNodeStack.top();
+}
+
+void CodeTreeBuilder::assignSymbolToNode(ICodeNode *node, string &text) {
+    Symbol *symbol = typeSystem->getSymbolByText(text, parser->getCurrentLevel());
+    node->setAttribute(ICodeNode::SYMBOL, symbol);
+    node->setAttribute(ICodeNode::TEXT, new string(text));
 }

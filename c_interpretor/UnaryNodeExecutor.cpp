@@ -52,6 +52,11 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             root->setAttribute(ICodeNode::SYMBOL, new ArrayValueSetter(symbol, index));
             root->setAttribute(ICodeNode::TEXT, symbol->getName());
             break;
+        case GrammarInitializer::Unary_Incop_TO_Unary:
+            symbol = (Symbol *) root->getChildren()->at(0)->getAttribute(ICodeNode::SYMBOL);
+            v = symbol->getValue();
+            ++(*v);
+            break;
 
     }
 

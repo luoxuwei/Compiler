@@ -14,6 +14,9 @@
 #include "TestExecutor.h"
 #include "IfStatementExecutor.h"
 #include "ElseStatementExecutor.h"
+#include "OptExprExecutor.h"
+#include "EndOptExecutor.h"
+#include "InitializerExecutor.h"
 
 ExecutorFactory *ExecutorFactory::instance = NULL;
 
@@ -45,6 +48,12 @@ Executor * ExecutorFactory::getExecutor(ICodeNode *node) {
             return new IfStatementExecutor();
         case CTokenType::Token::IF_ELSE_STATEMENT:
             return new ElseStatementExecutor();
+        case CTokenType::Token::OPT_EXPR:
+            return new OptExprExecutor();
+        case CTokenType::Token::END_OPT_EXPR:
+            return new EndOptExecutor();
+        case CTokenType::Token::INITIALIZER:
+            return new InitializerExecutor();
     }
 
     return NULL;

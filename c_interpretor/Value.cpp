@@ -112,6 +112,21 @@ bool Value::operator<(const Value &v) {
     }
 }
 
+void Value::operator++() {
+    switch (type) {
+        case INT:
+            u.i++;
+            break;
+        case FLOAT:
+            u.f++;
+            break;
+        case LONG:
+            u.l++;
+            break;
+    }
+    return;
+}
+
 Value::~Value() {
     if (str != NULL) {
         delete str;

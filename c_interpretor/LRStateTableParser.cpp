@@ -188,7 +188,11 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             typeSystem->addSpecifierToDeclaration(specifier, symbol);
             typeSystem->addSymbolsToTable(symbol);
             break;
-
+        case GrammarInitializer::VarDecl_Equal_Initializer_TO_Decl:
+            //如果这里不把attributeForParentNode设置成对应的symbol对象
+            //那么上面执行 Symbol symbol = (Symbol)attributeForParentNode; 会出错
+            attributeForParentNode = valueStack.at(valueStack.size() - 2);
+            break;
         case GrammarInitializer::NewName_LP_VarList_RP_TO_FunctDecl:
             setFunctionSymbol(true);
             argList = (Symbol *) valueStack.at(valueStack.size() -2);

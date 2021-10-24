@@ -28,7 +28,7 @@ public:
     void setAttribute(ICodeKey key, void *value);
     void *getAttribute(ICodeKey key);
     ICodeNode *copy();
-    const char *toString();
+    const char *toString() override;
     void reverseChildren() override;
 };
 

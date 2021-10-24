@@ -8,7 +8,13 @@
 
 class StatementExecutor : public BaseExecutor {
 public:
+    enum LoopType {
+        FOR,
+        WHILE,
+        DO_WHILE
+    };
     void * Execute(ICodeNode *root) override;
+    bool isLoopContinute(ICodeNode *codeNode, LoopType type);
 };
 
 

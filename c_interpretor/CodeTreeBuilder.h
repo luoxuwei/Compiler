@@ -8,6 +8,7 @@
 #include "ICodeNode.h"
 #include "LRStateTableParser.h"
 #include <deque>
+#include <string>
 
 using namespace std;
 class CodeTreeBuilder {
@@ -19,7 +20,7 @@ private:
     deque<void *> *valueStack = NULL;
     CodeTreeBuilder();
     CodeTreeBuilder(CodeTreeBuilder *codeTreeBuilder) {}
-
+    void assignSymbolToNode(ICodeNode *node, string &text);
 public:
     static CodeTreeBuilder *getInstance();
     ICodeNode *buildCodeTree(int production, string text);

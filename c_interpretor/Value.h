@@ -30,6 +30,7 @@ public:
     Value(string &s);
     Value(long l);
     Value(float f);
+    Value(const Value &v);
     const char *toString();
     ~Value();
     bool operator==(const Value &v);
@@ -37,6 +38,7 @@ public:
     bool operator>(const Value &v);
     bool operator<=(const Value &v);
     bool operator<(const Value &v);
+    void operator++();
 };
 
 

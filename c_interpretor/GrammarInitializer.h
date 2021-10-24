@@ -74,6 +74,28 @@ public:
     const static int Binary_RelOP_Binary_TO_Binray = 65;
     //IF_ELSE_STATEMENT ->IF_ELSE_STATEMENT ELSE STATEMENT 74
     const static int IfElseStatemnt_Else_Statemenet_TO_IfElseStatement = 74;
+    //OPT_EXPR -> EXPR SEMI(85)
+    const static int  Expr_Semi_TO_OptExpr = 85;
+    //OPT_EXPR -> SEMI(86)
+    const static int Semi_TO_OptExpr = 86;
+    //END_OPT_EXPR -> EXPR(87)
+    const static int Expr_TO_EndOpt = 87;
+    //STATEMENT -> FOR LP OPT_EXPR  TEST SEMI END_OPT_EXPR RP STATEMENT(84)
+    const static int FOR_OptExpr_Test_EndOptExpr_Statement_TO_Statement = 84;
+    //UNARY -> UNARY INCOP i++ (96)
+    const static int Unary_Incop_TO_Unary = 96;
+    //UNARY -> INCOP UNARY ++i (97)
+    const static int Incop_Unary_TO_Unary = 97;
+    //STATEMENT -> COMPOUND_STMT (71)
+    const static int CompountStmt_TO_Statement = 71;
+    //DECL -> VAR_DECL EQUAL INITIALIZER 77
+    const static int VarDecl_Equal_Initializer_TO_Decl = 77;
+    //INITIALIZER -> EXPR 78
+    const static int Expr_TO_Initializer = 78;
+    //LOCAL_DEFS -> DEF_LIST(52)
+    const static int DefList_TO_LocalDefs = 52;
+    //VAR_DECL ->  NEW_NAME(13)
+    const static int NewName_TO_VarDecl = 13;
 
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();

@@ -1,12 +1,11 @@
 void f() {
+    int i;
     int a;
-    int b;
 
-    a = 1;
+    i = 0;
+    a = 0;
 
-    if (a > 1) {
-        b = a + 2;
-    } else {
-        b = a + 3;
+    for (i = 0; i < 3; i++) {
+        a = a + 1;
     }
 }
