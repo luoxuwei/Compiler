@@ -9,6 +9,7 @@
 #include "LRStateTableParser.h"
 #include <deque>
 #include <string>
+#include <map>
 
 using namespace std;
 class CodeTreeBuilder {
@@ -18,6 +19,8 @@ private:
     LRStateTableParser *parser = NULL;
     TypeSystem *typeSystem = NULL;
     deque<void *> *valueStack = NULL;
+    string * functionName;
+    map<string, ICodeNode *> funcMap;
     CodeTreeBuilder();
     CodeTreeBuilder(CodeTreeBuilder *codeTreeBuilder) {}
     void assignSymbolToNode(ICodeNode *node, string &text);
@@ -25,6 +28,7 @@ public:
     static CodeTreeBuilder *getInstance();
     ICodeNode *buildCodeTree(int production, string text);
     ICodeNode *getCodeTreeRoot();
+    ICodeNode * getFunctionNodeByName(string &name);
 };
 
 

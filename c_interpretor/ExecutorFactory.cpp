@@ -17,6 +17,9 @@
 #include "OptExprExecutor.h"
 #include "EndOptExecutor.h"
 #include "InitializerExecutor.h"
+#include "CompoundStmtExecutor.h"
+#include "FunctDeclExecutor.h"
+#include "ExtDefExecutor.h"
 
 ExecutorFactory *ExecutorFactory::instance = NULL;
 
@@ -54,6 +57,12 @@ Executor * ExecutorFactory::getExecutor(ICodeNode *node) {
             return new EndOptExecutor();
         case CTokenType::Token::INITIALIZER:
             return new InitializerExecutor();
+        case CTokenType::Token::COMPOUND_STMT:
+            return new CompoundStmtExecutor();
+        case CTokenType::Token::FUNCT_DECL:
+            return new FunctDeclExecutor();
+        case CTokenType::Token::EXT_DEF:
+            return new ExtDefExecutor();
     }
 
     return NULL;

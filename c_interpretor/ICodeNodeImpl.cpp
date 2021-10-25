@@ -21,6 +21,8 @@ ICodeNode * ICodeNodeImpl::addChild(ICodeNode *node) {
 ICodeNode * ICodeNodeImpl::getParent() {return parent;}
 
 vector<ICodeNode *> * ICodeNodeImpl::getChildren() {
+    //注意，有可能会改变原有逻辑
+    reverseChildren();
     return &children;
 }
 

@@ -7,15 +7,19 @@
 #include "Symbol.h"
 #include "GrammarInitializer.h"
 #include "ArrayValueSetter.h"
+#include "CodeTreeBuilder.h"
+#include "ExecutorFactory.h"
 
 using namespace std;
 void * UnaryNodeExecutor::Execute(ICodeNode *root) {
     executeChildren(root);
     long production = (long) root->getAttribute(ICodeNode::PRODUCTION);
-    string *text;
-    Symbol *symbol;
-    void *value;
-    ICodeNode *child;
+    string *text = NULL;
+    Symbol *symbol = NULL;
+    void *value = NULL;
+    ICodeNode *child = NULL, *func = NULL;
+    string *funcName = NULL;
+    Executor *executor = NULL;
     switch (production) {
         bool isFloat;
         int index;
@@ -56,6 +60,16 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             symbol = (Symbol *) root->getChildren()->at(0)->getAttribute(ICodeNode::SYMBOL);
             v = symbol->getValue();
             ++(*v);
+            break;
+        case GrammarInitializer::Unary_LP_RP_TO_Unary://f(),f推出NewName，NewName回推成Unary，左括号(和右括号)推出LP和RP
+            //先获得函数名,第一个节点Unary是函数名
+            funcName = (string *) root->getChildren()->at(0)->getAttribute(ICodeNode::TEXT);
+            //找到函数执行树头节点
+            func = CodeTreeBuilder::getInstance()->getFunctionNodeByName(*funcName);
+            if (func != NULL) {
+                executor = ExecutorFactory::getInstance()->getExecutor(func);
+                executor->Execute(func);
+            }
             break;
 
     }

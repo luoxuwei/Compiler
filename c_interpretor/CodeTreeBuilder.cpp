@@ -21,6 +21,14 @@ CodeTreeBuilder::CodeTreeBuilder() {
     valueStack = parser->getValueStack();
 }
 
+ICodeNode * CodeTreeBuilder::getFunctionNodeByName(string &name) {
+    auto f = funcMap.find(name);
+    if (f != funcMap.end()) {
+        return f->second;
+    }
+    return NULL;
+}
+
 ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
     ICodeNode *node = NULL, *child = NULL, *operatorNode;
     Symbol *symbol = NULL;
@@ -33,6 +41,11 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
                 assignSymbolToNode(node, text);
             }
             node->setAttribute(ICodeNode::TEXT, (void *) new string(text));
+            break;
+        case GrammarInitializer::Unary_LP_RP_TO_Unary:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
             break;
         case GrammarInitializer::Unary_Incop_TO_Unary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
@@ -176,6 +189,36 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             codeNodeStack.pop();
             node->addChild(child);
             break;
+        case GrammarInitializer::LocalDefs_StmtList_TO_CompoundStmt:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::COMPOUND_STMT);
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            break;
+        case GrammarInitializer::NewName_LP_RP_TO_FunctDecl://无参函数调用或声明
+            node = ICodeFactory::createICodeNode(CTokenType::Token::FUNCT_DECL);
+            node->addChild(codeNodeStack.top());//当前栈顶是NAME_TO_NewName产生的NewNAME节点，是函数名
+            codeNodeStack.pop();
+            child = node->getChildren()->at(0);
+            functionName = (string *) child->getAttribute(ICodeNode::TEXT);
+            break;
+        case GrammarInitializer::NewName_TO_VarDecl:
+            //下面的NAME_TO_NewName如果是接在NewName_LP_RP_TO_FunctDecl后面就是函数名
+            //如果是NewName_TO_VarDecl就只是局部变量声明不需要生成节点，
+            //我们暂时不处理变量声明语句
+            codeNodeStack.pop();
+            break;
+        case GrammarInitializer::NAME_TO_NewName:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::NEW_NAME);
+            node->setAttribute(ICodeNode::TEXT, new string(text));
+            break;
+        case GrammarInitializer::OptSpecifiers_FunctDecl_CompoundStmt_TO_ExtDef:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::EXT_DEF);
+            node->addChild(codeNodeStack.top());//CompoundStmt会回推到stmt_list，所以这里栈顶是stmt_list
+            codeNodeStack.pop();
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            funcMap[*functionName] = node;
+            break;
     }
 
     if (node != NULL) {
@@ -186,7 +229,7 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
 }
 
 ICodeNode * CodeTreeBuilder::getCodeTreeRoot() {
-    return codeNodeStack.top();
+    return funcMap["main"];
 }
 
 void CodeTreeBuilder::assignSymbolToNode(ICodeNode *node, string &text) {

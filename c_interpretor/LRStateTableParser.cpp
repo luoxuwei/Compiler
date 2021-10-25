@@ -198,6 +198,12 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             argList = (Symbol *) valueStack.at(valueStack.size() -2);
             ((Symbol *) attributeForParentNode)->args = argList;
             break;
+        case GrammarInitializer::OptSpecifiers_FunctDecl_CompoundStmt_TO_ExtDef:
+            symbol = (Symbol *) valueStack.at(valueStack.size() - 2);
+            specifier = (TypeLink *) valueStack.at(valueStack.size() - 3);
+            typeSystem->addSpecifierToDeclaration(specifier, symbol);
+            typeSystem->addSymbolsToTable(symbol);
+            break;
         case GrammarInitializer::NewName_LP_RP_TO_FunctDecl:
             setFunctionSymbol(false);
             break;

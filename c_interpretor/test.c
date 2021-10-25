@@ -1,11 +1,8 @@
 void f() {
-    int i;
     int a;
+    a = 1;
+}
 
-    i = 0;
-    a = 0;
-
-    for (i = 0; i < 3; i++) {
-        a = a + 1;
-    }
+void main() {
+    f();
 }

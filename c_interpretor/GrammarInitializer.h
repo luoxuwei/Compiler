@@ -96,6 +96,13 @@ public:
     const static int DefList_TO_LocalDefs = 52;
     //VAR_DECL ->  NEW_NAME(13)
     const static int NewName_TO_VarDecl = 13;
+    //COMPOUND_STMT-> LC LOCAL_DEFS STMT_LIST RC(51)
+    const static int LocalDefs_StmtList_TO_CompoundStmt = 51;
+    //EXT_DEF -> OPT_SPECIFIERS FUNCT_DECL COMPOUND_STMT(50)
+    const static int OptSpecifiers_FunctDecl_CompoundStmt_TO_ExtDef = 50;
+    //UNARY -> UNARY LP RP  fun()
+    const static int Unary_LP_RP_TO_Unary = 103;
+
 
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();
