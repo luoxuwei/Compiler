@@ -47,6 +47,13 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             node->addChild(codeNodeStack.top());
             codeNodeStack.pop();
             break;
+        case GrammarInitializer::Unary_LP_ARGS_RP_TO_Unary:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            break;
         case GrammarInitializer::Unary_Incop_TO_Unary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
             node->addChild(codeNodeStack.top());
@@ -195,11 +202,13 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             codeNodeStack.pop();
             break;
         case GrammarInitializer::NewName_LP_RP_TO_FunctDecl://无参函数调用或声明
+        case GrammarInitializer::NewName_LP_VarList_RP_TO_FunctDecl:
             node = ICodeFactory::createICodeNode(CTokenType::Token::FUNCT_DECL);
             node->addChild(codeNodeStack.top());//当前栈顶是NAME_TO_NewName产生的NewNAME节点，是函数名
             codeNodeStack.pop();
             child = node->getChildren()->at(0);
             functionName = (string *) child->getAttribute(ICodeNode::TEXT);
+            symbol = assignSymbolToNode(node, *functionName);
             break;
         case GrammarInitializer::NewName_TO_VarDecl:
             //下面的NAME_TO_NewName如果是接在NewName_LP_RP_TO_FunctDecl后面就是函数名
@@ -219,6 +228,18 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             codeNodeStack.pop();
             funcMap[*functionName] = node;
             break;
+        case GrammarInitializer::NoCommaExpr_TO_Args:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::ARGS);
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            break;
+        case GrammarInitializer::NoCommaExpr_Comma_Args_TO_Args:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::ARGS);
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            break;
     }
 
     if (node != NULL) {
@@ -232,8 +253,9 @@ ICodeNode * CodeTreeBuilder::getCodeTreeRoot() {
     return funcMap["main"];
 }
 
-void CodeTreeBuilder::assignSymbolToNode(ICodeNode *node, string &text) {
+Symbol *CodeTreeBuilder::assignSymbolToNode(ICodeNode *node, string &text) {
     Symbol *symbol = typeSystem->getSymbolByText(text, parser->getCurrentLevel());
     node->setAttribute(ICodeNode::SYMBOL, symbol);
     node->setAttribute(ICodeNode::TEXT, new string(text));
+    return symbol;
 }

@@ -102,6 +102,12 @@ public:
     const static int OptSpecifiers_FunctDecl_CompoundStmt_TO_ExtDef = 50;
     //UNARY -> UNARY LP RP  fun()
     const static int Unary_LP_RP_TO_Unary = 103;
+    //UNARY -> UNARY LP ARGS RP fun(a, b ,c)
+    const static int Unary_LP_ARGS_RP_TO_Unary = 102;
+    //ARGS -> NO_COMMA_EXPR  (104)
+    const static int NoCommaExpr_TO_Args = 104;
+    //ARGS -> NO_COMMA_EXPR COMMA ARGS (105)
+    const static int NoCommaExpr_Comma_Args_TO_Args = 105;
 
 
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;

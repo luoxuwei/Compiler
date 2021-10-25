@@ -23,7 +23,7 @@ public:
         //Enum
         ENUM_SPECIFIER, OPT_ENUM_LIST, ENUMERATOR_LIST, ENUMERATOR, ENUM_NT,
 
-        CONST_EXPR,
+        CONST_EXPR, ARGS,
 
         COMPOUND_STMT, LOCAL_DEFS, STMT_LIST, INITIALIZER, EXPR, NO_COMMA_EXPR,BINARY, UNARY, STATEMENT,
 
@@ -35,7 +35,7 @@ public:
 
         //terminals
         NAME, TYPE, STRUCT,CLASS, LP, RP, LB, RB,PLUS,LC,RC,NUMBER, STRING, QUEST, COLON,
-        RELOP, ANDAND, OR, AND, EQUOP, SHIFTOP, DIVOP, XOR, MINUS, INCOP, STRUCTOP, ARGS,
+        RELOP, ANDAND, OR, AND, EQUOP, SHIFTOP, DIVOP, XOR, MINUS, INCOP, STRUCTOP,
 
         RETURN, IF, ELSE, SWITCH, CASE, DEFAULT, BREAK, WHILE, FOR, DO, CONTINUE, GOTO,
 
@@ -79,6 +79,7 @@ public:
                 stringify(ENUMERATOR),
                 stringify(ENUM_NT),
                 stringify(CONST_EXPR),
+                stringify(ARGS),
                 stringify(COMPOUND_STMT),
                 stringify(LOCAL_DEFS),
                 stringify(STMT_LIST),
@@ -128,7 +129,6 @@ public:
                 stringify(MINUS),
                 stringify(INCOP),
                 stringify(STRUCTOP),
-                stringify(ARGS),
                 stringify(RETURN),
                 stringify(IF),
                 stringify(ELSE),

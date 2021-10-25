@@ -20,6 +20,7 @@
 #include "CompoundStmtExecutor.h"
 #include "FunctDeclExecutor.h"
 #include "ExtDefExecutor.h"
+#include "ArgsExecutor.h"
 
 ExecutorFactory *ExecutorFactory::instance = NULL;
 
@@ -31,6 +32,7 @@ ExecutorFactory * ExecutorFactory::getInstance() {
 }
 
 Executor * ExecutorFactory::getExecutor(ICodeNode *node) {
+    if (node == NULL) return NULL;
     long type = (long) node->getAttribute(ICodeNode::TokenType);
     switch (type) {
         case CTokenType::Token::UNARY:
@@ -63,6 +65,8 @@ Executor * ExecutorFactory::getExecutor(ICodeNode *node) {
             return new FunctDeclExecutor();
         case CTokenType::Token::EXT_DEF:
             return new ExtDefExecutor();
+        case CTokenType::Token::ARGS:
+            return new ArgsExecutor();
     }
 
     return NULL;

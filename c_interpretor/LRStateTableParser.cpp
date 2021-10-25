@@ -180,13 +180,13 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             }
             currentSym->setNextSymbol(lastSym);
             break;
-        case GrammarInitializer::OptSpecifier_ExtDeclList_Semi_TO_ExtDef:
+        case GrammarInitializer::OptSpecifier_ExtDeclList_Semi_TO_ExtDef://这几个都是完整的变量定义表达式（包括函数参数定义)
         case GrammarInitializer::TypeNT_VarDecl_TO_ParamDeclaration:
         case GrammarInitializer::Specifiers_DeclList_Semi_TO_Def:
             symbol = (Symbol *)attributeForParentNode;
             specifier = (TypeLink *)(valueStack.at(valueStack.size() - 3));
             typeSystem->addSpecifierToDeclaration(specifier, symbol);
-            typeSystem->addSymbolsToTable(symbol);
+            typeSystem->addSymbolsToTable(symbol, symbolScope);//在这里还不知道变量是不是函数参数，先将变量作用域设置成global，到解析到函数申明（整个函数头)时知道是函数参数后改为函数名
             break;
         case GrammarInitializer::VarDecl_Equal_Initializer_TO_Decl:
             //如果这里不把attributeForParentNode设置成对应的symbol对象
@@ -197,15 +197,30 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             setFunctionSymbol(true);
             argList = (Symbol *) valueStack.at(valueStack.size() -2);
             ((Symbol *) attributeForParentNode)->args = argList;
+            typeSystem->addSymbolsToTable((Symbol *) attributeForParentNode, symbolScope);
+            //参数声明的解析在OptSpecifier_ExtDeclList_Semi_TO_ExtDef中，解析时先设置层global,当解析到这里(函数头)，知道是参数就将作用域改为函数名
+            //遇到函数定义，变量的scope名称要改为函数名,并把函数参数的scope改为函数名
+            //出了函数定义后要改回global，怎么知道出了函数定义？语法推导表达式OptSpecifiers_FunctDecl_CompoundStmt_TO_ExtDef 表示完整的函数定义，解析到这个表达式（对这个表达式进行reduce)表示函数定义解析完毕。
+            symbolScope = ((Symbol *) attributeForParentNode)->getName();
+            symbol = argList;
+            while (symbol != NULL) {
+                symbol->addScope(symbolScope);
+                symbol = symbol->getNextSymbol();
+            }
             break;
         case GrammarInitializer::OptSpecifiers_FunctDecl_CompoundStmt_TO_ExtDef:
             symbol = (Symbol *) valueStack.at(valueStack.size() - 2);
             specifier = (TypeLink *) valueStack.at(valueStack.size() - 3);
             typeSystem->addSpecifierToDeclaration(specifier, symbol);
-            typeSystem->addSymbolsToTable(symbol);
+
+            //解析到这里表示函数定义结束，函数定义结束后，接下来的变量作用范围应该改为global
+            symbolScope = &GLOBAL_SCOPE;
             break;
         case GrammarInitializer::NewName_LP_RP_TO_FunctDecl:
             setFunctionSymbol(false);
+            typeSystem->addSymbolsToTable((Symbol *) attributeForParentNode, symbolScope);
+            //遇到函数定义，变量的scope名称要改为函数名
+            symbolScope = ((Symbol *) attributeForParentNode)->getName();
             break;
         case GrammarInitializer::Name_To_Tag:
             attributeForParentNode = typeSystem->getStructObjFromTable(text);
@@ -243,7 +258,7 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
 void LRStateTableParser::doEnum() {
     Symbol *symbol = (Symbol *) attributeForParentNode;
     if (convSymToIntConst(symbol, enumValue)) {
-        typeSystem->addSymbolsToTable(symbol);
+        typeSystem->addSymbolsToTable(symbol, symbolScope);
         enumValue++;
     } else {
         printf("enum symbol redefinition: %s\n", symbol->name.c_str());

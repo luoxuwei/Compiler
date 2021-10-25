@@ -23,7 +23,7 @@ private:
     map<string, ICodeNode *> funcMap;
     CodeTreeBuilder();
     CodeTreeBuilder(CodeTreeBuilder *codeTreeBuilder) {}
-    void assignSymbolToNode(ICodeNode *node, string &text);
+    Symbol *assignSymbolToNode(ICodeNode *node, string &text);
 public:
     static CodeTreeBuilder *getInstance();
     ICodeNode *buildCodeTree(int production, string text);

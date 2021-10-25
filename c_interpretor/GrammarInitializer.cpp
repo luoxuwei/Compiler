@@ -1014,51 +1014,51 @@ void GrammarInitializer::initComputingOperation() {
     addProduction(*production, false);
     productionNum++;
 
-    //UNARY -> MINUS UNARY  a = -a
+    //UNARY -> MINUS UNARY  a = -a (98)
     right = new vector<CTokenType::Token>({CTokenType::Token::MINUS, CTokenType::Token::UNARY});
     production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //UNARY -> STAR UNARY b = *a
+    //UNARY -> STAR UNARY b = *a (99)
     right = new vector<CTokenType::Token>({CTokenType::Token::STAR, CTokenType::Token::UNARY});
     production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //UNARY -> UNARY STRUCTOP NAME  a = tag->name
+    //UNARY -> UNARY STRUCTOP NAME  a = tag->name (100)
     right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::STRUCTOP, CTokenType::Token::UNARY});
     production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //UNARY -> UNARY LB EXPR RB b = a[2];
+    //UNARY -> UNARY LB EXPR RB b = a[2]; (101)
     right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::LB, CTokenType::Token::EXPR, CTokenType::Token::RB});
     production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //UNARY -> UNARY LP ARGS RP fun(a, b ,c)
+    //UNARY -> UNARY LP ARGS RP fun(a, b ,c) (102)
     right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::LP, CTokenType::Token::ARGS, CTokenType::Token::RP});
     production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //UNARY -> UNARY LP RP  fun()
+    //UNARY -> UNARY LP RP  fun() (103)
     right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::LP, CTokenType::Token::RP});
     production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //ARGS -> NO_COMMA_EXPR
+    //ARGS -> NO_COMMA_EXPR (104)
     right = new vector<CTokenType::Token>({CTokenType::Token::NO_COMMA_EXPR});
     production = new Production(productionNum, CTokenType::Token::ARGS, 0, *right);
     addProduction(*production, false);
     productionNum++;
 
-    //ARGS -> NO_COMMA_EXPR COMMA ARGS
+    //ARGS -> NO_COMMA_EXPR COMMA ARGS (105)
     right = new vector<CTokenType::Token>({CTokenType::Token::NO_COMMA_EXPR, CTokenType::Token::COMMA, CTokenType::Token::ARGS});
-    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    production = new Production(productionNum, CTokenType::Token::ARGS, 0, *right);
     addProduction(*production, false);
     productionNum++;
 }

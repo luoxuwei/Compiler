@@ -1,0 +1,10 @@
+
+
+变量作用域确定:
+int a;
+
+void f(int b, int c) {
+    int d;
+}
+
+int e;

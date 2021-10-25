@@ -3,8 +3,11 @@
 //
 
 #include "Symbol.h"
+#include "LRStateTableParser.h"
 
-Symbol::Symbol(string name, int level) : name(name), level(level) {}
+Symbol::Symbol(string name, int level) : name(name), level(level) {
+    symbolScope = &LRStateTableParser::getInstance()->GLOBAL_SCOPE;
+}
 
 void Symbol::setValue(Value *v) {
     printf("\nAssign Value of %s to Variable %s\n", v->toString(), name.c_str());
@@ -52,3 +55,15 @@ void Symbol::setNextSymbol(Symbol *symbol) {
 }
 
 Symbol * Symbol::getNextSymbol() {return next;}
+
+void Symbol::addScope(string *scope) {
+    symbolScope = scope;
+}
+
+bool Symbol::operator==(const Symbol &s) {
+    if (name == s.name && level == s.level && *symbolScope == *s.symbolScope) {
+        return true;
+    }
+
+    return false;
+}

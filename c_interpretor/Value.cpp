@@ -28,6 +28,11 @@ Value::Value(float f) {
     u.f = f;
 }
 
+Value::Value(vector<Value *> *list) {
+    type = LIST;
+    u.list = list;
+}
+
 const char *Value::toString() {
     if (str != NULL) return str->c_str();
     switch (type) {
@@ -134,5 +139,9 @@ Value::~Value() {
 
     if (type == STRING) {
         delete u.s;
+    }
+
+    if (type == LIST) {
+        delete u.list;
     }
 }

@@ -11,6 +11,8 @@
 #include <stack>
 #include <map>
 #include <deque>
+
+using namespace std;
 class LRStateTableParser {
 private:
     static LRStateTableParser *instance;
@@ -40,6 +42,8 @@ private:
     void doEnum();
     bool convSymToIntConst(Symbol *symbol, int val);
 public:
+    string GLOBAL_SCOPE = string("global");
+    string *symbolScope = &GLOBAL_SCOPE;
     static LRStateTableParser *getInstance();
     void parse(CLexer *l);
     int getCurrentLevel() {return nestingLevel;};

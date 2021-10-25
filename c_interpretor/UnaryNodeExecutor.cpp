@@ -9,6 +9,7 @@
 #include "ArrayValueSetter.h"
 #include "CodeTreeBuilder.h"
 #include "ExecutorFactory.h"
+#include "FunctionArgumentList.h"
 
 using namespace std;
 void * UnaryNodeExecutor::Execute(ICodeNode *root) {
@@ -20,6 +21,7 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
     ICodeNode *child = NULL, *func = NULL;
     string *funcName = NULL;
     Executor *executor = NULL;
+    vector<Value *> *list = NULL;
     switch (production) {
         bool isFloat;
         int index;
@@ -62,8 +64,17 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             ++(*v);
             break;
         case GrammarInitializer::Unary_LP_RP_TO_Unary://f(),f推出NewName，NewName回推成Unary，左括号(和右括号)推出LP和RP
+        case GrammarInitializer::Unary_LP_ARGS_RP_TO_Unary://f(a, b, c)
             //先获得函数名,第一个节点Unary是函数名
             funcName = (string *) root->getChildren()->at(0)->getAttribute(ICodeNode::TEXT);
+            if (production == GrammarInitializer::Unary_LP_ARGS_RP_TO_Unary) {
+                child = root->getChildren()->at(1);//ARGS
+                v = ((Value *) child->getAttribute(ICodeNode::VALUE));
+                if (v != NULL) {
+                    list = v->u.list;
+                }
+                FunctionArgumentList::getInstance()->setFuncArgList(list);
+            }
             //找到函数执行树头节点
             func = CodeTreeBuilder::getInstance()->getFunctionNodeByName(*funcName);
             if (func != NULL) {

@@ -25,7 +25,7 @@ private:
 
 public:
     static TypeSystem * getInstance();
-    void addSymbolsToTable(Symbol * headSymbol);
+    void addSymbolsToTable(Symbol * headSymbol, string *scope);
     TypeLink * newType(string typeText);
     void specifierCpy(Specifier *dst, Specifier *org);
     TypeLink * newClass(string classText);
@@ -36,6 +36,7 @@ public:
     StructDefine * getStructObjFromTable(string tag);
     vector<Symbol *> * getSymbol(string &text);
     Symbol * getSymbolByText(string text, int level);
+    void removeSymbolFromTable(Symbol *symbol);
 };
 
 

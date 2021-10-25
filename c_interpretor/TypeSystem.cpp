@@ -27,8 +27,9 @@ StructDefine * TypeSystem::getStructObjFromTable(string tag) {
     return structTable[tag];
 }
 
-void TypeSystem::addSymbolsToTable(Symbol *headSymbol) {
+void TypeSystem::addSymbolsToTable(Symbol *headSymbol, string *scope) {
     while (headSymbol != NULL) {
+        headSymbol->addScope(scope);
         auto iter = symbolTable.find(headSymbol->name);
         if (iter == symbolTable.end()) {
             symbolTable[headSymbol->name] = vector<Symbol *>();
@@ -54,15 +55,32 @@ void TypeSystem::handleDublicateSymbol(Symbol *symbol, vector<Symbol *> &symList
     while (iter != symList.end()) {
         Symbol *sym = *iter;
         iter++;
-        if (sym->level == symbol->level) {
+        if (*sym == *symbol) {
             //同一层有两个同名的变量，就是出错了，需要处理这种情况
             //TODO, handle duplication here
             printf("Symbol definition replicate: %s", symbol->name.c_str());
+            throw 0;
         }
     }
     if (harmless) {
         symList.push_back(symbol);
     }
+}
+
+void TypeSystem::removeSymbolFromTable(Symbol *symbol) {
+    auto iter = symbolTable.find(symbol->name);
+    if (iter == symbolTable.end()) return ;
+
+    int pos = 0;
+    while (pos < iter->second.size()) {
+        Symbol *sym = iter->second.at(pos);
+        if (sym->level == symbol->level) {
+            std::remove(iter->second.begin(), iter->second.end(), sym);
+            return;
+        }
+        pos++;
+    }
+
 }
 
 TypeLink * TypeSystem::newType(string typeText) {

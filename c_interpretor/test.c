@@ -1,8 +1,8 @@
-void f() {
-    int a;
-    a = 1;
+void f(int a, int b) {
+    int c;
+    c = a + b;
 }
 
 void main() {
-    f();
+    f(1, 2);
 }

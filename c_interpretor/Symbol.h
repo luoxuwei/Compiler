@@ -5,11 +5,11 @@
 #ifndef C_COMPILER_SYMBOL_H
 #define C_COMPILER_SYMBOL_H
 #include <string>
-#include "Symbol.h"
 #include "TypeLink.h"
 #include "Declarator.h"
 #include "Value.h"
 #include "IValueSetter.h"
+
 
 using namespace std;
 class Symbol : public IValueSetter {
@@ -27,10 +27,13 @@ private:
     TypeLink *typeLinkEnd = NULL;
     Value *value = NULL;
 
+
 public:
+
+    string *symbolScope = NULL;
     string name;
     int level; //变量的层次，嵌套局部变量时用到，局部变量和全局变量就是用层次来表示
-    Symbol *args;   //如果该符号对应的是函数名,那么args指向函数的输入参数符号列表
+    Symbol *args = NULL;   //如果该符号对应的是函数名,那么args指向函数的输入参数符号列表
     Symbol(string name, int level);
 
     void addDeclarator(TypeLink *type);
@@ -43,6 +46,9 @@ public:
     Value *getValue() {return value;}
     int getLevel() {return level;}
     Declarator *getDeclarator(int type);
+    void addScope(string *scope);
+    bool operator==(const Symbol &s);
+    Symbol * getArgList() {return args;}
 };
 
 

@@ -5,7 +5,7 @@
 #ifndef C_COMPILER_VALUE_H
 #define C_COMPILER_VALUE_H
 #include <string>
-
+#include <vector>
 using namespace std;
 class Value {
 public:
@@ -14,13 +14,15 @@ public:
         long l;
         float f;
         string *s;
+        vector<Value *> *list;
     } u;
 
     enum ValueType {
         FLOAT,
         INT,
         LONG,
-        STRING
+        STRING,
+        LIST
     };
 
     ValueType type;
@@ -30,6 +32,7 @@ public:
     Value(string &s);
     Value(long l);
     Value(float f);
+    Value(vector<Value *> *list);
     Value(const Value &v);
     const char *toString();
     ~Value();
