@@ -4,6 +4,7 @@
 
 #include "TypeSystem.h"
 #include "Declarator.h"
+#include "ClibCall.h"
 TypeSystem *TypeSystem::instance = NULL;
 
 TypeSystem * TypeSystem::getInstance() {
@@ -196,7 +197,10 @@ void TypeSystem::addSpecifierToDeclaration(TypeLink *specifier, Symbol *symbol) 
     }
 }
 
-Symbol * TypeSystem::getSymbolByText(string text, int level) {
+Symbol * TypeSystem::getSymbolByText(string &text, int level) {
+    if (ClibCall::getInstance()->isAPICall(text)) {
+        return NULL;
+    }
     vector<Symbol *> *symbolList = getSymbol(text);
     int i = 0;
     Symbol *symbol = NULL;

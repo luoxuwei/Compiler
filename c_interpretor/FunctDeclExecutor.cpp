@@ -35,8 +35,8 @@ void * FunctDeclExecutor::Execute(ICodeNode *root) {
 void FunctDeclExecutor::initArgumentList(Symbol *args) {
     if (args == NULL) return;
 
-    argList = FunctionArgumentList::getInstance()->getFuncArgList();
-    reverse(argList->begin(), argList->end());
+    argList = FunctionArgumentList::getInstance()->getFuncArgList(true);
+
     Symbol *eachSym = args;
     int count = 0;
     while (eachSym != NULL) {

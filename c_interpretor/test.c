@@ -1,15 +1,5 @@
-int f() {
+void main() {
     int a;
     a = 1;
-    return a;
-
-    a = 2;
-}
-
-int f2() {
-    return f();
-}
-
-void main() {
-    f2();
+    printf("a is :%d", a);
 }

@@ -18,6 +18,7 @@ private:
     char *buf = NULL;
     size_t buf_len = 0;
     int charIndex = 0;
+    int begin = 0;
     int textLen = 0;
     map<string, CTokenType::Token> keywordMap;
 

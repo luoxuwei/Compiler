@@ -150,7 +150,7 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             dst = (Specifier *)((TypeLink *)attributeForParentNode)->getTypeObject();
             typeSystem->specifierCpy(dst, last);
             break;
-        case GrammarInitializer::NAME_TO_NewName:
+        case GrammarInitializer::NAME_TO_NewName://声明变量或函数
         case GrammarInitializer::Name_TO_NameNT:
             attributeForParentNode = typeSystem->newSymbol(text, nestingLevel);
             break;
@@ -165,7 +165,7 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             declarator->setElementNum(arrayNum);
             attributeForParentNode = valueStack.at(valueStack.size() - 4);
             break;
-        case GrammarInitializer::Name_TO_Unary:
+        case GrammarInitializer::Name_TO_Unary://调用时直接从符号表中查找，符号已在声明时创建
             attributeForParentNode = typeSystem->getSymbolByText(text, nestingLevel);
             break;
         case GrammarInitializer::ExtDeclList_COMMA_ExtDecl_TO_ExtDeclList:

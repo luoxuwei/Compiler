@@ -35,3 +35,10 @@ int f2() {
 void main() {
     f2();
 }
+
+库函数调用:
+void main() {
+    int a;
+    a = 1;
+    printf("a is :%d", a);
+}

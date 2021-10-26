@@ -14,7 +14,7 @@ private:
 public:
     static FunctionArgumentList * getInstance();
     void setFuncArgList(vector<Value *> *list) {funcArgList = list;}
-    vector<Value *> *getFuncArgList() {return funcArgList;}
+    vector<Value *> *getFuncArgList(bool reverse);
 };
 
 

@@ -10,6 +10,7 @@
 #include "CodeTreeBuilder.h"
 #include "ExecutorFactory.h"
 #include "FunctionArgumentList.h"
+#include "ClibCall.h"
 
 using namespace std;
 void * UnaryNodeExecutor::Execute(ICodeNode *root) {
@@ -38,13 +39,15 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             break;
         case GrammarInitializer::Name_TO_Unary:
             symbol = (Symbol *) root->getAttribute(ICodeNode::SYMBOL);
-            root->setAttribute(ICodeNode::VALUE, symbol->getValue());
-            root->setAttribute(ICodeNode::TEXT, symbol->getName());
+            if (symbol != NULL) {
+                root->setAttribute(ICodeNode::VALUE, symbol->getValue());
+                root->setAttribute(ICodeNode::TEXT, symbol->getName());
+            }
             break;
         case GrammarInitializer::String_TO_Unary:
-            value = root->getAttribute(ICodeNode::TEXT);
+            text = (string *)root->getAttribute(ICodeNode::TEXT);
 //            symbol = (Symbol *) root->getAttribute(ICodeNode::SYMBOL);
-            root->setAttribute(ICodeNode::TEXT, value);
+            root->setAttribute(ICodeNode::VALUE, new Value(*text));
 //            root->setAttribute(ICodeNode::SYMBOL, symbol);
             break;
         case GrammarInitializer::Unary_LB_Expr_RB_TO_Unary://这一步还不知道是对数组元素取值还是赋值
@@ -80,12 +83,18 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             if (func != NULL) {
                 executor = ExecutorFactory::getInstance()->getExecutor(func);
                 executor->Execute(func);
+                v = (Value *) func->getAttribute(ICodeNode::VALUE);//return value
+                if (v != NULL) {
+                    printf("\nfunction call with name %s has return value that is %s\n", funcName->c_str(), v->toString());
+                    root->setAttribute(ICodeNode::VALUE, v);
+                }
+            } else {
+                if (ClibCall::getInstance()->isAPICall(*funcName)) {
+                    v = ClibCall::getInstance()->invokeAPI(*funcName);
+                    root->setAttribute(ICodeNode::VALUE, v);
+                }
             }
-            v = (Value *) func->getAttribute(ICodeNode::VALUE);//return value
-            if (v != NULL) {
-                printf("\nfunction call with name %s has return value that is %s\n", funcName->c_str(), v->toString());
-                root->setAttribute(ICodeNode::VALUE, v);
-            }
+
             break;
 
     }
