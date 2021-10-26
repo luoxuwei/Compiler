@@ -63,6 +63,7 @@ const char * ICodeNodeImpl::toString() {
     }
     str.append("\n Node Type is ");
     str.append(CTokenType::getSymbolStr(type));
+    str.append("\n");
     return str.c_str();
 }
 

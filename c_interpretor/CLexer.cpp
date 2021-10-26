@@ -98,120 +98,107 @@ CTokenType::Token CLexer::lex() {
     textLen = 0;
     int j = 0;
     for (int i = charIndex; i < buf_len; i++) {
+        begin = charIndex;
         switch (buf[charIndex]) {
             case ';':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::SEMI;
             case '+':
                 if (buf[charIndex + 1] == '+') {
                     textLen = 2;
+                    charIndex = charIndex + textLen;
                     return CTokenType::Token::INCOP;
                 }
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::PLUS;
             case '-':
                 if (buf[charIndex + 1] == '>') {
                     textLen = 2;
+                    charIndex = charIndex + textLen;
                     return CTokenType::Token::STRUCTOP;
                 } else if (buf[charIndex + 1] == '-') {
                     textLen = 2;
+                    charIndex = charIndex + textLen;
                     return CTokenType::Token::INCOP;
                 }
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::MINUS;
             case '[':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::LB;
             case ']':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::RB;
             case '*':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::STAR;
             case '(':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::LP;
             case ')':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::RP;
             case ',':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::COMMA;
             case '{':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::LC;
             case '}':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::RC;
             case '=':
                 if (buf[charIndex + 1] == '=') {
                     textLen = 2;
+                    charIndex = charIndex + textLen;
                     return CTokenType::Token::RELOP;
                 }
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::EQUAL;
             case '?':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::QUEST;
             case ':':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::COLON;
             case '&':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::AND;
             case '|':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::OR;
             case '^':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::XOR;
             case '/':
             case '%':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::DIVOP;
             case '>':
             case '<':
-                begin = charIndex;
                 if (buf[i + 1] == '=') {
                     textLen = 2;
                 } else if ((buf[i] == '<' && buf[i + 1] == '<') || (buf[i] == '>' && buf[i + 1] == '>')) {
                     textLen = 2;
+                    charIndex = charIndex + textLen;
                     return CTokenType::Token::SHIFTOP;
                 } else {
                     textLen = 1;
@@ -221,7 +208,6 @@ CTokenType::Token CLexer::lex() {
             case '\n':
             case '\t':
             case ' ':
-                begin = charIndex;
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::WHITE_SPACE;
@@ -251,7 +237,6 @@ CTokenType::Token CLexer::lex() {
                         i++;
                         textLen++;
                     }
-                    begin = charIndex;
                     charIndex = charIndex + textLen;
                     return translateStringToToken();
                 }

@@ -181,6 +181,14 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             codeNodeStack.pop();
             node->addChild(child);
             break;
+        case GrammarInitializer::While_LP_Test_Rp_TO_Statement:
+        case GrammarInitializer::Do_Statement_While_Test_To_Statement:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::STATEMENT);
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            break;
         case GrammarInitializer::Expr_Semi_TO_OptExpr:
         case GrammarInitializer::Semi_TO_OptExpr:
             node = ICodeFactory::createICodeNode(CTokenType::Token::OPT_EXPR);

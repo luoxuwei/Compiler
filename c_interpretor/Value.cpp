@@ -28,13 +28,20 @@ Value::Value(float f) {
     u.f = f;
 }
 
+Value::Value(const Value &v) {
+    type = v.type;
+    u = v.u;
+}
+
 Value::Value(vector<Value *> *list) {
     type = LIST;
     u.list = list;
 }
 
 const char *Value::toString() {
-    if (str != NULL) return str->c_str();
+    if (str != NULL) {
+        delete str;
+    }
     switch (type) {
         case ValueType::FLOAT:
             str = new string(to_string(u.f));
@@ -46,7 +53,7 @@ const char *Value::toString() {
             str = new string(to_string(u.l));
             return str->c_str();
         case ValueType::STRING:
-            str = u.s;
+            str = new string(*(u.s));
             return str->c_str();
     }
     return "";

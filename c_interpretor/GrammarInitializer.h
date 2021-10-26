@@ -82,6 +82,12 @@ public:
     const static int Expr_TO_EndOpt = 87;
     //STATEMENT -> FOR LP OPT_EXPR  TEST SEMI END_OPT_EXPR RP STATEMENT(84)
     const static int FOR_OptExpr_Test_EndOptExpr_Statement_TO_Statement = 84;
+
+    //STATEMENT -> WHILE LP TEST RP STATEMENT (83)
+    const static int While_LP_Test_Rp_TO_Statement = 83;
+    //STATEMENT -> DO STATEMENT WHILE LP TEST RP SEMI(88)
+    const static int Do_Statement_While_Test_To_Statement = 88;
+
     //UNARY -> UNARY INCOP i++ (96)
     const static int Unary_Incop_TO_Unary = 96;
     //UNARY -> INCOP UNARY ++i (97)
