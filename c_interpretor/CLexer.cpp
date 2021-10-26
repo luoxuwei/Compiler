@@ -79,8 +79,8 @@ CTokenType::Token CLexer::isKeyWord(string &str) {
 }
 
 CTokenType::Token CLexer::id_keyword_or_number() {
-    if (isalpha(buf[charIndex])) {
-        string text(buf + charIndex, textLen);
+    if (isalpha(buf[begin])) {
+        string text(buf + begin, textLen);
         return isKeyWord(text);
     } else if (isNum()) {
         return CTokenType::Token::NUMBER;
@@ -93,20 +93,25 @@ CTokenType::Token CLexer::lex() {
         return CTokenType::Token::UNKNOWN_TOKEN;
     }
 
-    charIndex = charIndex + textLen;
     if (charIndex >= buf_len) return CTokenType::Token::SEMI;
 
-    bool inString = false;
     textLen = 0;
+    int j = 0;
     for (int i = charIndex; i < buf_len; i++) {
         switch (buf[charIndex]) {
-            case ';': textLen = 1; return CTokenType::Token::SEMI;
+            case ';':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::SEMI;
             case '+':
                 if (buf[charIndex + 1] == '+') {
                     textLen = 2;
                     return CTokenType::Token::INCOP;
                 }
+                begin = charIndex;
                 textLen = 1;
+                charIndex = charIndex + textLen;
                 return CTokenType::Token::PLUS;
             case '-':
                 if (buf[charIndex + 1] == '>') {
@@ -116,35 +121,93 @@ CTokenType::Token CLexer::lex() {
                     textLen = 2;
                     return CTokenType::Token::INCOP;
                 }
+                begin = charIndex;
                 textLen = 1;
+                charIndex = charIndex + textLen;
                 return CTokenType::Token::MINUS;
-                break;
-            case '[': textLen = 1; return CTokenType::Token::LB;
-            case ']': textLen = 1; return CTokenType::Token::RB;
-            case '*': textLen = 1; return CTokenType::Token::STAR;
-            case '(': textLen = 1; return CTokenType::Token::LP;
-            case ')': textLen = 1; return CTokenType::Token::RP;
-            case ',': textLen = 1; return CTokenType::Token::COMMA;
-            case '{': textLen = 1; return CTokenType::Token::LC;
-            case '}': textLen = 1; return CTokenType::Token::RC;
+            case '[':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::LB;
+            case ']':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::RB;
+            case '*':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::STAR;
+            case '(':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::LP;
+            case ')':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::RP;
+            case ',':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::COMMA;
+            case '{':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::LC;
+            case '}':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::RC;
             case '=':
                 if (buf[charIndex + 1] == '=') {
                     textLen = 2;
                     return CTokenType::Token::RELOP;
                 }
+                begin = charIndex;
                 textLen = 1;
+                charIndex = charIndex + textLen;
                 return CTokenType::Token::EQUAL;
-            case '?': textLen = 1; return CTokenType::Token::QUEST;
-            case ':': textLen = 1; return CTokenType::Token::COLON;
-            case '&': textLen = 1; return CTokenType::Token::AND;
-            case '|': textLen = 1; return CTokenType::Token::OR;
-            case '^': textLen = 1; return CTokenType::Token::XOR;
+            case '?':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::QUEST;
+            case ':':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::COLON;
+            case '&':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::AND;
+            case '|':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::OR;
+            case '^':
+                begin = charIndex;
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::XOR;
             case '/':
             case '%':
+                begin = charIndex;
                 textLen = 1;
+                charIndex = charIndex + textLen;
                 return CTokenType::Token::DIVOP;
             case '>':
             case '<':
+                begin = charIndex;
                 if (buf[i + 1] == '=') {
                     textLen = 2;
                 } else if ((buf[i] == '<' && buf[i + 1] == '<') || (buf[i] == '>' && buf[i + 1] == '>')) {
@@ -153,33 +216,43 @@ CTokenType::Token CLexer::lex() {
                 } else {
                     textLen = 1;
                 }
+                charIndex = charIndex + textLen;
                 return CTokenType::Token::RELOP;
             case '\n':
             case '\t':
             case ' ':
+                begin = charIndex;
                 textLen = 1;
+                charIndex = charIndex + textLen;
                 return CTokenType::Token::WHITE_SPACE;
             case '"':
-                inString = !inString;
-                if (!inString) {
-                    return CTokenType::Token::STRING;
+                begin = charIndex + 1;
+                j = begin;
+                while (j < buf_len) {
+                    if (buf[j] != '"') {
+                        textLen++;
+                    } else {
+                        break;
+                    }
+                    j++;
                 }
-                break;
+                if (j >= buf_len) {
+                    printf("Missing the ending quatation mark!");
+                    throw 1;
+                }
+                charIndex = charIndex + textLen + 2;
+                return CTokenType::Token::STRING;
             default:
                 if (!isalnum(buf[charIndex])) {
                     return CTokenType::Token::UNKNOWN_TOKEN;
                 }
                 else {
-                    while (i < buf_len && isalnum(buf[i]) || inString) {
+                    while (i < buf_len && isalnum(buf[i])) {
                         i++;
                         textLen++;
                     }
-
-                    if (i >= buf_len && inString) {
-                        printf("Missing the ending quatation mark!");
-                        throw 1;
-                    }
-
+                    begin = charIndex;
+                    charIndex = charIndex + textLen;
                     return translateStringToToken();
                 }
 
@@ -198,15 +271,16 @@ CTokenType::Token CLexer::translateStringToToken() {
 
 bool CLexer::isNum() {
     int i = 0;
-    if (buf[charIndex] == '-' || buf[charIndex] == '+') {
+    if (buf[begin] == '-' || buf[begin] == '+') {
         i++;
     }
+
     for (; i<textLen; i++) {
-        if (!isdigit(buf[charIndex+i])) return false;
+        if (!isdigit(buf[begin+i])) return false;
     }
     return true;
 }
 
 string CLexer::lookAheadText() {
-    return string(buf + charIndex, textLen);
+    return string(buf + begin, textLen);
 }
