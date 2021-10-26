@@ -25,11 +25,12 @@ void * ExtDefExecutor::Execute(ICodeNode *root) {
 
             //第二个节点是CompoundStmt对应的实际上是一个statement节点
             executeChild(root, 1);
-            child = root->getChildren()->at(1);
-            v = (Value *) child->getAttribute(ICodeNode::VALUE);
+            v = getReturnObj();
+            clearReturnObj();
             if (v != NULL) {
                 root->setAttribute(ICodeNode::VALUE, v);
             }
+            isContinueExecution(true);//函数执行完之后恢复为true
             break;
     }
 

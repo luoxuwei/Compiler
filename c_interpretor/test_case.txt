@@ -8,3 +8,30 @@ void f(int b, int c) {
 }
 
 int e;
+
+有参的函数调用:
+void f(int a, int b) {
+    int c;
+    c = a + b;
+}
+
+void main() {
+    f(1, 2);
+}
+
+return 语句的解析执行:
+int f() {
+    int a;
+    a = 1;
+    return a;
+
+    a = 2;
+}
+
+int f2() {
+    return f();
+}
+
+void main() {
+    f2();
+}

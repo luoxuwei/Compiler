@@ -6,10 +6,16 @@
 #include "ExecutorFactory.h"
 
 
+bool BaseExecutor::continueExecute = true;
+Value *BaseExecutor::returnObj = NULL;
+
 void BaseExecutor::executeChildren(ICodeNode *root) {
     root->reverseChildren();
     vector<ICodeNode *> *child = root->getChildren();
     for (int i = 0; i < child->size(); i++) {
+        if (!continueExecute) {
+            break;
+        }
         ICodeNode *childNode = child->at(i);
         Executor *excutor = ExecutorFactory::getInstance()->getExecutor(childNode);
         if (excutor != NULL) {

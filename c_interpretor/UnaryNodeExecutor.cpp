@@ -81,6 +81,11 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
                 executor = ExecutorFactory::getInstance()->getExecutor(func);
                 executor->Execute(func);
             }
+            v = (Value *) func->getAttribute(ICodeNode::VALUE);//return value
+            if (v != NULL) {
+                printf("\nfunction call with name %s has return value that is %s\n", funcName->c_str(), v->toString());
+                root->setAttribute(ICodeNode::VALUE, v);
+            }
             break;
 
     }

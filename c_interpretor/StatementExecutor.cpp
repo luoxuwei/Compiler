@@ -8,6 +8,8 @@
 
 void * StatementExecutor::Execute(ICodeNode *root) {
     int production = (long) root->getAttribute(ICodeNode::PRODUCTION);
+    ICodeNode *node;
+    Value *returnObj = NULL;
     switch (production) {
         case GrammarInitializer::FOR_OptExpr_Test_EndOptExpr_Statement_TO_Statement:
             //execute OptExpr
@@ -18,6 +20,15 @@ void * StatementExecutor::Execute(ICodeNode *root) {
                 //execute EndOptExpr
                 executeChild(root, 2);
             }
+            break;
+        case GrammarInitializer::Return_Semi_TO_Statement:
+            isContinueExecution(false);//解释器执行到return语句的时候，在return后面的其他语句都不能再执行了，return可以出现在函数体的任何地方
+            break;
+        case GrammarInitializer::Return_Expr_Semi_TO_Statement:
+            node = executeChild(root, 0);
+            returnObj = (Value *) node->getAttribute(ICodeNode::VALUE);
+            setReturnObj(returnObj);
+            isContinueExecution(false);
             break;
         default:
             executeChildren(root);

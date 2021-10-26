@@ -1,8 +1,15 @@
-void f(int a, int b) {
-    int c;
-    c = a + b;
+int f() {
+    int a;
+    a = 1;
+    return a;
+
+    a = 2;
+}
+
+int f2() {
+    return f();
 }
 
 void main() {
-    f(1, 2);
+    f2();
 }

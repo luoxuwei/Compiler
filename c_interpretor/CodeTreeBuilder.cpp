@@ -240,6 +240,15 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             node->addChild(codeNodeStack.top());
             codeNodeStack.pop();
             break;
+        case GrammarInitializer::Return_Semi_TO_Statement:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::STATEMENT);
+            break;
+        case GrammarInitializer::Return_Expr_Semi_TO_Statement:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::STATEMENT);
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            break;
+
     }
 
     if (node != NULL) {

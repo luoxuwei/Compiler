@@ -49,12 +49,3 @@ void FunctDeclExecutor::initArgumentList(Symbol *args) {
         eachSym = eachSym->getNextSymbol();
     }
 }
-
-void FunctDeclExecutor::removeArgsFromTable() {
-    Symbol *symbol = (Symbol *) currentNode->getAttribute(ICodeNode::SYMBOL);
-    Symbol *arg = symbol->getArgList();
-    while (arg != NULL) {
-        TypeSystem::getInstance()->removeSymbolFromTable(arg);
-        arg = arg->getNextSymbol();
-    }
-}

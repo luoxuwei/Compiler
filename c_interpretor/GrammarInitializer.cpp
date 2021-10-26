@@ -1108,13 +1108,19 @@ void GrammarInitializer::initRemaindingProduction() {
     addProduction(*production, false);
     productionNum++;
 
-    //COMPOUND_STMT-> LC  STMT_LIST RC(51)
+    //COMPOUND_STMT-> LC  STMT_LIST RC(110)
     /*
      * 函数定义：bar() { foo();}
      * 运行函数定义时没有变量声明
      */
     right = new vector<CTokenType::Token>({CTokenType::Token::LC, CTokenType::Token::STMT_LIST, CTokenType::Token::RC});
     production = new Production(productionNum, CTokenType::Token::COMPOUND_STMT, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //STATEMENT -> RETURN SEMI (111)
+    right = new vector<CTokenType::Token>({CTokenType::Token::RETURN, CTokenType::Token::SEMI});
+    production = new Production(productionNum, CTokenType::Token::STATEMENT, 0, *right);
     addProduction(*production, false);
     productionNum++;
 

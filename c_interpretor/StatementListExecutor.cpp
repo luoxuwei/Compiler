@@ -6,5 +6,7 @@
 
 void * StatementListExecutor::Execute(ICodeNode *root) {
     executeChildren(root);
+    ICodeNode *child = root->getChildren()->at(0);
+    copyChild(root, child);
     return root;
 }

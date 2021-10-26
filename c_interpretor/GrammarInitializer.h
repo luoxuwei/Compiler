@@ -109,6 +109,11 @@ public:
     //ARGS -> NO_COMMA_EXPR COMMA ARGS (105)
     const static int NoCommaExpr_Comma_Args_TO_Args = 105;
 
+    //STATEMENT -> RETURN SEMI (111)
+    const static int Return_Semi_TO_Statement = 111;
+    //STATEMENT -> RETURN EXPR SEMI (64)
+    const static int Return_Expr_Semi_TO_Statement = 64;
+
 
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();
