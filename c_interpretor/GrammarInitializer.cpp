@@ -1124,6 +1124,17 @@ void GrammarInitializer::initRemaindingProduction() {
     addProduction(*production, false);
     productionNum++;
 
+    //UNARY -> LP EXPR RP (112)
+    right = new vector<CTokenType::Token>({CTokenType::Token::LP, CTokenType::Token::EXPR, CTokenType::Token::RP});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
+
+    //UNARY -> UNARY DECOP i-- (113)
+    right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::DECOP});
+    production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
+    addProduction(*production, false);
+    productionNum++;
 }
 
 void GrammarInitializer::addProduction(Production &production, bool nullable) {

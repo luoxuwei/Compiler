@@ -55,6 +55,8 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             codeNodeStack.pop();
             break;
         case GrammarInitializer::Unary_Incop_TO_Unary:
+        case GrammarInitializer::Unary_DecOp_TO_Unary:
+        case GrammarInitializer::LP_Expr_RP_TO_Unary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
             node->addChild(codeNodeStack.top());
             codeNodeStack.pop();
@@ -87,6 +89,8 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             }
             break;
         case GrammarInitializer::Binary_Plus_Binary_TO_Binary:
+        case GrammarInitializer::Binary_DivOp_Binary_TO_Binary:
+        case GrammarInitializer::Binary_Minus_Binary_TO_Binary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::BINARY);
             child = codeNodeStack.top();
             codeNodeStack.pop();

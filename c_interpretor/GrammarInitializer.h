@@ -92,6 +92,9 @@ public:
     const static int Unary_Incop_TO_Unary = 96;
     //UNARY -> INCOP UNARY ++i (97)
     const static int Incop_Unary_TO_Unary = 97;
+    //UNARY -> MINUS UNARY
+    const static int Minus_Unary_TO_Unary = 98;
+
     //STATEMENT -> COMPOUND_STMT (71)
     const static int CompountStmt_TO_Statement = 71;
     //DECL -> VAR_DECL EQUAL INITIALIZER 77
@@ -119,6 +122,15 @@ public:
     const static int Return_Semi_TO_Statement = 111;
     //STATEMENT -> RETURN EXPR SEMI (64)
     const static int Return_Expr_Semi_TO_Statement = 64;
+    
+    //UNARY -> LP EXPR RP (112)
+    const static int LP_Expr_RP_TO_Unary = 112;
+    //UNARY -> UNARY DECOP i--
+    const static int Unary_DecOp_TO_Unary = 113;
+    //BINARY -> BINARY DIVOP BINARY(90)
+    const static int Binary_DivOp_Binary_TO_Binary = 90;
+    //BINARY -> BINARY MINUS BINARY(95)
+    const static int Binary_Minus_Binary_TO_Binary = 95;
 
 
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;

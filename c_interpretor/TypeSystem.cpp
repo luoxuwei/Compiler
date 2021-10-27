@@ -216,3 +216,13 @@ Symbol * TypeSystem::getSymbolByText(string &text, int level) {
 
     return symbol;
 }
+
+void TypeSystem::getSymbolsByScope(string &scope, vector<Symbol *> &symbolList) {
+    for (auto iter : symbolTable) {
+        for (auto s : iter.second) {
+            if (*(s->symbolScope) == scope) {
+                symbolList.push_back(s);
+            }
+        }
+    }
+}

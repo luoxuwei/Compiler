@@ -1,15 +1,17 @@
-int a[3];
+void f(int i) {
+    int a;
+    a = i;
+    if (i <= 0) {
+        return;
+    }
+
+    printf("before call, local variable are: i:%d, a:%d", i, a);
+
+    f(i-1);
+
+    printf("after call, local variable are: i:%d, a:%d", i, a);
+}
 
 void main() {
-    int i;
-    i = 0;
-    while (i < 3) {
-        a[i] = i;
-        i++;
-    }
-    i = 0;
-    do {
-        printf("%d", a[i]);
-        i++;
-    } while (i < 3);
+    f(1);
 }

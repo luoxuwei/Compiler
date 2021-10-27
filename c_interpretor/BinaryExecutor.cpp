@@ -12,21 +12,50 @@ void * BinaryExecutor::Execute(ICodeNode *root) {
     long production = (long) root->getAttribute(ICodeNode::PRODUCTION);
     ICodeNode *child;
     Value *v1, *v2;
-    string *s1, *s2;
+    string *s1, *s2, *s;
     switch (production) {
         case GrammarInitializer::Uanry_TO_Binary:
             child = root->getChildren()->at(0);
             copyChild(root, child);
             break;
         case GrammarInitializer::Binary_Plus_Binary_TO_Binary:
-            root->reverseChildren();
+        case GrammarInitializer::Binary_DivOp_Binary_TO_Binary:
+        case GrammarInitializer::Binary_Minus_Binary_TO_Binary:
             //先假设是整形数相加
             v1 = (Value *) root->getChildren()->at(0)->getAttribute(ICodeNode::VALUE);
             v2 = (Value *) root->getChildren()->at(1)->getAttribute(ICodeNode::VALUE);
-            root->setAttribute(ICodeNode::VALUE,  (void *) new Value(v1->u.i + v2->u.i));
-            s1 = (string *) (root->getChildren()->at(0)->getAttribute(ICodeNode::TEXT));
-            s2 = (string *) (root->getChildren()->at(1)->getAttribute(ICodeNode::TEXT));
-            printf("\nsum of %s and %s is %d\n", s1->c_str(), s2->c_str(), (v1->u.i + v2->u.i));
+            if (production == GrammarInitializer::Binary_Plus_Binary_TO_Binary) {
+                root->setAttribute(ICodeNode::VALUE,  (void *) new Value(v1->u.i + v2->u.i));
+                s1 = (string *) (root->getChildren()->at(0)->getAttribute(ICodeNode::TEXT));
+                s2 = (string *) (root->getChildren()->at(1)->getAttribute(ICodeNode::TEXT));
+                s = new string();
+                s->append(*s1);
+                s->append(" plus ");
+                s->append(*s2);
+                root->setAttribute(ICodeNode::TEXT, s);
+                printf("\n%s is %d\n", s->c_str(), (v1->u.i + v2->u.i));
+            } else if (production == GrammarInitializer::Binary_Minus_Binary_TO_Binary) {
+                root->setAttribute(ICodeNode::VALUE,  (void *) new Value(v1->u.i - v2->u.i));
+                s1 = (string *) (root->getChildren()->at(0)->getAttribute(ICodeNode::TEXT));
+                s2 = (string *) (root->getChildren()->at(1)->getAttribute(ICodeNode::TEXT));
+                s = new string();
+                s->append(*s1);
+                s->append(" minus ");
+                s->append(*s2);
+                root->setAttribute(ICodeNode::TEXT, s);
+                printf("\n%s is %d\n", s->c_str(), (v1->u.i - v2->u.i));
+            } else {
+                root->setAttribute(ICodeNode::VALUE,  (void *) new Value(v1->u.i / v2->u.i));
+                s1 = (string *) (root->getChildren()->at(0)->getAttribute(ICodeNode::TEXT));
+                s2 = (string *) (root->getChildren()->at(1)->getAttribute(ICodeNode::TEXT));
+                s = new string();
+                s->append(*s1);
+                s->append(" is divided by ");
+                s->append(*s2);
+                root->setAttribute(ICodeNode::TEXT, s);
+                printf("\n%s is %d\n", s->c_str(), (v1->u.i / v2->u.i));
+            }
+
             break;
         case GrammarInitializer::Binary_RelOP_Binary_TO_Binray:
             v1 = (Value *) root->getChildren()->at(0)->getAttribute(ICodeNode::VALUE);

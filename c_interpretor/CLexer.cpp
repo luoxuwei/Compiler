@@ -121,7 +121,7 @@ CTokenType::Token CLexer::lex() {
                 } else if (buf[charIndex + 1] == '-') {
                     textLen = 2;
                     charIndex = charIndex + textLen;
-                    return CTokenType::Token::INCOP;
+                    return CTokenType::Token::DECOP;
                 }
                 textLen = 1;
                 charIndex = charIndex + textLen;

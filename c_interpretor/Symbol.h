@@ -49,6 +49,7 @@ public:
     void addScope(string *scope);
     bool operator==(const Symbol &s);
     Symbol * getArgList() {return args;}
+    string * getScope() {return symbolScope;}
 };
 
 

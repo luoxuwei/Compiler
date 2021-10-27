@@ -42,6 +42,7 @@ public:
     bool operator<=(const Value &v);
     bool operator<(const Value &v);
     void operator++();
+    void operator--();
 };
 
 

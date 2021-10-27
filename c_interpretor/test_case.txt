@@ -59,3 +59,22 @@ void main() {
         i++;
     } while (i < 3);
 }
+
+递归调用(主要测试局部变量的状态，f调用前后打印的a和i的值应该不会变，但由于所有的变量只在符号表里存有唯一的拷贝，所有对这个名字的改动都会有全局的影响，如果没处理会导致a和i这两个局部变量在递归调用时会被修改):
+void f(int i) {
+    int a;
+    a = i;
+    if (i <= 0) {
+        return;
+    }
+
+    printf("before call, local variable are: i:%d, a:%d", i, a);
+
+    f(i-1);
+
+    printf("after call, local variable are: i:%d, a:%d", i, a);
+}
+
+void main() {
+    f(1);
+}

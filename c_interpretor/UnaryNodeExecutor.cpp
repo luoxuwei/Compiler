@@ -62,9 +62,19 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             root->setAttribute(ICodeNode::TEXT, symbol->getName());
             break;
         case GrammarInitializer::Unary_Incop_TO_Unary:
+        case GrammarInitializer::Unary_DecOp_TO_Unary:
             symbol = (Symbol *) root->getChildren()->at(0)->getAttribute(ICodeNode::SYMBOL);
             v = symbol->getValue();
-            ++(*v);
+            if (production == GrammarInitializer::Unary_DecOp_TO_Unary) {
+                --(*v);
+            } else {
+                ++(*v);
+            }
+
+            break;
+        case GrammarInitializer::LP_Expr_RP_TO_Unary:
+            child = root->getChildren()->at(0);
+            copyChild(root, child);
             break;
         case GrammarInitializer::Unary_LP_RP_TO_Unary://f(),f推出NewName，NewName回推成Unary，左括号(和右括号)推出LP和RP
         case GrammarInitializer::Unary_LP_ARGS_RP_TO_Unary://f(a, b, c)

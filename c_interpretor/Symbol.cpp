@@ -10,7 +10,10 @@ Symbol::Symbol(string name, int level) : name(name), level(level) {
 }
 
 void Symbol::setValue(Value *v) {
-    printf("\nAssign Value of %s to Variable %s\n", v->toString(), name.c_str());
+    if (v != NULL) {
+        printf("\nAssign Value of %s to Variable %s\n", v->toString(), name.c_str());
+    }
+
     value = v;
 }
 

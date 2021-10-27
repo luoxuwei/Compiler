@@ -37,6 +37,7 @@ public:
     vector<Symbol *> * getSymbol(string &text);
     Symbol * getSymbolByText(string &text, int level);
     void removeSymbolFromTable(Symbol *symbol);
+    void getSymbolsByScope(string &scope, vector<Symbol *> &symbolList);
 };
 
 
