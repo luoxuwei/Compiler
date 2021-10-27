@@ -26,7 +26,7 @@ void * NoCommaExprExecutor::Execute(ICodeNode *root) {
             symbol = (IValueSetter *) child->getAttribute(ICodeNode::SYMBOL);
             child = root->getChildren()->at(1);
             value = (Value *) child->getAttribute(ICodeNode::VALUE);
-            symbol->setValue(value);
+            symbol->setValue(new Value(*value));//必须要创建一个新的Value，是传值，不然会出现两个不同的Symbol绑定同一个Value，会整个乱掉
             child = root->getChildren()->at(0);
             child->setAttribute(ICodeNode::VALUE, value);
             copyChild(root, child);

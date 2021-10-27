@@ -275,7 +275,7 @@ ICodeNode * CodeTreeBuilder::getCodeTreeRoot() {
 }
 
 Symbol *CodeTreeBuilder::assignSymbolToNode(ICodeNode *node, string &text) {
-    Symbol *symbol = typeSystem->getSymbolByText(text, parser->getCurrentLevel());
+    Symbol *symbol = typeSystem->getSymbolByText(text, parser->getCurrentLevel(), *(parser->symbolScope));
     node->setAttribute(ICodeNode::SYMBOL, symbol);
     node->setAttribute(ICodeNode::TEXT, new string(text));
     return symbol;

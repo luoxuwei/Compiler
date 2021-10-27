@@ -166,7 +166,7 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             attributeForParentNode = valueStack.at(valueStack.size() - 4);
             break;
         case GrammarInitializer::Name_TO_Unary://调用时直接从符号表中查找，符号已在声明时创建
-            attributeForParentNode = typeSystem->getSymbolByText(text, nestingLevel);
+            attributeForParentNode = typeSystem->getSymbolByText(text, nestingLevel, *symbolScope);
             break;
         case GrammarInitializer::ExtDeclList_COMMA_ExtDecl_TO_ExtDeclList:
         case GrammarInitializer::VarList_COMMA_ParamDeclaration_TO_VarList:

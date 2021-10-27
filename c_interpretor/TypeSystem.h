@@ -35,7 +35,7 @@ public:
     void addStructToTable(StructDefine *s);
     StructDefine * getStructObjFromTable(string tag);
     vector<Symbol *> * getSymbol(string &text);
-    Symbol * getSymbolByText(string &text, int level);
+    Symbol * getSymbolByText(string &text, int level, string &scope);
     void removeSymbolFromTable(Symbol *symbol);
     void getSymbolsByScope(string &scope, vector<Symbol *> &symbolList);
 };

@@ -5,6 +5,8 @@
 #include "TypeSystem.h"
 #include "Declarator.h"
 #include "ClibCall.h"
+#include "LRStateTableParser.h"
+
 TypeSystem *TypeSystem::instance = NULL;
 
 TypeSystem * TypeSystem::getInstance() {
@@ -197,20 +199,31 @@ void TypeSystem::addSpecifierToDeclaration(TypeLink *specifier, Symbol *symbol) 
     }
 }
 
-Symbol * TypeSystem::getSymbolByText(string &text, int level) {
+Symbol * TypeSystem::getSymbolByText(string &text, int level, string &scope) {
+
     if (ClibCall::getInstance()->isAPICall(text)) {
         return NULL;
+    }
+    string *s = &scope;
+    if (text == scope) {
+        s = &LRStateTableParser::getInstance()->GLOBAL_SCOPE;
     }
     vector<Symbol *> *symbolList = getSymbol(text);
     int i = 0;
     Symbol *symbol = NULL;
     while (i < symbolList->size()) {
-        symbol = symbolList->at(0);
-        if (symbolList->at(i)->level == level) {
-            return symbolList->at(i);
-        } else if (symbolList->at(i)->getLevel() >= symbol->getLevel()) {
+        if (symbol == NULL && *(symbolList->at(i)->getScope()) == LRStateTableParser::getInstance()->GLOBAL_SCOPE) {
             symbol = symbolList->at(i);
         }
+
+        if (*(symbolList->at(i)->getScope()) == *s) {
+            symbol = symbolList->at(i);
+        }
+
+        if (symbol != NULL && symbolList->at(i)->getLevel() >= level) {
+            symbol = symbolList->at(i);
+        }
+
         i++;
     }
 

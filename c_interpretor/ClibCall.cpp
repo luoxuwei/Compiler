@@ -40,6 +40,7 @@ Value * ClibCall::handlePrintfCall() {
     while (i < argStr->size()) {
         if (argStr->at(i) == '%' && i+1 < argStr->size() && argStr->at(i+1) == 'd') {
             formatStr.append(list->at(argCount)->toString());
+            argCount++;
             i = i+2;
         } else {
             formatStr.push_back(argStr->at(i));
