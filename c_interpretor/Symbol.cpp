@@ -70,3 +70,24 @@ bool Symbol::operator==(const Symbol &s) {
 
     return false;
 }
+
+int Symbol::getByteSize() {
+    int size = 0;
+    TypeLink *head = typeLinkBegin;
+    while (head != NULL) {
+        if (!head->isDeclarator) {
+            Specifier *sp = (Specifier *) head->getTypeObject();
+            if (sp->getLong() || sp->getType() == Specifier::INT) {
+                size = 4;
+                break;
+            } else {
+                size = 1;
+                break;
+            }
+        }
+
+        head = head->toNext();
+    }
+
+    return size;
+}

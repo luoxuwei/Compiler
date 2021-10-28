@@ -57,6 +57,7 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
         case GrammarInitializer::Unary_Incop_TO_Unary:
         case GrammarInitializer::Unary_DecOp_TO_Unary:
         case GrammarInitializer::LP_Expr_RP_TO_Unary:
+        case GrammarInitializer::Start_Unary_TO_Unary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
             node->addChild(codeNodeStack.top());
             codeNodeStack.pop();

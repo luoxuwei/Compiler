@@ -15,7 +15,7 @@ private:
     static  ClibCall *instance;
     ClibCall();
     Value *handlePrintfCall();
-
+    Value *handleMallocCall();
 public:
     static ClibCall *getInstance();
     bool isAPICall(string &name);

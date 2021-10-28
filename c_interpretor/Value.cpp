@@ -38,6 +38,14 @@ Value::Value(vector<Value *> *list) {
     u.list = list;
 }
 
+Value::Value(ValueType type, int i) {
+    this->type = type;
+    if (type == POINTER) {
+        u.addr = i;
+    }
+}
+
+
 const char *Value::toString() {
     if (str != NULL) {
         delete str;
@@ -47,6 +55,7 @@ const char *Value::toString() {
             str = new string(to_string(u.f));
             return str->c_str();
         case ValueType::INT:
+        case ValueType::POINTER:
             str = new string(to_string(u.i));
             return str->c_str();
         case ValueType::LONG:

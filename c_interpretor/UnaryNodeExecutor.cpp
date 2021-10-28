@@ -11,6 +11,8 @@
 #include "ExecutorFactory.h"
 #include "FunctionArgumentList.h"
 #include "ClibCall.h"
+#include "PointerValueSetter.h"
+#include "MemoryHeap.h"
 
 using namespace std;
 void * UnaryNodeExecutor::Execute(ICodeNode *root) {
@@ -23,11 +25,14 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
     string *funcName = NULL;
     Executor *executor = NULL;
     vector<Value *> *list = NULL;
+    Value::Buffer buffer(0, 0, -1);
     switch (production) {
         bool isFloat;
-        int index;
+        int index, offset;
         Declarator *declarator;
         Value *v;
+        char *content;
+
         case GrammarInitializer::Number_TO_Unary:
             text = (string *) root->getAttribute(ICodeNode::TEXT);
             isFloat = text->find('.') != string::npos;
@@ -56,10 +61,18 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             child = root->getChildren()->at(1);
             index = ((Value *) child->getAttribute(ICodeNode::VALUE))->u.i;
             declarator = symbol->getDeclarator(Declarator::ARRAY);
-            v = declarator->getElement(index);
-            root->setAttribute(ICodeNode::VALUE, v);
-            root->setAttribute(ICodeNode::SYMBOL, new ArrayValueSetter(symbol, index));
-            root->setAttribute(ICodeNode::TEXT, symbol->getName());
+            if (declarator != NULL) {
+                v = declarator->getElement(index);
+                root->setAttribute(ICodeNode::VALUE, v);
+                root->setAttribute(ICodeNode::SYMBOL, new ArrayValueSetter(symbol, index));
+                root->setAttribute(ICodeNode::TEXT, symbol->getName());
+            }
+            declarator = symbol->getDeclarator(Declarator::POINTER);
+            if (declarator != NULL) {
+                setPointerValue(root, symbol, index);
+                root->setAttribute(ICodeNode::SYMBOL, new PointerValueSetter(symbol, index));
+                root->setAttribute(ICodeNode::TEXT, symbol->getName());
+            }
             break;
         case GrammarInitializer::Unary_Incop_TO_Unary:
         case GrammarInitializer::Unary_DecOp_TO_Unary:
@@ -75,6 +88,17 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
         case GrammarInitializer::LP_Expr_RP_TO_Unary:
             child = root->getChildren()->at(0);
             copyChild(root, child);
+            break;
+        case GrammarInitializer::Start_Unary_TO_Unary:
+            child = root->getChildren()->at(0);
+            v = (Value *) child->getAttribute(ICodeNode::VALUE);
+
+            MemoryHeap::getMem(v->u.addr, buffer);
+            if (buffer.size > 0) {
+                offset = v->u.addr - buffer.addr;
+                content = (char *) buffer.buf;
+                root->setAttribute(ICodeNode::VALUE, new Value((int) content[offset]));
+            }
             break;
         case GrammarInitializer::Unary_LP_RP_TO_Unary://f(),f推出NewName，NewName回推成Unary，左括号(和右括号)推出LP和RP
         case GrammarInitializer::Unary_LP_ARGS_RP_TO_Unary://f(a, b, c)
@@ -110,4 +134,26 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
     }
 
     return root;
+}
+
+void UnaryNodeExecutor::setPointerValue(ICodeNode *root, Symbol *symbol, int index) {
+    Value::Buffer buffer(0, 0, -1);
+    Value *value = symbol->getValue();
+    MemoryHeap::getMem(value->u.addr, buffer);
+
+    if (buffer.size < 0) return;
+    char *content = (char *) buffer.buf;
+    if (symbol->getByteSize() == 1) {
+        root->setAttribute(ICodeNode::VALUE, new Value((int) content[index]));
+    } else {
+        int v = 0;
+        v = content[index] & 0xff;
+        v << 8;
+        v = v | (content[index + 1] & 0xff);
+        v << 8;
+        v = v | (content[index + 2] & 0xff);
+        v << 8;
+        v = v | (content[index + 3] & 0xff);
+        root->setAttribute(ICodeNode::VALUE, new Value(v));
+    }
 }

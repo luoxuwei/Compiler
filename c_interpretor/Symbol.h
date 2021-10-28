@@ -50,6 +50,7 @@ public:
     bool operator==(const Symbol &s);
     Symbol * getArgList() {return args;}
     string * getScope() {return symbolScope;}
+    int getByteSize();
 };
 
 

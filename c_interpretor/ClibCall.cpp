@@ -4,6 +4,7 @@
 
 #include "ClibCall.h"
 #include "FunctionArgumentList.h"
+#include "MemoryHeap.h"
 
 ClibCall *ClibCall::instance = NULL;
 
@@ -22,11 +23,14 @@ bool ClibCall::isAPICall(string &name) {
 
 ClibCall::ClibCall() {
     apiSet.insert("printf");
+    apiSet.insert("malloc");
 }
 
 Value * ClibCall::invokeAPI(string &name) {
     if (name == "printf") {
         return handlePrintfCall();
+    } else if (name == "malloc") {
+        return handleMallocCall();
     }
     return NULL;
 }
@@ -51,4 +55,14 @@ Value * ClibCall::handlePrintfCall() {
     printf(formatStr.c_str());
     printf("\n");
     return NULL;
+}
+
+Value * ClibCall::handleMallocCall() {
+    vector<Value *> *list = FunctionArgumentList::getInstance()->getFuncArgList(false);
+    int size = list->at(0)->u.i;
+    int addr = 0;
+    if (size > 0) {
+        addr = MemoryHeap::allocMem(size);
+    }
+    return new Value(Value::POINTER, addr);
 }

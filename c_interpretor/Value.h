@@ -9,12 +9,25 @@
 using namespace std;
 class Value {
 public:
+    struct Buffer {
+        int addr = -1;
+        int size = 0;
+        void *buf = NULL;
+        Buffer() {}
+        Buffer(void *b, int addr, int size) {
+            buf = b;
+            this->addr = addr;
+            this->size = size;
+        }
+    };
+
     union {
         int i;
         long l;
         float f;
         string *s;
         vector<Value *> *list;
+        int addr;
     } u;
 
     enum ValueType {
@@ -22,7 +35,8 @@ public:
         INT,
         LONG,
         STRING,
-        LIST
+        LIST,
+        POINTER
     };
 
     ValueType type;
@@ -33,6 +47,7 @@ public:
     Value(long l);
     Value(float f);
     Value(vector<Value *> *list);
+    Value(ValueType type, int i);
     Value(const Value &v);
     const char *toString();
     ~Value();

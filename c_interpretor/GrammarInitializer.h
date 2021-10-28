@@ -122,7 +122,7 @@ public:
     const static int Return_Semi_TO_Statement = 111;
     //STATEMENT -> RETURN EXPR SEMI (64)
     const static int Return_Expr_Semi_TO_Statement = 64;
-    
+
     //UNARY -> LP EXPR RP (112)
     const static int LP_Expr_RP_TO_Unary = 112;
     //UNARY -> UNARY DECOP i--
@@ -131,7 +131,8 @@ public:
     const static int Binary_DivOp_Binary_TO_Binary = 90;
     //BINARY -> BINARY MINUS BINARY(95)
     const static int Binary_Minus_Binary_TO_Binary = 95;
-
+    //UNARY -> STAR UNARY 99
+    const static int Start_Unary_TO_Unary = 99;
 
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();
