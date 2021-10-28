@@ -259,6 +259,9 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
 
 //每定义一个结构体的变量，就需要把这个结构体的字段对应的symbol对象复制一份，就像类的定义是只有一份，但这个类可以定义任意多个对象，每个对象都有一份自己的内存(字段)
 void LRStateTableParser::handleStructVariable(Symbol *s) {
+    if (s == NULL) {
+        return;
+    }
     //先看看变量是否属于struct类型
     bool isStruct = false;
     TypeLink *typeLink = s->getTypeHead();

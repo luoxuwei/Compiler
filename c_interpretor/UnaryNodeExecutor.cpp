@@ -113,6 +113,7 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
                     list = v->u.list;
                 }
                 FunctionArgumentList::getInstance()->setFuncArgList(list);
+                FunctionArgumentList::getInstance()->setFuncArgSymbolList((vector<Symbol *> *) child->getAttribute(ICodeNode::SYMBOL));
             }
             //找到函数执行树头节点
             func = CodeTreeBuilder::getInstance()->getFunctionNodeByName(*funcName);

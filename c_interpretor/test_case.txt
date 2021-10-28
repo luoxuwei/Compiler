@@ -177,3 +177,17 @@ void main() {
     herTag.v1 = 2;
     printf("set filed v1 of struct myTag to value : %d, and v1 of herTag to value : %d", myTag.v1, herTag.v1);
 }
+
+解释执行sizeof函数:
+void main() {
+    struct TAG {
+        int p;
+        char c;
+        int arr[3];
+    } ;
+
+    struct TAG myTag[3];
+    int size;
+    size = sizeof(myTag);
+    printf("The size of struct TAG is : %d", size);
+}

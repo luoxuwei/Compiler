@@ -24,6 +24,7 @@ bool ClibCall::isAPICall(string &name) {
 ClibCall::ClibCall() {
     apiSet.insert("printf");
     apiSet.insert("malloc");
+    apiSet.insert("sizeof");
 }
 
 Value * ClibCall::invokeAPI(string &name) {
@@ -31,6 +32,8 @@ Value * ClibCall::invokeAPI(string &name) {
         return handlePrintfCall();
     } else if (name == "malloc") {
         return handleMallocCall();
+    } else if (name == "sizeof") {
+        return handleSizeOfCall();
     }
     return NULL;
 }
@@ -65,4 +68,28 @@ Value * ClibCall::handleMallocCall() {
         addr = MemoryHeap::allocMem(size);
     }
     return new Value(Value::POINTER, addr);
+}
+
+Value * ClibCall::handleSizeOfCall() {
+    vector<Symbol *> *symList = FunctionArgumentList::getInstance()->getFuncArgSymbolList(false);
+    return new Value(calculateVarSize(symList->at(0)));
+}
+
+int ClibCall::calculateVarSize(Symbol *s) {
+    int size = 0;
+    //arg list == NULL表示是基础数据类型
+    if (s->getArgList() == NULL) {
+        size = s->getByteSize();
+    } else {
+        Symbol *head = s->getArgList();
+        while (head != NULL) {
+            size += calculateVarSize(head);
+            head = head->getNextSymbol();
+        }
+    }
+    Declarator *declarator = s->getDeclarator(Declarator::ARRAY);
+    if (declarator != NULL) {
+        size = size * declarator->getElementNum();
+    }
+    return size;
 }

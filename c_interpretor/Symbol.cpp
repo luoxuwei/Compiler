@@ -77,7 +77,7 @@ int Symbol::getByteSize() {
     while (head != NULL) {
         if (!head->isDeclarator) {
             Specifier *sp = (Specifier *) head->getTypeObject();
-            if (sp->getLong() || sp->getType() == Specifier::INT) {
+            if (sp->getLong() || sp->getType() == Specifier::INT || getDeclarator(Declarator::POINTER) != NULL) {
                 size = 4;
                 break;
             } else {

@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include "Value.h"
+#include "Symbol.h"
 
 using namespace std;
 class ClibCall {
@@ -16,10 +17,12 @@ private:
     ClibCall();
     Value *handlePrintfCall();
     Value *handleMallocCall();
+    int calculateVarSize(Symbol *s);
 public:
     static ClibCall *getInstance();
     bool isAPICall(string &name);
     Value *invokeAPI(string &name);
+    Value *handleSizeOfCall();
 };
 
 

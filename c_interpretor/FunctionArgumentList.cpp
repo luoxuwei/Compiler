@@ -23,3 +23,14 @@ vector<Value *> * FunctionArgumentList::getFuncArgList(bool reverse) {
     }
     return funcArgList;
 }
+
+void FunctionArgumentList::setFuncArgSymbolList(vector<Symbol *> *list) {
+    argSymList = list;
+}
+
+vector<Symbol *> * FunctionArgumentList::getFuncArgSymbolList(bool reverse) {
+    if (reverse) {
+        std::reverse(argSymList->begin(), argSymList->end());
+    }
+    return argSymList;
+}
