@@ -133,6 +133,8 @@ public:
     const static int Binary_Minus_Binary_TO_Binary = 95;
     //UNARY -> STAR UNARY 99
     const static int Start_Unary_TO_Unary = 99;
+    //UNARY -> UNARY STRUCTOP NAME 100
+    const static int Unary_StructOP_Name_TO_Unary = 100;
 
     typedef map<CTokenType::Token, vector<Production*>*> ProductionMap;
     static GrammarInitializer* getInstance();

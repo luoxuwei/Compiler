@@ -1027,7 +1027,7 @@ void GrammarInitializer::initComputingOperation() {
     productionNum++;
 
     //UNARY -> UNARY STRUCTOP NAME  a = tag->name (100)
-    right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::STRUCTOP, CTokenType::Token::UNARY});
+    right = new vector<CTokenType::Token>({CTokenType::Token::UNARY, CTokenType::Token::STRUCTOP, CTokenType::Token::NAME});
     production = new Production(productionNum, CTokenType::Token::UNARY, 0, *right);
     addProduction(*production, false);
     productionNum++;

@@ -49,6 +49,7 @@ public:
     int getCurrentLevel() {return nestingLevel;};
     deque<void *> *getValueStack();
     string * getRelOpereatorText();
+    void handleStructVariable(Symbol *s);
 };
 
 

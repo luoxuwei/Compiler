@@ -51,6 +51,8 @@ public:
     Symbol * getArgList() {return args;}
     string * getScope() {return symbolScope;}
     int getByteSize();
+    Symbol * copy();
+    void setArgList(Symbol *symbol);
 };
 
 

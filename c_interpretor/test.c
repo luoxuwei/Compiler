@@ -1,13 +1,13 @@
 void main() {
-    char *p;
-    char *p1;
-    p = malloc(2);
-    p1 = malloc(1);
-    p1[0] = 0;
+    struct TAG {
+        int v1;
+        int v2;
+        char v3;
+    } tag;
 
-    *(p+0) = 1;
-    *(p+1) = 2;
-    *(p+2) = 3;
-
-    printf("p[0] is : %d, p[1] is : %d, p1[0] is : %d", *(p+0), *(p+1), p1[0]);
+    struct TAG myTag;
+    struct TAG herTag;
+    myTag.v1 = 1;
+    herTag.v1 = 2;
+    printf("set filed v1 of struct myTag to value : %d, and v1 of herTag to value : %d", myTag.v1, herTag.v1);
 }

@@ -20,7 +20,7 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
     executeChildren(root);
     long production = (long) root->getAttribute(ICodeNode::PRODUCTION);
     string *text = NULL;
-    Symbol *symbol = NULL;
+    Symbol *symbol = NULL, *args = NULL;
     void *value = NULL;
     ICodeNode *child = NULL, *func = NULL;
     string *funcName = NULL;
@@ -131,6 +131,25 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
                 }
             }
 
+            break;
+        case GrammarInitializer::Unary_StructOP_Name_TO_Unary:
+            child = root->getChildren()->at(0);
+            text = (string *) root->getAttribute(ICodeNode::TEXT);
+            symbol = (Symbol *) child->getAttribute(ICodeNode::SYMBOL);
+            args = symbol->getArgList();
+            while (args != NULL) {
+                if (*(args->getName()) == *text) {
+                    break;
+                }
+                args = args->getNextSymbol();
+            }
+
+            if (args == NULL) {
+                printf("access a filed not in struct object!");
+                throw 0;
+            }
+            root->setAttribute(ICodeNode::SYMBOL, args);
+            root->setAttribute(ICodeNode::VALUE, args->getValue());
             break;
 
     }

@@ -187,6 +187,7 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             specifier = (TypeLink *)(valueStack.at(valueStack.size() - 3));
             typeSystem->addSpecifierToDeclaration(specifier, symbol);
             typeSystem->addSymbolsToTable(symbol, symbolScope);//在这里还不知道变量是不是函数参数，先将变量作用域设置成global，到解析到函数申明（整个函数头)时知道是函数参数后改为函数名
+            handleStructVariable(symbol);
             break;
         case GrammarInitializer::VarDecl_Equal_Initializer_TO_Decl:
             //如果这里不把attributeForParentNode设置成对应的symbol对象
@@ -223,6 +224,7 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
             symbolScope = ((Symbol *) attributeForParentNode)->getName();
             break;
         case GrammarInitializer::Name_To_Tag:
+            symbolScope = new string(text);
             attributeForParentNode = typeSystem->getStructObjFromTable(text);
             if (attributeForParentNode == NULL) {
                 attributeForParentNode = new StructDefine(text, nestingLevel, NULL);
@@ -253,6 +255,42 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
     }
 
     CodeTreeBuilder::getInstance()->buildCodeTree(productNum, text);
+}
+
+//每定义一个结构体的变量，就需要把这个结构体的字段对应的symbol对象复制一份，就像类的定义是只有一份，但这个类可以定义任意多个对象，每个对象都有一份自己的内存(字段)
+void LRStateTableParser::handleStructVariable(Symbol *s) {
+    //先看看变量是否属于struct类型
+    bool isStruct = false;
+    TypeLink *typeLink = s->getTypeHead();
+    Specifier *specifier;
+    while (typeLink != NULL) {
+        if (!typeLink->isDeclarator) {
+            specifier = (Specifier *) typeLink->getTypeObject();
+            if (specifier->getType() == Specifier::STRUCTURE) {
+                isStruct = true;
+                break;
+            }
+        }
+        typeLink = typeLink->toNext();
+    }
+
+    if (isStruct) {
+        //把结构体定义中的每个变量拷贝一份，存储到当前的symbol中
+        StructDefine *structDefine = specifier->getStructObj();
+        Symbol *copy = NULL, *head = NULL, *next, *original = structDefine->getFields();
+        while (original != NULL) {
+            if (copy != NULL) {
+                next = original->copy();
+                copy->setNextSymbol(next);
+                copy = next;
+            } else {
+                copy = original->copy();
+                head = copy;
+            }
+            original = original->getNextSymbol();
+        }
+        s->setArgList(head);
+    }
 }
 
 void LRStateTableParser::doEnum() {

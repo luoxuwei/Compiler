@@ -91,3 +91,18 @@ int Symbol::getByteSize() {
 
     return size;
 }
+
+Symbol * Symbol::copy() {
+    Symbol *symbol = new Symbol(name, level);
+    symbol->args = args;
+    symbol->next = next;
+    symbol->value = value;
+    symbol->typeLinkBegin = typeLinkBegin;
+    symbol->typeLinkEnd = typeLinkEnd;
+    symbol->symbolScope = symbolScope;
+    return symbol;
+}
+
+void Symbol::setArgList(Symbol *symbol) {
+    args = symbol;
+}

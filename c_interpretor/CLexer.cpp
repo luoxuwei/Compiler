@@ -211,6 +211,10 @@ CTokenType::Token CLexer::lex() {
                 textLen = 1;
                 charIndex = charIndex + textLen;
                 return CTokenType::Token::WHITE_SPACE;
+            case '.':
+                textLen = 1;
+                charIndex = charIndex + textLen;
+                return CTokenType::Token::STRUCTOP;
             case '"':
                 begin = charIndex + 1;
                 j = begin;

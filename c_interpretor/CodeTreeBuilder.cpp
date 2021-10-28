@@ -261,6 +261,12 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
             node->addChild(codeNodeStack.top());
             codeNodeStack.pop();
             break;
+        case GrammarInitializer::Unary_StructOP_Name_TO_Unary:
+            node = ICodeFactory::createICodeNode(CTokenType::Token::UNARY);
+            node->addChild(codeNodeStack.top());
+            codeNodeStack.pop();
+            node->setAttribute(ICodeNode::TEXT, new string(text));
+            break;
 
     }
 

@@ -101,6 +101,7 @@ public:
 
     StructDefine *vStruct = NULL;
     void setStructObj(StructDefine *s) { vStruct = s;}
+    StructDefine * getStructObj() {return vStruct;}
 };
 
 
