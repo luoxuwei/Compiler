@@ -147,3 +147,18 @@ void main() {
 
     printf("p[0] is : %d, p[1] is : %d", p[0], p[1]);
 }
+
+通过指针直接读写内存（也模拟了越界读写，p + 2 越界到p1, 最后输出的p1[0]不是0而是3)
+void main() {
+    char *p;
+    char *p1;
+    p = malloc(2);
+    p1 = malloc(1);
+    p1[0] = 0;
+
+    *(p+0) = 1;
+    *(p+1) = 2;
+    *(p+2) = 3;
+
+    printf("p[0] is : %d, p[1] is : %d, p1[0] is : %d", *(p+0), *(p+1), p1[0]);
+}

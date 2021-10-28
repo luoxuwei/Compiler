@@ -30,7 +30,6 @@ void * NoCommaExprExecutor::Execute(ICodeNode *root) {
             child = root->getChildren()->at(0);
             child->setAttribute(ICodeNode::VALUE, value);
             copyChild(root, child);
-            printf("\nVariable %s is assigned to value of %s\n", ((string *) root->getAttribute(ICodeNode::TEXT))->c_str(), value->toString());
             break;
 
     }

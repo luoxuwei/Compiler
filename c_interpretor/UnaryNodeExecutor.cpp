@@ -13,6 +13,7 @@
 #include "ClibCall.h"
 #include "PointerValueSetter.h"
 #include "MemoryHeap.h"
+#include "DirectMemValueSetter.h"
 
 using namespace std;
 void * UnaryNodeExecutor::Execute(ICodeNode *root) {
@@ -99,6 +100,7 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
                 content = (char *) buffer.buf;
                 root->setAttribute(ICodeNode::VALUE, new Value((int) content[offset]));
             }
+            root->setAttribute(ICodeNode::SYMBOL, new DirectMemValueSetter(v->u.addr));
             break;
         case GrammarInitializer::Unary_LP_RP_TO_Unary://f(),f推出NewName，NewName回推成Unary，左括号(和右括号)推出LP和RP
         case GrammarInitializer::Unary_LP_ARGS_RP_TO_Unary://f(a, b, c)
