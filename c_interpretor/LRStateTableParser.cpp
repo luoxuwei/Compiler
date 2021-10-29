@@ -258,6 +258,8 @@ void LRStateTableParser::takeActionForReduce(int productNum) {
 }
 
 //每定义一个结构体的变量，就需要把这个结构体的字段对应的symbol对象复制一份，就像类的定义是只有一份，但这个类可以定义任意多个对象，每个对象都有一份自己的内存(字段)
+//这里有一个问题，如果只定义一个结构体的指针，但是不为它分配内存，在程序里直接访问这个没有分配内存的结构体成员，是一个不合理的操作会扰乱程序执行，但在目前的实现里，解析到结构体定义就自动
+//拷贝了一份结构体字段的symbol，就导致即使没有分配内存也能正常运行。这是一个bug，要解决这个问题，需要将动态内存分配和结构体结合在一起。
 void LRStateTableParser::handleStructVariable(Symbol *s) {
     if (s == NULL) {
         return;

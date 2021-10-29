@@ -7,12 +7,17 @@
 #include "BaseExecutor.h"
 #include "ICodeNode.h"
 #include "Symbol.h"
+#include "IExecutorReceiver.h"
 
-class UnaryNodeExecutor : public BaseExecutor {
+class UnaryNodeExecutor : public BaseExecutor, IExecutorReceiver {
 private:
+    Symbol *structObjSymbol = NULL;
+    Symbol *monitorSymbol = NULL;
     void setPointerValue(ICodeNode *root, Symbol *symbol, int index);
+    bool isSymbolStructPointer(Symbol *symbol);
 public:
     void * Execute(ICodeNode *root) override;
+    void handleExecutorMessage(ICodeNode *node) override;
 };
 
 

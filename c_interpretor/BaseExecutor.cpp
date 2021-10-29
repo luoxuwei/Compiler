@@ -4,6 +4,7 @@
 
 #include "BaseExecutor.h"
 #include "ExecutorFactory.h"
+#include "ExecutorBrocasterImpl.h"
 
 
 bool BaseExecutor::continueExecute = true;
@@ -17,13 +18,14 @@ void BaseExecutor::executeChildren(ICodeNode *root) {
             break;
         }
         ICodeNode *childNode = child->at(i);
+        ExecutorBrocasterImpl::getInstance()->brocastBeforeExecution(childNode);
         Executor *excutor = ExecutorFactory::getInstance()->getExecutor(childNode);
         if (excutor != NULL) {
             excutor->Execute(childNode);
         } else {
             printf("Not suitable Executor found, node is: %s", childNode->toString());
         }
-
+        ExecutorBrocasterImpl::getInstance()->brocastAfterExecution(childNode);
     }
 }
 

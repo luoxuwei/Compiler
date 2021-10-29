@@ -51,4 +51,4 @@ add_executable(c_interpretor main.cpp
         FunctionArgumentList.cpp FunctionArgumentList.h
         ClibCall.cpp ClibCall.h
         PointerValueSetter.cpp PointerValueSetter.h
-        MemoryHeap.cpp MemoryHeap.h DirectMemValueSetter.cpp DirectMemValueSetter.h)
+        MemoryHeap.cpp MemoryHeap.h DirectMemValueSetter.cpp DirectMemValueSetter.h IExecutorReceiver.cpp IExecutorReceiver.h IExecutorBrocaster.cpp IExecutorBrocaster.h ExecutorBrocasterImpl.cpp ExecutorBrocasterImpl.h)

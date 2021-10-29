@@ -14,6 +14,7 @@
 #include "PointerValueSetter.h"
 #include "MemoryHeap.h"
 #include "DirectMemValueSetter.h"
+#include "ExecutorBrocasterImpl.h"
 
 using namespace std;
 void * UnaryNodeExecutor::Execute(ICodeNode *root) {
@@ -151,6 +152,12 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             }
             root->setAttribute(ICodeNode::SYMBOL, args);
             root->setAttribute(ICodeNode::VALUE, args->getValue());
+
+            if (isSymbolStructPointer(symbol)) {
+                structObjSymbol = symbol;
+                monitorSymbol = args;
+                ExecutorBrocasterImpl::getInstance()->registerReceiverForAfterExe(this);
+            }
             break;
 
     }
@@ -177,5 +184,23 @@ void UnaryNodeExecutor::setPointerValue(ICodeNode *root, Symbol *symbol, int ind
         v << 8;
         v = v | (content[index + 3] & 0xff);
         root->setAttribute(ICodeNode::VALUE, new Value(v));
+    }
+}
+
+bool UnaryNodeExecutor::isSymbolStructPointer(Symbol *symbol) {
+    if (symbol->getDeclarator(Declarator::POINTER) != NULL && symbol->getArgList() != NULL) {
+        return true;
+    }
+
+    return false;
+}
+
+void UnaryNodeExecutor::handleExecutorMessage(ICodeNode *node) {
+    int productNum = (long) node->getAttribute(ICodeNode::PRODUCTION);
+    //由于ICodeNode::SYMBOL字段目前存了三种类型的指针 Symbol IValueSetter vector，所以这里需要确认，指针是不是Symbol 类型
+    Symbol *symbol = (Symbol *) node->getAttribute(ICodeNode::SYMBOL);
+    if (symbol == NULL) return;
+    if (productNum == GrammarInitializer::NoCommaExpr_Equal_NoCommaExpr_TO_NoCommaExpr && symbol == monitorSymbol) {
+        printf("UnaryNodeExecutor receive msg for assign execution");
     }
 }
