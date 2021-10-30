@@ -13,3 +13,7 @@ void DirectMemValueSetter::setValue(Value *v) {
     int offset = memAddr - buffer.addr;
     content[offset] = v->u.i & 0xff;
 }
+
+Symbol * DirectMemValueSetter::getSymbol() {
+    return NULL;
+}

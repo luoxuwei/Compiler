@@ -1,11 +1,19 @@
 void main() {
     struct TAG {
         char c;
+        char b[3];
         int p;
-        int arr[3];
-    } ;
+    }tag;
 
     struct TAG* pTag;
-    pTag->p = 400;
-    printf("value of p in struct pTag is : %d", pTag->p);
+    int sz;
+    sz = sizeof(tag);
+    pTag = malloc(sz);
+
+    pTag[0] = 3;
+    pTag[1] = 4;
+    pTag[2] = 5;
+    pTag[3] = 6;
+
+    printf("value of c is %d, b[0] is %d, b[1] is %d, b[2] is %d", pTag->c, pTag->b[0], pTag->b[1], pTag->b[2]);
 }

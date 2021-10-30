@@ -134,10 +134,15 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             }
 
             break;
-        case GrammarInitializer::Unary_StructOP_Name_TO_Unary:
+        case GrammarInitializer::Unary_StructOP_Name_TO_Unary://访问结构体变量tag.v或tag->v
             child = root->getChildren()->at(0);
             text = (string *) root->getAttribute(ICodeNode::TEXT);
             symbol = (Symbol *) child->getAttribute(ICodeNode::SYMBOL);
+
+            if (isSymbolStructPointer(symbol)) {
+                copyBetweenStructAndMem(symbol, false);
+            }
+
             args = symbol->getArgList();
             while (args != NULL) {
                 if (*(args->getName()) == *text) {
@@ -154,9 +159,12 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             root->setAttribute(ICodeNode::VALUE, args->getValue());
 
             if (isSymbolStructPointer(symbol)) {
-                structObjSymbol = symbol;
-                monitorSymbol = args;
+                checkValidPointer(symbol);
+                structObjSymbol = symbol;//结构体对应的symbo
+                monitorSymbol = args;//被改变的结构体字段对应的Symbol
                 ExecutorBrocasterImpl::getInstance()->registerReceiverForAfterExe(this);
+            } else {
+                structObjSymbol = NULL;
             }
             break;
 
@@ -195,12 +203,150 @@ bool UnaryNodeExecutor::isSymbolStructPointer(Symbol *symbol) {
     return false;
 }
 
+bool UnaryNodeExecutor::checkValidPointer(Symbol *symbol) {
+    if (symbol->getDeclarator(Declarator::POINTER) != NULL && symbol->getValue() == NULL) {
+        printf("Aceess Empty Pointer");
+        throw 0;
+    }
+}
+
 void UnaryNodeExecutor::handleExecutorMessage(ICodeNode *node) {
     int productNum = (long) node->getAttribute(ICodeNode::PRODUCTION);
+    if (productNum != GrammarInitializer::NoCommaExpr_Equal_NoCommaExpr_TO_NoCommaExpr) {
+        return;
+    }
     //由于ICodeNode::SYMBOL字段目前存了三种类型的指针 Symbol IValueSetter vector，所以这里需要确认，指针是不是Symbol 类型
     Symbol *symbol = (Symbol *) node->getAttribute(ICodeNode::SYMBOL);
+
     if (symbol == NULL) return;
-    if (productNum == GrammarInitializer::NoCommaExpr_Equal_NoCommaExpr_TO_NoCommaExpr && symbol == monitorSymbol) {
-        printf("UnaryNodeExecutor receive msg for assign execution");
+    IValueSetter *valueSetter = dynamic_cast<IValueSetter *>(symbol);
+    if (valueSetter != NULL) {
+        symbol = valueSetter->getSymbol();
     }
+
+    if (symbol == monitorSymbol) {
+        printf("UnaryNodeExecutor receive msg for assign execution");
+        copyBetweenStructAndMem(structObjSymbol, true);
+    }
+}
+
+//如果是通过malloc分配内存给一个结构体的指针这种情况，我们实现的系统里的结构体就出现两个存储结构体字段值的位置，
+// 一个是存在字段对应的symbol对象里，一个是MemoryHeap分配的内存里，所以当改变了字段的值，需要同步到memory
+//如果结构体指针指向的内存中的数据发生了变动，需要变动的数据从内存同步到Symbol对象中。
+void UnaryNodeExecutor::copyBetweenStructAndMem(Symbol *symbol, bool isFromStructToMem) {
+    int addr = symbol->getValue()->u.addr;
+    Value::Buffer buffer(0, 0, -1);
+    MemoryHeap::getMem(addr, buffer);
+    stack<Symbol *> stack;
+    reverseStructSymbolList(symbol, stack);
+    int offset = 0;
+
+    while (!stack.empty()) {
+        Symbol *s = stack.top();
+        stack.pop();
+        if (isFromStructToMem) {
+            offset += writeStructVariablesToMem(s, (char *) buffer.buf, offset);
+        } else {
+            offset += writeMemToStructVariables(s, (char *) buffer.buf, offset);
+        }
+
+    }
+}
+
+int UnaryNodeExecutor::writeStructVariablesToMem(Symbol *symbol, char *buf, int offset) {
+    if (symbol->getArgList() != NULL) {
+        //TODO
+        return 0;
+    }
+
+    int sz = symbol->getByteSize();
+    if (symbol->getValue() == NULL) {
+        return sz;
+    }
+
+    if (symbol->getDeclarator(Declarator::ARRAY) == NULL) {
+        Value *value = symbol->getValue();
+        buf[offset] = value->u.i & 0xff;
+        buf[offset+1] = (value->u.i>>8) & 0xff;
+        buf[offset+2] = (value->u.i>>16) & 0xff;
+        buf[offset+3] = (value->u.i>>24) & 0xff;
+        return sz;
+    } else {
+        return copyArrayVariableToMem(symbol, buf, offset);
+    }
+}
+
+int UnaryNodeExecutor::copyArrayVariableToMem(Symbol *symbol, char *buf, int offset) {
+    Declarator *declarator = symbol->getDeclarator(Declarator::ARRAY);
+    if (declarator == NULL) return 0;
+
+    int sz = symbol->getByteSize();
+    int elemCount = declarator->getElementNum();
+    for (int i=0; i<elemCount; i++) {
+        Value *value = declarator->getElement(i);
+        buf[offset] = value->u.i & 0xff;
+        buf[offset+1] = (value->u.i>>8) & 0xff;
+        buf[offset+2] = (value->u.i>>16) & 0xff;
+        buf[offset+3] = (value->u.i>>24) & 0xff;
+        offset = offset + 4;
+    }
+
+    return sz * elemCount;
+}
+
+void UnaryNodeExecutor::reverseStructSymbolList(Symbol *symbol, stack<Symbol *> &stack) {
+    Symbol *sym = symbol->getArgList();
+    while (sym != NULL) {
+        stack.push(sym);
+        sym = sym->getNextSymbol();
+    }
+}
+
+int UnaryNodeExecutor::writeMemToStructVariables(Symbol *symbol, char *mem, int offset) {
+    if (symbol->getArgList() != NULL) {
+        //struct variable, copy mem to struct recursively
+        return 0;
+    }
+
+    int sz = symbol->getByteSize();
+    if (symbol->getDeclarator(Declarator::ARRAY) == NULL) {
+        symbol->setValue(new Value(fromByteArrayToInteger(mem, offset, sz)));
+    } else {
+        return copyMemToArrayVariable(symbol, mem, offset);
+    }
+
+    return sz;
+}
+
+int UnaryNodeExecutor::copyMemToArrayVariable(Symbol *symbol, char *mem, int offset) {
+    Declarator *declarator = symbol->getDeclarator(Declarator::ARRAY);
+    if (declarator == NULL) {
+        return 0;
+    }
+
+    int sz = symbol->getByteSize();
+    int elemCount = declarator->getElementNum();
+    int size = 0;
+    for (int i=0; i< elemCount; i++) {
+        int val = fromByteArrayToInteger(mem, offset+size, sz);
+        declarator->addElement(i, new Value(val));
+        size = size + sz;
+    }
+    return size;
+}
+
+int UnaryNodeExecutor::fromByteArrayToInteger(char *mem, int offset, int sz) {
+    int val = 0;
+    switch (sz) {
+        case 1:
+            val = (mem[offset] & 0xff);
+            break;
+        case 2:
+            val = mem[offset] | (mem[offset+1] << 8);
+            break;
+        case 4:
+            val = mem[offset] | (mem[offset+1] << 8) | (mem[offset+2] << 16) | (mem[offset+3] << 24);
+            break;
+    }
+    return val;
 }

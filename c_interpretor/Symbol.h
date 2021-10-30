@@ -53,6 +53,7 @@ public:
     int getByteSize();
     Symbol * copy();
     void setArgList(Symbol *symbol);
+    Symbol * getSymbol() override;
 };
 
 

@@ -9,9 +9,11 @@
 //这样当我们给某个对象赋值时，不知道具体是哪一个，因此将对不同对象的赋值的操作，通过单一的接口抽象起来
 //具体对哪个对象赋值的操作可能不一样，比如对单一变量的赋值动作和对数组元素的赋值动作就不一样，但这个动作是怎么执行的，在高层不管，只要调用这个接口的setValue就行了
 //不同的赋值对象实现这个接口即可
+class Symbol;
 class IValueSetter {
 public:
     virtual void setValue(Value *v) = 0;
+    virtual Symbol *getSymbol() = 0;
 };
 
 

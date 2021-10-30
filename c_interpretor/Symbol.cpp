@@ -106,3 +106,7 @@ Symbol * Symbol::copy() {
 void Symbol::setArgList(Symbol *symbol) {
     args = symbol;
 }
+
+Symbol * Symbol::getSymbol() {
+    return this;
+}

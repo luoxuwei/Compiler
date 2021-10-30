@@ -16,6 +16,7 @@ private:
 public:
     ArrayValueSetter(Symbol *s, int i);
     void setValue(Value *v) override;
+    Symbol *getSymbol() override;
 };
 
 

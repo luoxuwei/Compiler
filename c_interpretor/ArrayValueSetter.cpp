@@ -15,3 +15,7 @@ void ArrayValueSetter::setValue(Value *v) {
     declarator->addElement(index, new Value(*v));
     printf("\nSet Value of %s to Array of name %s with index of %d", v->toString(), symbol->getName()->c_str(), index);
 }
+
+Symbol * ArrayValueSetter::getSymbol() {
+    return symbol;
+}

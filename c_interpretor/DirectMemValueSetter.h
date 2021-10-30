@@ -12,6 +12,7 @@ private:
 public:
     DirectMemValueSetter(int addr) : memAddr(addr) {}
     void setValue(Value *v);
+    Symbol *getSymbol() override;
 };
 
 

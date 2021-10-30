@@ -14,6 +14,7 @@ private:
 public:
     PointerValueSetter(Symbol *s, int i);
     void setValue(Value *v);
+    Symbol *getSymbol() override;
 };
 
 

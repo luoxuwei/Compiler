@@ -15,7 +15,12 @@ void PointerValueSetter::setValue(Value *v) {
     MemoryHeap::getMem(addr->u.addr, buf);
     if (buf.size < 0) return;
     char *content = (char *) buf.buf;
-    if (symbol->getByteSize() == 4) {
+    int sz = symbol->getByteSize();
+    //如果是一个指向结构体的指针，每次写一个字节 struct TAG *pTag; pTag[0] = 1;
+    if (symbol->getDeclarator(Declarator::POINTER) != NULL && symbol->getArgList() != NULL) {
+        sz = 1;
+    }
+    if (sz == 4) {
         content[index] = (char) (v->u.i >> 24 & 0xff);
         content[index + 1] = (char) (v->u.i >> 16 & 0xff);
         content[index + 2] = (char) (v->u.i >> 8 & 0xff);
@@ -23,4 +28,8 @@ void PointerValueSetter::setValue(Value *v) {
     } else {
         content[index] = (char) (v->u.i & 0xff);
     }
+}
+
+Symbol * PointerValueSetter::getSymbol() {
+    return symbol;
 }
