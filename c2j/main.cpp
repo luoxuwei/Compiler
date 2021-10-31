@@ -5,6 +5,8 @@
 #include "CLexer.h"
 #include "Intepretor.h"
 #include "CodeTreeBuilder.h"
+#include "ProgramGenerator.h"
+
 int main(int argc, char** argv) {
     if (argc <= 1) {
         printf("need a paramter: filename\n");
@@ -18,6 +20,10 @@ int main(int argc, char** argv) {
     CLexer lexer(path);
     LRStateTableParser::getInstance()->parse(&lexer);
 
+    ProgramGenerator::getInstance()->generate();
+
     Intepretor::getInstance()->Execute(CodeTreeBuilder::getInstance()->getCodeTreeRoot());
+
+    ProgramGenerator::getInstance()->finish();
     return 0;
 }

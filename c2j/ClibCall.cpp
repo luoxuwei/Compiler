@@ -5,6 +5,8 @@
 #include "ClibCall.h"
 #include "FunctionArgumentList.h"
 #include "MemoryHeap.h"
+#include "ProgramGenerator.h"
+#include "Instruction.h"
 
 ClibCall *ClibCall::instance = NULL;
 
@@ -57,6 +59,8 @@ Value * ClibCall::handlePrintfCall() {
     }
     printf(formatStr.c_str());
     printf("\n");
+
+    generateJavaAssemblyForPrintf(formatStr);
     return NULL;
 }
 
@@ -92,4 +96,15 @@ int ClibCall::calculateVarSize(Symbol *s) {
         size = size * declarator->getElementNum();
     }
     return size;
+}
+
+void ClibCall::generateJavaAssemblyForPrintf(string &s) {
+    ProgramGenerator::getInstance()->emit(Instruction::GETSTATIC, "java/lang/System/out Ljava/io/PrintStream;");
+    string temp;
+    temp.append("\"");
+    temp.append(s);
+    temp.append("\"");
+    ProgramGenerator::getInstance()->emit(Instruction::LDC, temp.c_str());
+    ProgramGenerator::getInstance()->emit(Instruction::INVOKEVIRTUAL, "java/io/PrintStream/println(Ljava/lang/String;)V");
+    ProgramGenerator::getInstance()->emit(Instruction::RETURN);
 }

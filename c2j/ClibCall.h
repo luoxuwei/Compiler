@@ -18,6 +18,7 @@ private:
     Value *handlePrintfCall();
     Value *handleMallocCall();
     int calculateVarSize(Symbol *s);
+    void generateJavaAssemblyForPrintf(string &s);
 public:
     static ClibCall *getInstance();
     bool isAPICall(string &name);

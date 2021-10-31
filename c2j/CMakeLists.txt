@@ -51,4 +51,4 @@ add_executable(c2j main.cpp
         FunctionArgumentList.cpp FunctionArgumentList.h
         ClibCall.cpp ClibCall.h
         PointerValueSetter.cpp PointerValueSetter.h
-        MemoryHeap.cpp MemoryHeap.h DirectMemValueSetter.cpp DirectMemValueSetter.h IExecutorReceiver.cpp IExecutorReceiver.h IExecutorBrocaster.cpp IExecutorBrocaster.h ExecutorBrocasterImpl.cpp ExecutorBrocasterImpl.h)
+        MemoryHeap.cpp MemoryHeap.h DirectMemValueSetter.cpp DirectMemValueSetter.h IExecutorReceiver.cpp IExecutorReceiver.h IExecutorBrocaster.cpp IExecutorBrocaster.h ExecutorBrocasterImpl.cpp ExecutorBrocasterImpl.h CodeGenerator.cpp CodeGenerator.h Directive.cpp Directive.h Instruction.cpp Instruction.h ProgramGenerator.cpp ProgramGenerator.h)
