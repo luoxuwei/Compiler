@@ -48,9 +48,11 @@ Value * ClibCall::handlePrintfCall() {
     int argCount = 1;
     while (i < argStr->size()) {
         if (argStr->at(i) == '%' && i+1 < argStr->size() && argStr->at(i+1) == 'd') {
+            generateJavaAssemblyForPrintf(formatStr);//把%d之前的字符串打印出来，然后通过printInteger打印数字
             formatStr.append(list->at(argCount)->toString());
             argCount++;
             i = i+2;
+            printInteger();
         } else {
             formatStr.push_back(argStr->at(i));
             i++;
@@ -59,8 +61,8 @@ Value * ClibCall::handlePrintfCall() {
     }
     printf(formatStr.c_str());
     printf("\n");
-
-    generateJavaAssemblyForPrintf(formatStr);
+    string s("\n");
+    generateJavaAssemblyForPrintf(s);
     return NULL;
 }
 
@@ -105,6 +107,14 @@ void ClibCall::generateJavaAssemblyForPrintf(string &s) {
     temp.append(s);
     temp.append("\"");
     ProgramGenerator::getInstance()->emit(Instruction::LDC, temp.c_str());
-    ProgramGenerator::getInstance()->emit(Instruction::INVOKEVIRTUAL, "java/io/PrintStream/println(Ljava/lang/String;)V");
-    ProgramGenerator::getInstance()->emit(Instruction::RETURN);
+    ProgramGenerator::getInstance()->emit(Instruction::INVOKEVIRTUAL, "java/io/PrintStream/print(Ljava/lang/String;)V");
+}
+
+void ClibCall::printInteger() {
+    ProgramGenerator *programGenerator = ProgramGenerator::getInstance();
+    programGenerator->emit(Instruction::ISTORE, "0");//把栈顶的值存到保存变量的数组的0位置，这样做是为了使得out对象处在要打印的数字的下面，
+    // 下面通过getstaticv指令将out对象压入栈顶后会，从新把要打印的数值挪回栈顶
+    programGenerator->emit(Instruction::GETSTATIC, "java/lang/System/out Ljava/io/PrintStream;");
+    programGenerator->emit(Instruction::ILOAD, "0");
+    programGenerator->emit(Instruction::INVOKEVIRTUAL, "java/io/PrintStream/print(I)V");
 }

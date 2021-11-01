@@ -19,6 +19,7 @@ private:
     Value *handleMallocCall();
     int calculateVarSize(Symbol *s);
     void generateJavaAssemblyForPrintf(string &s);
+    void printInteger();
 public:
     static ClibCall *getInstance();
     bool isAPICall(string &name);

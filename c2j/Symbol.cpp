@@ -110,3 +110,17 @@ void Symbol::setArgList(Symbol *symbol) {
 Symbol * Symbol::getSymbol() {
     return this;
 }
+
+bool Symbol::hasType(int type) {
+    TypeLink *head = typeLinkBegin;
+    while (head != NULL) {
+        if (!head->isDeclarator) {
+            Specifier *sp = (Specifier *) head->getTypeObject();
+            if (sp->getType() == type) {
+                return true;
+            }
+        }
+        head = head->toNext();
+    }
+    return false;
+}

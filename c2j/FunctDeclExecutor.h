@@ -9,13 +9,15 @@
 #include "TypeSystem.h"
 #include "Symbol.h"
 #include "Value.h"
+#include "ProgramGenerator.h"
 
 class FunctDeclExecutor : public BaseExecutor {
 private:
     ICodeNode *currentNode;
     vector<Value *> *argList;
+    ProgramGenerator *programGenerator = ProgramGenerator::getInstance();
     void initArgumentList(Symbol *args);
-
+    void emitArgs(string &s);
 public:
     void * Execute(ICodeNode *root);
     void removeArgsFromTable();

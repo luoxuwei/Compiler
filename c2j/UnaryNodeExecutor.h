@@ -24,6 +24,7 @@ private:
     int copyMemToArrayVariable(Symbol *symbol, char *mem, int offset);
     void copyBetweenStructAndMem(Symbol *symbol, bool isFromStructToMem);
     bool checkValidPointer(Symbol *symbol);
+    void compileFunctionCall(string &funcName);
 public:
     void * Execute(ICodeNode *root) override;
     void handleExecutorMessage(ICodeNode *node) override;

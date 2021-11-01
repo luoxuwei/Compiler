@@ -15,6 +15,7 @@
 #include "MemoryHeap.h"
 #include "DirectMemValueSetter.h"
 #include "ExecutorBrocasterImpl.h"
+#include "ProgramGenerator.h"
 
 using namespace std;
 void * UnaryNodeExecutor::Execute(ICodeNode *root) {
@@ -39,10 +40,13 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             text = (string *) root->getAttribute(ICodeNode::TEXT);
             isFloat = text->find('.') != string::npos;
             if (isFloat) {
-                root->setAttribute(ICodeNode::VALUE, (void *) new Value(stof(*text)));
+                v = new Value(stof(*text));
+                root->setAttribute(ICodeNode::VALUE, (void *) v);
             } else {
-                root->setAttribute(ICodeNode::VALUE, (void *) new Value(stoi(*text)));
+                v = new Value(stoi(*text));
+                root->setAttribute(ICodeNode::VALUE, (void *) v);
             }
+            ProgramGenerator::getInstance()->emit(Instruction::SIPUSH, v->toString());
             break;
         case GrammarInitializer::Name_TO_Unary:
             symbol = (Symbol *) root->getAttribute(ICodeNode::SYMBOL);
@@ -120,7 +124,12 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
             func = CodeTreeBuilder::getInstance()->getFunctionNodeByName(*funcName);
             if (func != NULL) {
                 executor = ExecutorFactory::getInstance()->getExecutor(func);
+                ProgramGenerator::getInstance()->setInstructionBuffered(true);
                 executor->Execute(func);
+                ProgramGenerator::getInstance()->emit(Instruction::RETURN);
+                ProgramGenerator::getInstance()->emitDirective(Directive::END_METHOD);
+                ProgramGenerator::getInstance()->setInstructionBuffered(false);
+                compileFunctionCall(*funcName);
                 v = (Value *) func->getAttribute(ICodeNode::VALUE);//return value
                 if (v != NULL) {
                     printf("\nfunction call with name %s has return value that is %s\n", funcName->c_str(), v->toString());
@@ -171,6 +180,14 @@ void * UnaryNodeExecutor::Execute(ICodeNode *root) {
     }
 
     return root;
+}
+
+void UnaryNodeExecutor::compileFunctionCall(string &funcName) {
+    string *declaration = ProgramGenerator::getInstance()->getDeclarationByName(funcName);
+    string call(ProgramGenerator::getInstance()->getProgramName());
+    call.append("/");
+    call.append(*declaration);
+    ProgramGenerator::getInstance()->emit(Instruction::INVOKESTATIC, call.c_str());
 }
 
 void UnaryNodeExecutor::setPointerValue(ICodeNode *root, Symbol *symbol, int index) {

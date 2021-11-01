@@ -13,9 +13,9 @@ private:
 
 public:
     static ProgramGenerator *getInstance();
-    void generate();
-    void generateMainMethod();
+    void generateHeader();
     void finish();
+    const char * getProgramName();
 };
 
 

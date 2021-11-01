@@ -11,9 +11,15 @@ public:
     enum VALUE {
         LDC,
         GETSTATIC,
+        SIPUSH,
+        IADD,
+        IMUL,
         INVOKEVIRTUAL,
+        INVOKESTATIC,
         RETURN,
-
+        IRETURN,
+        ILOAD,
+        ISTORE,
         END,
 
     };
@@ -22,8 +28,15 @@ public:
         const static char *directiveStr[] = {
                 "ldc",
                 "getstatic",
+                "sipush",
+                "iadd",
+                "imul",
                 "invokevirtual",
-                "return"
+                "invokestatic",
+                "return",
+                "ireturn",
+                "iload",
+                "istore"
 
         };
 

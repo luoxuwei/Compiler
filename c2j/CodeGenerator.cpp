@@ -14,6 +14,11 @@ CodeGenerator::CodeGenerator() {
 }
 
 void CodeGenerator::emitDirective(Directive::VALUE directive) {
+    if (buffered) {
+        bufferedContent.append(Directive::toString(directive));
+        bufferedContent.append("\n");
+        return;
+    }
     assemblyFile<<Directive::toString(directive);
     assemblyFile<<"\n";
     assemblyFile.flush();
@@ -21,6 +26,13 @@ void CodeGenerator::emitDirective(Directive::VALUE directive) {
 }
 
 void CodeGenerator::emitDirective(Directive::VALUE directive, const char *operand) {
+    if (buffered) {
+        bufferedContent.append(Directive::toString(directive));
+        bufferedContent.append(" ");
+        bufferedContent.append(operand);
+        bufferedContent.append("\n");
+        return;
+    }
     assemblyFile<<Directive::toString(directive);
     assemblyFile<<" ";
     assemblyFile<<operand;
@@ -30,6 +42,13 @@ void CodeGenerator::emitDirective(Directive::VALUE directive, const char *operan
 }
 
 void CodeGenerator::emitDirective(Directive::VALUE directive, int operand) {
+    if (buffered) {
+        bufferedContent.append(Directive::toString(directive));
+        bufferedContent.append(" ");
+        bufferedContent.append(to_string(operand));
+        bufferedContent.append("\n");
+        return;
+    }
     assemblyFile<<Directive::toString(directive);
     assemblyFile<<" ";
     assemblyFile<<operand;
@@ -39,6 +58,15 @@ void CodeGenerator::emitDirective(Directive::VALUE directive, int operand) {
 }
 
 void CodeGenerator::emitDirective(Directive::VALUE directive, const char *operand1, const char *operand2) {
+    if (buffered) {
+        bufferedContent.append(Directive::toString(directive));
+        bufferedContent.append(" ");
+        bufferedContent.append(operand1);
+        bufferedContent.append(" ");
+        bufferedContent.append(operand2);
+        bufferedContent.append("\n");
+        return;
+    }
     assemblyFile<<Directive::toString(directive);
     assemblyFile<<" ";
     assemblyFile<<operand1;
@@ -50,6 +78,17 @@ void CodeGenerator::emitDirective(Directive::VALUE directive, const char *operan
 }
 
 void CodeGenerator::emitDirective(Directive::VALUE directive, const char *operand1, const char *operand2, const char *operand3) {
+    if (buffered) {
+        bufferedContent.append(Directive::toString(directive));
+        bufferedContent.append(" ");
+        bufferedContent.append(operand1);
+        bufferedContent.append(" ");
+        bufferedContent.append(operand2);
+        bufferedContent.append(" ");
+        bufferedContent.append(operand3);
+        bufferedContent.append("\n");
+        return;
+    }
     assemblyFile<<Directive::toString(directive);
     assemblyFile<<" ";
     assemblyFile<<operand1;
@@ -63,6 +102,12 @@ void CodeGenerator::emitDirective(Directive::VALUE directive, const char *operan
 }
 
 void CodeGenerator::emit(Instruction::VALUE instruction) {
+    if (buffered) {
+        bufferedContent.append("\t");
+        bufferedContent.append(Instruction::toString(instruction));
+        bufferedContent.append("\n");
+        return;
+    }
     assemblyFile<<"\t";
     assemblyFile<<Instruction::toString(instruction);
     assemblyFile<<"\n";
@@ -71,6 +116,14 @@ void CodeGenerator::emit(Instruction::VALUE instruction) {
 }
 
 void CodeGenerator::emit(Instruction::VALUE instruction, const char *operand) {
+    if (buffered) {
+        bufferedContent.append("\t");
+        bufferedContent.append(Instruction::toString(instruction));
+        bufferedContent.append("\t");
+        bufferedContent.append(operand);
+        bufferedContent.append("\n");
+        return;
+    }
     assemblyFile<<"\t";
     assemblyFile<<Instruction::toString(instruction);
     assemblyFile<<"\t";
@@ -81,10 +134,43 @@ void CodeGenerator::emit(Instruction::VALUE instruction, const char *operand) {
 }
 
 void CodeGenerator::emitBlankLine() {
+    if (buffered) {
+        bufferedContent.append("\n");
+        return;
+    }
     assemblyFile<<"\n";
     assemblyFile.flush();
 }
 
 void CodeGenerator::finish() {
     assemblyFile.close();
+}
+
+void CodeGenerator::setNameAndDeclaration(string &name, string &declaration) {
+    nameToDeclaration[name] = declaration;
+}
+
+string * CodeGenerator::getDeclarationByName(string &name) {
+    auto iter = nameToDeclaration.find(name);
+    if (iter != nameToDeclaration.end()) {
+        return &iter->second;
+    }
+    return NULL;
+}
+
+void CodeGenerator::emitString(string &s) {
+    if (buffered) {
+        bufferedContent.append(s);
+        bufferedContent.append("\n");
+        return ;
+    }
+    assemblyFile<<s;
+    assemblyFile.flush();
+}
+
+void CodeGenerator::emitBufferedContent() {
+    if (!bufferedContent.empty()) {
+        assemblyFile<<bufferedContent;
+        assemblyFile.flush();
+    }
 }

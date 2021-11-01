@@ -6,6 +6,7 @@
 #include "GrammarInitializer.h"
 #include <string>
 #include "Value.h"
+#include "ProgramGenerator.h"
 
 void * BinaryExecutor::Execute(ICodeNode *root) {
     executeChildren(root);
@@ -21,6 +22,7 @@ void * BinaryExecutor::Execute(ICodeNode *root) {
         case GrammarInitializer::Binary_Plus_Binary_TO_Binary:
         case GrammarInitializer::Binary_DivOp_Binary_TO_Binary:
         case GrammarInitializer::Binary_Minus_Binary_TO_Binary:
+        case GrammarInitializer::Binary_Start_Binary_TO_Binary:
             //先假设是整形数相加
             v1 = (Value *) root->getChildren()->at(0)->getAttribute(ICodeNode::VALUE);
             v2 = (Value *) root->getChildren()->at(1)->getAttribute(ICodeNode::VALUE);
@@ -34,6 +36,7 @@ void * BinaryExecutor::Execute(ICodeNode *root) {
                 s->append(*s2);
                 root->setAttribute(ICodeNode::TEXT, s);
                 printf("\n%s is %d\n", s->c_str(), (v1->u.i + v2->u.i));
+                ProgramGenerator::getInstance()->emit(Instruction::IADD);
             } else if (production == GrammarInitializer::Binary_Minus_Binary_TO_Binary) {
                 root->setAttribute(ICodeNode::VALUE,  (void *) new Value(v1->u.i - v2->u.i));
                 s1 = (string *) (root->getChildren()->at(0)->getAttribute(ICodeNode::TEXT));
@@ -44,6 +47,16 @@ void * BinaryExecutor::Execute(ICodeNode *root) {
                 s->append(*s2);
                 root->setAttribute(ICodeNode::TEXT, s);
                 printf("\n%s is %d\n", s->c_str(), (v1->u.i - v2->u.i));
+            } else if (production == GrammarInitializer::Binary_Start_Binary_TO_Binary) {
+                root->setAttribute(ICodeNode::VALUE,  (void *) new Value(v1->u.i * v2->u.i));
+                s1 = (string *) (root->getChildren()->at(0)->getAttribute(ICodeNode::TEXT));
+                s2 = (string *) (root->getChildren()->at(1)->getAttribute(ICodeNode::TEXT));
+                s->append(*s1);
+                s->append(" * ");
+                s->append(*s2);
+                root->setAttribute(ICodeNode::TEXT, s);
+                printf("\n%s is %d\n", s->c_str(), (v1->u.i * v2->u.i));
+                ProgramGenerator::getInstance()->emit(Instruction::IMUL);
             } else {
                 root->setAttribute(ICodeNode::VALUE,  (void *) new Value(v1->u.i / v2->u.i));
                 s1 = (string *) (root->getChildren()->at(0)->getAttribute(ICodeNode::TEXT));

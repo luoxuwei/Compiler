@@ -54,6 +54,7 @@ public:
     Symbol * copy();
     void setArgList(Symbol *symbol);
     Symbol * getSymbol() override;
+    bool hasType(int type);
 };
 
 

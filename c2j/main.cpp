@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     CLexer lexer(path);
     LRStateTableParser::getInstance()->parse(&lexer);
 
-    ProgramGenerator::getInstance()->generate();
+    ProgramGenerator::getInstance()->generateHeader();
 
     Intepretor::getInstance()->Execute(CodeTreeBuilder::getInstance()->getCodeTreeRoot());
 

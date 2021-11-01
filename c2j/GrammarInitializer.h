@@ -131,6 +131,8 @@ public:
     const static int Binary_DivOp_Binary_TO_Binary = 90;
     //BINARY -> BINARY MINUS BINARY(95)
     const static int Binary_Minus_Binary_TO_Binary = 95;
+    //BINARY -> BINARY START BINARY (67)
+    const static int Binary_Start_Binary_TO_Binary = 67;
     //UNARY -> STAR UNARY 99
     const static int Start_Unary_TO_Unary = 99;
     //UNARY -> UNARY STRUCTOP NAME 100

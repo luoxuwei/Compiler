@@ -92,6 +92,7 @@ ICodeNode * CodeTreeBuilder::buildCodeTree(int production, string text) {
         case GrammarInitializer::Binary_Plus_Binary_TO_Binary:
         case GrammarInitializer::Binary_DivOp_Binary_TO_Binary:
         case GrammarInitializer::Binary_Minus_Binary_TO_Binary:
+        case GrammarInitializer::Binary_Start_Binary_TO_Binary:
             node = ICodeFactory::createICodeNode(CTokenType::Token::BINARY);
             child = codeNodeStack.top();
             codeNodeStack.pop();
