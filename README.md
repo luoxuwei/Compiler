@@ -1,4 +1,44 @@
-
+- [简介](#compiler1)
+  * [项目列表](#compiler2)
+- [Pythonvm](#pythonvm)
+  * [commit列表](#commit-0)
+    + [垃圾回收](#compiler3)
+    + [类和对象](#compiler4)
+    + [列表和字典](#compiler5)
+    + [函数和方法](#compiler6)
+    + [基本数据类型](#compiler7)
+    + [控制流](#compiler8)
+    + [pyc文件解析](#pyc-1)
+- [parser](#parser)
+  * [词法分析](#compiler8)
+    + [使用有限状态机实现整形和浮点型数值识别器](#compiler9)
+      - [commit](#commit)
+  * [正则表达式](#compiler11)
+    + [将正则表达式转换为有限状态自动机](#compiler22)
+    + [宏替换](#compiler33)
+      - [commit](#commit-1)
+    + [正则表达式词法解析](#compiler44)
+      - [commit](#commit-2)
+    + [构造简单的正则表达式对应的NFA状态机](#compiler55)
+      - [commit](#commit-3)
+    + [构建复杂的正则表达式对应的NFA状态机（闭包连接OR）](#compiler66)
+      - [commit](#commit-4)
+    + [NFA 状态机识别字符串](#compiler77)
+      - [commit](#commit-5)
+    + [NFA转DFA](#nfa-dfa)
+      - [commit](#commit-6)
+    + [DFA最小化](#dfa---)
+      - [commit](#commit-7)
+    + [后续](#compiler88)
+  * [语法分析](#compiler99)
+- [自低向上的语法解析](#compiler111)
+  * [commit](#commit-8)
+- [C语言编译器](#compiler222)
+  * [commit](#commit-9)
+- [C语言解释器](#compiler333)
+  * [commit](#commit-10)
+- [c2j](#c2j)
+  * [commit](#commit-11)
 
 # 简介
 
@@ -15,6 +55,8 @@
 [c_compiler:](./c_compiler) C语言编译器
 
 [c_interpretor:](./c_interpretor) C语言解释器
+
+[c2j:](./c2j) 将C语言代码编译成java汇编代码
 
 # Pythonvm
 
@@ -408,5 +450,64 @@ make
 
 在语法解析的过程中构造语法执行树，本质上也是一颗多叉树，一般来说，每一个非终结符都会对应一个节点。遍历这个树，然后在合适的节点，执行某种动作实现执行C语言源代码的效果。
 
+```shell
+cd c_interpretor
+mkdir build
+cd build
+cmake ..
+make
+./c_interpretor ../test.c
+```
+
 ## commit
+
+[创建C语言解析执行器项目](https://github.com/luoxuwei/Compiler/commit/635def3112966c69a81ba72abf8c13198aed6c17) | [定义语法树结点](https://github.com/luoxuwei/Compiler/commit/ffa7ce4f917eb2c21aeaf24f824a261022b12202) | [构造语法解析树](https://github.com/luoxuwei/Compiler/commit/a6cc4668f14cc2662cf7e630aeeea0eae3eb6a70) | [执行语法解析树](https://github.com/luoxuwei/Compiler/commit/15b36140867d37e498620d429ef5fd6f5c4e4aa7) | [实现数组元素读取和赋值操作](https://github.com/luoxuwei/Compiler/commit/a933b859921050818c56119704be56fbcc2a5926) | [解析执行if else逻辑判断语句](https://github.com/luoxuwei/Compiler/commit/22b3b8942e19086c76e71bb91df4a60827763fe3) | [实现for循环的解释执行](https://github.com/luoxuwei/Compiler/commit/10211090ccb2d0238d2e177939fd4dddfd88259c) | [实现无参函数调用](https://github.com/luoxuwei/Compiler/commit/1aa3adf266102b61d8838d65dbc00a7536eb4f87) | [变量作用域范围确定和有参函数的函数调用](https://github.com/luoxuwei/Compiler/commit/e9c39fd0814f35adda8d29d642b3b48e4a050bcf) | [return语句的解析执行](https://github.com/luoxuwei/Compiler/commit/b8c4279c63b0615516e41d86e37c441451706bae) | [优化词法解析器，完善字符串解析逻辑](https://github.com/luoxuwei/Compiler/commit/4ea928acad1d8f32f44e4c15d9db84fa51b50df9) | [实现库函数调用的解析执行](https://github.com/luoxuwei/Compiler/commit/b3aec437f91a0291f453c24febead58388e0a081) | [实现while 和do while循环的解析执行](https://github.com/luoxuwei/Compiler/commit/548e18a7ad4fb7b835df1f8eb787f932b7ebd776) | [递归调用时的参数环境保护](https://github.com/luoxuwei/Compiler/commit/c68e470c69090af735d3ae2b59dc4a6b1d2571b1) | [复杂程序执行](https://github.com/luoxuwei/Compiler/commit/1de41b69e681996f0c318e88b4b133c64cb6fe26) | [实现malloc动态分配内存和读写动态分配的内存](https://github.com/luoxuwei/Compiler/commit/383c07d5f482cffe2ded1f537e7b219c2c06514d) | [通过指针直接读写内存](https://github.com/luoxuwei/Compiler/commit/1313c22ec982f08d8d0041484fd01e1fb20d691b) | [结构体的解释和执行](https://github.com/luoxuwei/Compiler/commit/3da85b56c68a65d7ff7debf84805caffdda2cf1c) | [解释执行间套结构体](https://github.com/luoxuwei/Compiler/commit/8965c198d8b3c003f0a0eba0012494848c7902c4) | [解释执行sizeof函数](https://github.com/luoxuwei/Compiler/commit/b17653cf304d964db21b1a83109863965d66512d) | [使用观察者模式实现解释器不同组件的通讯](https://github.com/luoxuwei/Compiler/commit/1da844474a41302927a5a0061875dd444d3a603a) | [保证结构体内存与成员变量的数据保持一致](https://github.com/luoxuwei/Compiler/commit/a7bcd1681834f4e62c88295d4fbff734b9a8cdd5)
+
+# c2j
+
+将c语言代码编译成java汇编代码后可以用java汇编编译器编译成class文件，然后通过java虚拟机执行。
+
+一个hello world的jiava代码:
+
+```java
+public class CSourceToJava {
+  public static void main(string[]) {
+    System.out.println("Hello World");
+  }
+}
+```
+
+对应的java汇编代码:
+
+```
+.class public CSourceToJava
+.super java/lang/Object
+
+.method public static main([Ljava/lang/String;)V
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	ldc	"Hello World"
+	invokevirtual	java/io/PrintStream/println(Ljava/lang/String;)V
+	return
+.end method
+.end class
+```
+
+.class .super是宏指令，getstatic ldc invokevirtual是操作符指令, 所有的指令大概就是这两种指令的组合
+
+运行项目:
+
+```shell
+cd c2j
+mkdir build
+cd build
+cmake ..
+make
+./c2j ../test.c
+java -cp ../oolong.jar COM.sootNsmoke.oolong.Oolong CSourceToJava.j
+java CSourceToJava
+```
+
+## commit
+
+[搭建代码生成基本框架，实现hello world程序生成](https://github.com/luoxuwei/Compiler/commit/d3ab61a6b727a08e00046d6a5935f246235ec51d) | [生成基本操作和函数定义声明的java汇编代码](https://github.com/luoxuwei/Compiler/commit/e58d6aa2f52654724fe675ff176d2ceadb7809b8)
 
