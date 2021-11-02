@@ -1,0 +1,59 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code> 6400008400005a0000650000640100640200830200474864030053</code>
+   <dis>
+  1           0 LOAD_CONST               0 (<code object add at 0x10e708c30, file "5_test_param.py", line 1>)
+              3 MAKE_FUNCTION            0
+              6 STORE_NAME               0 (add)
+
+  4           9 LOAD_NAME                0 (add)
+             12 LOAD_CONST               1 (1)
+             15 LOAD_CONST               2 (2)
+             18 CALL_FUNCTION            2
+             21 PRINT_ITEM          
+             22 PRINT_NEWLINE       
+             23 LOAD_CONST               3 (None)
+             26 RETURN_VALUE        
+   </dis>
+   <names> ('add',)</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> '5_test_param.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      <code>
+         <argcount> 2 </argcount>
+         <nlocals> 2</nlocals>
+         <stacksize> 2</stacksize>
+         <flags> 0043</flags>
+         <code> 7c00007c01001753</code>
+         <dis>
+  2           0 LOAD_FAST                0 (a)
+              3 LOAD_FAST                1 (b)
+              6 BINARY_ADD          
+              7 RETURN_VALUE        
+         </dis>
+         <names> ()</names>
+         <varnames> ('a', 'b')</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> '5_test_param.py'</filename>
+         <name> 'add'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            None
+         </consts>
+         <lnotab> 0001</lnotab>
+      </code>
+      1
+      2
+      None
+   </consts>
+   <lnotab> 0903</lnotab>
+</code>

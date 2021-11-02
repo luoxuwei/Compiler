@@ -1,0 +1,55 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 1</stacksize>
+   <flags> 0040</flags>
+   <code> 6400005a00006401008400005a010064020053</code>
+   <dis>
+  1           0 LOAD_CONST               0 (100)
+              3 STORE_NAME               0 (x)
+
+  3           6 LOAD_CONST               1 (<code object foo at 0x106b0cc30, file "b.py", line 3>)
+              9 MAKE_FUNCTION            0
+             12 STORE_NAME               1 (foo)
+             15 LOAD_CONST               2 (None)
+             18 RETURN_VALUE        
+   </dis>
+   <names> ('x', 'foo')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'b.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      100
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0043</flags>
+         <code> 740000474864000053</code>
+         <dis>
+  4           0 LOAD_GLOBAL              0 (x)
+              3 PRINT_ITEM          
+              4 PRINT_NEWLINE       
+              5 LOAD_CONST               0 (None)
+              8 RETURN_VALUE        
+         </dis>
+         <names> ('x',)</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'b.py'</filename>
+         <name> 'foo'</name>
+         <firstlineno> 3</firstlineno>
+         <consts>
+            None
+         </consts>
+         <lnotab> 0001</lnotab>
+      </code>
+      None
+   </consts>
+   <lnotab> 0602</lnotab>
+</code>

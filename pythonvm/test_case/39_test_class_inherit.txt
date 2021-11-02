@@ -1,0 +1,205 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      640000650000660100640100840000830000595a01006402006501006601
+      00640300840000830000595a020064040065010066010064050084000083
+      0000595a03006502008300005a04006503008300005a05006504006a0600
+      830000016505006a06008300000164060053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('A')
+              3 LOAD_NAME                0 (object)
+              6 BUILD_TUPLE              1
+              9 LOAD_CONST               1 (<code object A at 0x1024c4d30, file "test_class_inherit.py", line 1>)
+             12 MAKE_FUNCTION            0
+             15 CALL_FUNCTION            0
+             18 BUILD_CLASS         
+             19 STORE_NAME               1 (A)
+
+  5          22 LOAD_CONST               2 ('B')
+             25 LOAD_NAME                1 (A)
+             28 BUILD_TUPLE              1
+             31 LOAD_CONST               3 (<code object B at 0x1024c4eb0, file "test_class_inherit.py", line 5>)
+             34 MAKE_FUNCTION            0
+             37 CALL_FUNCTION            0
+             40 BUILD_CLASS         
+             41 STORE_NAME               2 (B)
+
+  9          44 LOAD_CONST               4 ('C')
+             47 LOAD_NAME                1 (A)
+             50 BUILD_TUPLE              1
+             53 LOAD_CONST               5 (<code object C at 0x1024c4f30, file "test_class_inherit.py", line 9>)
+             56 MAKE_FUNCTION            0
+             59 CALL_FUNCTION            0
+             62 BUILD_CLASS         
+             63 STORE_NAME               3 (C)
+
+ 12          66 LOAD_NAME                2 (B)
+             69 CALL_FUNCTION            0
+             72 STORE_NAME               4 (b)
+
+ 13          75 LOAD_NAME                3 (C)
+             78 CALL_FUNCTION            0
+             81 STORE_NAME               5 (c)
+
+ 14          84 LOAD_NAME                4 (b)
+             87 LOAD_ATTR                6 (say)
+             90 CALL_FUNCTION            0
+             93 POP_TOP             
+
+ 15          94 LOAD_NAME                5 (c)
+             97 LOAD_ATTR                6 (say)
+            100 CALL_FUNCTION            0
+            103 POP_TOP             
+            104 LOAD_CONST               6 (None)
+            107 RETURN_VALUE        
+   </dis>
+   <names> ('object', 'A', 'B', 'C', 'b', 'c', 'say')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_class_inherit.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'A'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400008400005a02005253</code>
+         <dis>
+  1           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  2           6 LOAD_CONST               0 (<code object say at 0x1024c4c30, file "test_class_inherit.py", line 2>)
+              9 MAKE_FUNCTION            0
+             12 STORE_NAME               2 (say)
+             15 LOAD_LOCALS         
+             16 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', 'say')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_class_inherit.py'</filename>
+         <name> 'A'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            <code>
+               <argcount> 1 </argcount>
+               <nlocals> 1</nlocals>
+               <stacksize> 1</stacksize>
+               <flags> 0043</flags>
+               <code> 640100474864000053</code>
+               <dis>
+  3           0 LOAD_CONST               1 ('I am A')
+              3 PRINT_ITEM          
+              4 PRINT_NEWLINE       
+              5 LOAD_CONST               0 (None)
+              8 RETURN_VALUE        
+               </dis>
+               <names> ()</names>
+               <varnames> ('self',)</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_class_inherit.py'</filename>
+               <name> 'say'</name>
+               <firstlineno> 2</firstlineno>
+               <consts>
+                  None
+                  'I am A'
+               </consts>
+               <lnotab> 0001</lnotab>
+            </code>
+         </consts>
+         <lnotab> 0601</lnotab>
+      </code>
+      'B'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400008400005a02005253</code>
+         <dis>
+  5           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  6           6 LOAD_CONST               0 (<code object say at 0x1024c4e30, file "test_class_inherit.py", line 6>)
+              9 MAKE_FUNCTION            0
+             12 STORE_NAME               2 (say)
+             15 LOAD_LOCALS         
+             16 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', 'say')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_class_inherit.py'</filename>
+         <name> 'B'</name>
+         <firstlineno> 5</firstlineno>
+         <consts>
+            <code>
+               <argcount> 1 </argcount>
+               <nlocals> 1</nlocals>
+               <stacksize> 1</stacksize>
+               <flags> 0043</flags>
+               <code> 640100474864000053</code>
+               <dis>
+  7           0 LOAD_CONST               1 ('I am B')
+              3 PRINT_ITEM          
+              4 PRINT_NEWLINE       
+              5 LOAD_CONST               0 (None)
+              8 RETURN_VALUE        
+               </dis>
+               <names> ()</names>
+               <varnames> ('self',)</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_class_inherit.py'</filename>
+               <name> 'say'</name>
+               <firstlineno> 6</firstlineno>
+               <consts>
+                  None
+                  'I am B'
+               </consts>
+               <lnotab> 0001</lnotab>
+            </code>
+         </consts>
+         <lnotab> 0601</lnotab>
+      </code>
+      'C'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01005253</code>
+         <dis>
+  9           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+ 10           6 LOAD_LOCALS         
+              7 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_class_inherit.py'</filename>
+         <name> 'C'</name>
+         <firstlineno> 9</firstlineno>
+         <consts>
+         </consts>
+         <lnotab> 0601</lnotab>
+      </code>
+      None
+   </consts>
+   <lnotab> 160416041603090109010a01</lnotab>
+</code>

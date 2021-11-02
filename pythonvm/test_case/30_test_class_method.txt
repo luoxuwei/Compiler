@@ -1,0 +1,101 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      640000640300640100840000830000595a00006500008300005a01006501
+      006a02008300000164020053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('A')
+              3 LOAD_CONST               3 (())
+              6 LOAD_CONST               1 (<code object A at 0x10ce8ed30, file "test_class_method.py", line 1>)
+              9 MAKE_FUNCTION            0
+             12 CALL_FUNCTION            0
+             15 BUILD_CLASS         
+             16 STORE_NAME               0 (A)
+
+  6          19 LOAD_NAME                0 (A)
+             22 CALL_FUNCTION            0
+             25 STORE_NAME               1 (a)
+
+  7          28 LOAD_NAME                1 (a)
+             31 LOAD_ATTR                2 (say)
+             34 CALL_FUNCTION            0
+             37 POP_TOP             
+             38 LOAD_CONST               2 (None)
+             41 RETURN_VALUE        
+   </dis>
+   <names> ('A', 'a', 'say')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_class_method.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'A'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400008400005a02005253</code>
+         <dis>
+  1           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  2           6 LOAD_CONST               0 (<code object say at 0x10ce8ec30, file "test_class_method.py", line 2>)
+              9 MAKE_FUNCTION            0
+             12 STORE_NAME               2 (say)
+             15 LOAD_LOCALS         
+             16 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', 'say')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_class_method.py'</filename>
+         <name> 'A'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            <code>
+               <argcount> 1 </argcount>
+               <nlocals> 1</nlocals>
+               <stacksize> 1</stacksize>
+               <flags> 0043</flags>
+               <code> 7c00004748640100474864000053</code>
+               <dis>
+  3           0 LOAD_FAST                0 (self)
+              3 PRINT_ITEM          
+              4 PRINT_NEWLINE       
+
+  4           5 LOAD_CONST               1 ('hello')
+              8 PRINT_ITEM          
+              9 PRINT_NEWLINE       
+             10 LOAD_CONST               0 (None)
+             13 RETURN_VALUE        
+               </dis>
+               <names> ()</names>
+               <varnames> ('self',)</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_class_method.py'</filename>
+               <name> 'say'</name>
+               <firstlineno> 2</firstlineno>
+               <consts>
+                  None
+                  'hello'
+               </consts>
+               <lnotab> 00010501</lnotab>
+            </code>
+         </consts>
+         <lnotab> 0601</lnotab>
+      </code>
+      None
+      ()
+   </consts>
+   <lnotab> 13050901</lnotab>
+</code>

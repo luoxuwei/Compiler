@@ -1,0 +1,159 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400008400005a00006500006401006402008401008301005a0100650100
+      6403006401008302004748650100640100640400830200474864050053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (<code object call_cnt at 0x10c0d2d30, file "test_decorator.py", line 1>)
+              3 MAKE_FUNCTION            0
+              6 STORE_NAME               0 (call_cnt)
+
+ 10           9 LOAD_NAME                0 (call_cnt)
+
+ 11          12 LOAD_CONST               1 (2)
+             15 LOAD_CONST               2 (<code object add at 0x10c0d2e30, file "test_decorator.py", line 10>)
+             18 MAKE_FUNCTION            1
+             21 CALL_FUNCTION            1
+             24 STORE_NAME               1 (add)
+
+ 14          27 LOAD_NAME                1 (add)
+             30 LOAD_CONST               3 (1)
+             33 LOAD_CONST               1 (2)
+             36 CALL_FUNCTION            2
+             39 PRINT_ITEM          
+             40 PRINT_NEWLINE       
+
+ 15          41 LOAD_NAME                1 (add)
+             44 LOAD_CONST               1 (2)
+             47 LOAD_CONST               4 (3)
+             50 CALL_FUNCTION            2
+             53 PRINT_ITEM          
+             54 PRINT_NEWLINE       
+             55 LOAD_CONST               5 (None)
+             58 RETURN_VALUE        
+   </dis>
+   <names> ('call_cnt', 'add')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_decorator.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      <code>
+         <argcount> 1 </argcount>
+         <nlocals> 2</nlocals>
+         <stacksize> 2</stacksize>
+         <flags> 0003</flags>
+         <code>
+            6401006701008900008700008701006602006402008600007d01007c0100
+            53
+         </code>
+         <dis>
+  2           0 LOAD_CONST               1 (0)
+              3 BUILD_LIST               1
+              6 STORE_DEREF              0 (cnt)
+
+  3           9 LOAD_CLOSURE             0 (cnt)
+             12 LOAD_CLOSURE             1 (fn)
+             15 BUILD_TUPLE              2
+             18 LOAD_CONST               2 (<code object inner_func at 0x10c0d2c30, file "test_decorator.py", line 3>)
+             21 MAKE_CLOSURE             0
+             24 STORE_FAST               1 (inner_func)
+
+  8          27 LOAD_FAST                1 (inner_func)
+             30 RETURN_VALUE        
+         </dis>
+         <names> ()</names>
+         <varnames> ('fn', 'inner_func')</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ('cnt', 'fn')</cellvars>
+         <filename> 'test_decorator.py'</filename>
+         <name> 'call_cnt'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            None
+            0
+            <code>
+               <argcount> 0 </argcount>
+               <nlocals> 1</nlocals>
+               <stacksize> 4</stacksize>
+               <flags> 0017</flags>
+               <code>
+                  8800006401006302001964020037033c8800006401001947488801007c00
+                  008c000053
+               </code>
+               <dis>
+  4           0 LOAD_DEREF               0 (cnt)
+              3 LOAD_CONST               1 (0)
+              6 DUP_TOPX                 2
+              9 BINARY_SUBSCR       
+             10 LOAD_CONST               2 (1)
+             13 INPLACE_ADD         
+             14 ROT_THREE           
+             15 STORE_SUBSCR        
+
+  5          16 LOAD_DEREF               0 (cnt)
+             19 LOAD_CONST               1 (0)
+             22 BINARY_SUBSCR       
+             23 PRINT_ITEM          
+             24 PRINT_NEWLINE       
+
+  6          25 LOAD_DEREF               1 (fn)
+             28 LOAD_FAST                0 (args)
+             31 CALL_FUNCTION_VAR        0
+             34 RETURN_VALUE        
+               </dis>
+               <names> ()</names>
+               <varnames> ('args',)</varnames>
+               <freevars> ('cnt', 'fn')</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_decorator.py'</filename>
+               <name> 'inner_func'</name>
+               <firstlineno> 3</firstlineno>
+               <consts>
+                  None
+                  0
+                  1
+               </consts>
+               <lnotab> 000110010901</lnotab>
+            </code>
+         </consts>
+         <lnotab> 000109011205</lnotab>
+      </code>
+      2
+      <code>
+         <argcount> 2 </argcount>
+         <nlocals> 2</nlocals>
+         <stacksize> 2</stacksize>
+         <flags> 0043</flags>
+         <code> 7c00007c01001753</code>
+         <dis>
+ 12           0 LOAD_FAST                0 (a)
+              3 LOAD_FAST                1 (b)
+              6 BINARY_ADD          
+              7 RETURN_VALUE        
+         </dis>
+         <names> ()</names>
+         <varnames> ('a', 'b')</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_decorator.py'</filename>
+         <name> 'add'</name>
+         <firstlineno> 10</firstlineno>
+         <consts>
+            None
+         </consts>
+         <lnotab> 0002</lnotab>
+      </code>
+      1
+      3
+      None
+   </consts>
+   <lnotab> 090903010f030e01</lnotab>
+</code>

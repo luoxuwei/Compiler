@@ -1,0 +1,81 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      640000640400640100840000830000595a00006500008300005a01006501
+      006a020047486402006501005f03006501006a0300474864030053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('A')
+              3 LOAD_CONST               4 (())
+              6 LOAD_CONST               1 (<code object A at 0x108a28c30, file "test_class_field.py", line 1>)
+              9 MAKE_FUNCTION            0
+             12 CALL_FUNCTION            0
+             15 BUILD_CLASS         
+             16 STORE_NAME               0 (A)
+
+  4          19 LOAD_NAME                0 (A)
+             22 CALL_FUNCTION            0
+             25 STORE_NAME               1 (a)
+
+  5          28 LOAD_NAME                1 (a)
+             31 LOAD_ATTR                2 (value)
+             34 PRINT_ITEM          
+             35 PRINT_NEWLINE       
+
+  7          36 LOAD_CONST               2 ('hello')
+             39 LOAD_NAME                1 (a)
+             42 STORE_ATTR               3 (field)
+
+  8          45 LOAD_NAME                1 (a)
+             48 LOAD_ATTR                3 (field)
+             51 PRINT_ITEM          
+             52 PRINT_NEWLINE       
+             53 LOAD_CONST               3 (None)
+             56 RETURN_VALUE        
+   </dis>
+   <names> ('A', 'a', 'value', 'field')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_class_field.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'A'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400005a02005253</code>
+         <dis>
+  1           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  2           6 LOAD_CONST               0 (1)
+              9 STORE_NAME               2 (value)
+             12 LOAD_LOCALS         
+             13 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', 'value')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_class_field.py'</filename>
+         <name> 'A'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            1
+         </consts>
+         <lnotab> 0601</lnotab>
+      </code>
+      'hello'
+      None
+      ()
+   </consts>
+   <lnotab> 1303090108020901</lnotab>
+</code>

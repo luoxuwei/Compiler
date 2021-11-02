@@ -1,0 +1,69 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6500006400008301005a0100650100474865000065010083010047486401
+      005a0200782b006502006402006b0000724f006500006501008301005a01
+      006501004748650200640000175a02007125005764030053
+   </code>
+   <dis>
+  1           0 LOAD_NAME                0 (type)
+              3 LOAD_CONST               0 (1)
+              6 CALL_FUNCTION            1
+              9 STORE_NAME               1 (t)
+
+  2          12 LOAD_NAME                1 (t)
+             15 PRINT_ITEM          
+             16 PRINT_NEWLINE       
+
+  3          17 LOAD_NAME                0 (type)
+             20 LOAD_NAME                1 (t)
+             23 CALL_FUNCTION            1
+             26 PRINT_ITEM          
+             27 PRINT_NEWLINE       
+
+  5          28 LOAD_CONST               1 (0)
+             31 STORE_NAME               2 (i)
+
+  6          34 SETUP_LOOP              43 (to 80)
+        >>   37 LOAD_NAME                2 (i)
+             40 LOAD_CONST               2 (5)
+             43 COMPARE_OP               0 (<)
+             46 POP_JUMP_IF_FALSE       79
+
+  7          49 LOAD_NAME                0 (type)
+             52 LOAD_NAME                1 (t)
+             55 CALL_FUNCTION            1
+             58 STORE_NAME               1 (t)
+
+  8          61 LOAD_NAME                1 (t)
+             64 PRINT_ITEM          
+             65 PRINT_NEWLINE       
+
+  9          66 LOAD_NAME                2 (i)
+             69 LOAD_CONST               0 (1)
+             72 BINARY_ADD          
+             73 STORE_NAME               2 (i)
+             76 JUMP_ABSOLUTE           37
+        >>   79 POP_BLOCK           
+        >>   80 LOAD_CONST               3 (None)
+             83 RETURN_VALUE        
+   </dis>
+   <names> ('type', 't', 'i')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_type.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      1
+      0
+      5
+      None
+   </consts>
+   <lnotab> 0c0105010b0206010f010c010501</lnotab>
+</code>

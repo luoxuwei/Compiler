@@ -1,0 +1,57 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 9</stacksize>
+   <flags> 0040</flags>
+   <code>
+      640000640100640200640300640400640500640300640100670200640500
+      6406006702006708005a00006500006a0100830000016500004748640700
+      53
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('a')
+              3 LOAD_CONST               1 (2)
+              6 LOAD_CONST               2 ('c')
+              9 LOAD_CONST               3 (1)
+             12 LOAD_CONST               4 ('b')
+             15 LOAD_CONST               5 (3)
+             18 LOAD_CONST               3 (1)
+             21 LOAD_CONST               1 (2)
+             24 BUILD_LIST               2
+             27 LOAD_CONST               5 (3)
+             30 LOAD_CONST               6 (4)
+             33 BUILD_LIST               2
+             36 BUILD_LIST               8
+             39 STORE_NAME               0 (l)
+
+  2          42 LOAD_NAME                0 (l)
+             45 LOAD_ATTR                1 (sort)
+             48 CALL_FUNCTION            0
+             51 POP_TOP             
+
+  3          52 LOAD_NAME                0 (l)
+             55 PRINT_ITEM          
+             56 PRINT_NEWLINE       
+             57 LOAD_CONST               7 (None)
+             60 RETURN_VALUE        
+   </dis>
+   <names> ('l', 'sort')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'list_sort_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'a'
+      2
+      'c'
+      1
+      'b'
+      3
+      4
+      None
+   </consts>
+   <lnotab> 2a010a01</lnotab>
+</code>

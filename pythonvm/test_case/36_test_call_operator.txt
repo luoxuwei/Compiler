@@ -1,0 +1,194 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      640000640600640100840000830000595a00006500006402008301005a01
+      006500006403008301005a02006500006404008301005a03006501006502
+      0083010001650100650100830100016501006503008301000164050053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('A')
+              3 LOAD_CONST               6 (())
+              6 LOAD_CONST               1 (<code object A at 0x1068dcf30, file "test_call_operator.py", line 1>)
+              9 MAKE_FUNCTION            0
+             12 CALL_FUNCTION            0
+             15 BUILD_CLASS         
+             16 STORE_NAME               0 (A)
+
+ 15          19 LOAD_NAME                0 (A)
+             22 LOAD_CONST               2 (1)
+             25 CALL_FUNCTION            1
+             28 STORE_NAME               1 (a)
+
+ 16          31 LOAD_NAME                0 (A)
+             34 LOAD_CONST               3 (2)
+             37 CALL_FUNCTION            1
+             40 STORE_NAME               2 (b)
+
+ 17          43 LOAD_NAME                0 (A)
+             46 LOAD_CONST               4 (0)
+             49 CALL_FUNCTION            1
+             52 STORE_NAME               3 (c)
+
+ 18          55 LOAD_NAME                1 (a)
+             58 LOAD_NAME                2 (b)
+             61 CALL_FUNCTION            1
+             64 POP_TOP             
+
+ 19          65 LOAD_NAME                1 (a)
+             68 LOAD_NAME                1 (a)
+             71 CALL_FUNCTION            1
+             74 POP_TOP             
+
+ 20          75 LOAD_NAME                1 (a)
+             78 LOAD_NAME                3 (c)
+             81 CALL_FUNCTION            1
+             84 POP_TOP             
+             85 LOAD_CONST               5 (None)
+             88 RETURN_VALUE        
+   </dis>
+   <names> ('A', 'a', 'b', 'c')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_call_operator.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'A'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400008400005a02006401008400005a03005253</code>
+         <dis>
+  1           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  2           6 LOAD_CONST               0 (<code object __init__ at 0x1068dcd30, file "test_call_operator.py", line 2>)
+              9 MAKE_FUNCTION            0
+             12 STORE_NAME               2 (__init__)
+
+  5          15 LOAD_CONST               1 (<code object __call__ at 0x1068dceb0, file "test_call_operator.py", line 5>)
+             18 MAKE_FUNCTION            0
+             21 STORE_NAME               3 (__call__)
+             24 LOAD_LOCALS         
+             25 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', '__init__', '__call__')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_call_operator.py'</filename>
+         <name> 'A'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            <code>
+               <argcount> 2 </argcount>
+               <nlocals> 2</nlocals>
+               <stacksize> 2</stacksize>
+               <flags> 0043</flags>
+               <code> 7c01007c00005f000064000053</code>
+               <dis>
+  3           0 LOAD_FAST                1 (v)
+              3 LOAD_FAST                0 (self)
+              6 STORE_ATTR               0 (value)
+              9 LOAD_CONST               0 (None)
+             12 RETURN_VALUE        
+               </dis>
+               <names> ('value',)</names>
+               <varnames> ('self', 'v')</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_call_operator.py'</filename>
+               <name> '__init__'</name>
+               <firstlineno> 2</firstlineno>
+               <consts>
+                  None
+               </consts>
+               <lnotab> 0001</lnotab>
+            </code>
+            <code>
+               <argcount> 2 </argcount>
+               <nlocals> 2</nlocals>
+               <stacksize> 2</stacksize>
+               <flags> 0043</flags>
+               <code>
+                  7c00006a00007c01006a00006b0400721a0064010047486e39007c00006a
+                  00007c01006a00006b000072340064020047486e1f007c00006a00007c01
+                  006a00006b0200724e0064030047486e0500640400474864000053
+               </code>
+               <dis>
+  6           0 LOAD_FAST                0 (self)
+              3 LOAD_ATTR                0 (value)
+              6 LOAD_FAST                1 (b)
+              9 LOAD_ATTR                0 (value)
+             12 COMPARE_OP               4 (>)
+             15 POP_JUMP_IF_FALSE       26
+
+  7          18 LOAD_CONST               1 ('gt')
+             21 PRINT_ITEM          
+             22 PRINT_NEWLINE       
+             23 JUMP_FORWARD            57 (to 83)
+
+  8     >>   26 LOAD_FAST                0 (self)
+             29 LOAD_ATTR                0 (value)
+             32 LOAD_FAST                1 (b)
+             35 LOAD_ATTR                0 (value)
+             38 COMPARE_OP               0 (<)
+             41 POP_JUMP_IF_FALSE       52
+
+  9          44 LOAD_CONST               2 ('lt')
+             47 PRINT_ITEM          
+             48 PRINT_NEWLINE       
+             49 JUMP_FORWARD            31 (to 83)
+
+ 10     >>   52 LOAD_FAST                0 (self)
+             55 LOAD_ATTR                0 (value)
+             58 LOAD_FAST                1 (b)
+             61 LOAD_ATTR                0 (value)
+             64 COMPARE_OP               2 (==)
+             67 POP_JUMP_IF_FALSE       78
+
+ 11          70 LOAD_CONST               3 ('eq')
+             73 PRINT_ITEM          
+             74 PRINT_NEWLINE       
+             75 JUMP_FORWARD             5 (to 83)
+
+ 13     >>   78 LOAD_CONST               4 ('can not compare')
+             81 PRINT_ITEM          
+             82 PRINT_NEWLINE       
+        >>   83 LOAD_CONST               0 (None)
+             86 RETURN_VALUE        
+               </dis>
+               <names> ('value',)</names>
+               <varnames> ('self', 'b')</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_call_operator.py'</filename>
+               <name> '__call__'</name>
+               <firstlineno> 5</firstlineno>
+               <consts>
+                  None
+                  'gt'
+                  'lt'
+                  'eq'
+                  'can not compare'
+               </consts>
+               <lnotab> 0001120108011201080112010802</lnotab>
+            </code>
+         </consts>
+         <lnotab> 06010903</lnotab>
+      </code>
+      1
+      2
+      0
+      None
+      ()
+   </consts>
+   <lnotab> 130e0c010c010c010a010a01</lnotab>
+</code>

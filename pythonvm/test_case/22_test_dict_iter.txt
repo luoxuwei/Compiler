@@ -1,0 +1,184 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 4</stacksize>
+   <flags> 0040</flags>
+   <code>
+      69020064000064010036640200640300365a0000781d00650000445d1500
+      5a0100650100650000650100196602004748711b00576500006a02008300
+      0047487823006500006a0200830000445d15005a01006501006500006501
+      00196602004748714c00577819006500006a0300830000445d0b005a0400
+      6504004748717200576500006a050083000047487825006500006a050083
+      0000445d17005c02005a01005a0400650100650400660200474871990057
+      6500006a060083000047487823006500006a0600830000445d15005a0100
+      65010065000065010019660200474871cc00577819006500006a07008300
+      00445d0b005a0400650000474871f200577825006500006a080083000044
+      5d17005c02005a01005a04006501006504006602004748710e0157640400
+      53
+   </code>
+   <dis>
+  1           0 BUILD_MAP                2
+              3 LOAD_CONST               0 ('a')
+              6 LOAD_CONST               1 (1)
+              9 STORE_MAP           
+             10 LOAD_CONST               2 ('b')
+             13 LOAD_CONST               3 (2)
+             16 STORE_MAP           
+             17 STORE_NAME               0 (d)
+
+  3          20 SETUP_LOOP              29 (to 52)
+             23 LOAD_NAME                0 (d)
+             26 GET_ITER            
+        >>   27 FOR_ITER                21 (to 51)
+             30 STORE_NAME               1 (k)
+
+  4          33 LOAD_NAME                1 (k)
+             36 LOAD_NAME                0 (d)
+             39 LOAD_NAME                1 (k)
+             42 BINARY_SUBSCR       
+             43 BUILD_TUPLE              2
+             46 PRINT_ITEM          
+             47 PRINT_NEWLINE       
+             48 JUMP_ABSOLUTE           27
+        >>   51 POP_BLOCK           
+
+  6     >>   52 LOAD_NAME                0 (d)
+             55 LOAD_ATTR                2 (keys)
+             58 CALL_FUNCTION            0
+             61 PRINT_ITEM          
+             62 PRINT_NEWLINE       
+
+  7          63 SETUP_LOOP              35 (to 101)
+             66 LOAD_NAME                0 (d)
+             69 LOAD_ATTR                2 (keys)
+             72 CALL_FUNCTION            0
+             75 GET_ITER            
+        >>   76 FOR_ITER                21 (to 100)
+             79 STORE_NAME               1 (k)
+
+  8          82 LOAD_NAME                1 (k)
+             85 LOAD_NAME                0 (d)
+             88 LOAD_NAME                1 (k)
+             91 BINARY_SUBSCR       
+             92 BUILD_TUPLE              2
+             95 PRINT_ITEM          
+             96 PRINT_NEWLINE       
+             97 JUMP_ABSOLUTE           76
+        >>  100 POP_BLOCK           
+
+ 10     >>  101 SETUP_LOOP              25 (to 129)
+            104 LOAD_NAME                0 (d)
+            107 LOAD_ATTR                3 (values)
+            110 CALL_FUNCTION            0
+            113 GET_ITER            
+        >>  114 FOR_ITER                11 (to 128)
+            117 STORE_NAME               4 (v)
+
+ 11         120 LOAD_NAME                4 (v)
+            123 PRINT_ITEM          
+            124 PRINT_NEWLINE       
+            125 JUMP_ABSOLUTE          114
+        >>  128 POP_BLOCK           
+
+ 13     >>  129 LOAD_NAME                0 (d)
+            132 LOAD_ATTR                5 (items)
+            135 CALL_FUNCTION            0
+            138 PRINT_ITEM          
+            139 PRINT_NEWLINE       
+
+ 14         140 SETUP_LOOP              37 (to 180)
+            143 LOAD_NAME                0 (d)
+            146 LOAD_ATTR                5 (items)
+            149 CALL_FUNCTION            0
+            152 GET_ITER            
+        >>  153 FOR_ITER                23 (to 179)
+            156 UNPACK_SEQUENCE          2
+            159 STORE_NAME               1 (k)
+            162 STORE_NAME               4 (v)
+
+ 15         165 LOAD_NAME                1 (k)
+            168 LOAD_NAME                4 (v)
+            171 BUILD_TUPLE              2
+            174 PRINT_ITEM          
+            175 PRINT_NEWLINE       
+            176 JUMP_ABSOLUTE          153
+        >>  179 POP_BLOCK           
+
+ 17     >>  180 LOAD_NAME                0 (d)
+            183 LOAD_ATTR                6 (iterkeys)
+            186 CALL_FUNCTION            0
+            189 PRINT_ITEM          
+            190 PRINT_NEWLINE       
+
+ 18         191 SETUP_LOOP              35 (to 229)
+            194 LOAD_NAME                0 (d)
+            197 LOAD_ATTR                6 (iterkeys)
+            200 CALL_FUNCTION            0
+            203 GET_ITER            
+        >>  204 FOR_ITER                21 (to 228)
+            207 STORE_NAME               1 (k)
+
+ 19         210 LOAD_NAME                1 (k)
+            213 LOAD_NAME                0 (d)
+            216 LOAD_NAME                1 (k)
+            219 BINARY_SUBSCR       
+            220 BUILD_TUPLE              2
+            223 PRINT_ITEM          
+            224 PRINT_NEWLINE       
+            225 JUMP_ABSOLUTE          204
+        >>  228 POP_BLOCK           
+
+ 21     >>  229 SETUP_LOOP              25 (to 257)
+            232 LOAD_NAME                0 (d)
+            235 LOAD_ATTR                7 (itervalues)
+            238 CALL_FUNCTION            0
+            241 GET_ITER            
+        >>  242 FOR_ITER                11 (to 256)
+            245 STORE_NAME               4 (v)
+
+ 22         248 LOAD_NAME                0 (d)
+            251 PRINT_ITEM          
+            252 PRINT_NEWLINE       
+            253 JUMP_ABSOLUTE          242
+        >>  256 POP_BLOCK           
+
+ 24     >>  257 SETUP_LOOP              37 (to 297)
+            260 LOAD_NAME                0 (d)
+            263 LOAD_ATTR                8 (iteritems)
+            266 CALL_FUNCTION            0
+            269 GET_ITER            
+        >>  270 FOR_ITER                23 (to 296)
+            273 UNPACK_SEQUENCE          2
+            276 STORE_NAME               1 (k)
+            279 STORE_NAME               4 (v)
+
+ 25         282 LOAD_NAME                1 (k)
+            285 LOAD_NAME                4 (v)
+            288 BUILD_TUPLE              2
+            291 PRINT_ITEM          
+            292 PRINT_NEWLINE       
+            293 JUMP_ABSOLUTE          270
+        >>  296 POP_BLOCK           
+        >>  297 LOAD_CONST               4 (None)
+            300 RETURN_VALUE        
+   </dis>
+   <names> ('d', 'k', 'keys', 'values', 'v', 'items', 'iterkeys', 'itervalues', 'iteritems')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_dict_iter.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'a'
+      1
+      'b'
+      2
+      None
+   </consts>
+   <lnotab>
+      14020d0113020b0113011302130109020b0119010f020b01130113021301
+      09021901
+   </lnotab>
+</code>

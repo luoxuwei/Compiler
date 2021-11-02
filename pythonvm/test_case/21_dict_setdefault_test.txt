@@ -1,0 +1,62 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      690100640000640100365a00006500006a01006401006402008302000165
+      00006a010064020064030083020001650000640100194748650000640200
+      19474864040053
+   </code>
+   <dis>
+  1           0 BUILD_MAP                1
+              3 LOAD_CONST               0 ('hello')
+              6 LOAD_CONST               1 (1)
+              9 STORE_MAP           
+             10 STORE_NAME               0 (d)
+
+  3          13 LOAD_NAME                0 (d)
+             16 LOAD_ATTR                1 (setdefault)
+             19 LOAD_CONST               1 (1)
+             22 LOAD_CONST               2 (2)
+             25 CALL_FUNCTION            2
+             28 POP_TOP             
+
+  4          29 LOAD_NAME                0 (d)
+             32 LOAD_ATTR                1 (setdefault)
+             35 LOAD_CONST               2 (2)
+             38 LOAD_CONST               3 (3)
+             41 CALL_FUNCTION            2
+             44 POP_TOP             
+
+  6          45 LOAD_NAME                0 (d)
+             48 LOAD_CONST               1 (1)
+             51 BINARY_SUBSCR       
+             52 PRINT_ITEM          
+             53 PRINT_NEWLINE       
+
+  7          54 LOAD_NAME                0 (d)
+             57 LOAD_CONST               2 (2)
+             60 BINARY_SUBSCR       
+             61 PRINT_ITEM          
+             62 PRINT_NEWLINE       
+             63 LOAD_CONST               4 (None)
+             66 RETURN_VALUE        
+   </dis>
+   <names> ('d', 'setdefault')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'dict_setdefault_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'hello'
+      1
+      2
+      3
+      None
+   </consts>
+   <lnotab> 0d02100110020901</lnotab>
+</code>

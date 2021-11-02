@@ -1,0 +1,45 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 4</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400006401006402006403006704005a00006500006a0100830000016500
+      00474864040053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (1)
+              3 LOAD_CONST               1 (2)
+              6 LOAD_CONST               2 (3)
+              9 LOAD_CONST               3 (4)
+             12 BUILD_LIST               4
+             15 STORE_NAME               0 (l)
+
+  2          18 LOAD_NAME                0 (l)
+             21 LOAD_ATTR                1 (reverse)
+             24 CALL_FUNCTION            0
+             27 POP_TOP             
+
+  3          28 LOAD_NAME                0 (l)
+             31 PRINT_ITEM          
+             32 PRINT_NEWLINE       
+             33 LOAD_CONST               4 (None)
+             36 RETURN_VALUE        
+   </dis>
+   <names> ('l', 'reverse')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'list_reverse_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      1
+      2
+      3
+      4
+      None
+   </consts>
+   <lnotab> 12010a01</lnotab>
+</code>

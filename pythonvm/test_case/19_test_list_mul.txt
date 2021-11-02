@@ -1,0 +1,46 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400006401006702005a0000650000640200145a01006500004748650100
+      474864030053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('a')
+              3 LOAD_CONST               1 ('b')
+              6 BUILD_LIST               2
+              9 STORE_NAME               0 (a)
+
+  2          12 LOAD_NAME                0 (a)
+             15 LOAD_CONST               2 (2)
+             18 BINARY_MULTIPLY     
+             19 STORE_NAME               1 (b)
+
+  3          22 LOAD_NAME                0 (a)
+             25 PRINT_ITEM          
+             26 PRINT_NEWLINE       
+
+  4          27 LOAD_NAME                1 (b)
+             30 PRINT_ITEM          
+             31 PRINT_NEWLINE       
+             32 LOAD_CONST               3 (None)
+             35 RETURN_VALUE        
+   </dis>
+   <names> ('a', 'b')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_list_mul.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'a'
+      'b'
+      2
+      None
+   </consts>
+   <lnotab> 0c010a010501</lnotab>
+</code>

@@ -1,0 +1,42 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400006401006c00006d01005a0100016402005a02006501008300000164
+      030053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (-1)
+              3 LOAD_CONST               1 (('foo',))
+              6 IMPORT_NAME              0 (b)
+              9 IMPORT_FROM              1 (foo)
+             12 STORE_NAME               1 (foo)
+             15 POP_TOP             
+
+  2          16 LOAD_CONST               2 (2)
+             19 STORE_NAME               2 (x)
+
+  4          22 LOAD_NAME                1 (foo)
+             25 CALL_FUNCTION            0
+             28 POP_TOP             
+             29 LOAD_CONST               3 (None)
+             32 RETURN_VALUE        
+   </dis>
+   <names> ('b', 'foo', 'x')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'a.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      -1
+      ('foo',)
+      2
+      None
+   </consts>
+   <lnotab> 10010602</lnotab>
+</code>

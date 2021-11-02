@@ -1,0 +1,157 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      640000640500640100840000830000595a00006500006402008301005a01
+      006500006403008301005a0200650100650200175a03006501006a040047
+      486502006a040047486503006a0400474864040053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('A')
+              3 LOAD_CONST               5 (())
+              6 LOAD_CONST               1 (<code object A at 0x10df1ae30, file "test_operator.py", line 1>)
+              9 MAKE_FUNCTION            0
+             12 CALL_FUNCTION            0
+             15 BUILD_CLASS         
+             16 STORE_NAME               0 (A)
+
+  9          19 LOAD_NAME                0 (A)
+             22 LOAD_CONST               2 (1)
+             25 CALL_FUNCTION            1
+             28 STORE_NAME               1 (a)
+
+ 10          31 LOAD_NAME                0 (A)
+             34 LOAD_CONST               3 (2)
+             37 CALL_FUNCTION            1
+             40 STORE_NAME               2 (b)
+
+ 11          43 LOAD_NAME                1 (a)
+             46 LOAD_NAME                2 (b)
+             49 BINARY_ADD          
+             50 STORE_NAME               3 (c)
+
+ 12          53 LOAD_NAME                1 (a)
+             56 LOAD_ATTR                4 (value)
+             59 PRINT_ITEM          
+             60 PRINT_NEWLINE       
+
+ 13          61 LOAD_NAME                2 (b)
+             64 LOAD_ATTR                4 (value)
+             67 PRINT_ITEM          
+             68 PRINT_NEWLINE       
+
+ 14          69 LOAD_NAME                3 (c)
+             72 LOAD_ATTR                4 (value)
+             75 PRINT_ITEM          
+             76 PRINT_NEWLINE       
+             77 LOAD_CONST               4 (None)
+             80 RETURN_VALUE        
+   </dis>
+   <names> ('A', 'a', 'b', 'c', 'value')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_operator.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'A'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400008400005a02006401008400005a03005253</code>
+         <dis>
+  1           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  2           6 LOAD_CONST               0 (<code object __init__ at 0x10df1ac30, file "test_operator.py", line 2>)
+              9 MAKE_FUNCTION            0
+             12 STORE_NAME               2 (__init__)
+
+  5          15 LOAD_CONST               1 (<code object __add__ at 0x10df1ad30, file "test_operator.py", line 5>)
+             18 MAKE_FUNCTION            0
+             21 STORE_NAME               3 (__add__)
+             24 LOAD_LOCALS         
+             25 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', '__init__', '__add__')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_operator.py'</filename>
+         <name> 'A'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            <code>
+               <argcount> 2 </argcount>
+               <nlocals> 2</nlocals>
+               <stacksize> 2</stacksize>
+               <flags> 0043</flags>
+               <code> 7c01007c00005f000064000053</code>
+               <dis>
+  3           0 LOAD_FAST                1 (v)
+              3 LOAD_FAST                0 (self)
+              6 STORE_ATTR               0 (value)
+              9 LOAD_CONST               0 (None)
+             12 RETURN_VALUE        
+               </dis>
+               <names> ('value',)</names>
+               <varnames> ('self', 'v')</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_operator.py'</filename>
+               <name> '__init__'</name>
+               <firstlineno> 2</firstlineno>
+               <consts>
+                  None
+               </consts>
+               <lnotab> 0001</lnotab>
+            </code>
+            <code>
+               <argcount> 2 </argcount>
+               <nlocals> 2</nlocals>
+               <stacksize> 3</stacksize>
+               <flags> 0043</flags>
+               <code> 64010047487400007c00006a01007c01006a01001783010053</code>
+               <dis>
+  6           0 LOAD_CONST               1 ('executing operator')
+              3 PRINT_ITEM          
+              4 PRINT_NEWLINE       
+
+  7           5 LOAD_GLOBAL              0 (A)
+              8 LOAD_FAST                0 (self)
+             11 LOAD_ATTR                1 (value)
+             14 LOAD_FAST                1 (a)
+             17 LOAD_ATTR                1 (value)
+             20 BINARY_ADD          
+             21 CALL_FUNCTION            1
+             24 RETURN_VALUE        
+               </dis>
+               <names> ('A', 'value')</names>
+               <varnames> ('self', 'a')</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_operator.py'</filename>
+               <name> '__add__'</name>
+               <firstlineno> 5</firstlineno>
+               <consts>
+                  None
+                  'executing operator'
+               </consts>
+               <lnotab> 00010501</lnotab>
+            </code>
+         </consts>
+         <lnotab> 06010903</lnotab>
+      </code>
+      1
+      2
+      None
+      ()
+   </consts>
+   <lnotab> 13080c010c010a0108010801</lnotab>
+</code>

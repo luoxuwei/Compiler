@@ -1,0 +1,205 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6700005a00006700005a0100640000640600640100840000830000595a02
+      006502008300005a03006402006503005f04006403006503005f05006503
+      006a040047486503006a050047486404006503005f04006503006a040047
+      4864050053
+   </code>
+   <dis>
+  1           0 BUILD_LIST               0
+              3 STORE_NAME               0 (keys)
+
+  2           6 BUILD_LIST               0
+              9 STORE_NAME               1 (values)
+
+  3          12 LOAD_CONST               0 ('B')
+             15 LOAD_CONST               6 (())
+             18 LOAD_CONST               1 (<code object B at 0x103012e30, file "test_getsetattr.py", line 3>)
+             21 MAKE_FUNCTION            0
+             24 CALL_FUNCTION            0
+             27 BUILD_CLASS         
+             28 STORE_NAME               2 (B)
+
+ 18          31 LOAD_NAME                2 (B)
+             34 CALL_FUNCTION            0
+             37 STORE_NAME               3 (b)
+
+ 19          40 LOAD_CONST               2 (1)
+             43 LOAD_NAME                3 (b)
+             46 STORE_ATTR               4 (foo)
+
+ 20          49 LOAD_CONST               3 (2)
+             52 LOAD_NAME                3 (b)
+             55 STORE_ATTR               5 (bar)
+
+ 21          58 LOAD_NAME                3 (b)
+             61 LOAD_ATTR                4 (foo)
+             64 PRINT_ITEM          
+             65 PRINT_NEWLINE       
+
+ 22          66 LOAD_NAME                3 (b)
+             69 LOAD_ATTR                5 (bar)
+             72 PRINT_ITEM          
+             73 PRINT_NEWLINE       
+
+ 23          74 LOAD_CONST               4 (3)
+             77 LOAD_NAME                3 (b)
+             80 STORE_ATTR               4 (foo)
+
+ 24          83 LOAD_NAME                3 (b)
+             86 LOAD_ATTR                4 (foo)
+             89 PRINT_ITEM          
+             90 PRINT_NEWLINE       
+             91 LOAD_CONST               5 (None)
+             94 RETURN_VALUE        
+   </dis>
+   <names> ('keys', 'values', 'B', 'b', 'foo', 'bar')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_getsetattr.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'B'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400008400005a02006401008400005a03005253</code>
+         <dis>
+  3           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  4           6 LOAD_CONST               0 (<code object __setattr__ at 0x103012c30, file "test_getsetattr.py", line 4>)
+              9 MAKE_FUNCTION            0
+             12 STORE_NAME               2 (__setattr__)
+
+ 11          15 LOAD_CONST               1 (<code object __getattr__ at 0x103012d30, file "test_getsetattr.py", line 11>)
+             18 MAKE_FUNCTION            0
+             21 STORE_NAME               3 (__getattr__)
+             24 LOAD_LOCALS         
+             25 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', '__setattr__', '__getattr__')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_getsetattr.py'</filename>
+         <name> 'B'</name>
+         <firstlineno> 3</firstlineno>
+         <consts>
+            <code>
+               <argcount> 3 </argcount>
+               <nlocals> 4</nlocals>
+               <stacksize> 3</stacksize>
+               <flags> 0043</flags>
+               <code>
+                  7c01007400006b06007228007400006a01007c01008301007d03007c0200
+                  7402007c03003c6e1a007400006a03007c0100830100017402006a03007c
+                  02008301000164000053
+               </code>
+               <dis>
+  5           0 LOAD_FAST                1 (x)
+              3 LOAD_GLOBAL              0 (keys)
+              6 COMPARE_OP               6 (in)
+              9 POP_JUMP_IF_FALSE       40
+
+  6          12 LOAD_GLOBAL              0 (keys)
+             15 LOAD_ATTR                1 (index)
+             18 LOAD_FAST                1 (x)
+             21 CALL_FUNCTION            1
+             24 STORE_FAST               3 (index)
+
+  7          27 LOAD_FAST                2 (y)
+             30 LOAD_GLOBAL              2 (values)
+             33 LOAD_FAST                3 (index)
+             36 STORE_SUBSCR        
+             37 JUMP_FORWARD            26 (to 66)
+
+  9     >>   40 LOAD_GLOBAL              0 (keys)
+             43 LOAD_ATTR                3 (append)
+             46 LOAD_FAST                1 (x)
+             49 CALL_FUNCTION            1
+             52 POP_TOP             
+
+ 10          53 LOAD_GLOBAL              2 (values)
+             56 LOAD_ATTR                3 (append)
+             59 LOAD_FAST                2 (y)
+             62 CALL_FUNCTION            1
+             65 POP_TOP             
+        >>   66 LOAD_CONST               0 (None)
+             69 RETURN_VALUE        
+               </dis>
+               <names> ('keys', 'index', 'values', 'append')</names>
+               <varnames> ('self', 'x', 'y', 'index')</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_getsetattr.py'</filename>
+               <name> '__setattr__'</name>
+               <firstlineno> 4</firstlineno>
+               <consts>
+                  None
+               </consts>
+               <lnotab> 00010c010f010d020d01</lnotab>
+            </code>
+            <code>
+               <argcount> 2 </argcount>
+               <nlocals> 3</nlocals>
+               <stacksize> 2</stacksize>
+               <flags> 0043</flags>
+               <code>
+                  7c01007400006b06007223007400006a01007c01008301007d0200740200
+                  7c020019536400005364000053
+               </code>
+               <dis>
+ 12           0 LOAD_FAST                1 (k)
+              3 LOAD_GLOBAL              0 (keys)
+              6 COMPARE_OP               6 (in)
+              9 POP_JUMP_IF_FALSE       35
+
+ 13          12 LOAD_GLOBAL              0 (keys)
+             15 LOAD_ATTR                1 (index)
+             18 LOAD_FAST                1 (k)
+             21 CALL_FUNCTION            1
+             24 STORE_FAST               2 (index)
+
+ 14          27 LOAD_GLOBAL              2 (values)
+             30 LOAD_FAST                2 (index)
+             33 BINARY_SUBSCR       
+             34 RETURN_VALUE        
+
+ 16     >>   35 LOAD_CONST               0 (None)
+             38 RETURN_VALUE        
+             39 LOAD_CONST               0 (None)
+             42 RETURN_VALUE        
+               </dis>
+               <names> ('keys', 'index', 'values', 'None')</names>
+               <varnames> ('self', 'k', 'index')</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_getsetattr.py'</filename>
+               <name> '__getattr__'</name>
+               <firstlineno> 11</firstlineno>
+               <consts>
+                  None
+               </consts>
+               <lnotab> 00010c010f010802</lnotab>
+            </code>
+         </consts>
+         <lnotab> 06010907</lnotab>
+      </code>
+      1
+      2
+      3
+      None
+      ()
+   </consts>
+   <lnotab> 06010601130f090109010901080108010901</lnotab>
+</code>

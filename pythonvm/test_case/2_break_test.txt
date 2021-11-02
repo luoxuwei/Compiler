@@ -1,0 +1,57 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400005a0000782f006500006401006b0000723700650000640200175a00
+      006500006403006b0400722f00506e000065000047487109005764040053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (0)
+              3 STORE_NAME               0 (i)
+
+  2           6 SETUP_LOOP              47 (to 56)
+        >>    9 LOAD_NAME                0 (i)
+             12 LOAD_CONST               1 (10)
+             15 COMPARE_OP               0 (<)
+             18 POP_JUMP_IF_FALSE       55
+
+  3          21 LOAD_NAME                0 (i)
+             24 LOAD_CONST               2 (1)
+             27 BINARY_ADD          
+             28 STORE_NAME               0 (i)
+
+  4          31 LOAD_NAME                0 (i)
+             34 LOAD_CONST               3 (5)
+             37 COMPARE_OP               4 (>)
+             40 POP_JUMP_IF_FALSE       47
+
+  5          43 BREAK_LOOP          
+             44 JUMP_FORWARD             0 (to 47)
+
+  6     >>   47 LOAD_NAME                0 (i)
+             50 PRINT_ITEM          
+             51 PRINT_NEWLINE       
+             52 JUMP_ABSOLUTE            9
+        >>   55 POP_BLOCK           
+        >>   56 LOAD_CONST               4 (None)
+             59 RETURN_VALUE        
+   </dis>
+   <names> ('i',)</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'break_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      0
+      10
+      1
+      5
+      None
+   </consts>
+   <lnotab> 06010f010a010c010401</lnotab>
+</code>

@@ -1,0 +1,195 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      640000640900640100840000830000595a00006500006402008301005a01
+      006502008300005a03006503006a04006403008301000165020047486503
+      006a04006501005f05006501006a05006404008301000165030047486500
+      006402008301005a01006500006403008301005a06006405008400005a07
+      006507006501005f08006507006500005f08006501006a08006501006406
+      00830200016506006a08006407008301000164080053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('A')
+              3 LOAD_CONST               9 (())
+              6 LOAD_CONST               1 (<code object A at 0x1038f8d30, file "test_bound_unbound_func.py", line 1>)
+              9 MAKE_FUNCTION            0
+             12 CALL_FUNCTION            0
+             15 BUILD_CLASS         
+             16 STORE_NAME               0 (A)
+
+  5          19 LOAD_NAME                0 (A)
+             22 LOAD_CONST               2 (1)
+             25 CALL_FUNCTION            1
+             28 STORE_NAME               1 (a)
+
+  6          31 LOAD_NAME                2 (list)
+             34 CALL_FUNCTION            0
+             37 STORE_NAME               3 (lst)
+
+  7          40 LOAD_NAME                3 (lst)
+             43 LOAD_ATTR                4 (append)
+             46 LOAD_CONST               3 (2)
+             49 CALL_FUNCTION            1
+             52 POP_TOP             
+
+  8          53 LOAD_NAME                2 (list)
+             56 PRINT_ITEM          
+             57 PRINT_NEWLINE       
+
+  9          58 LOAD_NAME                3 (lst)
+             61 LOAD_ATTR                4 (append)
+             64 LOAD_NAME                1 (a)
+             67 STORE_ATTR               5 (foo)
+
+ 10          70 LOAD_NAME                1 (a)
+             73 LOAD_ATTR                5 (foo)
+             76 LOAD_CONST               4 (3)
+             79 CALL_FUNCTION            1
+             82 POP_TOP             
+
+ 11          83 LOAD_NAME                3 (lst)
+             86 PRINT_ITEM          
+             87 PRINT_NEWLINE       
+
+ 12          88 LOAD_NAME                0 (A)
+             91 LOAD_CONST               2 (1)
+             94 CALL_FUNCTION            1
+             97 STORE_NAME               1 (a)
+
+ 13         100 LOAD_NAME                0 (A)
+            103 LOAD_CONST               3 (2)
+            106 CALL_FUNCTION            1
+            109 STORE_NAME               6 (b)
+
+ 15         112 LOAD_CONST               5 (<code object func at 0x1038f8e30, file "test_bound_unbound_func.py", line 15>)
+            115 MAKE_FUNCTION            0
+            118 STORE_NAME               7 (func)
+
+ 19         121 LOAD_NAME                7 (func)
+            124 LOAD_NAME                1 (a)
+            127 STORE_ATTR               8 (bar)
+
+ 20         130 LOAD_NAME                7 (func)
+            133 LOAD_NAME                0 (A)
+            136 STORE_ATTR               8 (bar)
+
+ 21         139 LOAD_NAME                1 (a)
+            142 LOAD_ATTR                8 (bar)
+            145 LOAD_NAME                1 (a)
+            148 LOAD_CONST               6 ('hello')
+            151 CALL_FUNCTION            2
+            154 POP_TOP             
+
+ 22         155 LOAD_NAME                6 (b)
+            158 LOAD_ATTR                8 (bar)
+            161 LOAD_CONST               7 ('world')
+            164 CALL_FUNCTION            1
+            167 POP_TOP             
+            168 LOAD_CONST               8 (None)
+            171 RETURN_VALUE        
+   </dis>
+   <names> ('A', 'a', 'list', 'lst', 'append', 'foo', 'b', 'func', 'bar')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_bound_unbound_func.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'A'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400008400005a02005253</code>
+         <dis>
+  1           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  2           6 LOAD_CONST               0 (<code object __init__ at 0x1038f8c30, file "test_bound_unbound_func.py", line 2>)
+              9 MAKE_FUNCTION            0
+             12 STORE_NAME               2 (__init__)
+             15 LOAD_LOCALS         
+             16 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', '__init__')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_bound_unbound_func.py'</filename>
+         <name> 'A'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            <code>
+               <argcount> 2 </argcount>
+               <nlocals> 2</nlocals>
+               <stacksize> 2</stacksize>
+               <flags> 0043</flags>
+               <code> 7c01007c00005f000064000053</code>
+               <dis>
+  3           0 LOAD_FAST                1 (v)
+              3 LOAD_FAST                0 (self)
+              6 STORE_ATTR               0 (value)
+              9 LOAD_CONST               0 (None)
+             12 RETURN_VALUE        
+               </dis>
+               <names> ('value',)</names>
+               <varnames> ('self', 'v')</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_bound_unbound_func.py'</filename>
+               <name> '__init__'</name>
+               <firstlineno> 2</firstlineno>
+               <consts>
+                  None
+               </consts>
+               <lnotab> 0001</lnotab>
+            </code>
+         </consts>
+         <lnotab> 0601</lnotab>
+      </code>
+      1
+      2
+      3
+      <code>
+         <argcount> 2 </argcount>
+         <nlocals> 2</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0043</flags>
+         <code> 7c00006a000047487c0100474864000053</code>
+         <dis>
+ 16           0 LOAD_FAST                0 (self)
+              3 LOAD_ATTR                0 (value)
+              6 PRINT_ITEM          
+              7 PRINT_NEWLINE       
+
+ 17           8 LOAD_FAST                1 (s)
+             11 PRINT_ITEM          
+             12 PRINT_NEWLINE       
+             13 LOAD_CONST               0 (None)
+             16 RETURN_VALUE        
+         </dis>
+         <names> ('value',)</names>
+         <varnames> ('self', 's')</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_bound_unbound_func.py'</filename>
+         <name> 'func'</name>
+         <firstlineno> 15</firstlineno>
+         <consts>
+            None
+         </consts>
+         <lnotab> 00010801</lnotab>
+      </code>
+      'hello'
+      'world'
+      None
+      ()
+   </consts>
+   <lnotab> 13040c0109010d0105010c010d0105010c010c020904090109011001</lnotab>
+</code>

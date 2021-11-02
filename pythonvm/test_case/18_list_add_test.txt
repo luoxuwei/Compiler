@@ -1,0 +1,56 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400006401006702005a00006402006403006702005a0100650000650100
+      175a020065000047486501004748650200474864040053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (1)
+              3 LOAD_CONST               1 (2)
+              6 BUILD_LIST               2
+              9 STORE_NAME               0 (a)
+
+  2          12 LOAD_CONST               2 ('hello')
+             15 LOAD_CONST               3 ('world')
+             18 BUILD_LIST               2
+             21 STORE_NAME               1 (b)
+
+  3          24 LOAD_NAME                0 (a)
+             27 LOAD_NAME                1 (b)
+             30 BINARY_ADD          
+             31 STORE_NAME               2 (c)
+
+  4          34 LOAD_NAME                0 (a)
+             37 PRINT_ITEM          
+             38 PRINT_NEWLINE       
+
+  5          39 LOAD_NAME                1 (b)
+             42 PRINT_ITEM          
+             43 PRINT_NEWLINE       
+
+  6          44 LOAD_NAME                2 (c)
+             47 PRINT_ITEM          
+             48 PRINT_NEWLINE       
+             49 LOAD_CONST               4 (None)
+             52 RETURN_VALUE        
+   </dis>
+   <names> ('a', 'b', 'c')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'list_add_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      1
+      2
+      'hello'
+      'world'
+      None
+   </consts>
+   <lnotab> 0c010c010a0105010501</lnotab>
+</code>

@@ -1,0 +1,79 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400005a00006401005a01006400005a0200650100474865020047486500
+      0047487835006500006402006b000072580065010047486501005a030065
+      0100650200175a01006503005a0200650000640100175a00007124005764
+      030053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (0)
+              3 STORE_NAME               0 (i)
+
+  2           6 LOAD_CONST               1 (1)
+              9 STORE_NAME               1 (a)
+
+  3          12 LOAD_CONST               0 (0)
+             15 STORE_NAME               2 (b)
+
+  5          18 LOAD_NAME                1 (a)
+             21 PRINT_ITEM          
+             22 PRINT_NEWLINE       
+
+  6          23 LOAD_NAME                2 (b)
+             26 PRINT_ITEM          
+             27 PRINT_NEWLINE       
+
+  7          28 LOAD_NAME                0 (i)
+             31 PRINT_ITEM          
+             32 PRINT_NEWLINE       
+
+  9          33 SETUP_LOOP              53 (to 89)
+        >>   36 LOAD_NAME                0 (i)
+             39 LOAD_CONST               2 (10)
+             42 COMPARE_OP               0 (<)
+             45 POP_JUMP_IF_FALSE       88
+
+ 10          48 LOAD_NAME                1 (a)
+             51 PRINT_ITEM          
+             52 PRINT_NEWLINE       
+
+ 11          53 LOAD_NAME                1 (a)
+             56 STORE_NAME               3 (t)
+
+ 12          59 LOAD_NAME                1 (a)
+             62 LOAD_NAME                2 (b)
+             65 BINARY_ADD          
+             66 STORE_NAME               1 (a)
+
+ 13          69 LOAD_NAME                3 (t)
+             72 STORE_NAME               2 (b)
+
+ 14          75 LOAD_NAME                0 (i)
+             78 LOAD_CONST               1 (1)
+             81 BINARY_ADD          
+             82 STORE_NAME               0 (i)
+             85 JUMP_ABSOLUTE           36
+        >>   88 POP_BLOCK           
+        >>   89 LOAD_CONST               3 (None)
+             92 RETURN_VALUE        
+   </dis>
+   <names> ('i', 'a', 'b', 't')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'while_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      0
+      1
+      10
+      None
+   </consts>
+   <lnotab> 0601060106020501050105020f01050106010a010601</lnotab>
+</code>

@@ -1,0 +1,36 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code> 6400006401006702005a000065000064020019474864030053</code>
+   <dis>
+  1           0 LOAD_CONST               0 ('hello')
+              3 LOAD_CONST               1 ('world')
+              6 BUILD_LIST               2
+              9 STORE_NAME               0 (lst)
+
+  2          12 LOAD_NAME                0 (lst)
+             15 LOAD_CONST               2 (0)
+             18 BINARY_SUBSCR       
+             19 PRINT_ITEM          
+             20 PRINT_NEWLINE       
+             21 LOAD_CONST               3 (None)
+             24 RETURN_VALUE        
+   </dis>
+   <names> ('lst',)</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'subscr_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'hello'
+      'world'
+      0
+      None
+   </consts>
+   <lnotab> 0c01</lnotab>
+</code>

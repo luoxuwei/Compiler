@@ -1,0 +1,48 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400006401006702005a00006400006500006b060072200064020047486e
+      0500640300474864040053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('hello')
+              3 LOAD_CONST               1 ('world')
+              6 BUILD_LIST               2
+              9 STORE_NAME               0 (l)
+
+  2          12 LOAD_CONST               0 ('hello')
+             15 LOAD_NAME                0 (l)
+             18 COMPARE_OP               6 (in)
+             21 POP_JUMP_IF_FALSE       32
+
+  3          24 LOAD_CONST               2 ('yes')
+             27 PRINT_ITEM          
+             28 PRINT_NEWLINE       
+             29 JUMP_FORWARD             5 (to 37)
+
+  5     >>   32 LOAD_CONST               3 ('no')
+             35 PRINT_ITEM          
+             36 PRINT_NEWLINE       
+        >>   37 LOAD_CONST               4 (None)
+             40 RETURN_VALUE        
+   </dis>
+   <names> ('l',)</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'in_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'hello'
+      'world'
+      'yes'
+      'no'
+      None
+   </consts>
+   <lnotab> 0c010c010802</lnotab>
+</code>

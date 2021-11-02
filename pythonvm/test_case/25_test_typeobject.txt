@@ -1,0 +1,26 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 1</stacksize>
+   <flags> 0040</flags>
+   <code> 650000474864000053</code>
+   <dis>
+  1           0 LOAD_NAME                0 (list)
+              3 PRINT_ITEM          
+              4 PRINT_NEWLINE       
+              5 LOAD_CONST               0 (None)
+              8 RETURN_VALUE        
+   </dis>
+   <names> ('list',)</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_typeobject.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      None
+   </consts>
+   <lnotab> </lnotab>
+</code>

@@ -1,0 +1,71 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      640000650000660100640100840000830000595a01006501008300005a02
+      006502006a0300474864020053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('A')
+              3 LOAD_NAME                0 (object)
+              6 BUILD_TUPLE              1
+              9 LOAD_CONST               1 (<code object A at 0x10a3fdc30, file "test_class.py", line 1>)
+             12 MAKE_FUNCTION            0
+             15 CALL_FUNCTION            0
+             18 BUILD_CLASS         
+             19 STORE_NAME               1 (A)
+
+  4          22 LOAD_NAME                1 (A)
+             25 CALL_FUNCTION            0
+             28 STORE_NAME               2 (a)
+
+  5          31 LOAD_NAME                2 (a)
+             34 LOAD_ATTR                3 (value)
+             37 PRINT_ITEM          
+             38 PRINT_NEWLINE       
+             39 LOAD_CONST               2 (None)
+             42 RETURN_VALUE        
+   </dis>
+   <names> ('object', 'A', 'a', 'value')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_class.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'A'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400005a02005253</code>
+         <dis>
+  1           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  2           6 LOAD_CONST               0 (1)
+              9 STORE_NAME               2 (value)
+             12 LOAD_LOCALS         
+             13 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', 'value')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_class.py'</filename>
+         <name> 'A'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            1
+         </consts>
+         <lnotab> 0601</lnotab>
+      </code>
+      None
+   </consts>
+   <lnotab> 16030901</lnotab>
+</code>

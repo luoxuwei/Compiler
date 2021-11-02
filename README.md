@@ -68,7 +68,7 @@ mkdir build
 cd build
 cmake ..
 make
-./test ../test_enclosing.pyc
+./test ../test_case/24_test_enclosing.pyc
 ```
 
 ## commit列表

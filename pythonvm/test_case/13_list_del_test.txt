@@ -1,0 +1,45 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 4</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400006401006402006403006704005a00006500006404003d6500004748
+      64050053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (1)
+              3 LOAD_CONST               1 (2)
+              6 LOAD_CONST               2 (3)
+              9 LOAD_CONST               3 (4)
+             12 BUILD_LIST               4
+             15 STORE_NAME               0 (l)
+
+  2          18 LOAD_NAME                0 (l)
+             21 LOAD_CONST               4 (0)
+             24 DELETE_SUBSCR       
+
+  3          25 LOAD_NAME                0 (l)
+             28 PRINT_ITEM          
+             29 PRINT_NEWLINE       
+             30 LOAD_CONST               5 (None)
+             33 RETURN_VALUE        
+   </dis>
+   <names> ('l',)</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'list_del_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      1
+      2
+      3
+      4
+      0
+      None
+   </consts>
+   <lnotab> 12010701</lnotab>
+</code>

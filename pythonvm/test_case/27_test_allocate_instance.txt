@@ -1,0 +1,57 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 1</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6500008300005a010065010047486502008300005a030065030047486504
+      008300005a050065050047486506008300005a0700650700474864000053
+   </code>
+   <dis>
+  1           0 LOAD_NAME                0 (int)
+              3 CALL_FUNCTION            0
+              6 STORE_NAME               1 (a)
+
+  2           9 LOAD_NAME                1 (a)
+             12 PRINT_ITEM          
+             13 PRINT_NEWLINE       
+
+  3          14 LOAD_NAME                2 (str)
+             17 CALL_FUNCTION            0
+             20 STORE_NAME               3 (b)
+
+  4          23 LOAD_NAME                3 (b)
+             26 PRINT_ITEM          
+             27 PRINT_NEWLINE       
+
+  5          28 LOAD_NAME                4 (list)
+             31 CALL_FUNCTION            0
+             34 STORE_NAME               5 (c)
+
+  6          37 LOAD_NAME                5 (c)
+             40 PRINT_ITEM          
+             41 PRINT_NEWLINE       
+
+  7          42 LOAD_NAME                6 (dict)
+             45 CALL_FUNCTION            0
+             48 STORE_NAME               7 (d)
+
+  8          51 LOAD_NAME                7 (d)
+             54 PRINT_ITEM          
+             55 PRINT_NEWLINE       
+             56 LOAD_CONST               0 (None)
+             59 RETURN_VALUE        
+   </dis>
+   <names> ('int', 'a', 'str', 'b', 'list', 'c', 'dict', 'd')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_allocate_instance.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      None
+   </consts>
+   <lnotab> 0901050109010501090105010901</lnotab>
+</code>

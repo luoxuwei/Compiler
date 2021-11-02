@@ -1,0 +1,168 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      640000640700640100840000830000595a00006500008300005a01006501
+      006402001947486501006403001947486404006501006405003c64060053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 ('A')
+              3 LOAD_CONST               7 (())
+              6 LOAD_CONST               1 (<code object A at 0x10dca3e30, file "test_getsetitem.py", line 1>)
+              9 MAKE_FUNCTION            0
+             12 CALL_FUNCTION            0
+             15 BUILD_CLASS         
+             16 STORE_NAME               0 (A)
+
+ 13          19 LOAD_NAME                0 (A)
+             22 CALL_FUNCTION            0
+             25 STORE_NAME               1 (a)
+
+ 14          28 LOAD_NAME                1 (a)
+             31 LOAD_CONST               2 ('hello')
+             34 BINARY_SUBSCR       
+             35 PRINT_ITEM          
+             36 PRINT_NEWLINE       
+
+ 15          37 LOAD_NAME                1 (a)
+             40 LOAD_CONST               3 ('how are you')
+             43 BINARY_SUBSCR       
+             44 PRINT_ITEM          
+             45 PRINT_NEWLINE       
+
+ 16          46 LOAD_CONST               4 (1)
+             49 LOAD_NAME                1 (a)
+             52 LOAD_CONST               5 ('one')
+             55 STORE_SUBSCR        
+             56 LOAD_CONST               6 (None)
+             59 RETURN_VALUE        
+   </dis>
+   <names> ('A', 'a')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_getsetitem.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'A'
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 0</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0042</flags>
+         <code> 6500005a01006400008400005a02006401008400005a03005253</code>
+         <dis>
+  1           0 LOAD_NAME                0 (__name__)
+              3 STORE_NAME               1 (__module__)
+
+  2           6 LOAD_CONST               0 (<code object __getitem__ at 0x10dca3c30, file "test_getsetitem.py", line 2>)
+              9 MAKE_FUNCTION            0
+             12 STORE_NAME               2 (__getitem__)
+
+  8          15 LOAD_CONST               1 (<code object __setitem__ at 0x10dca3d30, file "test_getsetitem.py", line 8>)
+             18 MAKE_FUNCTION            0
+             21 STORE_NAME               3 (__setitem__)
+             24 LOAD_LOCALS         
+             25 RETURN_VALUE        
+         </dis>
+         <names> ('__name__', '__module__', '__getitem__', '__setitem__')</names>
+         <varnames> ()</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'test_getsetitem.py'</filename>
+         <name> 'A'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            <code>
+               <argcount> 2 </argcount>
+               <nlocals> 2</nlocals>
+               <stacksize> 2</stacksize>
+               <flags> 0043</flags>
+               <code>
+                  7c01006401006b0200721000640200537c01006403006b02007220006404
+                  005364000053
+               </code>
+               <dis>
+  3           0 LOAD_FAST                1 (key)
+              3 LOAD_CONST               1 ('hello')
+              6 COMPARE_OP               2 (==)
+              9 POP_JUMP_IF_FALSE       16
+
+  4          12 LOAD_CONST               2 ('hi')
+             15 RETURN_VALUE        
+
+  5     >>   16 LOAD_FAST                1 (key)
+             19 LOAD_CONST               3 ('how are you')
+             22 COMPARE_OP               2 (==)
+             25 POP_JUMP_IF_FALSE       32
+
+  6          28 LOAD_CONST               4 ('fine')
+             31 RETURN_VALUE        
+        >>   32 LOAD_CONST               0 (None)
+             35 RETURN_VALUE        
+               </dis>
+               <names> ()</names>
+               <varnames> ('self', 'key')</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_getsetitem.py'</filename>
+               <name> '__getitem__'</name>
+               <firstlineno> 2</firstlineno>
+               <consts>
+                  None
+                  'hello'
+                  'hi'
+                  'how are you'
+                  'fine'
+               </consts>
+               <lnotab> 00010c0104010c01</lnotab>
+            </code>
+            <code>
+               <argcount> 3 </argcount>
+               <nlocals> 3</nlocals>
+               <stacksize> 1</stacksize>
+               <flags> 0043</flags>
+               <code> 7c000047487c010047487c0200474864000053</code>
+               <dis>
+  9           0 LOAD_FAST                0 (self)
+              3 PRINT_ITEM          
+              4 PRINT_NEWLINE       
+
+ 10           5 LOAD_FAST                1 (key)
+              8 PRINT_ITEM          
+              9 PRINT_NEWLINE       
+
+ 11          10 LOAD_FAST                2 (value)
+             13 PRINT_ITEM          
+             14 PRINT_NEWLINE       
+             15 LOAD_CONST               0 (None)
+             18 RETURN_VALUE        
+               </dis>
+               <names> ()</names>
+               <varnames> ('self', 'key', 'value')</varnames>
+               <freevars> ()</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_getsetitem.py'</filename>
+               <name> '__setitem__'</name>
+               <firstlineno> 8</firstlineno>
+               <consts>
+                  None
+               </consts>
+               <lnotab> 000105010501</lnotab>
+            </code>
+         </consts>
+         <lnotab> 06010906</lnotab>
+      </code>
+      'hello'
+      'how are you'
+      1
+      'one'
+      None
+      ()
+   </consts>
+   <lnotab> 130c090109010901</lnotab>
+</code>

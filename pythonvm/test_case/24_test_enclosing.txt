@@ -1,0 +1,91 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 1</stacksize>
+   <flags> 0040</flags>
+   <code> 6400008400005a00006500008300005a01006501008300000164010053</code>
+   <dis>
+  1           0 LOAD_CONST               0 (<code object func at 0x10a764d30, file "test_enclosing.py", line 1>)
+              3 MAKE_FUNCTION            0
+              6 STORE_NAME               0 (func)
+
+  8           9 LOAD_NAME                0 (func)
+             12 CALL_FUNCTION            0
+             15 STORE_NAME               1 (f)
+
+  9          18 LOAD_NAME                1 (f)
+             21 CALL_FUNCTION            0
+             24 POP_TOP             
+             25 LOAD_CONST               1 (None)
+             28 RETURN_VALUE        
+   </dis>
+   <names> ('func', 'f')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_enclosing.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      <code>
+         <argcount> 0 </argcount>
+         <nlocals> 1</nlocals>
+         <stacksize> 2</stacksize>
+         <flags> 0003</flags>
+         <code> 6401008900008700006601006402008600007d00007c000053</code>
+         <dis>
+  2           0 LOAD_CONST               1 (2)
+              3 STORE_DEREF              0 (x)
+
+  3           6 LOAD_CLOSURE             0 (x)
+              9 BUILD_TUPLE              1
+             12 LOAD_CONST               2 (<code object say at 0x10a764c30, file "test_enclosing.py", line 3>)
+             15 MAKE_CLOSURE             0
+             18 STORE_FAST               0 (say)
+
+  6          21 LOAD_FAST                0 (say)
+             24 RETURN_VALUE        
+         </dis>
+         <names> ()</names>
+         <varnames> ('say',)</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ('x',)</cellvars>
+         <filename> 'test_enclosing.py'</filename>
+         <name> 'func'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            None
+            2
+            <code>
+               <argcount> 0 </argcount>
+               <nlocals> 0</nlocals>
+               <stacksize> 1</stacksize>
+               <flags> 0013</flags>
+               <code> 880000474864000053</code>
+               <dis>
+  4           0 LOAD_DEREF               0 (x)
+              3 PRINT_ITEM          
+              4 PRINT_NEWLINE       
+              5 LOAD_CONST               0 (None)
+              8 RETURN_VALUE        
+               </dis>
+               <names> ()</names>
+               <varnames> ()</varnames>
+               <freevars> ('x',)</freevars>
+               <cellvars> ()</cellvars>
+               <filename> 'test_enclosing.py'</filename>
+               <name> 'say'</name>
+               <firstlineno> 3</firstlineno>
+               <consts>
+                  None
+               </consts>
+               <lnotab> 0001</lnotab>
+            </code>
+         </consts>
+         <lnotab> 000106010f03</lnotab>
+      </code>
+      None
+   </consts>
+   <lnotab> 09070901</lnotab>
+</code>

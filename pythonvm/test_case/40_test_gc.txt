@@ -1,0 +1,58 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400005a00007832006500006401006b0000723a00650000640200175a00
+      00650000640300166400006b020072090065000047487109007109005764
+      040053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (0)
+              3 STORE_NAME               0 (i)
+
+  3           6 SETUP_LOOP              50 (to 59)
+        >>    9 LOAD_NAME                0 (i)
+             12 LOAD_CONST               1 (2147482647)
+             15 COMPARE_OP               0 (<)
+             18 POP_JUMP_IF_FALSE       58
+
+  4          21 LOAD_NAME                0 (i)
+             24 LOAD_CONST               2 (1)
+             27 BINARY_ADD          
+             28 STORE_NAME               0 (i)
+
+  5          31 LOAD_NAME                0 (i)
+             34 LOAD_CONST               3 (1000000)
+             37 BINARY_MODULO       
+             38 LOAD_CONST               0 (0)
+             41 COMPARE_OP               2 (==)
+             44 POP_JUMP_IF_FALSE        9
+
+  6          47 LOAD_NAME                0 (i)
+             50 PRINT_ITEM          
+             51 PRINT_NEWLINE       
+             52 JUMP_ABSOLUTE            9
+             55 JUMP_ABSOLUTE            9
+        >>   58 POP_BLOCK           
+        >>   59 LOAD_CONST               4 (None)
+             62 RETURN_VALUE        
+   </dis>
+   <names> ('i',)</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_gc.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      0
+      2147482647
+      1
+      1000000
+      None
+   </consts>
+   <lnotab> 06020f010a011001</lnotab>
+</code>

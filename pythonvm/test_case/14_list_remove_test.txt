@@ -1,0 +1,49 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 7</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400006401006400006402006400006400006403006707005a0000650000
+      6a010064000083010001650000474864040053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (1)
+              3 LOAD_CONST               1 (2)
+              6 LOAD_CONST               0 (1)
+              9 LOAD_CONST               2 (3)
+             12 LOAD_CONST               0 (1)
+             15 LOAD_CONST               0 (1)
+             18 LOAD_CONST               3 (4)
+             21 BUILD_LIST               7
+             24 STORE_NAME               0 (l)
+
+  2          27 LOAD_NAME                0 (l)
+             30 LOAD_ATTR                1 (remove)
+             33 LOAD_CONST               0 (1)
+             36 CALL_FUNCTION            1
+             39 POP_TOP             
+
+  3          40 LOAD_NAME                0 (l)
+             43 PRINT_ITEM          
+             44 PRINT_NEWLINE       
+             45 LOAD_CONST               4 (None)
+             48 RETURN_VALUE        
+   </dis>
+   <names> ('l', 'remove')</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'list_remove_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      1
+      2
+      3
+      4
+      None
+   </consts>
+   <lnotab> 1b010d01</lnotab>
+</code>

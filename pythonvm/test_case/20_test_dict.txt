@@ -1,0 +1,54 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 3</stacksize>
+   <flags> 0040</flags>
+   <code>
+      69020064000064010036640200640300365a000065000047486500006401
+      0019474865000064030019474864040053
+   </code>
+   <dis>
+  1           0 BUILD_MAP                2
+              3 LOAD_CONST               0 ('hello')
+              6 LOAD_CONST               1 (1)
+              9 STORE_MAP           
+             10 LOAD_CONST               2 (2)
+             13 LOAD_CONST               3 ('world')
+             16 STORE_MAP           
+             17 STORE_NAME               0 (d)
+
+  2          20 LOAD_NAME                0 (d)
+             23 PRINT_ITEM          
+             24 PRINT_NEWLINE       
+
+  3          25 LOAD_NAME                0 (d)
+             28 LOAD_CONST               1 (1)
+             31 BINARY_SUBSCR       
+             32 PRINT_ITEM          
+             33 PRINT_NEWLINE       
+
+  4          34 LOAD_NAME                0 (d)
+             37 LOAD_CONST               3 ('world')
+             40 BINARY_SUBSCR       
+             41 PRINT_ITEM          
+             42 PRINT_NEWLINE       
+             43 LOAD_CONST               4 (None)
+             46 RETURN_VALUE        
+   </dis>
+   <names> ('d',)</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'test_dict.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      'hello'
+      1
+      2
+      'world'
+      None
+   </consts>
+   <lnotab> 140105010901</lnotab>
+</code>

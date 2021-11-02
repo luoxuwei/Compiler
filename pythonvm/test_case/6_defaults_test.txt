@@ -1,0 +1,65 @@
+magic 03f30d0a
+<code>
+   <argcount> 0 </argcount>
+   <nlocals> 0</nlocals>
+   <stacksize> 2</stacksize>
+   <flags> 0040</flags>
+   <code>
+      6400006401008401005a0000650000830000474865000064020083010047
+      4864030053
+   </code>
+   <dis>
+  1           0 LOAD_CONST               0 (1)
+              3 LOAD_CONST               1 (<code object foo at 0x10753bc30, file "defaults_test.py", line 1>)
+              6 MAKE_FUNCTION            1
+              9 STORE_NAME               0 (foo)
+
+  4          12 LOAD_NAME                0 (foo)
+             15 CALL_FUNCTION            0
+             18 PRINT_ITEM          
+             19 PRINT_NEWLINE       
+
+  5          20 LOAD_NAME                0 (foo)
+             23 LOAD_CONST               2 (2)
+             26 CALL_FUNCTION            1
+             29 PRINT_ITEM          
+             30 PRINT_NEWLINE       
+             31 LOAD_CONST               3 (None)
+             34 RETURN_VALUE        
+   </dis>
+   <names> ('foo',)</names>
+   <varnames> ()</varnames>
+   <freevars> ()</freevars>
+   <cellvars> ()</cellvars>
+   <filename> 'defaults_test.py'</filename>
+   <name> '<module>'</name>
+   <firstlineno> 1</firstlineno>
+   <consts>
+      1
+      <code>
+         <argcount> 1 </argcount>
+         <nlocals> 1</nlocals>
+         <stacksize> 1</stacksize>
+         <flags> 0043</flags>
+         <code> 7c000053</code>
+         <dis>
+  2           0 LOAD_FAST                0 (a)
+              3 RETURN_VALUE        
+         </dis>
+         <names> ()</names>
+         <varnames> ('a',)</varnames>
+         <freevars> ()</freevars>
+         <cellvars> ()</cellvars>
+         <filename> 'defaults_test.py'</filename>
+         <name> 'foo'</name>
+         <firstlineno> 1</firstlineno>
+         <consts>
+            None
+         </consts>
+         <lnotab> 0001</lnotab>
+      </code>
+      2
+      None
+   </consts>
+   <lnotab> 0c030801</lnotab>
+</code>
