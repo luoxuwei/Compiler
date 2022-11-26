@@ -5,6 +5,7 @@
 #include "ICodeNodeImpl.h"
 #include "ICodeFactory.h"
 #include "Value.h"
+#include <algorithm>
 
 ICodeNodeImpl::ICodeNodeImpl(CTokenType::Token type): type(type) {
     attributeMap[ICodeKey::TokenType] = (void *) type;

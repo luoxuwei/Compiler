@@ -3,6 +3,9 @@
 //
 
 #include "GrammarInitializer.h"
+#include <cstdio>
+#include <algorithm>
+
 GrammarInitializer* GrammarInitializer::instance = NULL;
 GrammarInitializer * GrammarInitializer::getInstance() {
     if (instance == NULL) {

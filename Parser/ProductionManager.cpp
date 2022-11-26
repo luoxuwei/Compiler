@@ -4,6 +4,7 @@
 
 #include "ProductionManager.h"
 #include "GrammarInitializer.h"
+#include <cstdio>
 
 ProductionManager* ProductionManager::instance = NULL;
 

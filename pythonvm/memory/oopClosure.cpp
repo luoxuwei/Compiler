@@ -8,6 +8,7 @@
 #include "../runtime/StringTable.h"
 #include "../util/stack.h"
 #include "heap.h"
+#include <cstring>
 
 void ScavengeOopClosure::scavenge() {
     //step1, mark roots

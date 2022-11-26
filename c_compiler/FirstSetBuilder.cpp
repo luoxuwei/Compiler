@@ -3,7 +3,8 @@
 //
 
 #include "FirstSetBuilder.h"
-
+#include <cstdio>
+#include <algorithm>
 
 FirstSetBuilder::FirstSetBuilder() {
     symbolArray = GrammarInitializer::getInstance()->getSymbleArray();

@@ -3,6 +3,8 @@
 //
 
 #include "ExecutorBrocasterImpl.h"
+#include <cstdio>
+#include <algorithm>
 
 ExecutorBrocasterImpl *ExecutorBrocasterImpl::instance = NULL;
 

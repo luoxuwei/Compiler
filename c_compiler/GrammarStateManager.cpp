@@ -3,6 +3,8 @@
 //
 
 #include "GrammarStateManager.h"
+#include <cstdio>
+#include <algorithm>
 
 GrammarStateManager *GrammarStateManager::instance = NULL;
 GrammarStateManager * GrammarStateManager::getInstance() {

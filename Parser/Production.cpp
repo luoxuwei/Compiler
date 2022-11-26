@@ -4,6 +4,8 @@
 
 #include "Production.h"
 #include "ProductionManager.h"
+#include <algorithm>
+#include <cstdio>
 
 Production::Production(int productionNum, CTokenType::Token left, int dot, vector<CTokenType::Token> &right): productionNum(productionNum), left(left), dotPos(dot), right(right) {
     if (dot >= right.size()) {

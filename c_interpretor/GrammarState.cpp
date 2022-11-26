@@ -5,6 +5,8 @@
 #include "GrammarState.h"
 #include "GrammarStateManager.h"
 #include <stack>
+#include <cstdio>
+#include <algorithm>
 
 int GrammarState::stateNumCount = 0;
 

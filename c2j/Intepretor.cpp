@@ -4,6 +4,7 @@
 
 #include "Intepretor.h"
 #include "ExecutorFactory.h"
+#include <cstdio>
 
 Intepretor * Intepretor::instance = NULL;
 

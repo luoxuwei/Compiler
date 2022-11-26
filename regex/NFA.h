@@ -10,6 +10,7 @@
 #include <stack>
 #include "LexerBuffer.h"
 #include <set>
+#include <iterator>
 
 #define ASCII_COUNT 127
 #define NFA_MAX 256 //最多运行分配256个NFA节点

@@ -8,6 +8,7 @@
 #include <set>
 #include <map>
 #include <vector>
+#include <algorithm>
 #define ASCII_COUNT 127
 //假定DFA状态机节点数不会超过254个
 #define MAX_DFA_STATE_COUNT 254

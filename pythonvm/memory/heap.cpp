@@ -4,6 +4,9 @@
 
 #include "heap.h"
 #include "oopClosure.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 Space::Space(size_t size) {
     _size = size;

@@ -3,6 +3,7 @@
 //
 
 #include "FunctionArgumentList.h"
+#include <algorithm>
 
 FunctionArgumentList *FunctionArgumentList::instance = NULL;
 

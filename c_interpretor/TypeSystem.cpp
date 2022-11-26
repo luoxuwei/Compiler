@@ -6,6 +6,7 @@
 #include "Declarator.h"
 #include "ClibCall.h"
 #include "LRStateTableParser.h"
+#include <algorithm>
 
 TypeSystem *TypeSystem::instance = NULL;
 

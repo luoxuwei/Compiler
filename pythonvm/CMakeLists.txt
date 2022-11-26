@@ -11,7 +11,7 @@ add_library(pythonvm SHARED
         object/PyString.cpp
         code/CodeObject.cpp
         code/binaryFileParser.cpp
-        runtime/interpreter.cpp
+        runtime/Interpreter.cpp
         code/bytecode.h
         runtime/universe.cpp
         util/map.cpp
@@ -20,7 +20,7 @@ add_library(pythonvm SHARED
         runtime/FunctionObject.cpp
         object/PyDict.cpp
         object/PyList.cpp
-        object/klass.cpp
+        object/Klass.cpp
         runtime/StringTable.cpp
         runtime/cellObject.cpp
         object/pytypeobject.cpp

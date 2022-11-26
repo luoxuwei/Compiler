@@ -4,6 +4,9 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include "CLexer.h"
+#include <cassert>
+#include <cstring>
+
 CLexer::CLexer() {
     keywordMap["auto"] = CTokenType::Token::CLASS;
     keywordMap["static"] = CTokenType::Token::CLASS;

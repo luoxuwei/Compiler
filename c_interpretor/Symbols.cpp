@@ -3,6 +3,7 @@
 //
 
 #include "Symbols.h"
+#include <algorithm>
 
 Symbols::Symbols(CTokenType::Token symVal, bool nullable, ProductionList *productions) :value(symVal), nullable(nullable), productions(productions) {
     if (CTokenType::isTerminal(symVal)) {

@@ -3,6 +3,8 @@
 //
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <cassert>
+#include <cstring>
 #include "CLexer.h"
 CLexer::CLexer() {
     keywordMap["auto"] = CTokenType::Token::CLASS;

@@ -6,6 +6,7 @@
 #define FINITSTATEMACHINE_FINITESTATEMACHINE_H
 #include "fms.h"
 #include "Lexer.h"
+#include <cassert>
 class FiniteStateMachine {
 private:
     Lexer *lexer = NULL;
